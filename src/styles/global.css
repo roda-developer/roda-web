@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-sala: #0a0a0b;
+  --color-pantalla: #edeae4;
+  --color-niebla: #8c8984;
+  --color-tungsteno: #e8a33d;
+  --color-tc-rojo: #ff2e4d;
+  --color-tc-amarillo: #ffd400;
+  --color-tc-azul: #2b4bff;
+  --color-tc-verde: #00c46a;
+  --color-tc-rosa: #ff6fd8;
+
+  --font-titulo: 'Instrument Serif', 'Times New Roman', serif;
+  --font-texto: 'Instrument Sans Variable', system-ui, sans-serif;
+  --font-grito: 'Bricolage Grotesque Variable', 'Arial Black', sans-serif;
+
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  /* 0 = susurra, 1 = grita. La escribe motion/intensidad.ts */
+  --intensidad: 0;
+  --luz-x: 50%;
+  --luz-y: 40%;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-sala);
+  color: var(--color-pantalla);
+  font-family: var(--font-texto);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-sala);
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-tungsteno);
+  color: var(--color-sala);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-tungsteno);
+  outline-offset: 4px;
+}
+
+/* Un plano: una idea por pantalla */
+.plano {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 6rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .plano { padding: 8rem 3rem; }
+}
+
+/* Los estados iniciales ocultos solo existen con JS y con movimiento permitido */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-revelar] { opacity: 0; }
+}
