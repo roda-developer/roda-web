@@ -25,7 +25,11 @@ const {
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // Si el JS de movimiento no arranca, nada queda oculto.
+      setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 4000);
+    </script>
   </head>
   <body>
     <slot />

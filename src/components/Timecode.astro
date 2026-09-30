@@ -1,0 +1,25 @@
+---
+---
+<div
+  class="pointer-events-none fixed bottom-4 left-4 z-40 flex items-center gap-2 font-texto text-[11px] tracking-[0.2em] text-pantalla/55 tabular-nums mix-blend-difference md:bottom-6 md:left-8"
+  aria-hidden="true"
+>
+  <span class="size-1.5 rounded-full bg-tungsteno animate-pulse"></span>
+  <span data-timecode>00:00:00:00</span>
+</div>
+
+<script>
+  import { formatearTimecode } from '../motion/timecode';
+
+  const salida = document.querySelector<HTMLElement>('[data-timecode]');
+  let pendiente = false;
+  const pintar = () => {
+    pendiente = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (salida) salida.textContent = formatearTimecode(max > 0 ? scrollY / max : 0);
+  };
+  addEventListener('scroll', () => {
+    if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); }
+  }, { passive: true });
+  pintar();
+</script>
