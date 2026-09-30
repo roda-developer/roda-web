@@ -27,6 +27,14 @@ const {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Tono elegido en esta sesión, antes de pintar: sin saltos al recargar.
+      try {
+        var e = JSON.parse(sessionStorage.getItem('roda:respuestas') || '{}').estilo;
+        if (typeof e === 'number') {
+          document.documentElement.style.setProperty('--intensidad', String(Math.min(1, Math.max(0, e))));
+          document.documentElement.dataset.tono = e >= 0.5 ? 'grita' : 'susurra';
+        }
+      } catch (err) {}
       // Si el JS de movimiento no arranca, nada queda oculto.
       setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 4000);
     </script>

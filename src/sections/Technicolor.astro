@@ -1,0 +1,146 @@
+---
+import '@fontsource-variable/bricolage-grotesque';
+import { technicolor } from '../content/guion';
+import Deslizador from '../components/Deslizador.tsx';
+const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'];
+---
+<section id="technicolor" aria-label="Technicolor: a veces más es más">
+  <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
+  <div class="puerta relative h-[200svh]" data-puerta>
+    <div class="sticky top-0 h-svh overflow-hidden">
+      <div class="color absolute inset-0 grid place-items-center overflow-hidden bg-tc-amarillo px-4 text-sala">
+        <p class="grito text-center">
+          <span class="block">{technicolor.grito[0]}</span>
+          <span class="mas block" aria-label="más"><span>M</span><span>Á</span><span>S</span></span>
+          <span class="block">{technicolor.grito[2]}</span>
+        </p>
+        <div class="cintas pointer-events-none absolute inset-x-0 bottom-[7svh]" aria-hidden="true">
+          <div class="cinta cinta-a"><div>{[...cinta, ...cinta].map((c) => <span>{c} ✺</span>)}</div></div>
+          <div class="cinta cinta-b"><div>{[...cinta, ...cinta].map((c) => <span>{c} ✦</span>)}</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ejemplo bg-tc-rojo text-tc-amarillo">
+    <p class="ej-texto ej-uno" data-escala>Una hamburguesería<br /><span>no susurra.</span></p>
+  </div>
+  <div class="ejemplo bg-tc-azul text-tc-rosa">
+    <p class="ej-texto ej-dos" data-escala>Un festival<br /><em>no pide permiso.</em></p>
+  </div>
+  <div class="ejemplo bg-tc-verde text-sala">
+    <p class="ej-texto ej-tres" data-escala>Una marca de skate no se viste de <s>gris</s>.</p>
+  </div>
+
+  <!-- Corte seco a negro -->
+  <div class="plano">
+    <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.02em] [text-wrap:balance]">
+      <span class="block text-pantalla/50">{technicolor.corte[0]}</span>
+      <span class="block">Es saber cuál necesita tu <em class="text-tungsteno">historia.</em></span>
+    </p>
+  </div>
+
+  <div class="plano">
+    <Deslizador
+      client:idle
+      pregunta={technicolor.pregunta}
+      ayuda={technicolor.ayuda}
+      extremos={technicolor.extremos}
+      remate={technicolor.remate}
+    />
+  </div>
+</section>
+
+<style>
+  .grito {
+    font-family: var(--font-grito);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    font-size: clamp(3.4rem, 17vw, 12rem);
+  }
+  .mas {
+    margin: 0.12em 0 0.04em;
+    font-size: 2.35em;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+  }
+  .mas span { display: inline-block; }
+  .mas span:nth-child(1) { color: var(--color-tc-rojo); transform: rotate(-6deg); }
+  .mas span:nth-child(2) { color: var(--color-tc-azul); transform: translateY(-0.06em); }
+  .mas span:nth-child(3) { color: var(--color-tc-rosa); transform: rotate(7deg); }
+
+  .cinta {
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: var(--font-grito);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.1rem, 4.5vw, 2.2rem);
+    padding: 0.55em 0;
+    width: 120%;
+    margin-left: -10%;
+  }
+  .cinta > div { display: inline-flex; gap: 1.2em; padding-right: 1.2em; }
+  .cinta-a { background: var(--color-tc-rojo); color: var(--color-pantalla); transform: rotate(-4deg); }
+  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(3deg) translateY(-0.4em); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cinta-a > div { animation: corre 22s linear infinite; }
+    .cinta-b > div { animation: corre 26s linear infinite reverse; }
+  }
+  @keyframes corre { to { transform: translateX(-50%); } }
+
+  .ejemplo {
+    min-height: 82svh;
+    display: grid;
+    place-items: center;
+    padding: 5rem 1.25rem;
+    overflow: hidden;
+  }
+  .ej-texto {
+    font-family: var(--font-grito);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-align: center;
+    font-size: clamp(2.4rem, 11vw, 9.5rem);
+    text-wrap: balance;
+  }
+  .ej-uno span { display: inline-block; background: var(--color-tc-amarillo); color: var(--color-tc-rojo); padding: 0 0.12em; transform: rotate(-2deg); }
+  .ej-dos { font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; }
+  .ej-dos em { font-family: var(--font-titulo); font-weight: 400; text-transform: none; font-size: 1.25em; letter-spacing: -0.02em; }
+  .ej-tres { text-transform: uppercase; font-size: clamp(2.6rem, 11.5vw, 9rem); }
+  .ej-tres s { text-decoration-thickness: 0.12em; text-decoration-color: var(--color-tc-rosa); color: #8a8a8a; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .puerta { height: auto; }
+    .puerta > div { position: relative; height: 100svh; }
+  }
+</style>
+
+<script>
+  import { gsap, movimientoPermitido } from '../motion/index';
+
+  const puerta = document.querySelector<HTMLElement>('[data-puerta]');
+  if (puerta && movimientoPermitido()) {
+    const q = gsap.utils.selector(puerta);
+    gsap
+      .timeline({ scrollTrigger: { trigger: puerta, start: 'top bottom', end: 'bottom bottom', scrub: 0.5 } })
+      .fromTo(q('.color'), { clipPath: 'circle(0% at 78% 72%)' }, { clipPath: 'circle(150% at 78% 72%)', ease: 'power2.in', duration: 1 })
+      .from(q('.grito > span'), { yPercent: 60, opacity: 0, stagger: 0.12, duration: 0.6, ease: 'expo.out' }, 0.45)
+      .from(q('.mas span'), { scale: 0.2, rotate: (i: number) => [-40, 20, 50][i], stagger: 0.08, duration: 0.6, ease: 'expo.out' }, 0.6)
+      .to({}, { duration: 0.4 });
+
+    gsap.utils.toArray<HTMLElement>('[data-escala]').forEach((el, i) => {
+      gsap.from(el, {
+        scale: 0.72,
+        rotate: i % 2 ? 4 : -4,
+        opacity: 0.2,
+        ease: 'none',
+        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'center center', scrub: 0.5 },
+      });
+    });
+  }
+</script>

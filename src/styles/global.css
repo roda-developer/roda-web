@@ -69,3 +69,103 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .js [data-revelar] { opacity: 0; }
 }
+
+/* ── Deslizador "¿susurra o grita?" ─────────────────────────────── */
+.vista {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: 44svh;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid color-mix(in oklab, var(--color-pantalla) 14%, transparent);
+  /* Hasta la mitad susurra: oscuro y quieto. Pasada la mitad, el color entra de golpe. */
+  --grito: clamp(0, (var(--v) - 0.45) * 2.2, 1);
+  color: color-mix(in oklab, var(--color-pantalla), var(--color-sala) calc(clamp(0, (var(--v) - 0.5) * 10, 1) * 100%));
+  background: color-mix(in oklab, #141416, var(--color-tc-amarillo) calc(var(--grito) * 100%));
+  transition: background 0.2s linear;
+}
+@media (min-width: 768px) { .vista { aspect-ratio: 16 / 9; max-height: 56svh; } }
+
+.mancha {
+  position: absolute;
+  border-radius: 999px;
+  transform: scale(calc(var(--grito, 0) * 1.15));
+  transition: transform 0.25s var(--ease-cine);
+}
+.mancha-a { width: 70%; aspect-ratio: 1; background: var(--color-tc-rosa); left: -20%; bottom: -25%; }
+.mancha-b { width: 42%; aspect-ratio: 1; background: var(--color-tc-azul); right: -8%; top: -10%; }
+.mancha-c { width: 24%; aspect-ratio: 1; background: var(--color-tc-rojo); right: 22%; bottom: 12%; }
+
+.vista-marca {
+  font-family: var(--font-grito);
+  font-weight: calc(200 + var(--v) * 600);
+  font-size: calc(2.6rem + var(--v) * 3.4rem);
+  letter-spacing: calc(0.12em - var(--v) * 0.17em);
+  line-height: 0.85;
+}
+@media (min-width: 768px) { .vista-marca { font-size: calc(4rem + var(--v) * 6rem); } }
+.vista-bajada {
+  max-width: 18ch;
+  font-size: calc(0.95rem + var(--v) * 0.5rem);
+  font-weight: calc(300 + var(--v) * 500);
+}
+
+.rango {
+  appearance: none;
+  height: 2.75rem;
+  background: transparent;
+  cursor: grab;
+}
+.rango:active { cursor: grabbing; }
+.rango::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--color-pantalla) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
+}
+.rango::-moz-range-track {
+  height: 2px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--color-pantalla) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
+}
+.rango::-webkit-slider-thumb {
+  appearance: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-top: -1.3rem;
+  border-radius: 999px;
+  border: 3px solid var(--color-tungsteno);
+  background: var(--color-sala);
+  box-shadow: 0 0 24px color-mix(in oklab, var(--color-tungsteno) 55%, transparent);
+}
+.rango::-moz-range-thumb {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 3px solid var(--color-tungsteno);
+  background: var(--color-sala);
+}
+
+/* ── La web que se reescribe ─────────────────────────────────────
+   Todo lo que viene después del deslizador lee el tono elegido. */
+:root { --acento: var(--color-tungsteno); }
+[data-tono='susurra'] { --acento: #c9c4bb; }
+[data-tono='grita'] { --acento: var(--color-tc-rosa); }
+
+.adapta-titulo { transition: color 0.6s; }
+[data-tono='grita'] .adapta-titulo {
+  font-family: var(--font-grito);
+  font-weight: 800;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+}
+[data-tono='grita'] .adapta-titulo em { font-style: normal; color: var(--color-tc-amarillo); }
+[data-tono='susurra'] .adapta-titulo { font-style: italic; letter-spacing: -0.01em; }
+
+.adapta-fondo { transition: background-color 0.8s; }
+[data-tono='grita'] .adapta-fondo { background-color: var(--color-tc-azul); }
+[data-tono='grita'] .adapta-fondo-2 { background-color: var(--color-tc-rojo); }
+
+.solo-grita, .solo-susurra { display: none; }
+[data-tono='grita'] .solo-grita { display: inline; }
+[data-tono='susurra'] .solo-susurra { display: inline; }

@@ -42,3 +42,21 @@ test('el acto II tiene la pregunta 2 y muestra el peso real de la página', asyn
   await expect(grupo.getByRole('button', { name: 'Que reserve' })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('[data-peso]')).toHaveText(/\d+ KB/);
 });
+
+test('el deslizador cambia el tono de toda la página y se recuerda', async ({ page }) => {
+  await page.goto('/');
+  await hidratada(page);
+  const deslizador = page.getByRole('slider', { name: '¿Tu marca susurra o grita?' });
+  await deslizador.scrollIntoViewIfNeeded();
+  await deslizador.focus();
+  await page.keyboard.press('End');
+  await expect(page.locator('html')).toHaveAttribute('data-tono', 'grita');
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--intensidad').trim())).toBe('1');
+
+  await page.keyboard.press('Home');
+  await expect(page.locator('html')).toHaveAttribute('data-tono', 'susurra');
+
+  await page.reload();
+  await hidratada(page);
+  await expect(page.locator('html')).toHaveAttribute('data-tono', 'susurra');
+});
