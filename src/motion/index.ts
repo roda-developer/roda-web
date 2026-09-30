@@ -25,6 +25,9 @@ export function iniciarMotion() {
     gsap.ticker.add((t) => lenis?.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
     revelarTodo();
+    // Las fuentes y las islas cambian alturas: recalcular posiciones cuando todo asentó.
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    addEventListener('load', () => ScrollTrigger.refresh());
   }
   seguirLuz();
   return lenis;

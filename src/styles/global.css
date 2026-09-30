@@ -50,6 +50,7 @@ body {
   outline-offset: 4px;
 }
 
+@layer components {
 /* Un plano: una idea por pantalla */
 .plano {
   position: relative;
@@ -61,6 +62,7 @@ body {
 
 @media (min-width: 768px) {
   .plano { padding: 8rem 3rem; }
+}
 }
 
 /* Los estados iniciales ocultos solo existen con JS y con movimiento permitido */
