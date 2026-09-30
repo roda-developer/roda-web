@@ -1,6 +1,6 @@
 // Uso: node scripts/capturas.mjs [url] [--reducido]
 // Capturas por pantalla en mobile (390) y desktop (1440) a shots/.
-// Variables: SOLO=m|d, DESDE / HASTA (índice de pantalla).
+// Variables: SOLO=m|d, DESDE / HASTA (índice de pantalla), ESTILO=0..1 (tono precargado).
 import { chromium } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 
@@ -16,6 +16,9 @@ const vistas = [['m', { width: 390, height: 844 }], ['d', { width: 1440, height:
 for (const [nombre, viewport] of vistas) {
   if (process.env.SOLO && process.env.SOLO !== nombre) continue;
   const page = await browser.newPage({ viewport, reducedMotion: reducido ? 'reduce' : 'no-preference' });
+  if (process.env.ESTILO) {
+    await page.addInitScript((e) => sessionStorage.setItem('roda:respuestas', JSON.stringify({ estilo: Number(e) })), process.env.ESTILO);
+  }
   await page.goto(url);
   await page.waitForTimeout(3600);
   const alto = await page.evaluate(() => document.documentElement.scrollHeight);

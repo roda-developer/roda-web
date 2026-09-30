@@ -60,3 +60,22 @@ test('el deslizador cambia el tono de toda la página y se recuerda', async ({ p
   await hidratada(page);
   await expect(page.locator('html')).toHaveAttribute('data-tono', 'susurra');
 });
+
+test('después de elegir "grita", el acto III se cuenta con la tipografía del grito', async ({ page }) => {
+  await page.goto('/');
+  await hidratada(page);
+  const deslizador = page.getByRole('slider', { name: '¿Tu marca susurra o grita?' });
+  await deslizador.scrollIntoViewIfNeeded();
+  await deslizador.focus();
+  await page.keyboard.press('End');
+  const paso = page.getByRole('heading', { name: 'Guion', exact: true });
+  await paso.scrollIntoViewIfNeeded();
+  expect(await paso.evaluate((el) => getComputedStyle(el).fontFamily)).toContain('Bricolage');
+  await expect(page.getByText('a los gritos')).toBeVisible();
+});
+
+test('la sección para creativos habla de trabajar al píxel', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: '¿Diseñás o manejás marcas?' })).toBeAttached();
+  await expect(page.getByText('Al píxel.')).toBeAttached();
+});
