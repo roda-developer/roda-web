@@ -32,3 +32,13 @@ test('tocar de nuevo una opción la desmarca', async ({ page }) => {
   await opcion.click();
   await expect(opcion).toHaveAttribute('aria-pressed', 'false');
 });
+
+test('el acto II tiene la pregunta 2 y muestra el peso real de la página', async ({ page }) => {
+  await page.goto('/');
+  await hidratada(page);
+  const grupo = page.getByRole('group', { name: '¿A dónde querés llevar a tu cliente?' });
+  await grupo.scrollIntoViewIfNeeded();
+  await grupo.getByRole('button', { name: 'Que reserve' }).click();
+  await expect(grupo.getByRole('button', { name: 'Que reserve' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('[data-peso]')).toHaveText(/\d+ KB/);
+});

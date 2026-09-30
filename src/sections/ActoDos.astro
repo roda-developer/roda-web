@@ -1,0 +1,150 @@
+---
+import { actoDos } from '../content/guion';
+import { OBJETIVOS } from '../story/opciones';
+import CartaActo from '../components/CartaActo.astro';
+import Eleccion from '../components/Eleccion.tsx';
+const [entiende, carga, lugar, celular, vos] = actoDos.planos;
+const total = String(actoDos.planos.length).padStart(2, '0');
+---
+<section id="acto-dos" aria-label="Acto dos: lo que hace una buena web">
+  <CartaActo texto={actoDos.rotulo} />
+
+  <!-- 01: el título no se anima. Aparece al instante, como dice. -->
+  <article class="plano principio">
+    <div class="principio-grilla">
+      <p class="indice">01 <span>/ {total}</span></p>
+      <div>
+        <h3 class="titulo">{entiende.titulo.replace('instante.', '')}<em class="text-tungsteno">instante.</em></h3>
+        <p class="bajada" data-revelar="10">{entiende.texto}</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 02: el peso real de esta página, medido en el navegador del visitante -->
+  <article class="plano principio">
+    <div class="principio-grilla">
+      <p class="indice" data-revelar>02 <span>/ {total}</span></p>
+      <div>
+        <h3 class="titulo" data-revelar="2">{carga.titulo}</h3>
+        <p class="bajada" data-revelar="8">Con cada segundo de espera, alguien se va.</p>
+        <div class="mt-10 grid max-w-md grid-cols-2 gap-6 border-t border-pantalla/15 pt-6" data-revelar="12">
+          <p>
+            <span class="block text-[0.65rem] tracking-[0.3em] text-niebla uppercase">Esta página</span>
+            <span class="font-titulo text-5xl text-tungsteno md:text-6xl" data-peso>liviana</span>
+          </p>
+          <p>
+            <span class="block text-[0.65rem] tracking-[0.3em] text-niebla uppercase">Una foto de tu celular</span>
+            <span class="font-titulo text-5xl text-pantalla/45 md:text-6xl">3.000 KB</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="plano principio">
+    <div class="principio-grilla">
+      <p class="indice" data-revelar>03 <span>/ {total}</span></p>
+      <div class="space-y-14">
+        <div>
+          <h3 class="titulo" data-revelar="2">{lugar.titulo}</h3>
+          <p class="bajada" data-revelar="8">{lugar.texto}</p>
+        </div>
+        <div data-revelar="12">
+          <Eleccion client:idle clave="objetivo" numero={2} pregunta={lugar.pregunta!} opciones={OBJETIVOS} />
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="plano principio">
+    <div class="principio-grilla">
+      <p class="indice" data-revelar>04 <span>/ {total}</span></p>
+      <div>
+        <h3 class="titulo" data-revelar="2">{celular.titulo}</h3>
+        <p class="bajada" data-revelar="8">
+          <span data-segun-pantalla="tactil" hidden>Como esta, que estás mirando en tu celular. </span>{celular.texto}
+        </p>
+      </div>
+    </div>
+  </article>
+
+  <article class="plano principio">
+    <div class="principio-grilla">
+      <p class="indice" data-revelar>05 <span>/ {total}</span></p>
+      <div>
+        <h3 class="titulo" data-revelar="2">Suena a <span class="vos">vos.</span></h3>
+        <p class="bajada" data-revelar="8">{vos.texto}</p>
+      </div>
+    </div>
+  </article>
+
+  <div class="plano">
+    <p class="text-center font-titulo [text-wrap:balance] text-[clamp(2.6rem,11vw,8rem)] leading-[0.95] tracking-[-0.02em]">
+      <span class="block text-pantalla/50" data-revelar>{actoDos.cierre[0]}</span>
+      <span class="block" data-revelar="14">Se <em class="text-tungsteno">siente.</em></span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .principio { place-items: center stretch; }
+  .principio-grilla {
+    display: grid;
+    gap: 2rem;
+    width: 100%;
+    max-width: 72rem;
+  }
+  @media (min-width: 1024px) {
+    .principio-grilla { grid-template-columns: 10rem 1fr; gap: 3rem; }
+  }
+  .indice {
+    font-family: var(--font-titulo);
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--color-tungsteno);
+  }
+  .indice span { color: var(--color-niebla); font-size: 1rem; }
+  .titulo {
+    font-family: var(--font-titulo);
+    font-size: clamp(2.9rem, 12.5vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .bajada {
+    margin-top: 1.75rem;
+    max-width: 30ch;
+    font-size: 1.2rem;
+    line-height: 1.45;
+    color: color-mix(in oklab, var(--color-pantalla) 72%, transparent);
+  }
+  @media (min-width: 768px) { .bajada { font-size: 1.45rem; } }
+
+  /* "vos" prueba voces distintas: la tuya todavía no la conocemos */
+  .vos { display: inline-block; font-style: italic; color: var(--color-tungsteno); }
+  @media (prefers-reduced-motion: no-preference) {
+    .vos { animation: voces 3.6s steps(1) infinite; }
+  }
+  @keyframes voces {
+    0% { font-family: var(--font-titulo); font-style: italic; font-weight: 400; letter-spacing: 0; }
+    25% { font-family: var(--font-grito); font-style: normal; font-weight: 800; letter-spacing: -0.04em; }
+    50% { font-family: var(--font-texto); font-style: normal; font-weight: 300; letter-spacing: 0.02em; }
+    75% { font-family: var(--font-grito); font-style: normal; font-weight: 300; letter-spacing: 0.08em; }
+  }
+</style>
+
+<script>
+  import { pesoDeLaPagina } from '../story/peso';
+
+  const salida = document.querySelector<HTMLElement>('[data-peso]');
+  const pintar = () => {
+    const kb = pesoDeLaPagina(performance);
+    if (salida && kb) salida.textContent = `${kb.toLocaleString('es-AR')} KB`;
+  };
+  if (document.readyState === 'complete') pintar();
+  else addEventListener('load', pintar);
+
+  if (matchMedia('(pointer: coarse)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-segun-pantalla="tactil"]').forEach((el) => (el.hidden = false));
+  }
+</script>

@@ -1,13 +1,13 @@
 ---
 import { actoUno } from '../content/guion';
 import { SITUACIONES } from '../story/opciones';
-import Rotulo from '../components/Rotulo.astro';
+import CartaActo from '../components/CartaActo.astro';
 import Eleccion from '../components/Eleccion.tsx';
 const g = actoUno.generica;
 ---
 <section id="acto-uno" aria-label="Acto uno: la primera impresión">
+  <CartaActo texto={actoUno.rotulo} />
   <div class="plano !place-items-start !content-center gap-10">
-    <Rotulo texto={actoUno.rotulo} />
     <div class="max-w-4xl space-y-6">
       <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.02em]" data-revelar>{actoUno.lineas[0]}</p>
       <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.02em] text-pantalla/55" data-revelar="6">{actoUno.lineas[1]}</p>
