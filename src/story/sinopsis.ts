@@ -2,9 +2,10 @@ import { OBJETIVOS, RUBROS, SITUACIONES, frase, gritaDesde, type Respuestas } fr
 
 export const VACIAS: Respuestas = { situacion: null, objetivo: null, estilo: null, rubro: null };
 
-export function armarSinopsis(r: Respuestas): string | null {
+/** La sinopsis partida en cartas de título: juntas con espacios, son la sinopsis. */
+export function fragmentosSinopsis(r: Respuestas): string[] {
   const respondio = r.situacion || r.objetivo || r.rubro || r.estilo !== null;
-  if (!respondio) return null;
+  if (!respondio) return [];
 
   const rubro = frase(RUBROS, r.rubro);
   const sujeto = rubro ? `Una marca de ${rubro}` : 'Una marca';
@@ -19,8 +20,13 @@ export function armarSinopsis(r: Respuestas): string | null {
     clausulas.push(`${nexo} que sus clientes ${objetivo}`);
   }
 
-  if (!clausulas.length) return rubro ? `${sujeto}.` : 'Una marca con una historia propia.';
-  return `${sujeto} ${clausulas.join(', ')}.`;
+  if (!clausulas.length) return [rubro ? `${sujeto}.` : 'Una marca con una historia propia.'];
+  return [sujeto, ...clausulas.map((c, i) => (i === clausulas.length - 1 ? `${c}.` : `${c},`))];
+}
+
+export function armarSinopsis(r: Respuestas): string | null {
+  const cartas = fragmentosSinopsis(r);
+  return cartas.length ? cartas.join(' ') : null;
 }
 
 function mensaje(r: Respuestas): string {
