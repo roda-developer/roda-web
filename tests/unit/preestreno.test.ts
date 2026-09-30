@@ -43,6 +43,7 @@ describe('preestreno (la vista previa de su web)', () => {
   });
   it('la situación define la etiqueta', () => {
     expect(preestreno({ ...VACIAS, situacion: 'sin-web' }).etiqueta).toBe('Tu primera web');
+    expect(preestreno({ ...VACIAS, situacion: 'quiero-mas' }).etiqueta).toBe('Tu web, un paso más allá');
     expect(preestreno(VACIAS).etiqueta).toBeNull();
   });
 });

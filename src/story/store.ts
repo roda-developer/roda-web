@@ -21,7 +21,7 @@ export function crearStore(storage: Almacen | null) {
   const $respuestas = map<Respuestas>(leer(storage));
 
   function responder<K extends keyof Respuestas>(clave: K, valor: Respuestas[K]) {
-    $respuestas.setKey(clave, valor);
+    $respuestas.set({ ...$respuestas.get(), [clave]: valor });
     try {
       storage?.setItem(CLAVE, JSON.stringify($respuestas.get()));
     } catch {

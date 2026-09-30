@@ -29,7 +29,7 @@ const BOTONES: Record<ObjetivoId, string> = {
 const ETIQUETAS: Record<SituacionId, string> = {
   'sin-web': 'Tu primera web',
   'no-representa': 'Tu web, de nuevo',
-  'quiere-mas': 'Tu web, un paso más allá',
+  'quiero-mas': 'Tu web, un paso más allá',
 };
 
 export function preestreno(r: Respuestas): Preestreno {

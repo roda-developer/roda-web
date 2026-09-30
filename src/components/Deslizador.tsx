@@ -35,16 +35,18 @@ export default function Deslizador({ pregunta, ayuda, extremos, remate }: Props)
   const estilo = { '--v': valor } as CSSProperties;
 
   return (
-    <div className="deslizador w-full max-w-5xl" style={estilo}>
+    <div className="deslizador w-full max-w-6xl" style={estilo}>
+      <div className="d-titulo">
       <p className="mb-5 text-[0.68rem] tracking-[0.32em] text-tungsteno uppercase">
         Pregunta 3 de 4 <span className="text-niebla">· opcional</span>
       </p>
       <h3 id={idTitulo} className="mb-4 font-titulo text-[clamp(2.6rem,11vw,6rem)] leading-[0.95] tracking-[-0.02em]">
         {pregunta}
       </h3>
-      <p className="mb-10 max-w-[34ch] text-lg text-pantalla/70">{ayuda}</p>
+      <p className="max-w-[34ch] text-lg text-pantalla/70">{ayuda}</p>
+      </div>
 
-      <div className="vista" aria-hidden="true">
+      <div className="vista d-vista" aria-hidden="true">
         <span className="mancha mancha-a" />
         <span className="mancha mancha-b" />
         <span className="mancha mancha-c" />
@@ -58,7 +60,8 @@ export default function Deslizador({ pregunta, ayuda, extremos, remate }: Props)
         </div>
       </div>
 
-      <label className="mt-10 block">
+      <div className="d-control">
+      <label className="block">
         <span className="sr-only">{pregunta}</span>
         <input
           type="range"
@@ -76,10 +79,11 @@ export default function Deslizador({ pregunta, ayuda, extremos, remate }: Props)
         <span className={grita ? 'text-niebla' : 'text-pantalla'}>{extremos[0]}</span>
         <span className={grita ? 'text-pantalla' : 'text-niebla'}>{extremos[1]}</span>
       </div>
+      </div>
 
       <p
         aria-live="polite"
-        className={`mt-16 font-titulo text-[clamp(2rem,8vw,4.5rem)] leading-none transition-opacity duration-1000 ${tocado ? 'opacity-100' : 'opacity-0'}`}
+        className={`d-remate font-titulo text-[clamp(2rem,8vw,4.5rem)] leading-none transition-opacity duration-1000 ${tocado ? 'opacity-100' : 'opacity-0'}`}
       >
         {remate}
       </p>

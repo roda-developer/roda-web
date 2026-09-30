@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview --port 5201",
     "test": "vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

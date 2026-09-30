@@ -80,7 +80,7 @@ body {
   border-radius: 1.25rem;
   border: 1px solid color-mix(in oklab, var(--color-pantalla) 14%, transparent);
   /* Hasta la mitad susurra: oscuro y quieto. Pasada la mitad, el color entra de golpe. */
-  --grito: clamp(0, (var(--v) - 0.45) * 2.2, 1);
+  --grito: clamp(0, (var(--v) - 0.45) * 3.5, 1);
   color: color-mix(in oklab, var(--color-pantalla), var(--color-sala) calc(clamp(0, (var(--v) - 0.5) * 10, 1) * 100%));
   background: color-mix(in oklab, #141416, var(--color-tc-amarillo) calc(var(--grito) * 100%));
   transition: background 0.2s linear;
@@ -278,3 +278,23 @@ body {
 }
 .cta:hover { transform: translateY(-2px); box-shadow: 0 0 60px -6px var(--acento); }
 .cta::after { content: '→'; font-size: 1rem; letter-spacing: 0; }
+
+/* Mobile: pregunta, vista, control, remate. Desktop: la vista a la derecha, todo en un cuadro. */
+.deslizador {
+  display: grid;
+  gap: 2.25rem;
+  grid-template-areas: 'titulo' 'vista' 'control' 'remate';
+}
+.d-titulo { grid-area: titulo; }
+.d-vista { grid-area: vista; }
+.d-control { grid-area: control; }
+.d-remate { grid-area: remate; }
+@media (min-width: 1024px) {
+  .deslizador {
+    grid-template-columns: 1fr 1.15fr;
+    grid-template-areas: 'titulo vista' 'control vista' 'remate vista';
+    column-gap: 4rem;
+    align-items: center;
+  }
+  .d-vista { aspect-ratio: 4 / 5; max-height: 76svh; }
+}
