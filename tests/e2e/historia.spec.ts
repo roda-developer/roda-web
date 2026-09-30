@@ -79,3 +79,14 @@ test('la sección para creativos habla de trabajar al píxel', async ({ page }) 
   await expect(page.getByRole('heading', { name: '¿Diseñás o manejás marcas?' })).toBeAttached();
   await expect(page.getByText('Al píxel.')).toBeAttached();
 });
+
+test('elegir rubro trae primero los proyectos cercanos', async ({ page }) => {
+  await page.goto('/');
+  await hidratada(page);
+  const grupo = page.getByRole('group', { name: '¿Qué hacés?' });
+  await grupo.scrollIntoViewIfNeeded();
+  await grupo.getByRole('button', { name: 'Salud y bienestar' }).click();
+  const primero = page.locator('[data-poster]').first();
+  await expect(primero.getByRole('heading')).toHaveText('Heacky');
+  await expect(primero.getByText('Cerca de lo tuyo')).toBeVisible();
+});
