@@ -1,0 +1,27 @@
+---
+interface Props { class?: string }
+const { class: clase = '' } = Astro.props;
+---
+<span class:list={['marca', clase]} aria-label="Roda">
+  <span aria-hidden="true">R</span><span class="marca-o" aria-hidden="true"></span><span aria-hidden="true">da</span>
+</span>
+
+<style>
+  .marca {
+    font-family: var(--font-titulo);
+    display: inline-flex;
+    align-items: baseline;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  /* La "o" es un lente: un anillo de luz tungsteno */
+  .marca-o {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin: 0 0.03em;
+    border: 0.08em solid var(--color-tungsteno);
+    border-radius: 999px;
+    box-shadow: 0 0 0.35em color-mix(in oklab, var(--color-tungsteno) 45%, transparent);
+  }
+</style>

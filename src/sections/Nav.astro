@@ -1,0 +1,14 @@
+---
+import Marca from '../components/Marca.astro';
+---
+<header class="nav fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 md:px-8 md:py-6">
+  <a href="#inicio" class="text-[1.65rem] text-pantalla md:text-3xl" aria-label="Roda, volver al inicio"><Marca /></a>
+  <a
+    href="#final"
+    class="rounded-full border border-pantalla/25 px-4 py-2.5 text-[0.7rem] tracking-[0.25em] text-pantalla uppercase backdrop-blur-sm transition-colors duration-500 hover:border-tungsteno hover:text-tungsteno"
+  >Contanos</a>
+</header>
+
+<style>
+  .nav { background: linear-gradient(to bottom, color-mix(in oklab, var(--color-sala) 85%, transparent), transparent); }
+</style>

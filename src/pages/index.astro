@@ -1,6 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
+import Haz from '../components/Haz.astro';
+import Timecode from '../components/Timecode.astro';
+import Motion from '../components/Motion.astro';
+import Loader from '../sections/Loader.astro';
+import Nav from '../sections/Nav.astro';
+import Apertura from '../sections/Apertura.astro';
 ---
 <Base>
-  <main id="pelicula" class="min-h-svh"></main>
+  <Loader />
+  <Haz />
+  <Nav />
+  <main id="pelicula" class="relative z-10 min-h-svh">
+    <Apertura />
+  </main>
+  <Timecode />
+  <Motion />
 </Base>

@@ -1,0 +1,13 @@
+---
+---
+<div class="haz pointer-events-none fixed inset-0 z-0" aria-hidden="true"></div>
+<style>
+  /* Luz dirigida: un haz tibio que sigue al cursor o al scroll */
+  .haz {
+    background: radial-gradient(
+      60vmax 45vmax at var(--luz-x) var(--luz-y),
+      color-mix(in oklab, var(--color-tungsteno) 9%, transparent),
+      transparent 70%
+    );
+  }
+</style>
