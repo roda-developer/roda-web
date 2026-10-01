@@ -24,6 +24,7 @@ const videoVertical = publico('fondo-vertical.mp4') ? '/nosotros/fondo-vertical.
 const { secuencia } = t;
 const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t.mensaje)}`;
 const textoSecuencia = secuencia.cuadros
+  .filter((c) => c.tipo !== 'final')
   .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.texto))
   .join('. ');
 ---
@@ -48,9 +49,10 @@ const textoSecuencia = secuencia.cuadros
         <div class="velo" aria-hidden="true"></div>
         <div class="cuadros" aria-hidden="true">
           {secuencia.cuadros.map((c, i) => (
-            <div class:list={['cuadro', `cuadro-${c.tipo}`, { activo: i === 0 }]} data-cuadro={c.fondo}>
+            <div class:list={['cuadro', `cuadro-${c.tipo}`, { activo: c.tipo === 'final' }]} data-cuadro={c.fondo} data-ms={c.ms}>
               {c.tipo === 'presenta' && <p class="presenta"><Marca class="presenta-logo" /><span>{c.texto.replace(/^Rodas*/, '')}</span></p>}
               {c.tipo === 'titulo' && <p class="grande">{c.texto}</p>}
+              {c.tipo === 'final' && <p class="grande final">{c.texto.split(' ').map((w) => <span>{w}</span>)}</p>}
               {c.tipo === 'credito' && (
                 <>
                   <p class="rol">{c.rol}</p>
@@ -60,6 +62,7 @@ const textoSecuencia = secuencia.cuadros
             </div>
           ))}
         </div>
+        <button type="button" class="otra-vez" data-otra-vez hidden>↺ {secuencia.otraVez}</button>
         <p class="legal" aria-hidden="true">{secuencia.legal}</p>
         </div>
       </div>
@@ -116,7 +119,7 @@ const textoSecuencia = secuencia.cuadros
   .pantalla { position: relative; overflow: hidden; display: grid; place-items: center; padding: 5rem 1.25rem; background: var(--color-negro); }
   .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 48% 40%; opacity: 0; transition: opacity 0.6s; filter: saturate(0.8) contrast(1.05); }
   .fondo.visible { opacity: 1; }
-  /* Sin movimiento, todos los títulos van juntos sobre la primera imagen */
+  /* Sin movimiento, el título final va sobre la primera foto */
   :global(html:not(.secuencia-animada)) .fondo:is([data-fondo='juntos'], [data-fondo='video']) { opacity: 1; }
   /* Las placas sobre negro van sin el velo: negro puro */
   .pantalla:has(.fondo.visible) .velo { opacity: 1; }
@@ -155,23 +158,35 @@ const textoSecuencia = secuencia.cuadros
     text-wrap: balance;
   }
 
-  /* Con movimiento: el escenario queda fijo y los cuadros se turnan, como placas de título */
-  :global(.secuencia-animada) .secuencia { height: calc(var(--cuadros) * 38svh + 100svh); }
-  :global(.secuencia-animada) .escenario { position: sticky; top: 0; height: 100svh; }
-  :global(.secuencia-animada) .pantalla { padding: 0; }
-  :global(.secuencia-animada) .cuadros { position: absolute; inset: 0; display: block; }
-  :global(.secuencia-animada) .cuadro {
+  /* Una sola pantalla. Sin movimiento (o sin JS) se ve directo el título final */
+  .escenario { height: 100svh; min-height: 32rem; }
+  .pantalla { padding: 0; }
+  .cuadros { position: absolute; inset: 0; display: block; }
+  .cuadro { position: absolute; inset: 0; display: grid; place-content: center; padding: 0 1.25rem; opacity: 0; }
+  .cuadro.activo { opacity: 1; }
+  .final { font-size: min(19vw, 21svh); }
+  .final span { display: block; }
+  :global(.secuencia-animada) .cuadro { transform: scale(1.06); transition: opacity 0.25s, transform 0.9s var(--ease-cine); }
+  :global(.secuencia-animada) .cuadro.activo { transform: none; }
+  /* El fondo se acerca despacio mientras corre, como una toma */
+  :global(.secuencia-animada) .fondo.visible { animation: acerca 14s linear both; }
+  @keyframes acerca { from { transform: scale(1.04); } to { transform: scale(1.18); } }
+  .otra-vez {
     position: absolute;
-    inset: 0;
-    display: grid;
-    place-content: center;
-    padding: 0 1.25rem;
-    opacity: 0;
-    transform: scale(1.06);
-    transition: opacity 0.25s, transform 0.9s var(--ease-cine);
+    z-index: 2;
+    right: 1rem;
+    bottom: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 1px solid color-mix(in oklab, var(--color-papel) 40%, transparent);
+    border-radius: 999px;
+    color: var(--color-papel);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
-  :global(.secuencia-animada) .cuadro.activo { opacity: 1; transform: none; }
-  :global(.secuencia-animada) .fondo { transform: scale(calc(1.04 + var(--avance, 0) * 0.14)); }
+  .otra-vez:hover { background: var(--color-papel); color: var(--color-negro); }
 
   /* ── Nosotros: la palabra gigante y la foto que se le cruza ───── */
   .sobre .mono { color: var(--color-gris); }
@@ -207,30 +222,37 @@ const textoSecuencia = secuencia.cuadros
 <script>
   import { movimientoPermitido } from '../motion/index';
 
-  // La secuencia avanza con el scroll: cada tramo muestra un cuadro y el fondo se acerca de a poco.
+  // La intro corre sola, como un video, cuando la pantalla entra en vista. Termina quieta en el título.
   const seccion = document.querySelector<HTMLElement>('[data-secuencia]');
   if (seccion && movimientoPermitido()) {
     const cuadros = [...seccion.querySelectorAll<HTMLElement>('.cuadro')];
     const fondos = [...seccion.querySelectorAll<HTMLElement>('[data-fondo]')];
+    const otraVez = seccion.querySelector<HTMLButtonElement>('[data-otra-vez]')!;
     document.documentElement.classList.add('secuencia-animada');
-    seccion.style.setProperty('--cuadros', String(cuadros.length));
 
-    let pendiente = false;
-    const mover = () => {
-      pendiente = false;
-      const caja = seccion.getBoundingClientRect();
-      const recorrido = Math.max(1, caja.height - innerHeight);
-      const avance = Math.min(1, Math.max(0, -caja.top / recorrido));
-      const actual = Math.min(cuadros.length - 1, Math.floor(avance * cuadros.length));
-      cuadros.forEach((c, i) => c.classList.toggle('activo', i === actual));
-      const fondo = cuadros[actual].dataset.cuadro;
-      // El video (si hay) corre en todas las placas con imagen; las de 'negro' van sobre negro puro
+    let reloj = 0;
+    const mostrar = (i: number) => {
+      cuadros.forEach((c, j) => c.classList.toggle('activo', j === i));
+      const fondo = cuadros[i].dataset.cuadro;
+      // El video (si hay) corre en las placas con imagen; las de 'negro' van sobre negro puro
       fondos.forEach((f) => f.classList.toggle('visible', f.dataset.fondo === fondo || (f.dataset.fondo === 'video' && fondo !== 'negro')));
-      seccion.style.setProperty('--avance', avance.toFixed(3));
     };
-    addEventListener('scroll', () => {
-      if (!pendiente) { pendiente = true; requestAnimationFrame(mover); }
-    }, { passive: true });
-    mover();
+    const correr = (i = 0) => {
+      clearTimeout(reloj);
+      otraVez.hidden = true;
+      mostrar(i);
+      const ms = Number(cuadros[i].dataset.ms);
+      if (i < cuadros.length - 1) reloj = window.setTimeout(() => correr(i + 1), ms);
+      else otraVez.hidden = false;
+    };
+
+    mostrar(0);
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      obs.disconnect();
+      correr();
+    }, { threshold: 0.5 });
+    obs.observe(seccion);
+    otraVez.addEventListener('click', () => correr());
   }
 </script>

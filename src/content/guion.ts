@@ -205,21 +205,24 @@ export const cartelera = {
 export const nosotros = {
   /** La secuencia de títulos: un cuadro por pantalla, sobre la foto (o el video) de fondo */
   secuencia: {
+    otraVez: 'Ver de nuevo',
     legal: '© 2026 Roda · Producida en Buenos Aires · Todos los derechos reservados',
     /**
      * Como los créditos iniciales de una película: el estudio presenta, la producción, el título
      * (grueso, de a una palabra) y después los créditos en letra liviana. La dirección va última.
      * fondo 'negro': la placa va sobre negro, como en el cine; si no, sobre esa foto.
+     * ms: cuánto dura en pantalla. Corre sola, como un video; termina quieta en el título.
      */
     cuadros: [
-      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta' },
-      { fondo: 'negro', tipo: 'credito', rol: 'Una producción de', nombres: ['Giuliana Di Rocco & Facundo'] },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Una' },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Misma' },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada' },
-      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo'] },
-      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['La UNLaM, Buenos Aires', 'y donde nos lleve el próximo viaje'] },
-      { fondo: 'negro', tipo: 'credito', rol: 'Escrita y dirigida por', nombres: ['Giuliana Di Rocco & Facundo'] },
+      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta', ms: 2200 },
+      { fondo: 'negro', tipo: 'credito', rol: 'Una producción de', nombres: ['Giuliana Di Rocco & Facundo'], ms: 2600 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Una', ms: 800 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Misma', ms: 800 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1400 },
+      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo'], ms: 2400 },
+      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['La UNLaM, Buenos Aires', 'y donde nos lleve el próximo viaje'], ms: 2800 },
+      { fondo: 'negro', tipo: 'credito', rol: 'Escrita y dirigida por', nombres: ['Giuliana Di Rocco & Facundo'], ms: 2600 },
+      { fondo: 'juntos', tipo: 'final', texto: 'Una misma mirada', ms: 0 },
     ],
   },
   bajo: 'Pareja, socios y desarrolladores web',
