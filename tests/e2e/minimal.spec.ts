@@ -63,16 +63,3 @@ test('el loader sale al recargar, pero no al volver desde otra página de Roda',
   await page.waitForURL((u) => u.pathname === '/');
   expect(await visible()).toBe(false);
 });
-
-test('el menú se lee en tinta y pasa a papel sobre la pantalla del tráiler', async ({ page }) => {
-  await page.addInitScript(() => {
-    sessionStorage.setItem('roda:saltar-loader', '1');
-    sessionStorage.setItem('roda:respuestas', JSON.stringify({ rubro: 'moda' }));
-  });
-  await page.goto('/');
-  await hidratada(page);
-  const color = () => page.locator('header.nav').evaluate((el) => getComputedStyle(el).color);
-  expect(await color()).toBe('rgb(18, 18, 18)');
-  await page.locator('.pantalla').evaluate((el) => scrollTo(0, el.getBoundingClientRect().top + scrollY - 20));
-  await expect.poll(color).toBe('rgb(243, 242, 238)');
-});

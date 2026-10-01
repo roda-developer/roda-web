@@ -29,18 +29,20 @@ export function armarSinopsis(r: Respuestas): string | null {
   return cartas.length ? cartas.join(' ') : null;
 }
 
-function mensaje(r: Respuestas): string {
+function mensaje(r: Respuestas, marca = ''): string {
   const sinopsis = armarSinopsis(r);
+  // Con el nombre del afiche, el mensaje se presenta con la marca
+  if (marca) return [`Hola Roda, soy de ${marca}.`, sinopsis, 'Queremos empezar a contar nuestra historia.'].filter(Boolean).join(' ');
   return sinopsis
     ? `Hola Roda, esta es mi historia: ${sinopsis} ¿La filmamos?`
     : 'Hola Roda, quiero contarles mi historia.';
 }
 
-export function linkWhatsApp(r: Respuestas, numero: string): string {
-  return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje(r))}`;
+export function linkWhatsApp(r: Respuestas, numero: string, marca = ''): string {
+  return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje(r, marca))}`;
 }
 
-export function linkMail(r: Respuestas, mail: string): string {
-  const asunto = encodeURIComponent('Mi historia');
-  return `mailto:${mail}?subject=${asunto}&body=${encodeURIComponent(mensaje(r))}`;
+export function linkMail(r: Respuestas, mail: string, marca = ''): string {
+  const asunto = encodeURIComponent(marca ? `La historia de ${marca}` : 'Mi historia');
+  return `mailto:${mail}?subject=${asunto}&body=${encodeURIComponent(mensaje(r, marca))}`;
 }

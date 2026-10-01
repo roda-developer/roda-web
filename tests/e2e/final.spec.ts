@@ -6,43 +6,54 @@ async function hidratada(page: Page) {
   await page.waitForFunction(() => document.querySelectorAll('astro-island[ssr]').length === 0);
 }
 
-async function conRespuestas(page: Page, respuestas: object) {
-  await page.addInitScript((r) => sessionStorage.setItem('roda:respuestas', JSON.stringify(r)), respuestas);
-}
-
-test('sin respuestas, el final invita a contar la historia sin huecos', async ({ page }) => {
+async function alFinal(page: Page) {
+  await page.addInitScript(() => sessionStorage.setItem('roda:saltar-loader', '1'));
   await page.goto('/');
-  await hidratada(page);
   const final = page.locator('#final');
   await final.scrollIntoViewIfNeeded();
-  await expect(final.getByRole('heading', { name: '¿Cuál es tu historia?' })).toBeVisible();
-  const href = await final.getByRole('link', { name: 'Contanos' }).getAttribute('href');
+  await hidratada(page);
+  return final;
+}
+
+test('sin nombre, el afiche espera con "Tu marca" y el contacto no deja huecos', async ({ page }) => {
+  const final = await alFinal(page);
+  await expect(final.getByLabel('¿Cómo se llama tu marca?')).toBeVisible();
+  await expect(final.getByRole('img', { name: /Roda presenta Tu marca/ })).toBeVisible();
+  const href = await final.getByRole('link', { name: 'Hablemos' }).getAttribute('href');
   expect(href).toContain('https://wa.me/');
   expect(decodeURIComponent(href!)).toContain('quiero contarles mi historia');
   await expect(final).not.toContainText(/undefined|null/);
 });
 
-test('con las cuatro respuestas, el final cuenta su historia y la manda por WhatsApp', async ({ page }) => {
-  await conRespuestas(page, { rubro: 'gastronomia', estilo: 0.9, situacion: 'no-representa', objetivo: 'reserve' });
-  await page.goto('/');
+test('al escribir la marca se arma el afiche y viaja en el mensaje', async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('roda:respuestas', JSON.stringify({ rubro: 'moda' })));
+  const final = await alFinal(page);
+  await final.getByLabel('¿Cómo se llama tu marca?').fill('Panadería La Esquina');
+  await expect(final.getByRole('img', { name: /Roda presenta Panadería La Esquina\..*panaderialaesquina\.com/ })).toBeVisible();
+  const href = await final.getByRole('link', { name: 'Hablemos' }).getAttribute('href');
+  expect(decodeURIComponent(href!)).toBe(
+    'https://wa.me/' + href!.split('wa.me/')[1].split('?')[0] + '?text=Hola Roda, soy de Panadería La Esquina. Una marca de moda. Queremos empezar a contar nuestra historia.',
+  );
+  // La marca se recuerda al recargar
+  await page.reload();
   await hidratada(page);
-  const final = page.locator('#final');
-  await final.scrollIntoViewIfNeeded();
-  const sinopsis = 'Una marca de gastronomía que grita, que hoy tiene web pero no la representa, y necesita que sus clientes reserven.';
-  await expect(final.getByText(sinopsis)).toBeVisible();
-  await expect(final.getByText('Reservá tu lugar', { exact: true })).toBeVisible();
-  const href = await final.getByRole('link', { name: 'Sí, hablemos' }).getAttribute('href');
-  expect(decodeURIComponent(href!)).toContain(sinopsis);
-  const mail = await final.getByRole('link', { name: /hola@/ }).getAttribute('href');
-  expect(mail).toMatch(/^mailto:/);
+  await expect(page.getByLabel('¿Cómo se llama tu marca?')).toHaveValue('Panadería La Esquina');
 });
 
-test('con respuestas parciales, la sinopsis sigue siendo una frase completa', async ({ page }) => {
-  await conRespuestas(page, { rubro: 'moda', objetivo: 'compre' });
-  await page.goto('/');
-  await hidratada(page);
-  await page.locator('#final').scrollIntoViewIfNeeded();
-  await expect(page.locator('#final').getByText('Una marca de moda que necesita que sus clientes compren.')).toBeVisible();
+test('el afiche se descarga como imagen con el nombre de la marca', async ({ page }) => {
+  const final = await alFinal(page);
+  await final.getByLabel('¿Cómo se llama tu marca?').fill('Lupe');
+  const [descarga] = await Promise.all([page.waitForEvent('download'), final.getByRole('button', { name: /Descargar afiche/ }).click()]);
+  expect(descarga.suggestedFilename()).toBe('afiche-lupe.png');
+});
+
+test('el campo no muestra el recuadro de foco: se marca con un subrayado', async ({ page }) => {
+  const final = await alFinal(page);
+  const campo = final.getByLabel('¿Cómo se llama tu marca?');
+  await campo.focus();
+  await page.keyboard.type('L');
+  expect(await campo.evaluate((el) => getComputedStyle(el).outlineStyle)).toBe('none');
+  expect(await campo.evaluate((el) => getComputedStyle(el).boxShadow)).not.toBe('none');
 });
 
 test('los créditos nombran a Giuliana y Facundo y hay escena post-créditos', async ({ page }) => {

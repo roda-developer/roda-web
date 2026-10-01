@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { formatearTimecode } from '../../src/motion/timecode';
-import { normalizarIntensidad, tonoDe } from '../../src/motion/intensidad';
 
 describe('formatearTimecode', () => {
   it('al principio marca cero', () => {
@@ -20,19 +19,3 @@ describe('formatearTimecode', () => {
   });
 });
 
-describe('intensidad', () => {
-  it('recorta entre 0 y 1', () => {
-    expect(normalizarIntensidad(-0.3)).toBe(0);
-    expect(normalizarIntensidad(1.4)).toBe(1);
-    expect(normalizarIntensidad(0.42)).toBe(0.42);
-  });
-  it('sin valor queda en 0', () => {
-    expect(normalizarIntensidad(null)).toBe(0);
-    expect(normalizarIntensidad(Number.NaN)).toBe(0);
-  });
-  it('el tono cambia en 0.5', () => {
-    expect(tonoDe(null)).toBe('neutro');
-    expect(tonoDe(0.49)).toBe('susurra');
-    expect(tonoDe(0.5)).toBe('grita');
-  });
-});

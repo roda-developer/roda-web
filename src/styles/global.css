@@ -76,87 +76,6 @@ body {
   .js [data-revelar] { opacity: 0; }
 }
 
-/* ── Tráiler final: una pantalla de cine en medio del papel ─────── */
-.pantalla {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  max-height: 70svh;
-  width: 100%;
-  overflow: hidden;
-  background: var(--color-negro);
-  color: var(--color-papel);
-}
-@media (min-width: 768px) { .pantalla { aspect-ratio: 16 / 9; } }
-
-.carta {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  text-align: center;
-  font-family: var(--font-titulo);
-  font-size: clamp(2rem, 9vw, 4.8rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  opacity: 0;
-  filter: blur(12px);
-  transform: scale(1.04);
-  transition: opacity 0.9s var(--ease-cine), filter 0.9s var(--ease-cine), transform 1.6s var(--ease-cine);
-}
-.carta-activa { opacity: 1; filter: blur(0); transform: scale(1); }
-.carta-vista { padding: 1.25rem; }
-
-.preestreno {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  align-items: end;
-  gap: 1rem;
-  width: min(100%, 22rem);
-  height: 100%;
-  padding: 1.25rem;
-  text-align: left;
-  font-family: var(--font-texto);
-  font-size: 1rem;
-  letter-spacing: 0;
-  background: #1a1a1a;
-  color: var(--color-papel);
-}
-@media (min-width: 768px) { .preestreno { width: min(100%, 40rem); } }
-.preestreno-titular { font-family: var(--font-titulo); font-size: clamp(2rem, 8vw, 3.6rem); line-height: 0.95; }
-.preestreno-boton {
-  display: inline-block;
-  padding: 0.7em 1.3em;
-  border-radius: 999px;
-  background: var(--color-papel);
-  color: var(--color-tinta);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-.preestreno-logo { font-family: var(--font-titulo); font-size: 1.1rem; letter-spacing: 0; text-transform: none; }
-
-.preestreno-susurra { background: var(--color-papel); color: var(--color-tinta); }
-.preestreno-susurra .preestreno-titular { font-style: italic; }
-.preestreno-susurra .preestreno-boton { background: transparent; color: var(--color-tinta); border: 1px solid currentColor; }
-
-.preestreno-grita {
-  border-radius: 1rem;
-  background:
-    radial-gradient(circle at 85% 15%, var(--color-tc-azul) 0 18%, transparent 18.5%),
-    radial-gradient(circle at 10% 95%, var(--color-tc-rosa) 0 28%, transparent 28.5%),
-    var(--color-tc-amarillo);
-  color: var(--color-tinta);
-}
-.preestreno-grita .preestreno-titular {
-  font-family: var(--font-grito);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.045em;
-  line-height: 0.88;
-}
-.preestreno-grita .preestreno-boton { background: var(--color-tc-rojo); color: var(--color-papel); }
-.preestreno-grita .preestreno-logo { font-family: var(--font-grito); font-weight: 800; }
-
 .cta {
   display: inline-flex;
   align-items: center;
@@ -219,3 +138,35 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marca-eleccion.activa .punto, .marca-eleccion.activa .onda { animation: none; }
 }
+
+/* ── El estreno: el campo, el afiche y las acciones ────────────────
+   En el celular van uno abajo del otro; en la compu, el afiche a la izquierda. */
+.afiche-final { display: grid; gap: 2.5rem; grid-template-areas: 'campo' 'lienzo' 'acciones'; }
+.afiche-campo { grid-area: campo; }
+.afiche-lienzo { grid-area: lienzo; justify-self: center; width: min(100%, calc(82svh * 2 / 3)); height: auto; }
+.afiche-acciones { grid-area: acciones; }
+@media (min-width: 1024px) {
+  .afiche-final {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: 'lienzo campo' 'lienzo acciones';
+    grid-template-rows: auto 1fr;
+    column-gap: 5rem;
+    align-items: start;
+  }
+  .afiche-lienzo { width: min(42vw, calc(82svh * 2 / 3)); }
+}
+/* El campo del nombre: subrayado rosa, sin recuadro; al escribir la línea se engrosa */
+.campo-marca:focus-visible { outline: none; box-shadow: 0 3px 0 var(--color-tc-rosa); }
+.campo-marca { caret-color: var(--color-tc-rosa); transition: box-shadow 0.3s; }
+.boton-afiche {
+  min-height: 3.5rem;
+  padding: 0 1.5rem;
+  border: 1px solid var(--color-tinta);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s;
+}
+.boton-afiche:hover { background: var(--color-tinta); color: var(--color-papel); }

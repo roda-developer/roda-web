@@ -7,9 +7,7 @@ export const loader = {
 
 export const nav = {
   proyectos: 'Proyectos',
-  /** El atajo al final: sin respuestas todavía no hay web que ver */
-  atajo: 'Ver mi web',
-  atajoSinRespuestas: 'Contanos tu historia',
+  atajo: 'Hablemos',
 };
 
 export const apertura = {
@@ -128,9 +126,29 @@ export const creditos = {
 };
 
 export const cierre = {
-  conHistoria: { rotulo: 'Esta es tu historia', cta: 'Sí, hablemos', pregunta: '¿La filmamos?' },
-  sinHistoria: { titulo: '¿Cuál es tu historia?', cta: 'Contanos' },
+  rotulo: ['06', 'El estreno'],
+  pregunta: '¿Cómo se llama tu marca?',
+  ayuda: 'Escribila y mirá tu afiche de estreno.',
+  placeholder: 'Tu marca',
+  cta: 'Hablemos',
+  descargar: 'Descargar afiche',
+  compartir: 'Compartir',
   alternativa: 'o escribinos a',
+  /** Lo que dice el afiche, de arriba hacia abajo */
+  afiche: {
+    presenta: 'presenta',
+    antes: 'Una historia que todavía no contamos',
+    vacio: 'Tu marca',
+    creditos: [
+      ['Una producción', 'Roda'],
+      ['Dirigida por', 'vos'],
+      ['Guion', 'tu historia'],
+      ['Diseño y desarrollo', 'Giuliana y Facundo'],
+      ['Con la participación especial de', 'tus clientes'],
+    ],
+    proximamente: 'Próximamente',
+    soloEn: 'solo en',
+  },
   postCreditos: 'Si llegaste hasta acá, ya sabés que nos gustan los buenos finales. Empecemos el tuyo.',
 };
 
