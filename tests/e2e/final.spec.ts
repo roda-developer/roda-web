@@ -47,7 +47,6 @@ test('con respuestas parciales, la sinopsis sigue siendo una frase completa', as
 
 test('los créditos nombran a Giuliana y Facundo y hay escena post-créditos', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Giuliana' })).toBeAttached();
-  await expect(page.getByRole('heading', { name: 'Facundo' })).toBeAttached();
+  await expect(page.getByRole('contentinfo').getByText('Giuliana y Facundo.')).toBeAttached();
   await expect(page.getByText(/nos gustan los buenos finales/)).toBeAttached();
 });

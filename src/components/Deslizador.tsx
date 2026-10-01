@@ -37,13 +37,13 @@ export default function Deslizador({ pregunta, ayuda, extremos, remate }: Props)
   return (
     <div className="deslizador w-full max-w-6xl" style={estilo}>
       <div className="d-titulo">
-      <p className="mb-5 text-[0.68rem] tracking-[0.32em] text-tungsteno uppercase">
-        Pregunta 3 de 4 <span className="text-niebla">· opcional</span>
+      <p className="mono mb-5 text-gris">
+        (Pregunta 3 de 3 · opcional)
       </p>
-      <h3 id={idTitulo} className="mb-4 font-titulo text-[clamp(2.6rem,11vw,6rem)] leading-[0.95] tracking-[-0.02em]">
+      <h3 id={idTitulo} className="mb-4 font-titulo text-[clamp(2.6rem,11vw,6rem)] leading-[0.95] tracking-[-0.045em]">
         {pregunta}
       </h3>
-      <p className="max-w-[34ch] text-lg text-pantalla/70">{ayuda}</p>
+      <p className="max-w-[34ch] text-lg text-tinta/70">{ayuda}</p>
       </div>
 
       <div className="vista d-vista" aria-hidden="true">
@@ -51,7 +51,7 @@ export default function Deslizador({ pregunta, ayuda, extremos, remate }: Props)
         <span className="mancha mancha-b" />
         <span className="mancha mancha-c" />
         <div className="relative z-10 flex h-full flex-col justify-between p-5 md:p-8">
-          <div className="flex items-center justify-between text-[0.65rem] tracking-[0.3em] uppercase opacity-70">
+          <div className="mono flex items-center justify-between opacity-70">
             <span>Tu marca</span>
             <span>{grita ? '¡Entrá!' : 'Pasá'}</span>
           </div>
@@ -75,9 +75,9 @@ export default function Deslizador({ pregunta, ayuda, extremos, remate }: Props)
           className="rango w-full"
         />
       </label>
-      <div className="mt-3 flex justify-between text-[0.7rem] tracking-[0.3em] uppercase">
-        <span className={grita ? 'text-niebla' : 'text-pantalla'}>{extremos[0]}</span>
-        <span className={grita ? 'text-pantalla' : 'text-niebla'}>{extremos[1]}</span>
+      <div className="mono mt-3 flex justify-between">
+        <span className={grita ? 'text-gris' : 'text-tinta'}>{extremos[0]}</span>
+        <span className={grita ? 'text-tinta' : 'text-gris'}>{extremos[1]}</span>
       </div>
       </div>
 

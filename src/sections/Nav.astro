@@ -1,14 +1,25 @@
 ---
 import Marca from '../components/Marca.astro';
+import { nav } from '../content/guion';
+
+interface Props {
+  /** En la home los links son anclas; en las otras páginas vuelven a la home */
+  enHome?: boolean;
+}
+const { enHome = true } = Astro.props;
+const raiz = enHome ? '' : '/';
 ---
-<header class="nav fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 md:px-8 md:py-6">
-  <a href="#inicio" class="text-[1.65rem] text-pantalla md:text-3xl" aria-label="Roda, volver al inicio"><Marca /></a>
-  <a
-    href="#final"
-    class="inline-flex min-h-11 items-center rounded-full border border-pantalla/25 px-4 py-2.5 text-[0.7rem] tracking-[0.25em] text-pantalla uppercase backdrop-blur-sm transition-colors duration-500 hover:border-tungsteno hover:text-tungsteno"
-  >Contanos</a>
+<header class="nav fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-4 px-5 py-3 md:px-8 md:py-4">
+  <a href={enHome ? '#inicio' : '/'} class="inline-flex min-h-11 items-center text-[1.5rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio"><Marca /></a>
+  <nav aria-label="Principal" class="mono flex items-center gap-5 md:gap-8">
+    <a href="/proyectos" class="enlace inline-flex min-h-11 items-center">{nav.proyectos}</a>
+    <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center">({nav.atajo})</a>
+  </nav>
 </header>
 
 <style>
-  .nav { background: linear-gradient(to bottom, color-mix(in oklab, var(--color-sala) 85%, transparent), transparent); }
+  /* Se invierte sobre lo que pase por debajo: tinta sobre papel, papel sobre la pantalla negra */
+  .nav { color: var(--color-papel); mix-blend-mode: difference; }
+  .enlace { background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat; transition: background-size 0.5s var(--ease-cine); }
+  .enlace:hover { background-size: 100% 1px; }
 </style>

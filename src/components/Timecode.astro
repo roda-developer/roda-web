@@ -1,10 +1,10 @@
 ---
 ---
 <div
-  class="timecode pointer-events-none fixed top-1/2 right-1 z-40 flex -translate-y-1/2 items-center gap-2 font-texto text-[10px] tracking-[0.2em] text-pantalla/45 tabular-nums md:right-3"
+  class="timecode pointer-events-none fixed top-1/2 right-1 z-40 flex -translate-y-1/2 items-center gap-2 font-mono text-[10px] tracking-[0.12em] text-papel/60 tabular-nums mix-blend-difference md:right-3"
   aria-hidden="true"
 >
-  <span class="size-1.5 rounded-full bg-tungsteno animate-pulse"></span>
+  <span class="size-1.5 rounded-full bg-papel animate-pulse"></span>
   <span data-timecode>00:00:00:00</span>
 </div>
 
@@ -20,7 +20,7 @@
   const pintar = () => {
     pendiente = false;
     const max = document.documentElement.scrollHeight - innerHeight;
-    if (salida) salida.textContent = formatearTimecode(max > 0 ? scrollY / max : 0);
+    if (salida) salida.textContent = formatearTimecode(max > 0 ? scrollY / max : 0, 90);
   };
   addEventListener('scroll', () => {
     if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); }

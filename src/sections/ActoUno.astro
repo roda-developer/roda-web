@@ -1,30 +1,29 @@
 ---
 import { actoUno } from '../content/guion';
 import { SITUACIONES } from '../story/opciones';
-import CartaActo from '../components/CartaActo.astro';
+import Rotulo from '../components/Rotulo.astro';
 import Eleccion from '../components/Eleccion.tsx';
 const g = actoUno.generica;
 ---
 <section id="acto-uno" aria-label="Acto uno: la primera impresión">
-  <CartaActo texto={actoUno.rotulo} />
-  <div class="plano !place-items-start !content-center gap-10">
-    <div class="max-w-4xl space-y-6">
-      <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.02em]" data-revelar>{actoUno.lineas[0]}</p>
-      <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.02em] text-pantalla/55" data-revelar="6">{actoUno.lineas[1]}</p>
+  <div class="plano !place-items-stretch !content-center">
+    <div class="w-full space-y-16 md:space-y-24">
+      <Rotulo rotulo={actoUno.rotulo} />
+      <div class="max-w-4xl space-y-6">
+        <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.045em]" data-revelar>{actoUno.lineas[0]}</p>
+        <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.045em] text-tinta/45" data-revelar="6">{actoUno.lineas[1]}</p>
+      </div>
+      <p class="text-right">
+        <span class="mono block text-gris" data-revelar>{actoUno.golpe[0]}</span>
+        <span class="block font-titulo text-[clamp(6rem,36vw,22rem)] leading-[0.85] italic" data-revelar="8">{actoUno.golpe[1]}</span>
+      </p>
     </div>
   </div>
 
-  <div class="plano">
-    <p class="text-center">
-      <span class="block text-xl tracking-[0.3em] text-niebla uppercase" data-revelar>{actoUno.golpe[0]}</span>
-      <span class="block font-titulo text-[clamp(7rem,42vw,26rem)] leading-[0.85] italic" data-revelar="8">{actoUno.golpe[1]}</span>
-    </p>
-  </div>
-
-  <!-- La web genérica: se apaga mientras el visitante la mira -->
-  <div class="secuencia relative h-[290svh]" data-secuencia-generica>
+  <!-- La web genérica: la única con color hasta ahora, y se apaga mientras el visitante la mira -->
+  <div class="secuencia relative h-[230svh]" data-secuencia-generica>
     <div class="sticky top-0 grid h-svh place-items-center overflow-hidden px-5">
-      <div class="generica w-full max-w-[22rem] overflow-hidden rounded-xl bg-white text-[#333] shadow-2xl md:max-w-2xl" aria-hidden="true">
+      <div class="generica w-full max-w-[22rem] overflow-hidden rounded-xl bg-white text-[#333] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)] md:max-w-2xl" aria-hidden="true">
         <div class="flex items-center justify-between border-b border-black/10 px-4 py-3 text-[11px] md:px-6">
           <span class="font-bold text-[#1e3a8a]">{g.marca}</span>
           <span class="hidden gap-4 text-black/60 md:flex"><span>Inicio</span><span>Nosotros</span><span>Servicios</span><span>Contacto</span></span>
@@ -40,21 +39,21 @@ const g = actoUno.generica;
         </div>
       </div>
 
-      <ul class="pies pointer-events-none absolute inset-x-5 bottom-[12svh] space-y-1 text-center font-titulo text-3xl italic md:text-5xl">
-        {actoUno.pies.map((p) => <li class="pie">{p}</li>)}
+      <ul class="pies mono pointer-events-none absolute inset-x-5 bottom-[10svh] space-y-1 text-center text-[0.8rem] md:text-sm">
+        {actoUno.pies.map((p, i) => <li class="pie"><span class="text-gris">({String(i + 1).padStart(2, '0')})</span> {p}</li>)}
       </ul>
-      <p class="se-va pointer-events-none absolute inset-0 grid place-items-center font-titulo text-[clamp(3.5rem,16vw,12rem)] leading-none">{actoUno.cierre[0]}</p>
+      <p class="se-va pointer-events-none absolute inset-0 grid place-items-center font-titulo text-[clamp(3.5rem,16vw,12rem)] leading-none italic">{actoUno.cierre[0]}</p>
     </div>
   </div>
 
   <div class="plano !place-items-start !content-center">
-    <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.02em]">
-      <span class="block text-pantalla/55" data-revelar>{actoUno.cierre[1]}</span>
-      <span class="block" data-revelar="10">Perdiste un <em class="text-tungsteno">cliente.</em></span>
+    <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em]">
+      <span class="block text-tinta/45" data-revelar>{actoUno.cierre[1]}</span>
+      <span class="block" data-revelar="10">Perdiste un <em>cliente.</em></span>
     </p>
   </div>
 
-  <div class="plano">
+  <div class="plano !pt-0">
     <div data-revelar class="w-full max-w-3xl">
       <Eleccion client:idle clave="situacion" numero={1} pregunta={actoUno.pregunta} opciones={SITUACIONES} />
     </div>
@@ -66,7 +65,7 @@ const g = actoUno.generica;
   @media (prefers-reduced-motion: reduce) {
     .secuencia { height: auto; }
     .secuencia > div { position: relative; height: auto; padding-block: 6rem; display: flex; flex-direction: column; gap: 2rem; }
-    .generica { filter: grayscale(1) brightness(0.8); }
+    .generica { filter: grayscale(1); }
     .pies, .se-va { position: static; }
   }
 </style>
@@ -89,10 +88,10 @@ const g = actoUno.generica;
       .to(q('.pie')[1], { opacity: 1, y: 0, duration: 0.5 })
       .to(q('.boton-generico'), { filter: 'grayscale(1)', duration: 0.8 }, '<')
       .to(q('.pie')[2], { opacity: 1, y: 0, duration: 0.5 })
-      .to(q('.generica'), { filter: 'grayscale(1) brightness(0.35)', duration: 1 })
-      .to(q('.pies'), { opacity: 0, duration: 0.5 })
-      .to(q('.generica'), { scale: 0.6, opacity: 0, y: -60, duration: 1.2 }, '<')
-      .to(q('.se-va'), { opacity: 1, duration: 0.8 })
-      .to({}, { duration: 0.6 });
+      .to(q('.generica'), { filter: 'grayscale(1) opacity(0.5)', duration: 0.8 })
+      .to(q('.pies'), { opacity: 0, duration: 0.4 })
+      .to(q('.generica'), { scale: 0.6, opacity: 0, y: -60, duration: 1 }, '<')
+      .to(q('.se-va'), { opacity: 1, duration: 0.7 })
+      .to({}, { duration: 0.4 });
   }
 </script>

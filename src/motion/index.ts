@@ -20,7 +20,7 @@ export function iniciarMotion() {
   (window as Window & { __rodaMotion?: boolean }).__rodaMotion = true;
 
   if (movimientoPermitido()) {
-    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9 });
+    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, anchors: true });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis?.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -29,7 +29,6 @@ export function iniciarMotion() {
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
     addEventListener('load', () => ScrollTrigger.refresh());
   }
-  seguirLuz();
   return lenis;
 }
 
@@ -58,29 +57,4 @@ function revelarTodo() {
       },
     );
   });
-}
-
-/** La luz sigue al cursor en desktop y al scroll en pantallas táctiles. */
-function seguirLuz() {
-  const raiz = document.documentElement;
-  const fino = window.matchMedia('(pointer: fine)').matches;
-  if (fino) {
-    window.addEventListener(
-      'pointermove',
-      (e) => {
-        raiz.style.setProperty('--luz-x', `${(e.clientX / innerWidth) * 100}%`);
-        raiz.style.setProperty('--luz-y', `${(e.clientY / innerHeight) * 100}%`);
-      },
-      { passive: true },
-    );
-  } else {
-    window.addEventListener(
-      'scroll',
-      () => {
-        const y = 30 + 40 * Math.sin((scrollY / innerHeight) * 0.9);
-        raiz.style.setProperty('--luz-y', `${y}%`);
-      },
-      { passive: true },
-    );
-  }
 }

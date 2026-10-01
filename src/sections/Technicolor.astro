@@ -1,14 +1,29 @@
 ---
 import '@fontsource-variable/bricolage-grotesque';
+import { Image } from 'astro:assets';
 import { technicolor } from '../content/guion';
+import { capturas } from '../content/capturas';
 import Deslizador from '../components/Deslizador.tsx';
+
 const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'];
+
+// La explosión: webs que hicimos, tiradas sobre la mesa. Posición en % del cuadro, giro en grados.
+const tarjetas = [
+  { img: capturas('emme').portada, alt: 'Web de Emme Digital', x: 3, y: 9, giro: -6 },
+  { img: capturas('unik').portada, alt: 'Web de Unik', x: 50, y: 5, giro: 5 },
+  { img: capturas('eber').pantallas[0], alt: 'Web de Eber', x: 28, y: 33, giro: -3 },
+  { img: capturas('unik').pantallas[1] ?? capturas('unik').portada, alt: 'Proyectos de Unik', x: 58, y: 47, giro: 7 },
+  { img: capturas('emme').pantallas[1] ?? capturas('emme').portada, alt: 'Trabajos de Emme Digital', x: 1, y: 54, giro: 4 },
+  { img: capturas('craft').portada, alt: 'Web de Craft Studio', x: 38, y: 66, giro: -5, soloGrande: true },
+  { img: capturas('muda').portada, alt: 'Web de MUDA', x: 71, y: 19, giro: -8, soloGrande: true },
+];
+const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-verde)'];
 ---
 <section id="technicolor" aria-label="Technicolor: a veces más es más">
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
-  <div class="puerta relative h-[200svh]" data-puerta>
+  <div class="puerta relative h-[180svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
-      <div class="color absolute inset-0 grid place-items-center overflow-hidden bg-tc-amarillo px-4 text-sala">
+      <div class="color absolute inset-0 grid place-items-center overflow-hidden bg-tc-amarillo px-4 text-tinta">
         <p class="grito text-center">
           <span class="block">{technicolor.grito[0]}</span>
           <span class="mas block" aria-label="más"><span>M</span><span>Á</span><span>S</span></span>
@@ -22,25 +37,35 @@ const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca
     </div>
   </div>
 
-  <div class="ejemplo bg-tc-rojo text-tc-amarillo">
-    <p class="ej-texto ej-uno" data-escala>Una hamburguesería<br /><span>no susurra.</span></p>
-  </div>
-  <div class="ejemplo bg-tc-azul text-tc-rosa">
-    <p class="ej-texto ej-dos" data-escala>Un festival<br /><em>no pide permiso.</em></p>
-  </div>
-  <div class="ejemplo bg-tc-verde text-sala">
-    <p class="ej-texto ej-tres" data-escala>Una marca de skate no se viste de <s>gris</s>.</p>
+  <!-- La explosión: webs reales que hicimos, mientras pasan los ejemplos -->
+  <div class="explosion relative h-[300svh]" data-explosion>
+    <div class="mesa sticky top-0 h-svh overflow-hidden" style={`background:${fondos[0]}`}>
+      <p class="mono absolute top-20 left-5 z-20 text-papel md:top-24 md:left-12">({technicolor.firma})</p>
+      {tarjetas.map((t) => (
+        <figure
+          class:list={['tarjeta', { 'hidden md:block': t.soloGrande }]}
+          style={`left:${t.x}%;top:${t.y}%;--giro:${t.giro}deg`}
+        >
+          <Image src={t.img} alt={t.alt} widths={[480, 800]} sizes="(min-width: 768px) 30vw, 46vw" loading="lazy" class="block w-full" />
+        </figure>
+      ))}
+      <div class="frases absolute inset-x-5 bottom-[8svh] z-20 md:inset-x-12">
+        {technicolor.ejemplos.map((e) => (
+          <p class="frase"><span>{e}</span></p>
+        ))}
+      </div>
+    </div>
   </div>
 
-  <!-- Corte seco a negro -->
+  <!-- Corte seco a blanco -->
   <div class="plano">
-    <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.02em] [text-wrap:balance]">
-      <span class="block text-pantalla/50">{technicolor.corte[0]}</span>
-      <span class="block">Es saber cuál necesita tu <em class="text-tungsteno">historia.</em></span>
+    <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
+      <span class="block text-tinta/45">{technicolor.corte[0]}</span>
+      <span class="block">Es saber cuál necesita tu <em>historia.</em></span>
     </p>
   </div>
 
-  <div class="plano">
+  <div class="plano !pt-0">
     <Deslizador
       client:idle
       pregunta={technicolor.pregunta}
@@ -83,7 +108,7 @@ const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca
     margin-left: -10%;
   }
   .cinta > div { display: inline-flex; gap: 1.2em; padding-right: 1.2em; }
-  .cinta-a { background: var(--color-tc-rojo); color: var(--color-pantalla); transform: rotate(-4deg); }
+  .cinta-a { background: var(--color-tc-rojo); color: var(--color-papel); transform: rotate(-4deg); }
   .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(3deg) translateY(-0.4em); }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -92,31 +117,45 @@ const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca
   }
   @keyframes corre { to { transform: translateX(-50%); } }
 
-  .ejemplo {
-    min-height: 82svh;
-    display: grid;
-    place-items: center;
-    padding: 5rem 1.25rem;
-    overflow: hidden;
+  /* La mesa de luz: capturas tiradas como fotos sobre un fondo que cambia de color */
+  .tarjeta {
+    position: absolute;
+    width: 46vw;
+    margin: 0;
+    padding: 0.35rem;
+    background: var(--color-papel);
+    box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.55);
+    transform: rotate(var(--giro));
   }
-  .ej-texto {
+  @media (min-width: 768px) { .tarjeta { width: 30vw; padding: 0.5rem; } }
+
+  .frases { display: grid; gap: 0.75rem; }
+  /* Con movimiento, las frases se turnan en el mismo lugar */
+  :global(.animada) .frase { grid-area: 1 / 1; }
+  .frase span {
+    display: inline;
+    padding: 0.05em 0.2em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    background: var(--color-tc-amarillo);
+    color: var(--color-tinta);
     font-family: var(--font-grito);
     font-weight: 800;
-    line-height: 0.88;
+    text-transform: uppercase;
     letter-spacing: -0.04em;
-    text-align: center;
-    font-size: clamp(2.4rem, 11vw, 9.5rem);
-    text-wrap: balance;
+    line-height: 1.05;
+    font-size: clamp(2rem, 8.5vw, 6.5rem);
   }
-  .ej-uno span { display: inline-block; background: var(--color-tc-amarillo); color: var(--color-tc-rojo); padding: 0 0.12em; transform: rotate(-2deg); }
-  .ej-dos { font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; }
-  .ej-dos em { font-family: var(--font-titulo); font-weight: 400; text-transform: none; font-size: 1.25em; letter-spacing: -0.02em; }
-  .ej-tres { text-transform: uppercase; font-size: clamp(2.6rem, 11.5vw, 9rem); }
-  .ej-tres s { text-decoration-thickness: 0.12em; text-decoration-color: var(--color-tc-rosa); color: #8a8a8a; }
+  .frase:nth-child(2) span { background: var(--color-tc-rosa); }
+  .frase:nth-child(3) span { background: var(--color-papel); }
 
   @media (prefers-reduced-motion: reduce) {
     .puerta { height: auto; }
     .puerta > div { position: relative; height: 100svh; }
+    .explosion { height: auto; }
+    .mesa { position: relative; height: auto; min-height: 100svh; padding: 8rem 1.25rem 3rem; display: grid; gap: 2rem; }
+    .tarjeta { position: relative; left: auto !important; top: auto !important; width: 100%; max-width: 32rem; }
+    .frases { position: relative; inset: auto; }
   }
 </style>
 
@@ -131,16 +170,41 @@ const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca
       .fromTo(q('.color'), { clipPath: 'circle(0% at 78% 72%)' }, { clipPath: 'circle(150% at 78% 72%)', ease: 'power2.in', duration: 1 })
       .from(q('.grito > span'), { yPercent: 60, opacity: 0, stagger: 0.12, duration: 0.6, ease: 'expo.out' }, 0.45)
       .from(q('.mas span'), { scale: 0.2, rotate: (i: number) => [-40, 20, 50][i], stagger: 0.08, duration: 0.6, ease: 'expo.out' }, 0.6)
-      .to({}, { duration: 0.4 });
+      .to({}, { duration: 0.3 });
+  }
 
-    gsap.utils.toArray<HTMLElement>('[data-escala]').forEach((el, i) => {
-      gsap.from(el, {
-        scale: 0.72,
-        rotate: i % 2 ? 4 : -4,
-        opacity: 0.2,
-        ease: 'none',
-        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'center center', scrub: 0.5 },
-      });
+  const explosion = document.querySelector<HTMLElement>('[data-explosion]');
+  if (explosion && movimientoPermitido()) {
+    explosion.classList.add('animada');
+    const q = gsap.utils.selector(explosion);
+    const frases = q('.frase');
+    const fondos = ['--color-tc-rojo', '--color-tc-azul', '--color-tc-verde'].map((v) =>
+      getComputedStyle(document.documentElement).getPropertyValue(v).trim(),
+    );
+    gsap.set(frases.slice(1), { autoAlpha: 0, y: 40 });
+
+    const tl = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: { trigger: explosion, start: 'top top', end: 'bottom bottom', scrub: 0.5 },
     });
+    // Las webs caen sobre la mesa, una atrás de otra
+    tl.from(q('.tarjeta'), {
+      scale: 0.3,
+      opacity: 0,
+      yPercent: 80,
+      rotate: (i: number) => (i % 2 ? 30 : -30),
+      stagger: 0.18,
+      duration: 0.5,
+      ease: 'back.out(1.6)',
+    }, 0);
+    // Tres ejemplos, tres colores
+    [1, 2].forEach((n) => {
+      const en = n * 0.75;
+      tl.to(q('.mesa'), { backgroundColor: fondos[n], duration: 0.15 }, en)
+        .to(frases[n - 1], { autoAlpha: 0, y: -40, duration: 0.12 }, en)
+        .to(frases[n], { autoAlpha: 1, y: 0, duration: 0.15 }, en + 0.05);
+    });
+    // Las capturas se mueven distinto mientras bajás: la mesa respira
+    tl.to(q('.tarjeta'), { yPercent: (i: number) => (i % 2 ? -18 : 12), rotate: (i: number) => (i % 2 ? '+=4' : '-=4'), duration: 2.2 }, 0.2);
   }
 </script>

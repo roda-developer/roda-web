@@ -1,15 +1,15 @@
 ---
 import { giro } from '../content/guion';
 ---
-<section id="giro" class="giro relative h-[240svh]" aria-label="El giro" data-giro>
+<section id="giro" class="giro relative h-[180svh]" aria-label="El giro" data-giro>
   <div class="sticky top-0 grid h-svh place-items-center px-5">
     <figure class="text-center">
-      <blockquote class="cita font-titulo text-[clamp(3.6rem,17vw,13rem)] leading-[0.9] tracking-[-0.03em]">
+      <blockquote class="cita font-titulo text-[clamp(3.6rem,17vw,13rem)] leading-[0.9] tracking-[-0.045em]">
         {giro.cita}
       </blockquote>
-      <figcaption class="autor mt-8 text-[0.68rem] tracking-[0.35em] text-niebla uppercase">— {giro.autor}</figcaption>
+      <figcaption class="autor mono mt-8 text-gris">— {giro.autor}</figcaption>
     </figure>
-    <p class="replica absolute right-5 bottom-[14svh] font-titulo text-[clamp(2.6rem,12vw,8rem)] text-tungsteno italic md:right-[8vw]">
+    <p class="replica absolute right-5 bottom-[14svh] font-titulo text-[clamp(2.6rem,12vw,8rem)] italic md:right-[8vw]">
       {giro.replica}
     </p>
   </div>
@@ -35,7 +35,7 @@ import { giro } from '../content/guion';
       .from(q('.cita'), { opacity: 0, filter: 'blur(14px)', duration: 1 })
       .from(q('.autor'), { opacity: 0, duration: 0.5 })
       // El silencio: una pausa larga donde no pasa nada.
-      .to({}, { duration: 1.6 })
+      .to({}, { duration: 1.1 })
       .to(q('.cita, .autor'), { opacity: 0.25, duration: 0.6 })
       .to(q('.replica'), { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 }, '<')
       .to({}, { duration: 0.6 });

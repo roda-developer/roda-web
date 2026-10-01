@@ -1,0 +1,144 @@
+---
+import Base from '../../layouts/Base.astro';
+import Motion from '../../components/Motion.astro';
+import Nav from '../../sections/Nav.astro';
+import Pie from '../../components/Pie.astro';
+import TiraProyectos from '../../components/TiraProyectos.astro';
+import { PROYECTOS } from '../../content/proyectos';
+import { RUBROS } from '../../story/opciones';
+import { creativos, proyectosPagina as t } from '../../content/guion';
+
+// Solo los rubros que tienen algún proyecto, en el orden de la pregunta
+const rubros = RUBROS.filter((r) => PROYECTOS.some((p) => p.rubro === r.id));
+const etiqueta = (id: string) => (id === 'otro' ? 'Otros' : (RUBROS.find((r) => r.id === id)?.label ?? id));
+const total = String(PROYECTOS.length).padStart(2, '0');
+---
+<Base titulo="Proyectos — Roda" descripcion="Webs que filmamos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select y Unik.">
+  <Nav enHome={false} />
+  <main class="relative z-10">
+    <header class="px-5 pt-32 md:px-12 md:pt-40">
+      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3"><span>({total})</span><span>{t.titulo}</span></p>
+      <h1 class="mt-14 max-w-[16ch] font-titulo text-[clamp(3rem,12vw,9rem)] leading-[0.9] tracking-[-0.045em]" data-revelar>
+        {t.titulo}.
+      </h1>
+      <p class="mt-8 max-w-[34ch] text-xl leading-snug text-tinta/70 md:text-2xl" data-revelar="4">{t.bajada}</p>
+    </header>
+
+    <!-- Filtro por rubro: es la pregunta 4 de la historia, y se guarda para el tráiler -->
+    <div class="mt-16 px-5 md:px-12" role="group" aria-labelledby="filtro-titulo">
+      <p id="filtro-titulo" class="mono text-gris">({t.pregunta} — {t.ayuda})</p>
+      <ul class="mono mt-4 flex flex-wrap gap-2">
+        <li><button type="button" class="chip" data-rubro="" aria-pressed="true">{t.todos}</button></li>
+        {rubros.map((r) => (
+          <li><button type="button" class="chip" data-rubro={r.id} aria-pressed="false">{etiqueta(r.id)}</button></li>
+        ))}
+      </ul>
+      <p role="status" class="sr-only" data-estado></p>
+    </div>
+
+    <div class="mt-10">
+      <TiraProyectos />
+    </div>
+
+    <!-- El índice: todo a la vista, como el final de un libro -->
+    <ol class="mt-24 px-5 md:px-12" data-indice>
+      {PROYECTOS.map((p, i) => (
+        <li class="fila" data-rubro={p.rubro} data-orden={i}>
+          <a href={`/proyectos/${p.slug}`} class="fila-link group">
+            <span class="mono text-gris">({String(i + 1).padStart(2, '0')})</span>
+            <span class="fila-titulo">{p.titulo}</span>
+            <span class="fila-logline">{p.logline}</span>
+            <span class="mono hidden text-gris md:block">{etiqueta(p.rubro)}</span>
+            <span class="mono hidden text-gris md:block">{p.anio}</span>
+            <span class="mono transition-transform duration-500 group-hover:translate-x-1" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <!-- Para quien diseña o maneja marcas -->
+    <section class="plano !min-h-0 !place-items-start" aria-labelledby="creativos-titulo">
+      <div class="w-full max-w-5xl">
+        <h2 id="creativos-titulo" class="mono mb-10 border-t border-tinta/15 pt-3 text-gris">({creativos.pregunta})</h2>
+        <p class="font-titulo text-[clamp(2.4rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.045em]">
+          <span class="block text-tinta/45" data-revelar>{creativos.lineas[0]}</span>
+          <span class="block" data-revelar="6">{creativos.lineas[1]}</span>
+          <span class="block italic" data-revelar="10">{creativos.firma}</span>
+        </p>
+        <p class="mt-10 max-w-[42ch] text-lg leading-relaxed text-tinta/70 md:text-xl" data-revelar="4">{creativos.texto}</p>
+      </div>
+    </section>
+
+  </main>
+  <Pie />
+  <Motion />
+</Base>
+
+<style>
+  .chip {
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
+    border-radius: 999px;
+    transition: background-color 0.4s, color 0.4s;
+  }
+  .chip[aria-pressed='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
+
+  [data-indice] { display: flex; flex-direction: column; }
+  .fila { border-top: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); }
+  .fila:last-child { border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); }
+  .fila-link {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr auto;
+    grid-template-areas: 'n titulo flecha' 'n logline flecha';
+    align-items: baseline;
+    column-gap: 0.75rem;
+    padding: 1.1rem 0;
+  }
+  .fila-link > :nth-child(1) { grid-area: n; }
+  .fila-titulo { grid-area: titulo; font-size: clamp(1.6rem, 6vw, 2.6rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+  .fila-logline { grid-area: logline; margin-top: 0.35rem; color: color-mix(in oklab, var(--color-tinta) 60%, transparent); }
+  .fila-link > :last-child { grid-area: flecha; }
+  @media (min-width: 768px) {
+    .fila-link {
+      grid-template-columns: 3.5rem minmax(0, 1.1fr) minmax(0, 1.4fr) 10rem 4rem 1.5rem;
+      grid-template-areas: none;
+    }
+    .fila-link > * { grid-area: auto !important; }
+    .fila-logline { margin-top: 0; }
+  }
+</style>
+
+<script>
+  import { $respuestas, responder } from '../../story/store';
+  import { RUBROS, type RubroId } from '../../story/opciones';
+
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
+  const estado = document.querySelector<HTMLElement>('[data-estado]');
+
+  /** Lo del rubro elegido va primero; el resto conserva su orden. */
+  function aplicar(rubro: RubroId | null) {
+    chips.forEach((c) => c.setAttribute('aria-pressed', String((c.dataset.rubro || null) === rubro)));
+    document.querySelectorAll<HTMLElement>('[data-rubro][data-orden]').forEach((el) => {
+      const cerca = rubro !== null && el.dataset.rubro === rubro;
+      el.style.order = String(cerca ? -1 : 0);
+      el.querySelector<HTMLElement>('.tira-cerca')?.toggleAttribute('hidden', !cerca);
+    });
+    if (estado) {
+      const label = RUBROS.find((r) => r.id === rubro)?.label.toLowerCase();
+      estado.textContent = rubro && label ? `Mostrando primero proyectos de ${label}` : '';
+    }
+  }
+
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      const rubro = (c.dataset.rubro || null) as RubroId | null;
+      responder('rubro', rubro);
+      aplicar(rubro);
+    }),
+  );
+
+  // Si ya respondió el rubro en esta visita, arrancamos con eso
+  const guardado = $respuestas.get().rubro;
+  if (guardado && chips.some((c) => c.dataset.rubro === guardado)) aplicar(guardado);
+</script>

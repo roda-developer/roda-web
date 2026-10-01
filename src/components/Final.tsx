@@ -83,16 +83,16 @@ export default function Final() {
   if (!sinopsis) {
     return (
       <div className="mx-auto w-full max-w-4xl text-center">
-        <h2 className="adapta-titulo font-titulo text-[clamp(3.2rem,15vw,10rem)] leading-[0.9] tracking-[-0.03em]">
+        <h2 className="adapta-titulo font-titulo text-[clamp(3.2rem,15vw,10rem)] leading-[0.9] tracking-[-0.045em]">
           {cierre.sinHistoria.titulo}
         </h2>
         <div className="mt-12 flex flex-col items-center gap-6">
           <a className="cta" href={linkWhatsApp(respuestas, WHATSAPP)} target="_blank" rel="noopener">
             {cierre.sinHistoria.cta}
           </a>
-          <p className="text-niebla">
+          <p className="text-gris">
             {cierre.alternativa}{' '}
-            <a className="text-pantalla underline underline-offset-4" href={linkMail(respuestas, MAIL)}>{MAIL}</a>
+            <a className="text-tinta underline underline-offset-4" href={linkMail(respuestas, MAIL)}>{MAIL}</a>
           </p>
         </div>
       </div>
@@ -102,8 +102,8 @@ export default function Final() {
   const p = preestreno(respuestas);
   return (
     <div className="mx-auto w-full max-w-5xl">
-      <h2 className="mb-10 flex items-center gap-3 text-[0.7rem] tracking-[0.32em] text-[var(--acento)] uppercase">
-        <span className="h-px w-8 bg-current" aria-hidden="true" />
+      <h2 className="mono mb-8 flex items-baseline gap-3 border-t border-tinta/15 pt-3">
+        <span aria-hidden="true">(05)</span>
         {cierre.conHistoria.rotulo}
       </h2>
 
@@ -114,26 +114,26 @@ export default function Final() {
         <div className={`carta carta-vista ${carta === total - 1 ? 'carta-activa' : ''}`}>
           <VistaPrevia p={p} />
         </div>
-        {carta === -1 && <p className="carta carta-activa text-niebla">▶</p>}
+        {carta === -1 && <p className="carta carta-activa text-gris">▶</p>}
       </div>
 
       <div inert={!termino} className={`mt-12 transition-opacity duration-1000 ${termino ? 'opacity-100' : 'opacity-0'}`}>
-        <p className="adapta-titulo max-w-[26ch] font-titulo text-[clamp(1.9rem,7vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
+        <p className="adapta-titulo max-w-[26ch] font-titulo text-[clamp(1.9rem,7vw,3.6rem)] leading-[1.02] tracking-[-0.045em]">
           {sinopsis}
         </p>
-        <p className="mt-10 font-titulo text-[clamp(2.6rem,11vw,6rem)] leading-none text-[var(--acento)] italic">
+        <p className="mt-10 font-titulo text-[clamp(2.6rem,11vw,6rem)] leading-none italic">
           {cierre.conHistoria.pregunta}
         </p>
         <div className="mt-10 flex flex-col items-start gap-6 md:flex-row md:items-center">
           <a className="cta" href={linkWhatsApp(respuestas, WHATSAPP)} target="_blank" rel="noopener">
             {cierre.conHistoria.cta}
           </a>
-          <p className="text-niebla">
+          <p className="text-gris">
             {cierre.alternativa}{' '}
-            <a className="text-pantalla underline underline-offset-4" href={linkMail(respuestas, MAIL)}>{MAIL}</a>
+            <a className="text-tinta underline underline-offset-4" href={linkMail(respuestas, MAIL)}>{MAIL}</a>
           </p>
         </div>
-        <button type="button" onClick={volverAVer} className="mt-8 min-h-11 text-[0.7rem] tracking-[0.3em] text-niebla uppercase hover:text-pantalla">
+        <button type="button" onClick={volverAVer} className="mono mt-8 min-h-11 text-gris hover:text-tinta">
           ↺ Volver a ver el tráiler
         </button>
       </div>

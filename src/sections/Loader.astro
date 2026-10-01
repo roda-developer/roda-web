@@ -1,12 +1,11 @@
 ---
 import { loader } from '../content/guion';
-const palabras = loader.frase.split(' ');
 ---
 <div class="loader" aria-hidden="true">
-  <p class="loader-frase">
-    {palabras.map((p, i) => <span style={`--i:${i}`}>{p}&nbsp;</span>)}
+  <p class="loader-presenta mono">{loader.presenta}</p>
+  <p class="loader-linea">
+    <span class="loader-frase" style={`--n:${loader.frase.length}`}>{loader.frase}</span><span class="loader-cursor"></span>
   </p>
-  <p class="loader-presenta">{loader.presenta}</p>
 </div>
 
 <script is:inline>
@@ -19,7 +18,7 @@ const palabras = loader.frase.split(' ');
 <style>
   .loader { display: none; }
 
-  /* Solo con JS y movimiento permitido. Todo en CSS: se va solo a los 2.5 s aunque falle el JS. */
+  /* Solo con JS y movimiento permitido. Todo en CSS: se va solo antes de los 2,5 s aunque falle el JS. */
   @media (prefers-reduced-motion: no-preference) {
     :global(.js:not(.ya-visto)) .loader {
       position: fixed;
@@ -27,39 +26,49 @@ const palabras = loader.frase.split(' ');
       z-index: 60;
       display: grid;
       place-content: center;
-      gap: 1.5rem;
-      padding: 1.5rem;
-      text-align: center;
-      background: var(--color-sala);
+      justify-items: start;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      background: var(--color-negro);
+      color: var(--color-papel);
       /* Es un título, no una puerta: nunca intercepta toques */
       pointer-events: none;
-      animation: loader-sale 0.8s var(--ease-cine) 1.6s forwards;
+      /* El telón sube y deja ver el papel */
+      animation: loader-sale 0.65s cubic-bezier(0.7, 0, 0.2, 1) 1.7s forwards;
     }
   }
 
-  .loader-frase {
-    font-family: var(--font-titulo);
-    font-style: italic;
-    font-size: clamp(1.9rem, 8vw, 3.6rem);
-    line-height: 1.05;
-    color: var(--color-pantalla);
-  }
-  .loader-frase span {
-    display: inline-block;
-    opacity: 0;
-    filter: blur(8px);
-    animation: palabra 0.9s var(--ease-cine) forwards;
-    animation-delay: calc(0.1s + var(--i) * 0.1s);
-  }
   .loader-presenta {
-    font-size: 0.7rem;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: var(--color-tungsteno);
+    color: var(--color-gris);
     opacity: 0;
-    animation: palabra 0.7s var(--ease-cine) 0.85s forwards;
+    animation: aparece 0.4s linear 0.05s forwards;
   }
 
-  @keyframes palabra { to { opacity: 1; filter: blur(0); } }
+  .loader-linea {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: clamp(1.05rem, 4.4vw, 2.1rem);
+  }
+  /* Máquina de escribir: una letra por paso */
+  .loader-frase {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: escribe 1.05s steps(var(--n)) 0.3s forwards;
+  }
+  .loader-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.15em;
+    margin-left: 0.08em;
+    background: var(--color-papel);
+    animation: titila 0.5s steps(1) infinite;
+  }
+
+  @keyframes escribe { to { width: calc(var(--n) * 1ch); } }
+  @keyframes titila { 50% { opacity: 0; } }
+  @keyframes aparece { to { opacity: 1; } }
   @keyframes loader-sale { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
 </style>

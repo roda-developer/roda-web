@@ -1,21 +1,23 @@
 ---
 import { actoTres } from '../content/guion';
-import CartaActo from '../components/CartaActo.astro';
+import Rotulo from '../components/Rotulo.astro';
 ---
-<section id="acto-tres" aria-label="Acto tres: cómo filmamos tu web">
-  <CartaActo texto={actoTres.rotulo} />
-  <p class="tono-aviso -mt-[30svh] mb-[20svh] px-5 text-center text-sm text-niebla italic" aria-live="polite">
-    <span class="solo-grita">Contado en tu tono: a los gritos.</span>
-    <span class="solo-susurra">Contado en tu tono: en voz baja.</span>
-  </p>
+<section id="acto-tres" class="adapta-fondo" aria-label="Acto tres: cómo trabajamos">
+  <div class="px-5 pt-24 md:px-12 md:pt-32">
+    <Rotulo rotulo={actoTres.rotulo} />
+    <p class="mono mt-3 text-gris" aria-live="polite">
+      <span class="solo-grita">(Contado en tu tono: a los gritos)</span>
+      <span class="solo-susurra">(Contado en tu tono: en voz baja)</span>
+    </p>
+  </div>
 
-  <!-- Mobile: una lista vertical. Desktop: la hoja de rodaje corre de costado. -->
+  <!-- La hoja de rodaje corre de costado mientras se baja -->
   <div class="rodaje relative" data-rodaje>
     <div class="rodaje-marco">
       <ol class="rodaje-pista" data-pista>
         {actoTres.pasos.map((paso, i) => (
           <li class="paso">
-            <p class="paso-numero" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+            <p class="mono text-gris" aria-hidden="true">({String(i + 1).padStart(2, '0')} / {String(actoTres.pasos.length).padStart(2, '0')})</p>
             <h3 class="paso-nombre adapta-titulo">{paso.nombre}</h3>
             <p class="paso-texto">{paso.texto}</p>
           </li>
@@ -30,43 +32,42 @@ import CartaActo from '../components/CartaActo.astro';
     display: grid;
     align-content: center;
     gap: 1.25rem;
-    min-height: 72svh;
-    padding: 4rem 1.25rem;
-    border-top: 1px solid color-mix(in oklab, var(--color-pantalla) 12%, transparent);
-  }
-  .paso-numero {
-    font-family: var(--font-titulo);
-    font-style: italic;
-    font-size: 1.6rem;
-    color: var(--acento);
+    padding: 3.5rem 1.25rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent);
   }
   .paso-nombre {
     font-family: var(--font-titulo);
-    font-size: clamp(3.4rem, 17vw, 10rem);
+    font-size: clamp(2.6rem, 11vw, 8.5rem);
     line-height: 0.9;
     letter-spacing: -0.03em;
   }
   .paso-texto {
     max-width: 30ch;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     line-height: 1.45;
-    color: color-mix(in oklab, var(--color-pantalla) 72%, transparent);
+    color: color-mix(in oklab, var(--color-tinta) 72%, transparent);
   }
 
-  /* Desktop con movimiento: pista horizontal fija mientras se scrollea */
-  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    .rodaje { height: 420svh; }
-    .rodaje-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; }
-    .rodaje-pista { display: flex; gap: 0; padding-left: 8vw; will-change: transform; }
-    .paso {
+  /* Con movimiento: pista horizontal fija mientras se scrollea, en celular y en computadora */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .rodaje { height: 320svh; }
+    :global(.js) .rodaje-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+    :global(.js) .rodaje-pista { display: flex; padding-left: 1.25rem; will-change: transform; }
+    :global(.js) .paso {
       flex: none;
-      width: 62vw;
-      min-height: 0;
-      padding: 0 5vw 0 3rem;
+      width: 82vw;
+      padding: 0 8vw 0 1.25rem;
       border-top: 0;
-      border-left: 1px solid color-mix(in oklab, var(--color-pantalla) 14%, transparent);
+      border-left: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent);
     }
-    .paso-texto { font-size: 1.45rem; }
+  }
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    :global(.js) .rodaje { height: 240svh; }
+    :global(.js) .rodaje-pista { padding-left: 3rem; }
+    :global(.js) .paso { width: 42vw; padding: 0 4vw 0 2rem; }
+    /* Que "Storyboard" entre en su columna sin pisar al vecino */
+    .paso-nombre { font-size: min(8.5rem, 5.4vw); }
+    .paso-texto { font-size: 1.35rem; }
   }
 </style>
 
@@ -76,22 +77,10 @@ import CartaActo from '../components/CartaActo.astro';
   const rodaje = document.querySelector<HTMLElement>('[data-rodaje]');
   const pista = document.querySelector<HTMLElement>('[data-pista]');
   if (rodaje && pista && movimientoPermitido()) {
-    gsap.matchMedia().add('(min-width: 1024px)', () => {
-      gsap.to(pista, {
-        x: () => -(pista.scrollWidth - innerWidth * 0.92),
-        ease: 'none',
-        scrollTrigger: { trigger: rodaje, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true },
-      });
-    });
-    gsap.utils.toArray<HTMLElement>('.paso-nombre').forEach((el) => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 40,
-        filter: 'blur(10px)',
-        duration: 1.2,
-        ease: 'expo.out',
-        scrollTrigger: { trigger: el, start: 'top 90%', horizontal: false, once: true },
-      });
+    gsap.to(pista, {
+      x: () => -(pista.scrollWidth - innerWidth * 0.94),
+      ease: 'none',
+      scrollTrigger: { trigger: rodaje, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true },
     });
   }
 </script>

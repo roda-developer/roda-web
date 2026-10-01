@@ -1,18 +1,19 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-sala: #0a0a0b;
-  --color-pantalla: #edeae4;
-  --color-niebla: #8c8984;
-  --color-tungsteno: #e8a33d;
+  --color-papel: #f3f2ee;
+  --color-tinta: #121212;
+  --color-gris: #77746e;
+  --color-negro: #0a0a0a;
   --color-tc-rojo: #ff2e4d;
   --color-tc-amarillo: #ffd400;
   --color-tc-azul: #2b4bff;
   --color-tc-verde: #00c46a;
   --color-tc-rosa: #ff6fd8;
 
-  --font-titulo: 'Instrument Serif', 'Times New Roman', serif;
-  --font-texto: 'Instrument Sans Variable', system-ui, sans-serif;
+  --font-titulo: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-texto: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
   --font-grito: 'Bricolage Grotesque Variable', 'Arial Black', sans-serif;
 
   --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
@@ -21,32 +22,30 @@
 :root {
   /* 0 = susurra, 1 = grita. La escribe motion/intensidad.ts */
   --intensidad: 0;
-  --luz-x: 50%;
-  --luz-y: 40%;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
-  background: var(--color-sala);
-  color: var(--color-pantalla);
+  background: var(--color-papel);
+  color: var(--color-tinta);
   font-family: var(--font-texto);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--color-sala);
+  background: var(--color-papel);
   min-height: 100dvh;
   overflow-x: clip;
 }
 
 ::selection {
-  background: var(--color-tungsteno);
-  color: var(--color-sala);
+  background: var(--color-tinta);
+  color: var(--color-papel);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-tungsteno);
+  outline: 2px solid currentColor;
   outline-offset: 4px;
 }
 
@@ -63,6 +62,15 @@ body {
 @media (min-width: 768px) {
   .plano { padding: 8rem 3rem; }
 }
+
+/* La voz chica: mono, mayúscula, como las notas al margen de un libro de fotos */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 }
 
 /* Los estados iniciales ocultos solo existen con JS y con movimiento permitido */
@@ -77,13 +85,13 @@ body {
   max-height: 44svh;
   width: 100%;
   overflow: hidden;
-  border-radius: 1.25rem;
-  border: 1px solid color-mix(in oklab, var(--color-pantalla) 14%, transparent);
-  /* Hasta la mitad susurra: oscuro y quieto. Pasada la mitad, el color entra de golpe. */
+  border: 1px solid color-mix(in oklab, var(--color-tinta) 14%, transparent);
+  color: var(--color-tinta);
+  /* Hasta la mitad susurra: papel y quieto. Pasada la mitad, el color entra de golpe. */
   --grito: clamp(0, (var(--v) - 0.45) * 3.5, 1);
-  color: color-mix(in oklab, var(--color-pantalla), var(--color-sala) calc(clamp(0, (var(--v) - 0.5) * 10, 1) * 100%));
-  background: color-mix(in oklab, #141416, var(--color-tc-amarillo) calc(var(--grito) * 100%));
-  transition: background 0.2s linear;
+  background: color-mix(in oklab, #fbfaf7, var(--color-tc-amarillo) calc(var(--grito) * 100%));
+  border-radius: calc(var(--grito) * 1.25rem);
+  transition: background 0.2s linear, border-radius 0.3s;
 }
 @media (min-width: 768px) { .vista { aspect-ratio: 16 / 9; max-height: 56svh; } }
 
@@ -120,11 +128,11 @@ body {
 .rango:active { cursor: grabbing; }
 .rango::-webkit-slider-runnable-track {
   height: 2px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--color-pantalla) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
+  background: linear-gradient(90deg, color-mix(in oklab, var(--color-tinta) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
 }
 .rango::-moz-range-track {
   height: 2px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--color-pantalla) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
+  background: linear-gradient(90deg, color-mix(in oklab, var(--color-tinta) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
 }
 .rango::-webkit-slider-thumb {
   appearance: none;
@@ -132,23 +140,22 @@ body {
   height: 2.75rem;
   margin-top: -1.3rem;
   border-radius: 999px;
-  border: 3px solid var(--color-tungsteno);
-  background: var(--color-sala);
-  box-shadow: 0 0 24px color-mix(in oklab, var(--color-tungsteno) 55%, transparent);
+  border: 2px solid var(--color-tinta);
+  background: var(--color-papel);
 }
 .rango::-moz-range-thumb {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 999px;
-  border: 3px solid var(--color-tungsteno);
-  background: var(--color-sala);
+  border: 2px solid var(--color-tinta);
+  background: var(--color-papel);
 }
 
 /* ── La web que se reescribe ─────────────────────────────────────
-   Todo lo que viene después del deslizador lee el tono elegido. */
-:root { --acento: var(--color-tungsteno); }
-[data-tono='susurra'] { --acento: #c9c4bb; }
-[data-tono='grita'] { --acento: var(--color-tc-rosa); }
+   Por defecto todo es papel y tinta. Si el visitante elige "grita",
+   lo que viene después del deslizador se enciende. */
+:root { --acento: var(--color-tinta); }
+[data-tono='grita'] { --acento: var(--color-tc-rojo); }
 
 .adapta-titulo { transition: color 0.6s; }
 :root[data-tono='grita'] .adapta-titulo {
@@ -159,28 +166,30 @@ body {
   letter-spacing: -0.045em;
   line-height: 0.86;
 }
-:root[data-tono='grita'] .adapta-titulo em { font-style: normal; color: var(--color-tc-amarillo); }
+:root[data-tono='grita'] .adapta-titulo em { font-style: normal; color: var(--color-tc-rojo); }
 :root[data-tono='susurra'] .adapta-titulo { font-style: italic; letter-spacing: -0.01em; }
 
-.adapta-fondo { transition: background-color 0.8s; }
-:root[data-tono='grita'] .adapta-fondo { background-color: var(--color-tc-azul); }
-:root[data-tono='grita'] .adapta-fondo-2 { background-color: var(--color-tc-rojo); }
+.adapta-fondo, .adapta-fondo-2 { transition: background-color 0.8s; }
+:root[data-tono='grita'] .adapta-fondo { background-color: var(--color-tc-amarillo); }
+:root[data-tono='grita'] .adapta-fondo-2 { background-color: var(--color-tc-rosa); }
+
+/* Las capturas de proyectos van en blanco y negro; en color al mirarlas o si la marca grita */
+.foto-tono { filter: grayscale(1) contrast(1.05); transition: filter 0.8s var(--ease-cine); }
+:root[data-tono='grita'] .foto-tono { filter: none; }
 
 .solo-grita, .solo-susurra { display: none; }
 :root[data-tono='grita'] .solo-grita { display: inline; }
 :root[data-tono='susurra'] .solo-susurra { display: inline; }
 
-/* ── Tráiler final ───────────────────────────────────────────── */
+/* ── Tráiler final: una pantalla de cine en medio del papel ─────── */
 .pantalla {
   position: relative;
   aspect-ratio: 4 / 5;
   max-height: 70svh;
   width: 100%;
   overflow: hidden;
-  border-radius: 0.75rem;
-  background: #050506;
-  border: 1px solid color-mix(in oklab, var(--color-pantalla) 12%, transparent);
-  box-shadow: 0 0 120px -40px color-mix(in oklab, var(--acento) 45%, transparent);
+  background: var(--color-negro);
+  color: var(--color-papel);
 }
 @media (min-width: 768px) { .pantalla { aspect-ratio: 16 / 9; } }
 
@@ -218,13 +227,12 @@ body {
   width: min(100%, 22rem);
   height: 100%;
   padding: 1.25rem;
-  border-radius: 1rem;
   text-align: left;
   font-family: var(--font-texto);
   font-size: 1rem;
   letter-spacing: 0;
-  background: #17171a;
-  color: var(--color-pantalla);
+  background: #1a1a1a;
+  color: var(--color-papel);
 }
 @media (min-width: 768px) { .preestreno { width: min(100%, 40rem); } }
 .preestreno-titular { font-family: var(--font-titulo); font-size: clamp(2rem, 8vw, 3.6rem); line-height: 0.95; }
@@ -232,23 +240,24 @@ body {
   display: inline-block;
   padding: 0.7em 1.3em;
   border-radius: 999px;
-  background: var(--color-tungsteno);
-  color: var(--color-sala);
+  background: var(--color-papel);
+  color: var(--color-tinta);
   font-size: 0.85rem;
   font-weight: 600;
 }
 .preestreno-logo { font-family: var(--font-titulo); font-size: 1.1rem; letter-spacing: 0; text-transform: none; }
 
-.preestreno-susurra { background: #ece8e1; color: #1c1b19; }
+.preestreno-susurra { background: var(--color-papel); color: var(--color-tinta); }
 .preestreno-susurra .preestreno-titular { font-style: italic; }
-.preestreno-susurra .preestreno-boton { background: transparent; color: #1c1b19; border: 1px solid currentColor; }
+.preestreno-susurra .preestreno-boton { background: transparent; color: var(--color-tinta); border: 1px solid currentColor; }
 
 .preestreno-grita {
+  border-radius: 1rem;
   background:
     radial-gradient(circle at 85% 15%, var(--color-tc-azul) 0 18%, transparent 18.5%),
     radial-gradient(circle at 10% 95%, var(--color-tc-rosa) 0 28%, transparent 28.5%),
     var(--color-tc-amarillo);
-  color: var(--color-sala);
+  color: var(--color-tinta);
 }
 .preestreno-grita .preestreno-titular {
   font-family: var(--font-grito);
@@ -257,7 +266,7 @@ body {
   letter-spacing: -0.045em;
   line-height: 0.88;
 }
-.preestreno-grita .preestreno-boton { background: var(--color-tc-rojo); color: var(--color-pantalla); }
+.preestreno-grita .preestreno-boton { background: var(--color-tc-rojo); color: var(--color-papel); }
 .preestreno-grita .preestreno-logo { font-family: var(--font-grito); font-weight: 800; }
 
 .cta {
@@ -267,17 +276,18 @@ body {
   min-height: 3.5rem;
   padding: 0 2rem;
   border-radius: 999px;
-  background: var(--acento);
-  color: var(--color-sala);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
+  background: var(--color-tinta);
+  color: var(--color-papel);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  box-shadow: 0 0 40px -8px color-mix(in oklab, var(--acento) 70%, transparent);
-  transition: transform 0.6s var(--ease-cine), box-shadow 0.6s var(--ease-cine);
+  transition: transform 0.6s var(--ease-cine), background-color 0.6s;
 }
-.cta:hover { transform: translateY(-2px); box-shadow: 0 0 60px -6px var(--acento); }
+.cta:hover { transform: translateY(-2px); }
 .cta::after { content: '→'; font-size: 1rem; letter-spacing: 0; }
+:root[data-tono='grita'] .cta { background: var(--color-tc-rojo); }
 
 /* Mobile: pregunta, vista, control, remate. Desktop: la vista a la derecha, todo en un cuadro. */
 .deslizador {
@@ -297,4 +307,10 @@ body {
     align-items: center;
   }
   .d-vista { aspect-ratio: 4 / 5; max-height: 76svh; }
+}
+
+/* Títulos: grotesca apretada, peso medio. El grito los lleva a 800. */
+.font-titulo, .titulo, .paso-nombre, .carta, .preestreno-titular, .marca {
+  font-weight: 500;
+  letter-spacing: -0.045em;
 }

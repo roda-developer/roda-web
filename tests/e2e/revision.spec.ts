@@ -36,20 +36,19 @@ test('el loader no intercepta toques y el título está en su lugar a los 2,5 s'
   expect(loaderVisible).toBe(false);
 });
 
-test('la grilla de pósters no es una región viva; se anuncia una sola línea', async ({ page }) => {
-  await page.goto('/');
-  await hidratada(page);
-  await expect(page.locator('.posters')).not.toHaveAttribute('aria-live', /.*/);
-  const grupo = page.getByRole('group', { name: '¿Qué hacés?' });
-  await grupo.scrollIntoViewIfNeeded();
-  await grupo.getByRole('button', { name: 'Moda' }).click();
+test('la tira de proyectos no es una región viva; se anuncia una sola línea', async ({ page }) => {
+  await page.goto('/proyectos');
+  await expect(page.locator('[data-tira]')).not.toHaveAttribute('aria-live', /.*/);
+  await page.getByRole('button', { name: 'Moda' }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Mostrando primero' })).toContainText('moda');
 });
 
-test('el botón Contanos del nav mide al menos 44 px de alto', async ({ page }) => {
+test('los links del nav miden al menos 44 px de alto', async ({ page }) => {
   await page.goto('/');
-  const caja = await page.locator('header').getByRole('link', { name: 'Contanos' }).boundingBox();
-  expect(caja!.height).toBeGreaterThanOrEqual(44);
+  for (const nombre of [/Ir a mi tráiler/, 'Proyectos']) {
+    const caja = await page.locator('header').getByRole('link', { name: nombre, exact: typeof nombre === 'string' }).boundingBox();
+    expect(caja!.height).toBeGreaterThanOrEqual(44);
+  }
 });
 
 test('la aclaración "Ejemplo ilustrativo" se lee (tamaño y opacidad suficientes) y existe para lectores', async ({ page }) => {

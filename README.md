@@ -2,7 +2,7 @@
 
 Una web que funciona como una película: el visitante scrollea, responde (si quiere) cuatro preguntas y al final ve **el tráiler de su propia web**, con un botón a WhatsApp que ya lleva su brief.
 
-Spec: `docs/superpowers/specs/2026-09-30-roda-web-design.md` · Plan: `docs/superpowers/plans/2026-09-30-roda-web.md`
+Spec: `docs/superpowers/specs/2026-09-30-roda-minimal-design.md` (dirección visual actual; reemplaza a `2026-09-30-roda-web-design.md`) · Plan: `docs/superpowers/plans/2026-09-30-roda-web.md`
 
 ## Cómo correrla
 
@@ -22,19 +22,21 @@ Capturas para revisar diseño: `node scripts/capturas.mjs` (con el preview levan
 | Qué | Dónde |
 |---|---|
 | Todos los textos | `src/content/guion.ts` |
-| Proyectos de "En cartel" | `src/content/proyectos.ts` |
+| Proyectos y sus casos de estudio | `src/content/proyectos.ts` → `/proyectos` y `/proyectos/<slug>` |
+| Capturas de los proyectos | `src/assets/proyectos/<slug>/` — se rehacen con `node scripts/capturar-proyectos.mjs [slug]` |
 | WhatsApp y mail | `src/content/contacto.ts` |
 | Las secciones, en orden | `src/pages/index.astro` → `src/sections/*` |
 | Preguntas, sinopsis y links | `src/story/*` |
 | Movimiento (Lenis + GSAP), timecode, tono | `src/motion/*` |
 | Colores, tipografías y el sistema de tono | `src/styles/global.css` |
 
-**La web que se reescribe:** el deslizador escribe `data-tono="susurra|grita"` y `--intensidad` en `<html>`. Cualquier elemento con `adapta-titulo`, `var(--acento)`, `solo-grita` o `solo-susurra` cambia solo.
+**La web que se reescribe:** el deslizador escribe `data-tono="susurra|grita"` y `--intensidad` en `<html>`. Por defecto todo es papel y tinta; con "grita", cualquier elemento con `adapta-titulo`, `adapta-fondo`, `foto-tono`, `var(--acento)`, `solo-grita` o `solo-susurra` se enciende solo.
 
 ## Contenido pendiente (Giuli y Facu)
 
 - [ ] **WhatsApp y mail reales** en `src/content/contacto.ts`. Hoy son de ejemplo (`5491100000000`, `hola@roda.studio`).
-- [ ] **Proyectos:** confirmar loglines, años y links, y sumar resultados reales (`resultado`) en `src/content/proyectos.ts`. No hay ningún número inventado.
+- [ ] **Casos de estudio:** los textos son un borrador escrito a partir de cada repo. Revisar cliente, desafío, lo que hicimos y rubros, y sumar resultados reales (`resultado`) en `src/content/proyectos.ts`. No hay ningún número inventado.
+- [ ] **Unik y Eber** tienen dominio de Vercel; cuando tengan el propio, cambiar `url` (la dirección nunca se muestra escrita, solo el botón "Ver en vivo").
 - [ ] **Dominio:** revisar si `roda.studio`, `roda.com.ar` o similares están libres.
-- [ ] **Referencias visuales:** si quieren ajustar las tipografías (Instrument Serif / Instrument Sans / Bricolage Grotesque), se cambian en `@theme`, en `global.css`.
+- [ ] **Referencias visuales:** si quieren ajustar las tipografías (Inter Tight / IBM Plex Mono / Bricolage Grotesque para el grito), se cambian en `@theme`, en `global.css`.
 - [ ] **Imagen para compartir** (og:image) para cuando se pase el link por WhatsApp o Instagram.

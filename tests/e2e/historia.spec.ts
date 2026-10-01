@@ -74,19 +74,26 @@ test('después de elegir "grita", el acto III se cuenta con la tipografía del g
   await expect(page.getByText('a los gritos')).toBeVisible();
 });
 
-test('la sección para creativos habla de trabajar al píxel', async ({ page }) => {
-  await page.goto('/');
+test('la sección para creativos vive en proyectos y habla de trabajar al píxel', async ({ page }) => {
+  await page.goto('/proyectos');
   await expect(page.getByRole('heading', { name: '¿Diseñás o manejás marcas?' })).toBeAttached();
   await expect(page.getByText('Al píxel.')).toBeAttached();
 });
 
-test('elegir rubro trae primero los proyectos cercanos', async ({ page }) => {
-  await page.goto('/');
-  await hidratada(page);
-  const grupo = page.getByRole('group', { name: '¿Qué hacés?' });
-  await grupo.scrollIntoViewIfNeeded();
-  await grupo.getByRole('button', { name: 'Salud y bienestar' }).click();
-  const primero = page.locator('[data-poster]').first();
-  await expect(primero.getByRole('heading')).toHaveText('Heacky');
-  await expect(primero.getByText('Cerca de lo tuyo')).toBeVisible();
+test('en proyectos, elegir rubro trae primero lo cercano y queda para el tráiler', async ({ page }) => {
+  await page.goto('/proyectos');
+  const grupo = page.getByRole('group', { name: /¿Qué hacés\?/ });
+  await grupo.getByRole('button', { name: 'Arte y diseño' }).click();
+  await expect(grupo.getByRole('button', { name: 'Arte y diseño' })).toHaveAttribute('aria-pressed', 'true');
+  // El primero a la vista (por orden visual) es de arte y diseño
+  const primero = await page.$$eval('[data-tira] > li', (els) =>
+    els
+      .map((e, i) => ({ orden: Number(getComputedStyle(e).order), i, rubro: (e as HTMLElement).dataset.rubro }))
+      .sort((a, b) => a.orden - b.orden || a.i - b.i)[0].rubro,
+  );
+  expect(primero).toBe('arte');
+  await expect(page.locator('[data-tira] li[data-rubro="arte"]').getByText('Cerca de lo tuyo').first()).toBeVisible();
+  await expect(page.locator('[data-tira] li[data-rubro="moda"]').getByText('Cerca de lo tuyo')).toBeHidden();
+  await expect(page.getByRole('status').filter({ hasText: 'Mostrando primero' })).toContainText('arte y diseño');
+  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('roda:respuestas')!).rubro)).toBe('arte');
 });

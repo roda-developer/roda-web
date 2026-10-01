@@ -3,14 +3,14 @@ import { apertura } from '../content/guion';
 ---
 <section id="inicio" class="plano !place-items-stretch" aria-labelledby="apertura-titulo">
   <div class="flex min-h-[calc(100svh-12rem)] flex-col justify-end gap-10 md:min-h-[calc(100svh-16rem)] md:gap-14">
-    <h1 id="apertura-titulo" class="font-titulo text-[clamp(3.1rem,14.5vw,11.5rem)] leading-[0.88] tracking-[-0.025em]">
+    <h1 id="apertura-titulo" class="font-titulo text-[clamp(3.1rem,14.5vw,11.5rem)] leading-[0.88] tracking-[-0.045em]">
       <span class="mascara block"><span class="entra block" style="--d:0">{apertura.titulo[0]}</span></span>
-      <span class="mascara block"><span class="entra block" style="--d:1">contando una <em class="text-tungsteno">historia.</em></span></span>
+      <span class="mascara block"><span class="entra block" style="--d:1">contando una <em>historia.</em></span></span>
     </h1>
-    <div class="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-      <p class="entra-suave max-w-[22ch] text-xl leading-snug text-pantalla/80 md:text-2xl" style="--d:2">{apertura.bajada}</p>
-      <p class="entra-suave flex items-center gap-4 text-[0.72rem] tracking-[0.28em] text-niebla uppercase" style="--d:3">
-        <span class="guia" aria-hidden="true"></span>{apertura.promesa}
+    <div class="grid gap-8 border-t border-tinta/15 pt-5 md:grid-cols-[1fr_auto] md:items-start">
+      <p class="entra-suave max-w-[22ch] text-xl leading-snug text-tinta/75 md:text-2xl" style="--d:2">{apertura.bajada}</p>
+      <p class="entra-suave mono flex items-start gap-4 text-gris" style="--d:3">
+        <span class="guia" aria-hidden="true"></span><span class="max-w-[24ch]">{apertura.promesa}</span>
       </p>
     </div>
   </div>
@@ -23,12 +23,12 @@ import { apertura } from '../content/guion';
     .entra {
       transform: translateY(105%);
       animation: sube 1.25s var(--ease-cine) forwards;
-      animation-delay: calc(1.75s + var(--d) * 0.12s);
+      animation-delay: calc(1.95s + var(--d) * 0.12s);
     }
     .entra-suave {
       opacity: 0;
       animation: aparece 1.2s var(--ease-cine) forwards;
-      animation-delay: calc(1.95s + var(--d) * 0.14s);
+      animation-delay: calc(2.15s + var(--d) * 0.14s);
     }
     :global(.ya-visto) .entra { animation-delay: calc(0.2s + var(--d) * 0.14s); }
     :global(.ya-visto) .entra-suave { animation-delay: calc(0.35s + var(--d) * 0.16s); }
@@ -39,7 +39,7 @@ import { apertura } from '../content/guion';
     flex: none;
     width: 1px;
     height: 3.25rem;
-    background: linear-gradient(var(--color-tungsteno), transparent);
+    background: linear-gradient(var(--color-tinta), transparent);
     transform-origin: top;
     animation: guia 2.4s var(--ease-cine) infinite;
   }

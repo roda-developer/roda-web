@@ -14,14 +14,13 @@ const { class: clase = '' } = Astro.props;
     letter-spacing: -0.01em;
     line-height: 1;
   }
-  /* La "o" es un lente: un anillo de luz tungsteno */
+  /* La "o" es un lente: un anillo fino del color del texto */
   .marca-o {
     display: inline-block;
     width: 0.5em;
     height: 0.5em;
     margin: 0 0.03em;
-    border: 0.08em solid var(--color-tungsteno);
+    border: 0.075em solid currentColor;
     border-radius: 999px;
-    box-shadow: 0 0 0.35em color-mix(in oklab, var(--color-tungsteno) 45%, transparent);
   }
 </style>

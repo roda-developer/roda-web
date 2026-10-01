@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Haz from '../components/Haz.astro';
 import Timecode from '../components/Timecode.astro';
 import Motion from '../components/Motion.astro';
 import Loader from '../sections/Loader.astro';
@@ -11,14 +10,13 @@ import ActoDos from '../sections/ActoDos.astro';
 import Giro from '../sections/Giro.astro';
 import Technicolor from '../sections/Technicolor.astro';
 import ActoTres from '../sections/ActoTres.astro';
-import Creativos from '../sections/Creativos.astro';
-import Cartel from '../sections/Cartel.astro';
-import Creditos from '../sections/Creditos.astro';
+import Adelanto from '../sections/Adelanto.astro';
 import Cierre from '../sections/Cierre.astro';
+import Pie from '../components/Pie.astro';
+import { cierre } from '../content/guion';
 ---
 <Base>
   <Loader />
-  <Haz />
   <Nav />
   <main id="pelicula" class="relative z-10 min-h-svh">
     <Apertura />
@@ -27,11 +25,16 @@ import Cierre from '../sections/Cierre.astro';
     <Giro />
     <Technicolor />
     <ActoTres />
-    <Creativos />
-    <Cartel />
-    <Creditos />
+    <Adelanto />
     <Cierre />
   </main>
+  <Pie />
+  <!-- Escena post-créditos: para quienes se quedan hasta el final -->
+  <div class="relative z-10 grid min-h-[50svh] place-items-center px-5 pb-16">
+    <p class="max-w-[28ch] text-center text-2xl leading-snug text-tinta/55 italic md:text-3xl" data-revelar="18">
+      {cierre.postCreditos}
+    </p>
+  </div>
   <Timecode />
   <Motion />
 </Base>

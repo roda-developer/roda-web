@@ -5,6 +5,11 @@ export const loader = {
   presenta: 'Roda presenta',
 };
 
+export const nav = {
+  proyectos: 'Proyectos',
+  atajo: 'Ir a mi tráiler',
+};
+
 export const apertura = {
   titulo: ['Tu web ya está', 'contando una historia.'],
   bajada: 'La pregunta es si es la que querés contar.',
@@ -12,7 +17,7 @@ export const apertura = {
 };
 
 export const actoUno = {
-  rotulo: 'I — La primera impresión',
+  rotulo: ['01', 'La primera impresión'],
   lineas: ['Alguien entra a tu web.', 'Tiene tres segundos para decidir si se queda.'],
   golpe: ['No lee.', 'Mira.'],
   generica: {
@@ -27,15 +32,12 @@ export const actoUno = {
 };
 
 export const actoDos = {
-  rotulo: 'II — Lo que hace una buena web',
+  rotulo: ['02', 'Lo que hace una buena web'],
   planos: [
     { titulo: 'Se entiende al instante.', texto: 'Qué hacés, para quién y por qué vos. Antes de que tenga que buscar nada.' },
-    { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va. Esta página pesa menos que una foto de tu celular.' },
+    { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va.' },
     { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.', pregunta: '¿A dónde querés llevar a tu cliente?' },
-    { titulo: 'Se ve increíble en el celular.', texto: 'Ahí está tu cliente, casi siempre. Por eso la diseñamos primero para una mano.' },
-    { titulo: 'Suena a vos.', texto: 'No a la plantilla que usan otras mil marcas.' },
   ],
-  cierre: ['Una buena web no se nota.', 'Se siente.'],
 };
 
 export const giro = {
@@ -47,6 +49,8 @@ export const giro = {
 export const technicolor = {
   grito: ['Y a veces', 'más', 'es más.'],
   ejemplos: ['Una hamburguesería no susurra.', 'Un festival no pide permiso.', 'Una marca de skate no se viste de gris.'],
+  /** Lo que se lee sobre la explosión de webs: son trabajos nuestros */
+  firma: 'Algunas que hicimos nosotros',
   corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu historia.'],
   pregunta: '¿Tu marca susurra o grita?',
   ayuda: 'Deslizá. Todo lo que sigue se va a contar en tu tono.',
@@ -55,7 +59,7 @@ export const technicolor = {
 };
 
 export const actoTres = {
-  rotulo: 'III — Cómo filmamos tu web',
+  rotulo: ['03', 'Cómo trabajamos'],
   pasos: [
     { nombre: 'Guion', texto: 'Entendemos tu marca, tu público y qué tiene que pasar cuando alguien llega.' },
     { nombre: 'Storyboard', texto: 'Diseñamos cada pantalla antes de escribir una línea de código. Ves todo antes de que exista.' },
@@ -65,17 +69,32 @@ export const actoTres = {
   ],
 };
 
+export const adelanto = {
+  rotulo: ['04', 'En cartel'],
+  titulo: 'Historias que ya filmamos.',
+  verTodos: 'Ver todos los proyectos',
+};
+
+export const proyectosPagina = {
+  titulo: 'Proyectos seleccionados',
+  bajada: 'Cada web cuenta una historia distinta. Estas son algunas de las que filmamos.',
+  pregunta: '¿Qué hacés?',
+  ayuda: 'Elegí tu rubro y te mostramos primero lo más cercano a vos.',
+  todos: 'Todos',
+  cerca: 'Cerca de lo tuyo',
+  verCaso: 'Ver el caso',
+  verEnVivo: 'Ver en vivo',
+  siguiente: 'Siguiente proyecto',
+  volver: 'Todos los proyectos',
+  ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
+  secciones: { cliente: 'El cliente', desafio: 'El desafío', solucion: 'Lo que hicimos', destacados: 'Detalles', resultado: 'Resultado' },
+};
+
 export const creativos = {
   pregunta: '¿Diseñás o manejás marcas?',
   lineas: ['Vos ponés la visión.', 'Nosotros la hacemos funcionar.'],
   firma: 'Al píxel.',
   texto: 'Trabajamos con diseñadores y community managers como equipo técnico: respetamos tu diseño, cumplimos tus tiempos y tu cliente queda feliz con los dos.',
-};
-
-export const cartel = {
-  rotulo: 'En cartel',
-  pregunta: '¿Qué hacés?',
-  bajada: 'Elegí tu rubro y te mostramos primero lo más cercano a vos.',
 };
 
 export const creditos = {
@@ -88,8 +107,7 @@ export const creditos = {
   ficha: [
     ['Diseño y desarrollo', 'Giuliana y Facundo'],
     ['Hecha', 'A mano, sin plantillas'],
-    ['Tipografías', 'Instrument Serif · Instrument Sans · Bricolage Grotesque'],
-    ['Duración', 'Tres minutos, más o menos'],
+    ['Duración', 'Noventa segundos, más o menos'],
   ],
 };
 
