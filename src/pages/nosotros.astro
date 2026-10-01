@@ -1,0 +1,209 @@
+---
+import '@fontsource-variable/bricolage-grotesque/standard.css';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Motion from '../components/Motion.astro';
+import Nav from '../sections/Nav.astro';
+import Pie from '../components/Pie.astro';
+import { nosotros as t } from '../content/guion';
+import { WHATSAPP } from '../content/contacto';
+import juntos from '../assets/nosotros/juntos.jpg';
+import viaje from '../assets/nosotros/viaje.jpg';
+
+const fondos = { juntos, viaje } as const;
+
+// El video de fondo es opcional: alcanza con dejar public/nosotros/fondo.mp4 (y, si hay, fondo-vertical.mp4 para el celular).
+// Mientras no esté, la secuencia usa las fotos con un zoom lento.
+const publico = (archivo: string) => existsSync(join(process.cwd(), 'public', 'nosotros', archivo));
+const video = publico('fondo.mp4') ? '/nosotros/fondo.mp4' : null;
+const videoVertical = publico('fondo-vertical.mp4') ? '/nosotros/fondo-vertical.mp4' : null;
+
+const { secuencia } = t;
+const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t.mensaje)}`;
+const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(Boolean).join('. ')).filter(Boolean).join('. ');
+---
+<Base titulo="Nosotros — Roda" descripcion="Roda es Giuliana y Facundo: pareja, socios y desarrolladores web egresados de la UNLaM.">
+  <Nav enHome={false} />
+  <main class="relative z-10">
+    <!-- La secuencia de títulos: el fondo corre como un video y el título cambia de a una palabra al bajar -->
+    <section class="secuencia" data-secuencia data-nav-oscuro aria-labelledby="nosotros-titulo">
+      <h1 id="nosotros-titulo" class="sr-only">{t.grande}: {textoSecuencia}</h1>
+      <div class="escenario">
+        {video
+          ? (
+            <video class="fondo visible" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+              {videoVertical && <source src={videoVertical} type="video/mp4" media="(orientation: portrait)" />}
+              <source src={video} type="video/mp4" />
+            </video>
+          )
+          : Object.entries(fondos).map(([id, foto], i) => (
+            <Image src={foto} alt="" widths={[640, 1280, 1920]} sizes="100vw" loading={i ? 'lazy' : 'eager'} class:list={['fondo', { visible: i === 0 }]} data-fondo={id} aria-hidden="true" />
+          ))}
+        <div class="velo" aria-hidden="true"></div>
+        <p class="presenta" aria-hidden="true">{secuencia.presenta}</p>
+        <div class="cuadros" aria-hidden="true">
+          {secuencia.cuadros.map((c, i) => (
+            <div class:list={['cuadro', { activo: i === 0 }]} data-cuadro={c.fondo}>
+              {c.titulo && <p class="grande">{c.titulo}</p>}
+              {c.bajada && <p class="bajada">{c.bajada}</p>}
+            </div>
+          ))}
+        </div>
+        <p class="legal" aria-hidden="true">{secuencia.legal}</p>
+      </div>
+    </section>
+
+    <!-- Nosotros, como la página de un libro: la palabra gigante y la foto que se le cruza -->
+    <section class="sobre px-5 pt-24 md:px-12 md:pt-32" aria-labelledby="sobre-titulo">
+      <p class="mono text-center">{t.bajo}</p>
+      <h2 id="sobre-titulo" class="palabra" data-revelar>{t.grande}</h2>
+      <div class="cuerpo">
+        <figure class="foto" data-revelar="4">
+          <Image src={juntos} alt={t.foto.alt} widths={[480, 960]} sizes="(min-width: 768px) 40vw, 80vw" />
+        </figure>
+        <div class="textos" data-revelar="6">
+          <p class="text-lg leading-relaxed md:text-xl">{t.bajada}</p>
+          {t.personas.map((p) => (
+            <p class="mt-5 text-lg leading-relaxed text-tinta/75 md:text-xl"><strong class="font-medium text-tinta">{p.nombre}.</strong> {p.texto}</p>
+          ))}
+          <p class="mt-5 text-lg leading-relaxed text-tinta/75 md:text-xl">{t.juntos}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Los créditos, en rosa -->
+    <section class="creditos mt-24 md:mt-32" aria-labelledby="creditos-titulo">
+      <h2 id="creditos-titulo" class="mono text-center">Roda</h2>
+      <dl class="rollo">
+        {t.creditos.map(([rol, quien]) => (
+          <div><dt>{rol}</dt><dd>{quien}</dd></div>
+        ))}
+      </dl>
+      <p class="aviso">{t.aviso}</p>
+    </section>
+
+    <!-- Escena post-créditos -->
+    <section class="flex flex-col items-center gap-10 px-5 py-28 text-center md:py-40" aria-label="Contacto">
+      <p class="font-titulo text-[clamp(2.8rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.045em]">
+        ¿Filmamos<br /><em class="text-tinta/52">la tuya?</em>
+      </p>
+      <a href={link} target="_blank" rel="noopener" class="cta">{t.cta}</a>
+    </section>
+  </main>
+  <Pie />
+  <Motion />
+</Base>
+
+<style>
+  /* ── La secuencia ───────────────────────────────────────────────
+     Sin movimiento (o sin JS) se lee como un afiche: todos los títulos, uno abajo del otro, sobre la foto. */
+  .secuencia { position: relative; background: var(--color-negro); color: var(--color-tc-rosa); }
+  .escenario { position: relative; min-height: 100svh; overflow: hidden; display: grid; place-items: center; padding: 6rem 1.25rem; }
+  .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 48% 40%; opacity: 0; transition: opacity 0.6s; filter: saturate(0.8) contrast(1.05); }
+  .fondo.visible { opacity: 1; }
+  .velo { position: absolute; inset: 0; background: linear-gradient(rgb(8 10 20 / 0.55), rgb(8 10 20 / 0.72)); }
+  .presenta, .legal, .cuadros { position: relative; z-index: 1; }
+  .presenta { position: absolute; top: 5.5rem; inset-inline: 0; text-align: center; font-family: var(--font-titulo); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.5rem); }
+  .legal {
+    position: absolute;
+    bottom: 1.25rem;
+    inset-inline: 1.25rem;
+    text-align: center;
+    font-family: var(--font-grito);
+    font-weight: 700;
+    font-size: clamp(0.55rem, 1.1vw, 0.75rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .cuadros { display: grid; gap: 2.5rem; justify-items: center; text-align: center; }
+  .grande {
+    font-family: var(--font-grito);
+    font-weight: 800;
+    font-stretch: 75%;
+    text-transform: uppercase;
+    font-size: min(24vw, 30svh);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .bajada { max-width: 40ch; margin: 1.25rem auto 0; color: var(--color-papel); font-size: clamp(1rem, 1.8vw, 1.3rem); line-height: 1.4; }
+
+  /* Con movimiento: el escenario queda fijo y los cuadros se turnan, como placas de título */
+  :global(.secuencia-animada) .secuencia { height: calc(var(--cuadros) * 85svh + 100svh); }
+  :global(.secuencia-animada) .escenario { position: sticky; top: 0; height: 100svh; }
+  :global(.secuencia-animada) .cuadros { position: absolute; inset: 0; display: block; }
+  :global(.secuencia-animada) .cuadro {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    padding: 0 1.25rem;
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 0.25s, transform 0.9s var(--ease-cine);
+  }
+  :global(.secuencia-animada) .cuadro.activo { opacity: 1; transform: none; }
+  :global(.secuencia-animada) .fondo { transform: scale(calc(1.04 + var(--avance, 0) * 0.14)); }
+
+  /* ── Nosotros: la palabra gigante y la foto que se le cruza ───── */
+  .sobre .mono { color: var(--color-gris); }
+  .palabra {
+    margin-top: 1rem;
+    font-family: var(--font-grito);
+    font-weight: 800;
+    font-stretch: 75%;
+    text-transform: uppercase;
+    font-size: 25vw;
+    line-height: 0.8;
+    letter-spacing: -0.01em;
+    text-align: center;
+  }
+  .cuerpo { display: grid; gap: 2.5rem; margin-top: -6vw; }
+  .foto { position: relative; z-index: 1; width: 78%; margin: 0; }
+  .foto :global(img) { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 55% 50%; }
+  @media (min-width: 768px) {
+    .cuerpo { grid-template-columns: 0.9fr 1fr; gap: 4rem; align-items: end; padding-inline: 2vw; margin-top: -9vw; }
+    .foto { width: 100%; }
+    .textos { max-width: 38ch; }
+  }
+
+  /* ── Los créditos ─────────────────────────────────────────────── */
+  .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 5rem 1.25rem; }
+  .rollo { display: grid; gap: 0.9rem; max-width: 46rem; margin: 3rem auto 0; }
+  .rollo div { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: baseline; }
+  .rollo dt { text-align: right; font-style: italic; font-size: clamp(0.95rem, 2vw, 1.15rem); }
+  .rollo dd { font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.15rem); }
+  .aviso { margin-top: 3.5rem; text-align: center; font-style: italic; }
+</style>
+
+<script>
+  import { movimientoPermitido } from '../motion/index';
+
+  // La secuencia avanza con el scroll: cada tramo muestra un cuadro y el fondo se acerca de a poco.
+  const seccion = document.querySelector<HTMLElement>('[data-secuencia]');
+  if (seccion && movimientoPermitido()) {
+    const cuadros = [...seccion.querySelectorAll<HTMLElement>('.cuadro')];
+    const fondos = [...seccion.querySelectorAll<HTMLElement>('[data-fondo]')];
+    document.documentElement.classList.add('secuencia-animada');
+    seccion.style.setProperty('--cuadros', String(cuadros.length));
+
+    let pendiente = false;
+    const mover = () => {
+      pendiente = false;
+      const caja = seccion.getBoundingClientRect();
+      const recorrido = Math.max(1, caja.height - innerHeight);
+      const avance = Math.min(1, Math.max(0, -caja.top / recorrido));
+      const actual = Math.min(cuadros.length - 1, Math.floor(avance * cuadros.length));
+      cuadros.forEach((c, i) => c.classList.toggle('activo', i === actual));
+      const fondo = cuadros[actual].dataset.cuadro;
+      fondos.forEach((f) => f.classList.toggle('visible', f.dataset.fondo === fondo));
+      seccion.style.setProperty('--avance', avance.toFixed(3));
+    };
+    addEventListener('scroll', () => {
+      if (!pendiente) { pendiente = true; requestAnimationFrame(mover); }
+    }, { passive: true });
+    mover();
+  }
+</script>

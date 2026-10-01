@@ -7,6 +7,7 @@ export const loader = {
 
 export const nav = {
   proyectos: 'Proyectos',
+  nosotros: 'Nosotros',
   atajo: 'Hablemos',
 };
 
@@ -83,7 +84,7 @@ export const actoTres = {
 };
 
 export const adelanto = {
-  rotulo: ['04', 'En cartel'],
+  rotulo: ['04', 'Proyectos'],
   titulo: 'Historias que convertimos en web.',
   verTodos: 'Ver todos los proyectos',
 };
@@ -105,8 +106,6 @@ export const proyectosPagina = {
 
 export const creativos = {
   pregunta: '¿Diseñás o manejás marcas?',
-  lineas: ['Vos lo diseñás.', 'Nosotros lo hacemos web.'],
-  texto: 'Trabajamos con diseñadores y community managers como equipo técnico: respetamos tu diseño, cumplimos tus tiempos y tu cliente queda feliz con los dos.',
   cta: 'Trabajemos juntos',
   mensaje: '¡Hola! Diseño o manejo marcas y quiero trabajar con Roda.',
 };
@@ -126,7 +125,7 @@ export const creditos = {
 };
 
 export const cierre = {
-  rotulo: ['06', 'El estreno'],
+  rotulo: ['07', 'El estreno'],
   pregunta: '¿Cómo se llama tu marca?',
   ayuda: 'Escribila y mirá tu afiche de estreno.',
   placeholder: 'Tu marca',
@@ -153,7 +152,7 @@ export const cierre = {
 };
 
 export const planes = {
-  rotulo: ['05', 'Cuánto sale'],
+  rotulo: ['06', 'Cuánto sale'],
   titulo: ['Tu historia, tu escala.', 'Elegí cómo contarla.'],
   moneda: 'US$',
   lista: [
@@ -186,4 +185,57 @@ export const planes = {
       'El hosting, donde vive tu web, en la mayoría de los casos es gratis. Si tu proyecto necesita más, te lo decimos antes de arrancar.',
     ],
   },
+};
+
+/** La cartelera: cada tipo de web es una película. El precio lleva a la sección de planes. */
+export const cartelera = {
+  rotulo: ['05', 'Lo que hacemos'],
+  titulo: ['Elegí tu película.', 'Cada web cuenta una historia distinta.'],
+  enCartel: 'En cartel',
+  peliculas: [
+    { id: 'portfolio', articulo: 'El', titulo: 'Portfolio', frase: 'Tu trabajo, en pantalla grande.', creditos: 'Protagonizada por tus mejores trabajos · Sin ruido', precio: 'Desde US$ 300', color: 'rosa' },
+    { id: 'agenda', articulo: 'La', titulo: 'Agenda', frase: 'Turnos sin llamadas a las once de la noche.', creditos: 'Protagonizada por tus turnos · Abierta las 24 horas', precio: 'Adicional US$ 100', color: 'verde' },
+    { id: 'tienda', articulo: 'La', titulo: 'Tienda', frase: 'Vende mientras dormís.', creditos: 'Con tus productos · Y pagos en línea', precio: 'Desde US$ 550', color: 'amarillo' },
+    { id: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'Desde US$ 300', color: 'rojo' },
+    { id: 'panel', articulo: 'El', titulo: 'Panel', frase: 'Tu web, la actualizás vos.', creditos: 'Dirigida por vos · Sin depender de nadie', precio: 'Adicional US$ 150', color: 'azul' },
+  ],
+} as const;
+
+// PENDIENTE (Giuli/Facu): el apellido de Facu y si va "Producida en Buenos Aires".
+export const nosotros = {
+  /** La secuencia de títulos: un cuadro por pantalla, sobre la foto (o el video) de fondo */
+  secuencia: {
+    presenta: 'Roda presenta',
+    legal: '© 2026 Roda · Producida en Buenos Aires · Todos los derechos reservados',
+    cuadros: [
+      { fondo: 'juntos', titulo: '', bajada: '' },
+      { fondo: 'juntos', titulo: 'Somos', bajada: '' },
+      { fondo: 'juntos', titulo: 'Giuliana', bajada: '' },
+      { fondo: 'juntos', titulo: '& Facundo', bajada: '' },
+      { fondo: 'viaje', titulo: 'Viajamos', bajada: 'Nos apasiona viajar. Roda es nuestra forma de juntar el trabajo de nuestros sueños con la vida de nuestros sueños.' },
+      { fondo: 'viaje', titulo: 'Hacemos webs', bajada: 'A mano, sin plantillas. Cuando nos escribís, hablás con quien la hace.' },
+    ],
+  },
+  bajo: 'Pareja, socios y desarrolladores web',
+  grande: 'Nosotros',
+  creditos: [
+    ['Dirección', 'Giuliana Di Rocco · Facundo'],
+    ['Diseño y desarrollo', 'Giuliana Di Rocco · Facundo'],
+    ['Formación', 'Tecnicatura en Desarrollo Web, UNLaM'],
+    ['Inteligencia Artificial', 'Giuliana Di Rocco'],
+    ['Ciberdefensa', 'Los dos, próximamente'],
+    ['Locaciones', 'Donde nos lleve el próximo viaje'],
+    ['Agradecimientos', 'A cada cliente que nos dejó contar su historia'],
+  ],
+  aviso: 'Ninguna web fue hecha con plantillas durante esta producción.',
+  rotulo: ['Nosotros', 'Los créditos'],
+  bajada: 'Somos Giuliana y Facundo: pareja y socios. Estudiamos juntos la Tecnicatura en Desarrollo Web en la UNLaM, y desde ahí hacemos webs a mano, sin plantillas. Cuando nos escribís, hablás con quien la hace.',
+  foto: { alt: 'Giuliana y Facundo, sonriendo bajo un techo de luces doradas', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
+  personas: [
+    { nombre: 'Giuliana Di Rocco', texto: 'Técnica en Desarrollo Web por la UNLaM. Hoy estudia la Licenciatura en Inteligencia Artificial.' },
+    { nombre: 'Facundo', texto: 'Está terminando la Tecnicatura en Desarrollo Web en la UNLaM.' },
+  ],
+  juntos: 'Y los dos estamos por empezar la Licenciatura en Ciberdefensa.',
+  cta: 'Hablemos',
+  mensaje: '¡Hola! Vi quiénes son en la web de Roda y quiero contarles mi historia.',
 };

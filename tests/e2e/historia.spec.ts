@@ -43,10 +43,12 @@ test('el acto II tiene la pregunta 2 y muestra el peso real de la página', asyn
   await expect(page.locator('[data-peso]')).toHaveText(/\d+ KB/);
 });
 
-test('la sección para creativos vive en proyectos y promete respetar el diseño', async ({ page }) => {
+test('para creativos queda una sola línea en proyectos, y no está en la home', async ({ page }) => {
   await page.goto('/proyectos');
-  await expect(page.getByRole('heading', { name: '¿Diseñás o manejás marcas?' })).toBeAttached();
-  await expect(page.getByText('Nosotros lo hacemos web.')).toBeAttached();
+  await expect(page.getByText('¿Diseñás o manejás marcas?')).toBeAttached();
+  await expect(page.getByRole('link', { name: /Trabajemos juntos/ })).toHaveAttribute('href', /wa.me/);
+  await page.goto('/');
+  await expect(page.getByText('¿Diseñás o manejás marcas?')).toHaveCount(0);
 });
 
 test('en proyectos, elegir rubro trae primero lo cercano y queda para el tráiler', async ({ page }) => {
