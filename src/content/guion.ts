@@ -205,15 +205,21 @@ export const cartelera = {
 export const nosotros = {
   /** La secuencia de títulos: un cuadro por pantalla, sobre la foto (o el video) de fondo */
   secuencia: {
-    presenta: 'Roda presenta',
     legal: '© 2026 Roda · Producida en Buenos Aires · Todos los derechos reservados',
+    /**
+     * Como los créditos iniciales de una película: el estudio presenta, la producción, el título
+     * (grueso, de a una palabra) y después los créditos en letra liviana. La dirección va última.
+     * fondo 'negro': la placa va sobre negro, como en el cine; si no, sobre esa foto.
+     */
     cuadros: [
-      { fondo: 'juntos', titulo: '', bajada: '' },
-      { fondo: 'juntos', titulo: 'Somos', bajada: '' },
-      { fondo: 'juntos', titulo: 'Giuliana', bajada: '' },
-      { fondo: 'juntos', titulo: '& Facundo', bajada: '' },
-      { fondo: 'viaje', titulo: 'Viajamos', bajada: 'Nos apasiona viajar. Roda es nuestra forma de juntar el trabajo de nuestros sueños con la vida de nuestros sueños.' },
-      { fondo: 'viaje', titulo: 'Hacemos webs', bajada: 'A mano, sin plantillas. Cuando nos escribís, hablás con quien la hace.' },
+      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta' },
+      { fondo: 'negro', tipo: 'credito', rol: 'Una producción de', nombres: ['Giuliana Di Rocco & Facundo'] },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Una' },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Misma' },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada' },
+      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo'] },
+      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['La UNLaM, Buenos Aires', 'y donde nos lleve el próximo viaje'] },
+      { fondo: 'negro', tipo: 'credito', rol: 'Escrita y dirigida por', nombres: ['Giuliana Di Rocco & Facundo'] },
     ],
   },
   bajo: 'Pareja, socios y desarrolladores web',

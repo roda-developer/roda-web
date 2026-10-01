@@ -22,7 +22,9 @@ const videoVertical = publico('fondo-vertical.mp4') ? '/nosotros/fondo-vertical.
 
 const { secuencia } = t;
 const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t.mensaje)}`;
-const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(Boolean).join('. ')).filter(Boolean).join('. ');
+const textoSecuencia = secuencia.cuadros
+  .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.texto))
+  .join('. ');
 ---
 <Base titulo="Nosotros — Roda" descripcion="Roda es Giuliana y Facundo: pareja, socios y desarrolladores web egresados de la UNLaM.">
   <Nav enHome={false} />
@@ -34,21 +36,26 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
         <div class="pantalla">
         {video
           ? (
-            <video class="fondo visible" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+            <video class="fondo" data-fondo="video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
               {videoVertical && <source src={videoVertical} type="video/mp4" media="(orientation: portrait)" />}
               <source src={video} type="video/mp4" />
             </video>
           )
-          : Object.entries(fondos).map(([id, foto], i) => (
-            <Image src={foto} alt="" widths={[640, 1280, 1920]} sizes="100vw" loading={i ? 'lazy' : 'eager'} class:list={['fondo', { visible: i === 0 }]} data-fondo={id} aria-hidden="true" />
+          : Object.entries(fondos).map(([id, foto]) => (
+            <Image src={foto} alt="" widths={[640, 1280, 1920]} sizes="100vw" loading="eager" class:list={['fondo', { visible: secuencia.cuadros[0].fondo === id }]} data-fondo={id} aria-hidden="true" />
           ))}
         <div class="velo" aria-hidden="true"></div>
-        <p class="presenta" aria-hidden="true">{secuencia.presenta}</p>
         <div class="cuadros" aria-hidden="true">
           {secuencia.cuadros.map((c, i) => (
-            <div class:list={['cuadro', { activo: i === 0 }]} data-cuadro={c.fondo}>
-              {c.titulo && <p class="grande">{c.titulo}</p>}
-              {c.bajada && <p class="bajada">{c.bajada}</p>}
+            <div class:list={['cuadro', `cuadro-${c.tipo}`, { activo: i === 0 }]} data-cuadro={c.fondo}>
+              {c.tipo === 'presenta' && <p class="presenta">{c.texto}</p>}
+              {c.tipo === 'titulo' && <p class="grande">{c.texto}</p>}
+              {c.tipo === 'credito' && (
+                <>
+                  <p class="rol">{c.rol}</p>
+                  {c.nombres.map((n) => <p class="nombre">{n}</p>)}
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -108,11 +115,20 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
   .pantalla { position: relative; overflow: hidden; display: grid; place-items: center; padding: 5rem 1.25rem; background: var(--color-negro); }
   .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 48% 40%; opacity: 0; transition: opacity 0.6s; filter: saturate(0.8) contrast(1.05); }
   .fondo.visible { opacity: 1; }
+  /* Sin movimiento, todos los títulos van juntos sobre la primera imagen */
+  :global(html:not(.secuencia-animada)) .fondo:is([data-fondo='juntos'], [data-fondo='video']) { opacity: 1; }
+  /* Las placas sobre negro van sin el velo: negro puro */
+  .pantalla:has(.fondo.visible) .velo { opacity: 1; }
+  .velo { opacity: 0; transition: opacity 0.6s; }
   /* En la foto del barco están los dos a la derecha: en pantalla vertical se corre el encuadre */
   @media (orientation: portrait) { .fondo[data-fondo='viaje'] { object-position: 64% 45%; } }
   .velo { position: absolute; inset: 0; background: linear-gradient(rgb(8 10 20 / 0.55), rgb(8 10 20 / 0.72)); }
-  .presenta, .legal, .cuadros { position: relative; z-index: 1; }
-  .presenta { position: absolute; top: 1.5rem; inset-inline: 0; text-align: center; font-family: var(--font-titulo); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.5rem); }
+  .legal, .cuadros { position: relative; z-index: 1; }
+  /* Las placas livianas: el estudio, la producción y los créditos, en papel */
+  .presenta { font-family: var(--font-titulo); font-style: italic; font-weight: 300; font-size: clamp(1.4rem, 3.4vw, 2.6rem); letter-spacing: -0.02em; color: var(--color-papel); }
+  .rol { font-family: var(--font-titulo); font-style: italic; font-weight: 300; font-size: clamp(1rem, 2vw, 1.4rem); color: color-mix(in oklab, var(--color-papel) 80%, transparent); }
+  .nombre { margin-top: 0.15em; font-family: var(--font-titulo); font-weight: 300; font-size: clamp(2rem, 6vw, 4.8rem); line-height: 1; letter-spacing: -0.04em; color: var(--color-papel); text-wrap: balance; }
+  .rol + .nombre { margin-top: 0.5em; }
   .legal {
     position: absolute;
     bottom: 1.25rem;
@@ -130,12 +146,11 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
     font-weight: 800;
     font-stretch: 75%;
     text-transform: uppercase;
-    font-size: min(21vw, 26svh);
+    font-size: min(28vw, 40svh);
     line-height: 0.82;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
-  .bajada { max-width: 40ch; margin: 1.25rem auto 0; color: var(--color-papel); font-size: clamp(1rem, 1.8vw, 1.3rem); line-height: 1.4; }
 
   /* Con movimiento: el escenario queda fijo y los cuadros se turnan, como placas de título */
   :global(.secuencia-animada) .secuencia { height: calc(var(--cuadros) * 85svh + 100svh); }
@@ -206,7 +221,8 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
       const actual = Math.min(cuadros.length - 1, Math.floor(avance * cuadros.length));
       cuadros.forEach((c, i) => c.classList.toggle('activo', i === actual));
       const fondo = cuadros[actual].dataset.cuadro;
-      fondos.forEach((f) => f.classList.toggle('visible', f.dataset.fondo === fondo));
+      // El video (si hay) corre en todas las placas con imagen; las de 'negro' van sobre negro puro
+      fondos.forEach((f) => f.classList.toggle('visible', f.dataset.fondo === fondo || (f.dataset.fondo === 'video' && fondo !== 'negro')));
       seccion.style.setProperty('--avance', avance.toFixed(3));
     };
     addEventListener('scroll', () => {
