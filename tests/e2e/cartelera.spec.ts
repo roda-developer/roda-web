@@ -29,7 +29,7 @@ test('Nosotros es una página aparte, con la foto, los créditos y contacto', as
   await page.goto('/');
   await page.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Nosotros' }).click();
   await page.waitForURL('**/nosotros');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Roda presenta. Una. Misma. Mirada. Protagonizada por Giuliana Di Rocco Facundo');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Roda presenta. Una Misma Mirada. Protagonizada por Giuliana Di Rocco Facundo Thibaut');
   await expect(page.getByText('Giuliana Di Rocco.')).toBeVisible();
   await expect(page.getByRole('img', { name: /techo de luces doradas/ })).toBeVisible();
   await expect(page.getByText(/Ninguna web fue hecha con plantillas/)).toBeVisible();
