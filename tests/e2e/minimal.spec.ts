@@ -18,8 +18,8 @@ test('el loader escribe la frase sobre negro y deja la página en papel', async 
   }));
   expect(nombre).toBe('escribe');
   expect(pasos).toContain(`steps(${letras}`);
-  // Se va solo, antes de los 2,5 s
-  await expect.poll(() => loader.evaluate((el) => getComputedStyle(el).visibility), { timeout: 3000 }).toBe('hidden');
+  // Se va solo, a los 4 s más o menos
+  await expect.poll(() => loader.evaluate((el) => getComputedStyle(el).visibility), { timeout: 5500 }).toBe('hidden');
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(243, 242, 238)');
 });
 

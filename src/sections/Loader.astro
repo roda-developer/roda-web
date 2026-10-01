@@ -22,7 +22,7 @@ import { loader } from '../content/guion';
 <style>
   .loader { display: none; }
 
-  /* Solo con JS y movimiento permitido. Todo en CSS: se va solo antes de los 2,5 s aunque falle el JS. */
+  /* Solo con JS y movimiento permitido. Todo en CSS: se va solo a los 4 s aunque falle el JS. */
   @media (prefers-reduced-motion: no-preference) {
     :global(.js:not(.ya-visto)) .loader {
       position: fixed;
@@ -38,7 +38,7 @@ import { loader } from '../content/guion';
       /* Es un título, no una puerta: nunca intercepta toques */
       pointer-events: none;
       /* El telón sube y deja ver el papel */
-      animation: loader-sale 0.65s cubic-bezier(0.7, 0, 0.2, 1) 1.7s forwards;
+      animation: loader-sale 0.75s cubic-bezier(0.7, 0, 0.2, 1) 3.3s forwards;
     }
   }
 
@@ -60,7 +60,7 @@ import { loader } from '../content/guion';
     overflow: hidden;
     white-space: nowrap;
     width: 0;
-    animation: escribe 1.05s steps(var(--n)) 0.3s forwards;
+    animation: escribe 1.9s steps(var(--n)) 0.4s forwards;
   }
   .loader-cursor {
     display: inline-block;

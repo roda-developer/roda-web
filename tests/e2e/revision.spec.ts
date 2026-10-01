@@ -20,7 +20,7 @@ test('si cambia una respuesta después del tráiler, la pantalla no queda en neg
   await expect(page.locator('.pantalla .carta-activa')).toHaveCount(1);
 });
 
-test('el loader no intercepta toques y el título está en su lugar a los 2,5 s', async ({ page }) => {
+test('el loader no intercepta toques y se va solo a los 4 s', async ({ page }) => {
   await page.goto('/');
   await page.waitForTimeout(600);
   const alCentro = await page.evaluate(() => {
@@ -28,7 +28,7 @@ test('el loader no intercepta toques y el título está en su lugar a los 2,5 s'
     return el?.closest('.loader') ? 'loader' : 'pagina';
   });
   expect(alCentro).toBe('pagina');
-  await page.waitForTimeout(1900);
+  await page.waitForTimeout(3700);
   const loaderVisible = await page.evaluate(() => {
     const l = document.querySelector('.loader');
     return l ? getComputedStyle(l).visibility !== 'hidden' && getComputedStyle(l).display !== 'none' : false;
