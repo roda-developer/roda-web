@@ -13,24 +13,40 @@ const raiz = enHome ? '' : '/';
   <a href={enHome ? '#inicio' : '/'} class="inline-flex min-h-11 items-center text-[1.5rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio"><Marca /></a>
   <nav aria-label="Principal" class="mono flex items-center gap-5 md:gap-8">
     <a href="/proyectos" class="enlace inline-flex min-h-11 items-center">{nav.proyectos}</a>
-    <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center">({nav.atajo})</a>
+    <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center" data-atajo data-con={nav.atajo}>({nav.atajoSinRespuestas})</a>
   </nav>
 </header>
 
 <style>
   /* Tinta sobre el papel y los colores; papel cuando pasa por encima de algo oscuro (la pantalla del tráiler) */
-  .nav { color: var(--color-tinta); transition: color 0.4s; }
+  .nav { color: var(--color-tinta); transition: color 0.4s, transform 0.5s var(--ease-cine); }
+  /* Al bajar se esconde para no pisar los títulos; al subir (o con el teclado adentro) vuelve */
+  .nav.escondida:not(:focus-within) { transform: translateY(-100%); }
+  @media (prefers-reduced-motion: reduce) { .nav { transition: color 0.4s; } }
   .nav.sobre-oscuro { color: var(--color-papel); }
   .enlace { background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat; transition: background-size 0.5s var(--ease-cine); }
   .enlace:hover { background-size: 100% 1px; }
 </style>
 
 <script>
+  import { $respuestas } from '../story/store';
+  import { fragmentosSinopsis } from '../story/sinopsis';
+
+  // Con alguna respuesta, el atajo promete ver la web; sin respuestas, invita a contar la historia.
+  const atajo = document.querySelector<HTMLElement>('[data-atajo]');
+  if (atajo) {
+    const sin = atajo.textContent;
+    $respuestas.subscribe((r) => {
+      atajo.textContent = fragmentosSinopsis(r).length ? `(${atajo.dataset.con})` : sin;
+    });
+  }
+
   // Cuando algo oscuro (data-nav-oscuro, la pantalla del tráiler) pasa por debajo del menú, el menú pasa a papel.
   // Se busca en cada scroll porque la pantalla aparece recién cuando carga el tráiler.
   const nav = document.querySelector<HTMLElement>('.nav');
   if (nav) {
     let pendiente = false;
+    let ultimoY = scrollY;
     const revisar = () => {
       pendiente = false;
       const alto = nav.offsetHeight;
@@ -39,6 +55,12 @@ const raiz = enHome ? '' : '/';
         return r.top < alto && r.bottom > alto / 2;
       });
       nav.classList.toggle('sobre-oscuro', encima);
+      // Bajando se esconde; subiendo vuelve. Arriba de todo, siempre a la vista.
+      const y = scrollY;
+      if (Math.abs(y - ultimoY) > 8) {
+        nav.classList.toggle('escondida', y > ultimoY && y > alto * 2);
+        ultimoY = y;
+      }
     };
     addEventListener('scroll', () => {
       if (!pendiente) { pendiente = true; requestAnimationFrame(revisar); }

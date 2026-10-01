@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../sections/Nav.astro';
+---
+<!-- La escena que se cortó en el montaje -->
+<Base titulo="Página no encontrada — Roda">
+  <Nav enHome={false} />
+  <main class="plano">
+    <div class="w-full max-w-5xl">
+      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3"><span>(404)</span><span>Escena eliminada</span></p>
+      <h1 class="mt-12 font-titulo text-[clamp(2.8rem,11vw,7rem)] leading-[0.92] tracking-[-0.045em]">
+        <span class="block text-tinta/52">Esta parte</span>
+        <span class="block">no quedó en el <em>corte final.</em></span>
+      </h1>
+      <a href="/" class="cta mt-12">Volver al inicio</a>
+    </div>
+  </main>
+</Base>

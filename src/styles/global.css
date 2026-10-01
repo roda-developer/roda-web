@@ -3,7 +3,7 @@
 @theme {
   --color-papel: #f3f2ee;
   --color-tinta: #121212;
-  --color-gris: #77746e;
+  --color-gris: #6b6862;
   --color-negro: #0a0a0a;
   --color-tc-rojo: #ff2e4d;
   --color-tc-amarillo: #ffd400;
@@ -305,4 +305,22 @@ body {
 .font-titulo, .titulo, .paso-nombre, .carta, .preestreno-titular, .marca {
   font-weight: 500;
   letter-spacing: -0.045em;
+}
+
+/* La elección: el punto nace chiquito, se pasa de tamaño y se pinta de rosa; una onda sale una vez. */
+.marca-eleccion .punto { background: var(--color-tinta); transform: scale(0); transition: transform 0.35s var(--ease-cine); }
+.marca-eleccion .onda { border: 2px solid var(--color-tc-rosa); opacity: 0; pointer-events: none; }
+.marca-eleccion.activa .punto { background: var(--color-tc-rosa); transform: scale(1); animation: punto-nace 0.7s var(--ease-cine); }
+.marca-eleccion.activa .onda { animation: onda 0.8s ease-out; }
+@keyframes punto-nace {
+  0% { transform: scale(0); background: var(--color-tinta); }
+  55% { transform: scale(1.35); background: var(--color-tc-rosa); }
+  100% { transform: scale(1); background: var(--color-tc-rosa); }
+}
+@keyframes onda {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marca-eleccion.activa .punto, .marca-eleccion.activa .onda { animation: none; }
 }

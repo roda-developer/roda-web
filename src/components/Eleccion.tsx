@@ -56,11 +56,12 @@ export default function Eleccion({ clave, pregunta, numero, total = 3, opciones,
                 </span>
                 <span
                   aria-hidden="true"
-                  className={`grid size-5 flex-none place-items-center rounded-full border transition-colors duration-500 ${
-                    activa ? 'border-tinta' : 'border-tinta/30'
+                  className={`marca-eleccion relative grid size-6 flex-none place-items-center rounded-full border transition-colors duration-500 ${
+                    activa ? 'activa border-tinta' : 'border-tinta/30 group-hover:border-tinta/60'
                   }`}
                 >
-                  <span className={`size-2.5 rounded-full bg-tinta transition-transform duration-500 ${activa ? 'scale-100' : 'scale-0'}`} />
+                  <span className="punto size-4 rounded-full" />
+                  <span className="onda absolute inset-0 rounded-full" />
                 </span>
               </button>
             </li>

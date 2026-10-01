@@ -7,13 +7,14 @@ export const loader = {
 
 export const nav = {
   proyectos: 'Proyectos',
+  /** El atajo al final: sin respuestas todavía no hay web que ver */
   atajo: 'Ver mi web',
+  atajoSinRespuestas: 'Contanos tu historia',
 };
 
 export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
   bajada: 'Falta contarla donde te buscan.',
-  promesa: 'Quedate hasta el final: vas a ver cómo podría verse tu web.',
 };
 
 export const actoUno = {
@@ -110,9 +111,10 @@ export const proyectosPagina = {
 
 export const creativos = {
   pregunta: '¿Diseñás o manejás marcas?',
-  lineas: ['Vos ponés la visión.', 'Nosotros la hacemos funcionar.'],
-  firma: 'Al píxel.',
+  lineas: ['Vos lo diseñás.', 'Nosotros lo hacemos web.'],
   texto: 'Trabajamos con diseñadores y community managers como equipo técnico: respetamos tu diseño, cumplimos tus tiempos y tu cliente queda feliz con los dos.',
+  cta: 'Trabajemos juntos',
+  mensaje: '¡Hola! Diseño o manejo marcas y quiero trabajar con Roda.',
 };
 
 export const creditos = {

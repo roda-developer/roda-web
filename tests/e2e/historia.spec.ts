@@ -74,10 +74,10 @@ test('después de elegir "grita", el acto III se cuenta con la tipografía del g
   await expect(page.getByText('a los gritos')).toBeVisible();
 });
 
-test('la sección para creativos vive en proyectos y habla de trabajar al píxel', async ({ page }) => {
+test('la sección para creativos vive en proyectos y promete respetar el diseño', async ({ page }) => {
   await page.goto('/proyectos');
   await expect(page.getByRole('heading', { name: '¿Diseñás o manejás marcas?' })).toBeAttached();
-  await expect(page.getByText('Al píxel.')).toBeAttached();
+  await expect(page.getByText('Nosotros lo hacemos web.')).toBeAttached();
 });
 
 test('en proyectos, elegir rubro trae primero lo cercano y queda para el tráiler', async ({ page }) => {

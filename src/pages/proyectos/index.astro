@@ -6,14 +6,15 @@ import Pie from '../../components/Pie.astro';
 import TiraProyectos from '../../components/TiraProyectos.astro';
 import { PROYECTOS } from '../../content/proyectos';
 import { RUBROS } from '../../story/opciones';
-import { creativos, proyectosPagina as t } from '../../content/guion';
+import Creativos from '../../components/Creativos.astro';
+import { proyectosPagina as t } from '../../content/guion';
 
 // Solo los rubros que tienen algún proyecto, en el orden de la pregunta
 const rubros = RUBROS.filter((r) => PROYECTOS.some((p) => p.rubro === r.id));
 const etiqueta = (id: string) => (id === 'otro' ? 'Otros' : (RUBROS.find((r) => r.id === id)?.label ?? id));
 const total = String(PROYECTOS.length).padStart(2, '0');
 ---
-<Base titulo="Proyectos — Roda" descripcion="Webs que filmamos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select y Unik.">
+<Base titulo="Proyectos — Roda" descripcion="Webs que hicimos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select y Unik.">
   <Nav enHome={false} />
   <main class="relative z-10">
     <header class="px-5 pt-32 md:px-12 md:pt-40">
@@ -56,18 +57,7 @@ const total = String(PROYECTOS.length).padStart(2, '0');
       ))}
     </ol>
 
-    <!-- Para quien diseña o maneja marcas -->
-    <section class="plano !min-h-0 !place-items-start" aria-labelledby="creativos-titulo">
-      <div class="w-full max-w-5xl">
-        <h2 id="creativos-titulo" class="mono mb-10 border-t border-tinta/15 pt-3 text-gris">({creativos.pregunta})</h2>
-        <p class="font-titulo text-[clamp(2.4rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.045em]">
-          <span class="block text-tinta/45" data-revelar>{creativos.lineas[0]}</span>
-          <span class="block" data-revelar="6">{creativos.lineas[1]}</span>
-          <span class="block italic" data-revelar="10">{creativos.firma}</span>
-        </p>
-        <p class="mt-10 max-w-[42ch] text-lg leading-relaxed text-tinta/70 md:text-xl" data-revelar="4">{creativos.texto}</p>
-      </div>
-    </section>
+    <Creativos />
 
   </main>
   <Pie />

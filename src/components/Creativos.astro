@@ -1,0 +1,18 @@
+---
+import { creativos } from '../content/guion';
+import { WHATSAPP } from '../content/contacto';
+
+const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(creativos.mensaje)}`;
+---
+<!-- Para quien diseña o maneja marcas: socios que nos traen clientes -->
+<section class="plano !min-h-0 !place-items-start" aria-labelledby="creativos-titulo">
+  <div class="w-full max-w-5xl">
+    <h2 id="creativos-titulo" class="mono mb-10 border-t border-tinta/15 pt-3 text-gris">({creativos.pregunta})</h2>
+    <p class="font-titulo text-[clamp(2.4rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.045em]">
+      <span class="block text-tinta/52" data-revelar>{creativos.lineas[0]}</span>
+      <span class="block" data-revelar="6">{creativos.lineas[1]}</span>
+    </p>
+    <p class="mt-10 max-w-[42ch] text-lg leading-relaxed text-tinta/70 md:text-xl" data-revelar="4">{creativos.texto}</p>
+    <a href={link} target="_blank" rel="noopener" class="enlace mt-8 inline-flex min-h-11 items-center underline underline-offset-4 md:text-lg" data-revelar="6">{creativos.cta}</a>
+  </div>
+</section>
