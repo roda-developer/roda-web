@@ -68,7 +68,7 @@ test('después de elegir "grita", el acto III se cuenta con la tipografía del g
   await deslizador.scrollIntoViewIfNeeded();
   await deslizador.focus();
   await page.keyboard.press('End');
-  const paso = page.getByRole('heading', { name: 'Guion', exact: true });
+  const paso = page.getByRole('heading', { name: 'Te escuchamos.', exact: true });
   await paso.scrollIntoViewIfNeeded();
   expect(await paso.evaluate((el) => getComputedStyle(el).fontFamily)).toContain('Bricolage');
   await expect(page.getByText('a los gritos')).toBeVisible();

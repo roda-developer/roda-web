@@ -1,23 +1,32 @@
 ---
 import { actoTres } from '../content/guion';
 import Rotulo from '../components/Rotulo.astro';
+const total = String(actoTres.pasos.length).padStart(2, '0');
 ---
-<section id="acto-tres" class="adapta-fondo" aria-label="Acto tres: cómo trabajamos">
-  <div class="px-5 pt-24 md:px-12 md:pt-32">
-    <Rotulo rotulo={actoTres.rotulo} />
-    <p class="mono mt-3 text-gris" aria-live="polite">
-      <span class="solo-grita">(Contado en tu tono: a los gritos)</span>
-      <span class="solo-susurra">(Contado en tu tono: en voz baja)</span>
-    </p>
-  </div>
-
-  <!-- La hoja de rodaje corre de costado mientras se baja -->
+<section id="acto-tres" class="adapta-fondo" aria-labelledby="acto-tres-titulo">
+  <!-- Mientras la tira corre, el contexto queda fijo arriba: siempre se sabe de qué se trata -->
   <div class="rodaje relative" data-rodaje>
     <div class="rodaje-marco">
+      <header class="rodaje-cabeza px-5 md:px-12">
+        <Rotulo rotulo={actoTres.rotulo} />
+        <h2 id="acto-tres-titulo" class="adapta-titulo mt-8 max-w-[18ch] font-titulo text-[clamp(2.2rem,8vw,5rem)] leading-[0.95] tracking-[-0.045em]">
+          {actoTres.titulo}
+        </h2>
+        <p class="mono mt-3 text-gris" aria-live="polite">
+          <span class="solo-grita">(Contado en tu tono: a los gritos)</span>
+          <span class="solo-susurra">(Contado en tu tono: en voz baja)</span>
+        </p>
+        <div class="progreso mt-6" aria-hidden="true"><span data-progreso></span></div>
+      </header>
+
       <ol class="rodaje-pista" data-pista>
         {actoTres.pasos.map((paso, i) => (
           <li class="paso">
-            <p class="mono text-gris" aria-hidden="true">({String(i + 1).padStart(2, '0')} / {String(actoTres.pasos.length).padStart(2, '0')})</p>
+            <p class="mono text-gris">
+              <span aria-hidden="true">({String(i + 1).padStart(2, '0')} / {total})</span>
+              <span class="sr-only">Paso {i + 1} de {actoTres.pasos.length}:</span>
+              <span class="ml-2 italic normal-case">{paso.cine}</span>
+            </p>
             <h3 class="paso-nombre adapta-titulo">{paso.nombre}</h3>
             <p class="paso-texto">{paso.texto}</p>
           </li>
@@ -28,47 +37,56 @@ import Rotulo from '../components/Rotulo.astro';
 </section>
 
 <style>
+  .rodaje-cabeza { padding-top: 6rem; }
+  .rodaje-pista { padding: 2rem 0 5rem; }
   .paso {
     display: grid;
-    align-content: center;
-    gap: 1.25rem;
-    padding: 3.5rem 1.25rem;
+    align-content: start;
+    gap: 1rem;
+    padding: 2rem 1.25rem;
     border-top: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent);
   }
   .paso-nombre {
     font-family: var(--font-titulo);
-    font-size: clamp(2.6rem, 11vw, 8.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.03em;
+    font-size: clamp(2.1rem, 9vw, 3.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    max-width: 14ch;
   }
   .paso-texto {
-    max-width: 30ch;
-    font-size: 1.15rem;
+    max-width: 32ch;
+    font-size: 1.1rem;
     line-height: 1.45;
     color: color-mix(in oklab, var(--color-tinta) 72%, transparent);
   }
+  .progreso { height: 2px; background: color-mix(in oklab, var(--color-tinta) 12%, transparent); }
+  .progreso span { display: block; height: 100%; background: var(--color-tinta); transform-origin: left; transform: scaleX(0); }
 
-  /* Con movimiento: pista horizontal fija mientras se scrollea, en celular y en computadora */
+  /* Con movimiento: el contexto fijo arriba y la pista corre de costado, en celular y en computadora */
   @media (prefers-reduced-motion: no-preference) {
-    :global(.js) .rodaje { height: 320svh; }
-    :global(.js) .rodaje-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; }
-    :global(.js) .rodaje-pista { display: flex; padding-left: 1.25rem; will-change: transform; }
+    :global(.js) .rodaje { height: 340svh; }
+    :global(.js) .rodaje-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
+    :global(.js) .rodaje-cabeza { padding-top: 5.5rem; }
+    :global(.js) .rodaje-pista { flex: 1; display: flex; align-items: center; padding: 0 0 0 1.25rem; will-change: transform; }
     :global(.js) .paso {
       flex: none;
-      width: 82vw;
-      padding: 0 8vw 0 1.25rem;
+      width: 80vw;
+      padding: 0 7vw 0 1.25rem;
       border-top: 0;
       border-left: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent);
     }
   }
-  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    :global(.js) .rodaje { height: 240svh; }
-    :global(.js) .rodaje-pista { padding-left: 3rem; }
-    :global(.js) .paso { width: 42vw; padding: 0 4vw 0 2rem; }
-    /* Que "Storyboard" entre en su columna sin pisar al vecino */
-    .paso-nombre { font-size: min(8.5rem, 5.4vw); }
-    .paso-texto { font-size: 1.35rem; }
+  @media (min-width: 1024px) {
+    .paso-texto { font-size: 1.3rem; }
   }
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    :global(.js) .rodaje { height: 260svh; }
+    :global(.js) .rodaje-cabeza { padding-top: 7rem; }
+    :global(.js) .rodaje-pista { padding-left: 3rem; }
+    :global(.js) .paso { width: 36vw; padding: 0 3.5vw 0 2rem; }
+  }
+  /* Sin movimiento: lista vertical, la barra no hace falta */
+  @media (prefers-reduced-motion: reduce) { .progreso { display: none; } }
 </style>
 
 <script>
@@ -76,11 +94,10 @@ import Rotulo from '../components/Rotulo.astro';
 
   const rodaje = document.querySelector<HTMLElement>('[data-rodaje]');
   const pista = document.querySelector<HTMLElement>('[data-pista]');
+  const progreso = document.querySelector<HTMLElement>('[data-progreso]');
   if (rodaje && pista && movimientoPermitido()) {
-    gsap.to(pista, {
-      x: () => -(pista.scrollWidth - innerWidth * 0.94),
-      ease: 'none',
-      scrollTrigger: { trigger: rodaje, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true },
-    });
+    const scrollTrigger = { trigger: rodaje, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true };
+    gsap.to(pista, { x: () => -(pista.scrollWidth - innerWidth * 0.9), ease: 'none', scrollTrigger });
+    if (progreso) gsap.to(progreso, { scaleX: 1, ease: 'none', scrollTrigger: { ...scrollTrigger, scrub: true } });
   }
 </script>

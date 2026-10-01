@@ -65,12 +65,14 @@ export const technicolor = {
 
 export const actoTres = {
   rotulo: ['03', 'Cómo trabajamos'],
+  titulo: 'De la idea a tu web, en cinco pasos.',
+  /** nombre: lo que se entiende; cine: el guiño, en chiquito */
   pasos: [
-    { nombre: 'Guion', texto: 'Entendemos tu marca, tu público y qué tiene que pasar cuando alguien llega.' },
-    { nombre: 'Storyboard', texto: 'Diseñamos cada pantalla antes de escribir una línea de código. Ves todo antes de que exista.' },
-    { nombre: 'Rodaje', texto: 'La construimos a medida: rápida, liviana y hecha para durar.' },
-    { nombre: 'Estreno', texto: 'La publicamos y la dejamos lista para que te encuentren.' },
-    { nombre: 'Y después', texto: 'No desaparecemos. La cuidamos, la medimos y la hacemos crecer.' },
+    { nombre: 'Te escuchamos.', cine: 'Guion', texto: 'Entendemos tu marca, a quién le hablás y qué tiene que pasar cuando alguien llega.' },
+    { nombre: 'Te mostramos cómo va a quedar.', cine: 'Storyboard', texto: 'Diseñamos cada pantalla antes de construirla. Ves todo antes de que exista.' },
+    { nombre: 'La construimos.', cine: 'Rodaje', texto: 'A medida, sin plantillas: rápida, liviana y hecha para durar.' },
+    { nombre: 'La publicamos.', cine: 'Estreno', texto: 'Sale al mundo lista para que te encuentren.' },
+    { nombre: 'Y te acompañamos.', cine: 'Y después', texto: 'No desaparecemos: la cuidamos, la medimos y la hacemos crecer.' },
   ],
 };
 
