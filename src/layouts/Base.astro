@@ -34,6 +34,10 @@ const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
       document.documentElement.classList.add('js');
       // Si el JS de movimiento no arranca, nada queda oculto.
       setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 4000);

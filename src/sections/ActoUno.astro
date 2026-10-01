@@ -22,32 +22,32 @@ const g = actoUno.generica;
 
   <!-- Lo que suele encontrar: una web genérica, con notas pegadas encima, mientras corren tres segundos -->
   <div class="secuencia relative h-[260svh]" data-secuencia-generica>
-    <div class="escenario sticky top-0 flex h-svh flex-col overflow-hidden px-5 pt-24 pb-10 md:px-12 md:pt-28">
+    <div class="escenario sticky top-0 flex h-svh flex-col overflow-hidden px-5 pt-18 pb-6 md:px-12 md:pt-[clamp(4.5rem,10svh,7rem)] md:pb-[clamp(1.5rem,4svh,2.5rem)]">
       <div class="flex items-start justify-between gap-6">
-        <p class="encabezado font-titulo text-[clamp(1.6rem,5.5vw,3rem)] leading-none tracking-[-0.04em]">{actoUno.encuentra}</p>
+        <p class="encabezado font-titulo text-[clamp(1.4rem,min(5vw,3.8svh),3rem)] leading-none tracking-[-0.04em]">{actoUno.encuentra}</p>
         <p class="cuenta text-right" aria-hidden="true">
           <span class="cuenta-numeros font-titulo">
             <span class="numero">3</span><span class="numero">2</span><span class="numero">1</span><span class="numero">0</span>
           </span>
-          <span class="mt-1 block max-w-[12ch] text-[clamp(1rem,2.4vw,1.35rem)] leading-tight tracking-[-0.02em] ml-auto text-tinta/55">{actoUno.cuenta}</span>
+          <span class="mt-1 block max-w-[12ch] text-[clamp(0.9rem,min(2.4vw,1.8svh),1.35rem)] leading-tight tracking-[-0.02em] ml-auto text-tinta/55">{actoUno.cuenta}</span>
         </p>
       </div>
 
       <div class="relative grid flex-1 place-items-center">
-        <div class="escena relative w-full max-w-[21rem] md:max-w-2xl">
+        <div class="escena relative w-full max-w-[min(21rem,80vw)] md:max-w-[min(42rem,calc((100svh-14rem)*1.15))]">
           <div class="generica overflow-hidden rounded-xl bg-white text-[#333] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)]" aria-hidden="true">
-            <div class="flex items-center justify-between border-b border-black/10 px-4 py-3 text-[11px] md:px-6">
+            <div class="flex items-center justify-between border-b border-black/10 px-4 py-2.5 text-[11px] md:px-6 md:py-3">
               <span class="font-bold text-[#1e3a8a]">{g.marca}</span>
               <span class="hidden gap-4 text-black/60 md:flex"><span>Inicio</span><span>Nosotros</span><span>Servicios</span><span>Contacto</span></span>
               <span class="text-black/60 md:hidden">☰</span>
             </div>
-            <div class="stock relative grid h-36 place-items-center bg-gradient-to-br from-sky-300 via-sky-200 to-emerald-200 md:h-60">
-              <svg viewBox="0 0 120 60" class="w-36 opacity-70 md:w-60"><circle cx="92" cy="16" r="8" fill="#fde68a"/><path d="M0 60 L35 22 L55 42 L75 18 L120 60 Z" fill="#34d399"/><path d="M0 60 L25 38 L50 60 Z" fill="#059669"/></svg>
+            <div class="stock relative grid h-28 place-items-center bg-gradient-to-br from-sky-300 via-sky-200 to-emerald-200 md:h-[clamp(7.5rem,22svh,15rem)]">
+              <svg viewBox="0 0 120 60" class="w-32 opacity-70 md:w-[clamp(8rem,20svh,15rem)]"><circle cx="92" cy="16" r="8" fill="#fde68a"/><path d="M0 60 L35 22 L55 42 L75 18 L120 60 Z" fill="#34d399"/><path d="M0 60 L25 38 L50 60 Z" fill="#059669"/></svg>
             </div>
-            <div class="space-y-3 px-5 py-6 text-center md:px-10 md:py-8">
-              <p class="text-lg font-bold md:text-2xl">{g.titulo}</p>
-              <p class="text-xs leading-relaxed text-black/55 md:text-sm">{g.texto}</p>
-              <span class="boton-generico inline-block rounded bg-[#3b82f6] px-5 py-2 text-xs font-semibold text-white">{g.boton}</span>
+            <div class="space-y-2 px-4 py-3 text-center md:space-y-[clamp(0.5rem,1.4svh,0.75rem)] md:px-8 md:py-[clamp(1rem,2.4svh,2rem)]">
+              <p class="text-base font-bold md:text-[clamp(1.1rem,2.2svh,1.5rem)]">{g.titulo}</p>
+              <p class="text-xs leading-relaxed text-black/55 md:text-[clamp(0.75rem,1.4svh,0.875rem)]">{g.texto}</p>
+              <span class="boton-generico inline-block rounded bg-[#3b82f6] px-4 py-1.5 text-xs font-semibold text-white md:px-5 md:py-2">{g.boton}</span>
             </div>
           </div>
 
@@ -58,7 +58,7 @@ const g = actoUno.generica;
             ))}
           </ol>
         </div>
-        <p class="se-va pointer-events-none absolute inset-0 grid place-items-center font-titulo text-[clamp(3.5rem,16vw,12rem)] leading-none italic">{actoUno.cierre[0]}</p>
+        <p class="se-va pointer-events-none absolute inset-0 grid place-items-center font-titulo text-[clamp(3.5rem,min(16vw,18svh),12rem)] leading-none italic">{actoUno.cierre[0]}</p>
       </div>
     </div>
   </div>
@@ -92,20 +92,25 @@ const g = actoUno.generica;
     letter-spacing: -0.01em;
     box-shadow: 0 14px 30px -12px rgb(0 0 0 / 0.5);
   }
-  @media (min-width: 768px) { .nota { font-size: 1.3rem; max-width: 22rem; padding: 0.7rem 1rem; } }
-  .nota-n { opacity: 0.6; }
-  .nota-1 { top: -1.4rem; right: -0.5rem; rotate: 2deg; }
-  .nota-2 { top: 38%; left: -0.75rem; rotate: -2.5deg; }
-  .nota-3 { bottom: -1.2rem; right: -0.5rem; rotate: 1.5deg; }
   @media (min-width: 768px) {
-    .nota-1 { right: -3rem; }
+    .nota {
+      font-size: clamp(0.95rem, min(1.8vw, 2.2svh), 1.3rem);
+      max-width: clamp(14rem, 24vw, 22rem);
+      padding: clamp(0.45rem, 1svh, 0.7rem) clamp(0.7rem, 1.4vw, 1rem);
+    }
+    .nota-1 { top: -1.2rem; right: -1.5rem; rotate: 2deg; }
+    .nota-2 { top: 38%; left: -2rem; rotate: -2.5deg; }
+    .nota-3 { bottom: -0.8rem; right: -1.2rem; rotate: 1.5deg; }
+  }
+  @media (min-width: 1200px) and (min-height: 750px) {
+    .nota-1 { right: -3rem; top: -1.4rem; }
     .nota-2 { left: -3rem; }
-    .nota-3 { right: -2rem; }
+    .nota-3 { right: -2rem; bottom: -1.2rem; }
   }
 
   .cuenta-numeros {
     display: grid;
-    font-size: clamp(3.5rem, 13vw, 7rem);
+    font-size: clamp(2.8rem, min(12vw, 8svh), 6.5rem);
     line-height: 0.85;
     letter-spacing: -0.05em;
     font-variant-numeric: tabular-nums;

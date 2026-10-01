@@ -11,20 +11,47 @@ import { loader } from '../content/guion';
 <script is:inline>
   // El loader sale cada vez que alguien entra o recarga. No sale si viene de otra página de Roda
   // (por ejemplo, volviendo de un caso de estudio). 'roda:saltar-loader' lo usan los tests y las capturas.
+  var tieneLoader = false;
   try {
     var nav = performance.getEntriesByType('navigation')[0];
     var recarga = nav && nav.type === 'reload';
     var deRoda = document.referrer && new URL(document.referrer).origin === location.origin;
-    if ((deRoda && !recarga) || sessionStorage.getItem('roda:saltar-loader')) document.documentElement.classList.add('ya-visto');
+    if ((deRoda && !recarga) || sessionStorage.getItem('roda:saltar-loader')) {
+      document.documentElement.classList.add('ya-visto');
+    } else {
+      tieneLoader = true;
+      document.documentElement.classList.add('bloquear-scroll');
+      window.scrollTo(0, 0);
+    }
   } catch (e) {}
-  // Quien no quiere esperar, no espera: tocar, hacer clic, apretar una tecla o scrollear lo saltea.
-  ['pointerdown', 'keydown', 'wheel', 'touchmove'].forEach(function (ev) {
-    addEventListener(ev, function () { document.documentElement.classList.add('loader-salteado'); }, { once: true, passive: true });
-  });
+
+  function desbloquear() {
+    document.documentElement.classList.remove('bloquear-scroll');
+  }
+
+  if (tieneLoader) {
+    // 2.8s dura la animación del loader (2.2s espera + 0.6s salida)
+    setTimeout(desbloquear, 2800);
+    // Quien toca o hace clic lo saltea
+    ['pointerdown', 'keydown'].forEach(function (ev) {
+      addEventListener(ev, function () {
+        document.documentElement.classList.add('loader-salteado');
+        setTimeout(desbloquear, 450);
+      }, { once: true, passive: true });
+    });
+  }
 </script>
 
 <style>
   .loader { display: none; }
+
+  :global(html.bloquear-scroll),
+  :global(html.bloquear-scroll body) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+    height: 100% !important;
+  }
 
   /* Solo con JS y movimiento permitido. Todo en CSS: se va solo a los 3 s aunque falle el JS. */
   @media (prefers-reduced-motion: no-preference) {
@@ -39,8 +66,8 @@ import { loader } from '../content/guion';
       padding: 1.25rem;
       background: var(--color-negro);
       color: var(--color-papel);
-      /* Es un título, no una puerta: nunca intercepta toques */
-      pointer-events: none;
+      pointer-events: auto;
+      touch-action: none;
       /* El telón sube y deja ver el papel */
       animation: loader-sale 0.6s cubic-bezier(0.7, 0, 0.2, 1) 2.2s forwards;
     }
