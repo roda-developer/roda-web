@@ -9,9 +9,13 @@ import { loader } from '../content/guion';
 </div>
 
 <script is:inline>
+  // El loader sale cada vez que alguien entra o recarga. No sale si viene de otra página de Roda
+  // (por ejemplo, volviendo de un caso de estudio). 'roda:saltar-loader' lo usan los tests y las capturas.
   try {
-    if (sessionStorage.getItem('roda:visto')) document.documentElement.classList.add('ya-visto');
-    sessionStorage.setItem('roda:visto', '1');
+    var nav = performance.getEntriesByType('navigation')[0];
+    var recarga = nav && nav.type === 'reload';
+    var deRoda = document.referrer && new URL(document.referrer).origin === location.origin;
+    if ((deRoda && !recarga) || sessionStorage.getItem('roda:saltar-loader')) document.documentElement.classList.add('ya-visto');
   } catch (e) {}
 </script>
 

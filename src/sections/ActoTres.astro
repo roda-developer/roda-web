@@ -57,6 +57,7 @@ const total = String(pasos.length).padStart(2, '0');
                 <span class="p-nav"><b>{obra.marca}</b><span>≡</span></span>
                 <span class="p-img"></span>
                 <span class="p-tit">{obra.titular}</span>
+                <span class="p-tit-2">{obra.bajada}</span>
                 <span class="p-btn">{obra.boton} →</span>
               </div>
             </div>
@@ -68,6 +69,7 @@ const total = String(pasos.length).padStart(2, '0');
               <span class="c-nav"><b>{obra.marca}</b><span>≡</span></span>
               <span class="c-img"></span>
               <span class="c-tit">{obra.titular}</span>
+              <span class="c-baj">{obra.bajada}</span>
               <span class="c-btn">{obra.boton} →</span>
             </div>
           </div>
@@ -138,20 +140,18 @@ const total = String(pasos.length).padStart(2, '0');
   .p-nav, .p-img, .p-tit, .p-tit-2, .p-btn { position: absolute; }
   .p-nav { left: 6%; right: 6%; top: 4%; height: 7%; }
   .p-img { left: 6%; right: 6%; top: 16%; height: 36%; }
-  .p-tit { left: 6%; right: 6%; top: 57%; height: 17%; }
-  .p-tit-2 { left: 6%; right: 30%; top: 66%; height: 6%; }
-  .p-btn { left: 6%; width: 46%; top: 80%; height: 9%; }
+  .p-tit { left: 6%; right: 6%; top: 57%; height: 15%; }
+  .p-tit-2 { left: 6%; right: 30%; top: 74%; height: 5%; }
+  .p-btn { left: 6%; width: 46%; top: 84%; height: 9%; }
   @media (min-width: 768px) {
     .p-nav { top: 5%; height: 8%; }
     .p-img { right: auto; width: 42%; top: 20%; height: 66%; }
-    .p-tit { left: 54%; top: 24%; height: 30%; }
-    .p-tit-2 { left: 54%; right: 14%; top: 42%; height: 8%; }
+    .p-tit { left: 54%; top: 24%; height: 15%; }
+    .p-tit-2 { left: 54%; right: 14%; top: 44%; height: 7%; }
     .p-btn { left: 54%; width: 26%; top: 62%; height: 11%; }
   }
 
   .boceto > span { border: 1.5px dashed color-mix(in oklab, var(--color-tinta) 35%, transparent); border-radius: 0.3rem; }
-  .boceto .p-tit { height: 6%; }
-  @media (min-width: 768px) { .boceto .p-tit { height: 8%; } }
 
   .diseno .p-nav { display: flex; align-items: center; justify-content: space-between; font-size: max(0.6rem, 3.6cqi); border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 12%, transparent); }
   .diseno .p-img {
@@ -163,7 +163,9 @@ const total = String(pasos.length).padStart(2, '0');
   .diseno .p-tit { font-family: var(--font-titulo); font-weight: 600; font-size: 7.5cqi; line-height: 1; letter-spacing: -0.045em; color: var(--color-tinta); }
   .diseno .p-btn { display: grid; place-items: center; border-radius: 99px; background: var(--color-tinta); color: var(--color-papel); font-size: max(0.55rem, 3.4cqi); font-weight: 500; }
 
+  .diseno .p-tit-2 { display: flex; align-items: center; font-size: max(0.6rem, 3.6cqi); color: color-mix(in oklab, var(--color-tinta) 60%, transparent); }
   @media (min-width: 768px) {
+    .diseno .p-tit-2 { font-size: max(0.6rem, 1.8cqi); }
     .diseno .p-tit { font-size: 3.6cqi; }
     .diseno .p-nav { font-size: max(0.6rem, 1.7cqi); }
     .diseno .p-btn { font-size: max(0.55rem, 1.6cqi); }
@@ -193,6 +195,7 @@ const total = String(pasos.length).padStart(2, '0');
   .c-nav { display: flex; justify-content: space-between; font-size: 0.5rem; }
   .c-img { height: 38%; min-height: 3.5rem; border-radius: 0.2rem; background: linear-gradient(160deg, #3a3a3a, #0f0f0f); }
   .c-tit { font-family: var(--font-titulo); font-weight: 600; font-size: 0.75rem; line-height: 1; letter-spacing: -0.04em; }
+  .c-baj { font-size: 0.45rem; color: color-mix(in oklab, var(--color-tinta) 60%, transparent); }
   .c-btn { justify-self: start; padding: 0.3em 0.7em; border-radius: 99px; background: var(--color-tinta); color: var(--color-papel); font-size: 0.45rem; }
 
   .aviso {

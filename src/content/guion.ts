@@ -79,6 +79,7 @@ export const actoTres = {
     notas: ['Marca: la tuya', 'Le habla a: quienes buscan lo que hacés', 'Objetivo: que te escriban'],
     marca: 'Tu marca',
     titular: 'Lo que hacés, dicho en una línea.',
+    bajada: 'Y por qué elegirte a vos.',
     boton: 'Escribinos',
     url: 'tumarca.com',
     enLinea: 'En línea',

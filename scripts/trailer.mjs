@@ -5,7 +5,7 @@ const estilo = Number(process.argv[2] ?? 0.9);
 const browser = await chromium.launch({ channel: 'chrome' });
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 await page.addInitScript((e) => {
-  sessionStorage.setItem('roda:visto', '1');
+  sessionStorage.setItem('roda:saltar-loader', '1');
   sessionStorage.setItem('roda:respuestas', JSON.stringify({ rubro: 'gastronomia', estilo: e, situacion: 'no-representa', objetivo: 'reserve' }));
 }, estilo);
 await page.goto('http://localhost:5201');

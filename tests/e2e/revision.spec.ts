@@ -6,7 +6,7 @@ async function hidratada(page: Page) {
 
 test('si cambia una respuesta después del tráiler, la pantalla no queda en negro', async ({ page }) => {
   await page.addInitScript(() => {
-    sessionStorage.setItem('roda:visto', '1');
+    sessionStorage.setItem('roda:saltar-loader', '1');
     sessionStorage.setItem('roda:respuestas', JSON.stringify({ rubro: 'moda', estilo: 0.9, situacion: 'sin-web', objetivo: 'compre' }));
   });
   await page.goto('/');

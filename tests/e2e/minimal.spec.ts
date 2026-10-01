@@ -57,3 +57,15 @@ for (const p of PROYECTOS) {
     await expect(page.getByRole('link', { name: /Siguiente proyecto/ })).toBeAttached();
   });
 }
+
+test('el loader sale al recargar, pero no al volver desde otra página de Roda', async ({ page }) => {
+  const visible = () => page.locator('.loader').evaluate((el) => getComputedStyle(el).display !== 'none');
+  await page.goto('/');
+  expect(await visible()).toBe(true);
+  await page.reload();
+  expect(await visible()).toBe(true);
+  await page.goto('/proyectos');
+  await page.getByRole('link', { name: 'Roda, volver al inicio' }).click();
+  await page.waitForURL((u) => u.pathname === '/');
+  expect(await visible()).toBe(false);
+});
