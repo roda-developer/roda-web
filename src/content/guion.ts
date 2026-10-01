@@ -214,12 +214,13 @@ export const nosotros = {
      * ms: cuánto dura en pantalla. Corre sola, como un video; termina quieta en la última placa.
      */
     cuadros: [
-      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta', ms: 2200 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Una', ms: 800 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Misma', ms: 800 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1600 },
-      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 2600 },
-      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 3000 },
+      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta', ms: 1500 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Una', ms: 550 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Misma', ms: 550 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1100 },
+      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 1800 },
+      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 1700 },
+      { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
     ],
   },
   bajo: 'Pareja, socios y desarrolladores web',
