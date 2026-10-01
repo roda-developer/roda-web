@@ -220,6 +220,8 @@ export const nosotros = {
       { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1100 },
       { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 1800 },
       { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 1700 },
+      // La frase clave, como el tagline de un afiche
+      { fondo: 'viaje', tipo: 'tagline', lineas: ['Cada web que hacemos es un viaje.', 'Y nos encanta viajar.'], ms: 3000 },
       { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
     ],
   },

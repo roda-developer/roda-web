@@ -27,7 +27,7 @@ const quieto = Math.max(0, secuencia.cuadros.findIndex((c) => c.tipo === 'credit
 const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t.mensaje)}`;
 const textoSecuencia = secuencia.cuadros
   .filter((c) => c.tipo !== 'cierre')
-  .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.texto))
+  .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.tipo === 'tagline' ? c.lineas.join(' ') : c.texto))
   .join('. ');
 ---
 <Base titulo="Nosotros — Roda" descripcion="Roda es Giuliana y Facundo: pareja, socios y desarrolladores web egresados de la UNLaM.">
@@ -55,6 +55,7 @@ const textoSecuencia = secuencia.cuadros
               {c.tipo === 'presenta' && <p class="presenta"><Marca class="presenta-logo" /><span>{c.texto.replace(/^Rodas*/, '')}</span></p>}
               {c.tipo === 'titulo' && <p class="grande">{c.texto}</p>}
               {c.tipo === 'cierre' && <p class="cierre-logo"><Marca /></p>}
+              {c.tipo === 'tagline' && <p class="tagline">{c.lineas.map((l) => <span>{l}</span>)}</p>}
               {c.tipo === 'credito' && (
                 <>
                   <p class="rol">{c.rol}</p>
@@ -135,6 +136,9 @@ const textoSecuencia = secuencia.cuadros
   .rol { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(0.62rem, 1vw, 0.78rem); letter-spacing: 0.45em; text-transform: uppercase; color: color-mix(in oklab, var(--color-papel) 72%, transparent); }
   .nombre { margin-top: 0.4em; font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.9rem); line-height: 1.35; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-papel); text-wrap: balance; }
   .rol + .nombre { margin-top: 1.4em; }
+  /* La frase clave: más grande que los créditos, la segunda línea en rosa */
+  .tagline { display: grid; gap: 0.6em; color: var(--color-papel); font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.1rem, 2.8vw, 2.3rem); line-height: 1.25; letter-spacing: 0.2em; text-transform: uppercase; text-wrap: balance; }
+  .tagline span:last-child { color: var(--color-tc-rosa); }
   /* La placa final: el logo solo, sobre negro, como el cierre de un estudio */
   .cierre-logo { color: var(--color-papel); font-size: clamp(3rem, 8vw, 6rem); }
   .legal {
