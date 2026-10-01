@@ -219,7 +219,7 @@ export const nosotros = {
       { fondo: 'juntos', tipo: 'titulo', texto: 'Misma', ms: 800 },
       { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1600 },
       { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 2600 },
-      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['La UNLaM, Buenos Aires', 'y donde nos lleve el próximo viaje'], ms: 3000 },
+      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 3000 },
     ],
   },
   bajo: 'Pareja, socios y desarrolladores web',
