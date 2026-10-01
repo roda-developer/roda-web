@@ -45,7 +45,7 @@ test('la tira de proyectos no es una región viva; se anuncia una sola línea', 
 
 test('los links del nav miden al menos 44 px de alto', async ({ page }) => {
   await page.goto('/');
-  for (const nombre of [/Ir a mi tráiler/, 'Proyectos']) {
+  for (const nombre of [/Ver mi web/, 'Proyectos']) {
     const caja = await page.locator('header').getByRole('link', { name: nombre, exact: typeof nombre === 'string' }).boundingBox();
     expect(caja!.height).toBeGreaterThanOrEqual(44);
   }

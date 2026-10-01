@@ -134,7 +134,7 @@ export default function Final() {
           </p>
         </div>
         <button type="button" onClick={volverAVer} className="mono mt-8 min-h-11 text-gris hover:text-tinta">
-          ↺ Volver a ver el tráiler
+          ↺ Volver a verla
         </button>
       </div>
       {/* La sinopsis también existe fuera del tráiler para lectores de pantalla */}

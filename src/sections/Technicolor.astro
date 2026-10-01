@@ -24,7 +24,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   <div class="puerta relative h-[180svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
       <!-- Arriba el grito, abajo las bandas: cada uno en su lugar, sin taparse -->
-      <div class="color absolute inset-0 grid grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-amarillo px-4 pt-16 pb-[5svh] text-tinta">
+      <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-amarillo px-4 pt-16 pb-[5svh] text-tinta">
         <p class="grito text-center">
           <span class="block">{technicolor.grito[0]}</span>
           <span class="mas block" aria-label="más"><span>M</span><span>Á</span><span>S</span></span>
@@ -78,20 +78,31 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
 </section>
 
 <style>
+  /* Afiche: cada línea llena el ancho del bloque, y el bloque es tan ancho como deje el alto de la pantalla */
   .grito {
+    container-type: inline-size;
+    white-space: nowrap;
+    width: min(calc(100vw - 2rem), calc((100svh - 15rem) / 0.78));
     font-family: var(--font-grito);
     font-weight: 800;
     text-transform: uppercase;
     line-height: 0.82;
     letter-spacing: -0.045em;
-    /* Entra a lo ancho y a lo alto: el MÁS mide casi cuatro líneas */
-    font-size: clamp(2.6rem, min(17vw, 11.5svh), 12rem);
   }
+  .grito > span:first-child { font-size: 19.6cqi; }
+  .grito > span:last-child { font-size: 24.6cqi; }
   .mas {
-    margin: 0.12em 0 0.04em;
-    font-size: 2.35em;
+    margin: 0.04em 0 0.02em;
+    font-size: 45cqi;
     line-height: 0.8;
     letter-spacing: -0.06em;
+  }
+  /* En pantalla vertical, "Y A / VECES" y "ES / MÁS." en dos líneas: así todo puede ser más grande */
+  @media (max-aspect-ratio: 3/4) {
+    .grito { white-space: normal; width: calc(100vw - 2rem); }
+    .grito > span:first-child { font-size: 30.5cqi; }
+    .grito > span:last-child { font-size: 37cqi; }
+    .mas { font-size: 46cqi; white-space: nowrap; }
   }
   .mas span { display: inline-block; }
   .mas span:nth-child(1) { color: var(--color-tc-rojo); transform: rotate(-6deg); }

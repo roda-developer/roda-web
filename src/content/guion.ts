@@ -7,13 +7,13 @@ export const loader = {
 
 export const nav = {
   proyectos: 'Proyectos',
-  atajo: 'Ir a mi tráiler',
+  atajo: 'Ver mi web',
 };
 
 export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
   bajada: 'Falta contarla donde te buscan.',
-  promesa: 'Quedate hasta el final: vas a ver la tuya.',
+  promesa: 'Quedate hasta el final: vas a ver cómo podría verse tu web.',
 };
 
 export const actoUno = {
@@ -89,13 +89,13 @@ export const actoTres = {
 
 export const adelanto = {
   rotulo: ['04', 'En cartel'],
-  titulo: 'Historias que ya filmamos.',
+  titulo: 'Historias que convertimos en web.',
   verTodos: 'Ver todos los proyectos',
 };
 
 export const proyectosPagina = {
   titulo: 'Proyectos seleccionados',
-  bajada: 'Cada web cuenta una historia distinta. Estas son algunas de las que filmamos.',
+  bajada: 'Cada web cuenta una historia distinta. Estas son algunas de las que ya contamos.',
   pregunta: '¿Qué hacés?',
   ayuda: 'Elegí tu rubro y te mostramos primero lo más cercano a vos.',
   todos: 'Todos',
@@ -134,4 +134,40 @@ export const cierre = {
   sinHistoria: { titulo: '¿Cuál es tu historia?', cta: 'Contanos' },
   alternativa: 'o escribinos a',
   postCreditos: 'Si llegaste hasta acá, ya sabés que nos gustan los buenos finales. Empecemos el tuyo.',
+};
+
+export const planes = {
+  rotulo: ['05', 'Cuánto sale'],
+  titulo: ['Tu historia, tu escala.', 'Elegí cómo contarla.'],
+  moneda: 'US$',
+  lista: [
+    { nombre: 'Landing', precio: 300, incluye: 'Una sola página que cuenta qué hacés y lleva a que te escriban.' },
+    { nombre: 'Multisección', precio: 400, incluye: 'Hasta 5 páginas: inicio, servicios, trabajos, nosotros, contacto. Cada página extra, US$ 30; más de 10, lo cotizamos.' },
+    { nombre: 'Tienda', precio: 550, incluye: 'Tu catálogo con carrito y pasarela de pagos para cobrar online.' },
+  ],
+  todas: ['Diseño propio', 'Se ve bien en el celular', 'Botón a WhatsApp', 'O su equivalente en pesos'],
+  adicionales: {
+    rotulo: 'Adicionales',
+    titulo: 'Sumale lo que necesites.',
+    consultar: 'Consultanos',
+    lista: [
+      { nombre: 'Panel propio: subí tus proyectos, productos y novedades sin depender de nadie', precio: 150 },
+      { nombre: 'Turnos y reservas', precio: 100 },
+      { nombre: 'Tu web en otro idioma', precio: 100 },
+    ],
+  },
+  aMedida: {
+    rotulo: 'A medida',
+    titulo: '¿Necesitás un sistema?',
+    texto: 'Paneles, gestión interna, algo que hoy hacés a mano en una planilla. Lo pensamos juntos y te pasamos un presupuesto.',
+    cta: 'Contanos qué necesitás',
+    mensaje: '¡Hola! Vi la web de Roda y necesito un sistema a medida.',
+  },
+  dominio: {
+    pregunta: '¿Y el dominio y el hosting?',
+    respuestas: [
+      'El dominio (tumarca.com) lo comprás vos y queda a tu nombre. Te guiamos en la compra.',
+      'El hosting, donde vive tu web, en la mayoría de los casos es gratis. Si tu proyecto necesita más, te lo decimos antes de arrancar.',
+    ],
+  },
 };

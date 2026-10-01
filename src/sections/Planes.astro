@@ -1,0 +1,77 @@
+---
+import { planes } from '../content/guion';
+import { WHATSAPP } from '../content/contacto';
+import Rotulo from '../components/Rotulo.astro';
+
+const { moneda, adicionales, aMedida, dominio } = planes;
+const linkAMedida = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(aMedida.mensaje)}`;
+---
+<!-- Los precios, como los créditos: nombre, qué incluye, cuánto sale. Sin letra chica. -->
+<section id="planes" class="plano !place-items-stretch !content-center" aria-labelledby="planes-titulo">
+  <div class="w-full">
+    <Rotulo rotulo={planes.rotulo} tipo="Parte" />
+
+    <h2 id="planes-titulo" class="mt-10 font-titulo [text-wrap:balance] text-[clamp(2.8rem,11vw,7rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
+      <span class="block text-tinta/45">{planes.titulo[0]}</span>
+      <span class="block">{planes.titulo[1]}</span>
+    </h2>
+
+    <ul class="mt-14 border-t border-tinta md:mt-20">
+      {planes.lista.map((p, i) => (
+        <li class="plan border-b border-tinta/15 py-7 lg:py-9" data-revelar={4 + i * 3}>
+          <h3 class="plan-titulo">{p.nombre}</h3>
+          <p class="plan-precio"><span class="moneda">{moneda}</span>{p.precio}</p>
+          <p class="plan-incluye max-w-[40ch] text-tinta/65 md:text-lg">{p.incluye}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="mono mt-5 text-gris" data-revelar="12">{planes.todas.join(' · ')}</p>
+
+    <div class="mt-20 grid gap-14 lg:mt-28 lg:grid-cols-2 lg:gap-20">
+      <div data-revelar>
+        <p class="mono text-gris">{adicionales.rotulo}</p>
+        <h3 class="mt-3 text-[clamp(1.45rem,5vw,2.1rem)] leading-tight font-medium tracking-[-0.035em]">{adicionales.titulo}</h3>
+        <ul class="mt-6 border-t border-tinta">
+          {adicionales.lista.map((a) => (
+            <li class="flex items-baseline justify-between gap-4 border-b border-tinta/15 py-4 md:text-lg">
+              <span>{a.nombre}</span>
+              {a.precio
+                ? <span class="shrink-0 font-medium whitespace-nowrap">{moneda} {a.precio}</span>
+                : <span class="shrink-0 whitespace-nowrap text-gris">{adicionales.consultar}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div data-revelar="4">
+        <p class="mono text-gris">{aMedida.rotulo}</p>
+        <h3 class="mt-3 text-[clamp(1.45rem,5vw,2.1rem)] leading-tight font-medium tracking-[-0.035em]">{aMedida.titulo}</h3>
+        <p class="mt-5 max-w-[38ch] text-tinta/65 md:text-lg">{aMedida.texto}</p>
+        <a href={linkAMedida} target="_blank" rel="noopener" class="enlace mt-6 inline-flex min-h-11 items-center underline underline-offset-4">{aMedida.cta}</a>
+      </div>
+    </div>
+
+    <div class="mt-20 grid gap-4 border-t border-tinta pt-8 lg:mt-28 lg:grid-cols-[20rem_1fr]" data-revelar>
+      <h3 class="text-xl font-medium tracking-[-0.02em] md:text-2xl">{dominio.pregunta}</h3>
+      <div class="space-y-3 text-tinta/65 md:text-lg">
+        {dominio.respuestas.map((r) => <p class="max-w-[52ch]">{r}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plan { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem 1.5rem; align-items: baseline; }
+  .plan-titulo, .plan-precio {
+    font-weight: 500;
+    font-size: clamp(1.9rem, 7vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .plan-precio { text-align: right; font-variant-numeric: tabular-nums; }
+  .moneda { font-size: 0.38em; letter-spacing: 0; color: var(--color-gris); vertical-align: 0.9em; margin-right: 0.25em; }
+  .plan-incluye { grid-column: 1 / -1; }
+  @media (min-width: 1024px) {
+    .plan { grid-template-columns: 20rem 1fr auto; }
+    .plan-incluye { grid-column: 2; grid-row: 1; }
+  }
+</style>
