@@ -10,7 +10,7 @@ const total = String(pasos.length).padStart(2, '0');
     <div class="obra-marco">
       <header class="obra-cabeza px-5 md:px-12">
         <Rotulo rotulo={actoTres.rotulo} />
-        <h2 id="acto-tres-titulo" class="adapta-titulo mt-6 max-w-[20ch] font-titulo text-[clamp(2rem,7.5vw,4rem)] leading-[0.95] tracking-[-0.045em]">
+        <h2 id="acto-tres-titulo" class="adapta-titulo mt-4 max-w-[20ch] font-titulo text-[clamp(1.7rem,min(7.5vw,4.6svh),2.6rem)] md:mt-6 lg:text-[clamp(2rem,min(4.4vw,6.5svh),4rem)] leading-[0.95] tracking-[-0.045em]">
           {actoTres.titulo}
         </h2>
         <p class="mono mt-2 text-gris" aria-live="polite">
@@ -95,13 +95,14 @@ const total = String(pasos.length).padStart(2, '0');
 
   .leyendas { display: grid; gap: 1.75rem; }
   .leyenda { display: grid; gap: 0.5rem; }
-  .leyenda-nombre { font-family: var(--font-titulo); font-size: clamp(1.7rem, 7vw, 3.2rem); line-height: 1; letter-spacing: -0.04em; }
+  .leyenda-nombre { font-family: var(--font-titulo); font-size: clamp(1.5rem, min(7vw, 4.2svh), 3.2rem); line-height: 1; letter-spacing: -0.04em; }
   .leyenda-texto { max-width: 34ch; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); }
   @media (min-width: 768px) { .leyenda-texto { font-size: 1.2rem; } }
 
   /* ── La mesa: el navegador, el celular y el aviso ───────────────── */
-  .mesa-obra { position: relative; width: 100%; max-width: 21rem; margin-inline: auto; }
-  @media (min-width: 768px) { .mesa-obra { max-width: 44rem; } }
+  /* El tamaño sale del alto de la pantalla: en una notebook baja o un celular chico, la web que se arma entra entera */
+  .mesa-obra { position: relative; width: 100%; max-width: min(21rem, calc(100svh - 28rem)); margin-inline: auto; }
+  @media (min-width: 1024px) { .mesa-obra { max-width: min(44rem, calc((100svh - 29rem) * 1.5)); } }
 
   .navegador {
     overflow: hidden;
@@ -124,7 +125,8 @@ const total = String(pasos.length).padStart(2, '0');
   .url-texto { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; }
   .en-linea { font-size: 0.6rem; color: #0a8f4f; white-space: nowrap; }
 
-  .lienzo { position: relative; aspect-ratio: 1; }
+  /* El lienzo mide su propio ancho: todo lo de adentro escala con el mockup, no con la pantalla */
+  .lienzo { position: relative; aspect-ratio: 1; container-type: inline-size; }
   @media (min-width: 768px) { .lienzo { aspect-ratio: 16 / 10; } }
   .capa { position: absolute; inset: 0; }
 
@@ -151,15 +153,21 @@ const total = String(pasos.length).padStart(2, '0');
   .boceto .p-tit { height: 6%; }
   @media (min-width: 768px) { .boceto .p-tit { height: 8%; } }
 
-  .diseno .p-nav { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 12%, transparent); }
+  .diseno .p-nav { display: flex; align-items: center; justify-content: space-between; font-size: max(0.6rem, 3.6cqi); border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 12%, transparent); }
   .diseno .p-img {
     background:
       radial-gradient(circle at 70% 30%, color-mix(in oklab, var(--color-papel) 30%, transparent) 0 14%, transparent 15%),
       linear-gradient(160deg, #3a3a3a, #0f0f0f);
     border-radius: 0.2rem;
   }
-  .diseno .p-tit { font-family: var(--font-titulo); font-weight: 600; font-size: clamp(1.15rem, 5.4vw, 2.1rem); line-height: 1; letter-spacing: -0.045em; color: var(--color-tinta); }
-  .diseno .p-btn { display: grid; place-items: center; border-radius: 99px; background: var(--color-tinta); color: var(--color-papel); font-size: 0.75rem; font-weight: 500; }
+  .diseno .p-tit { font-family: var(--font-titulo); font-weight: 600; font-size: 7.5cqi; line-height: 1; letter-spacing: -0.045em; color: var(--color-tinta); }
+  .diseno .p-btn { display: grid; place-items: center; border-radius: 99px; background: var(--color-tinta); color: var(--color-papel); font-size: max(0.55rem, 3.4cqi); font-weight: 500; }
+
+  @media (min-width: 768px) {
+    .diseno .p-tit { font-size: 3.6cqi; }
+    .diseno .p-nav { font-size: max(0.6rem, 1.7cqi); }
+    .diseno .p-btn { font-size: max(0.55rem, 1.6cqi); }
+  }
 
   /* Si la marca grita, su web también */
   :root[data-tono='grita'] .diseno .p-img,
@@ -213,7 +221,7 @@ const total = String(pasos.length).padStart(2, '0');
   @media (prefers-reduced-motion: no-preference) {
     :global(.js) .obra { height: 420svh; }
     :global(.js) .obra-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
-    :global(.js) .obra-cabeza { padding-top: 5.5rem; }
+    :global(.js) .obra-cabeza { padding-top: 4.75rem; }
     :global(.js) .obra-escena { flex: 1; align-content: center; padding-top: 1.25rem; padding-bottom: 3.5rem; gap: 1.5rem; }
     :global(.js) .leyendas { display: grid; }
     :global(.js) .leyenda { grid-area: 1 / 1; }
@@ -221,7 +229,7 @@ const total = String(pasos.length).padStart(2, '0');
   }
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
     :global(.js) .obra { height: 380svh; }
-    :global(.js) .obra-cabeza { padding-top: 7rem; }
+    :global(.js) .obra-cabeza { padding-top: 6rem; }
   }
 </style>
 

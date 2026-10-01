@@ -3,19 +3,21 @@ import { adelanto } from '../content/guion';
 import Rotulo from '../components/Rotulo.astro';
 import TiraProyectos from '../components/TiraProyectos.astro';
 ---
-<section id="adelanto" class="adapta-fondo-rosa pb-24 md:pb-32" aria-labelledby="adelanto-titulo">
-  <div class="px-5 pt-24 md:px-12 md:pt-32">
+<!-- En computadora, todo entra en una pantalla: rótulo, título con el botón al lado, y la tira -->
+<section id="adelanto" class="adapta-fondo-rosa flex flex-col justify-center py-24 lg:min-h-svh lg:pt-20 lg:pb-12" aria-labelledby="adelanto-titulo">
+  <div class="px-5 md:px-12">
     <Rotulo rotulo={adelanto.rotulo} />
-    <h2 id="adelanto-titulo" class="adapta-titulo mt-14 max-w-[14ch] font-titulo text-[clamp(2.8rem,11vw,7.5rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
-      {adelanto.titulo}
-    </h2>
+    <div class="mt-10 grid gap-8 lg:mt-6 lg:grid-cols-[1fr_auto] lg:items-end">
+      <h2 id="adelanto-titulo" class="adapta-titulo max-w-[14ch] font-titulo text-[clamp(2.8rem,11vw,7.5rem)] leading-[0.92] tracking-[-0.045em] lg:max-w-none lg:text-[clamp(2.4rem,4vw,4.5rem)]" data-revelar>
+        {adelanto.titulo}
+      </h2>
+      <div data-revelar="4">
+        <a href="/proyectos" class="cta">{adelanto.verTodos}</a>
+      </div>
+    </div>
   </div>
 
-  <div class="mt-14 md:mt-20" data-revelar="6">
+  <div class="mt-12 lg:mt-8" data-revelar="6">
     <TiraProyectos />
-  </div>
-
-  <div class="mt-12 px-5 md:px-12">
-    <a href="/proyectos" class="cta">{adelanto.verTodos}</a>
   </div>
 </section>
