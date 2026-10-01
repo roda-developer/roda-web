@@ -171,13 +171,14 @@ const total = String(pasos.length).padStart(2, '0');
     .diseno .p-btn { font-size: max(0.55rem, 1.6cqi); }
   }
 
-  /* Si la marca grita, su web también */
-  :root[data-tono='grita'] .diseno .p-img,
-  :root[data-tono='grita'] .c-img { background: radial-gradient(circle at 75% 25%, var(--color-tc-rosa) 0 22%, transparent 23%), var(--color-tc-azul); }
+  /* La web que se arma tiene color: es la que vamos a hacerte */
+  .diseno .p-img,
+  .c-img { background: radial-gradient(circle at 75% 25%, var(--color-tc-rosa) 0 22%, transparent 23%), var(--color-tc-azul) !important; }
+  .diseno .p-btn,
+  .c-btn { background: var(--color-tc-rojo) !important; }
+  /* Si la marca grita, también la tipografía */
   :root[data-tono='grita'] .diseno .p-tit,
   :root[data-tono='grita'] .c-tit { font-family: var(--font-grito); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; }
-  :root[data-tono='grita'] .diseno .p-btn,
-  :root[data-tono='grita'] .c-btn { background: var(--color-tc-rojo); }
 
   /* El celular: aparece al publicarla, encima de la esquina del navegador */
   .celu {

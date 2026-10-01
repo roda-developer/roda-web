@@ -14,7 +14,7 @@ import { proyectosPagina } from '../content/guion';
           <span class="tira-cerca" hidden>· {proyectosPagina.cerca}</span>
         </span>
         <span class="tira-foto">
-          <Image src={capturas(p.slug).portada} alt="" widths={[400, 720]} sizes="(min-width: 1024px) 30vw, 72vw" loading="lazy" class="foto-tono size-full object-cover object-top" />
+          <Image src={capturas(p.slug).portada} alt="" widths={[400, 720]} sizes="(min-width: 1024px) 30vw, 72vw" loading="lazy" class="size-full object-cover object-top" />
         </span>
         <span class="mono tira-meta text-gris">{p.genero} · {p.anio}</span>
       </a>
@@ -36,7 +36,6 @@ import { proyectosPagina } from '../content/guion';
   .tira-link { display: grid; gap: 0.6rem; }
   .tira-meta { display: flex; gap: 0.5rem; }
   .tira-foto { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: color-mix(in oklab, var(--color-tinta) 8%, transparent); }
-  .tira-link:hover :global(.foto-tono), .tira-link:focus-visible :global(.foto-tono) { filter: none; }
 
   @media (min-width: 1024px) {
     /* Alto fijo = el del proyecto agrandado (ocupa 2,6 de 7,6 partes del ancho, foto 16:10, más las dos líneas de texto).

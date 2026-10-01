@@ -30,17 +30,11 @@ test('la home cuenta la historia y manda a los proyectos, sin la cartelera', asy
   await expect(page.locator('#adelanto a[href^="/proyectos/"]')).toHaveCount(PROYECTOS.length);
 });
 
-test('si la marca grita, las capturas del adelanto van en color', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+test('en cartel tiene fondo rosa y las capturas van en color, sin filtro', async ({ page }) => {
   await page.goto('/');
-  await hidratada(page);
-  const foto = page.locator('#adelanto .foto-tono').first();
-  expect(await foto.evaluate((el) => getComputedStyle(el).filter)).toContain('grayscale');
-  const deslizador = page.getByRole('slider', { name: '¿Tu marca susurra o grita?' });
-  await deslizador.scrollIntoViewIfNeeded();
-  await deslizador.focus();
-  await page.keyboard.press('End');
-  await expect.poll(() => foto.evaluate((el) => getComputedStyle(el).filter)).toBe('none');
+  expect(await page.locator('#adelanto').evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 111, 216)');
+  const filtros = await page.locator('[data-tira] img').evaluateAll((imgs) => imgs.map((i) => getComputedStyle(i).filter));
+  expect(filtros.every((f) => f === 'none')).toBe(true);
 });
 
 for (const p of PROYECTOS) {
@@ -68,4 +62,17 @@ test('el loader sale al recargar, pero no al volver desde otra página de Roda',
   await page.getByRole('link', { name: 'Roda, volver al inicio' }).click();
   await page.waitForURL((u) => u.pathname === '/');
   expect(await visible()).toBe(false);
+});
+
+test('el menú se lee en tinta y pasa a papel sobre la pantalla del tráiler', async ({ page }) => {
+  await page.addInitScript(() => {
+    sessionStorage.setItem('roda:saltar-loader', '1');
+    sessionStorage.setItem('roda:respuestas', JSON.stringify({ rubro: 'moda' }));
+  });
+  await page.goto('/');
+  await hidratada(page);
+  const color = () => page.locator('header.nav').evaluate((el) => getComputedStyle(el).color);
+  expect(await color()).toBe('rgb(18, 18, 18)');
+  await page.locator('.pantalla').evaluate((el) => scrollTo(0, el.getBoundingClientRect().top + scrollY - 20));
+  await expect.poll(color).toBe('rgb(243, 242, 238)');
 });

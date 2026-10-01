@@ -107,7 +107,7 @@ export default function Final() {
         {cierre.conHistoria.rotulo}
       </h2>
 
-      <div ref={pantalla} className="pantalla" aria-hidden="true">
+      <div ref={pantalla} className="pantalla" aria-hidden="true" data-nav-oscuro>
         {cartas.map((texto, i) => (
           <p key={texto} className={`carta ${carta === i ? 'carta-activa' : ''}`}>{texto}</p>
         ))}

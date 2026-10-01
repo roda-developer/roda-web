@@ -18,8 +18,31 @@ const raiz = enHome ? '' : '/';
 </header>
 
 <style>
-  /* Se invierte sobre lo que pase por debajo: tinta sobre papel, papel sobre la pantalla negra */
-  .nav { color: var(--color-papel); mix-blend-mode: difference; }
+  /* Tinta sobre el papel y los colores; papel cuando pasa por encima de algo oscuro (la pantalla del tráiler) */
+  .nav { color: var(--color-tinta); transition: color 0.4s; }
+  .nav.sobre-oscuro { color: var(--color-papel); }
   .enlace { background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat; transition: background-size 0.5s var(--ease-cine); }
   .enlace:hover { background-size: 100% 1px; }
 </style>
+
+<script>
+  // Cuando algo oscuro (data-nav-oscuro, la pantalla del tráiler) pasa por debajo del menú, el menú pasa a papel.
+  // Se busca en cada scroll porque la pantalla aparece recién cuando carga el tráiler.
+  const nav = document.querySelector<HTMLElement>('.nav');
+  if (nav) {
+    let pendiente = false;
+    const revisar = () => {
+      pendiente = false;
+      const alto = nav.offsetHeight;
+      const encima = [...document.querySelectorAll('[data-nav-oscuro]')].some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < alto && r.bottom > alto / 2;
+      });
+      nav.classList.toggle('sobre-oscuro', encima);
+    };
+    addEventListener('scroll', () => {
+      if (!pendiente) { pendiente = true; requestAnimationFrame(revisar); }
+    }, { passive: true });
+    revisar();
+  }
+</script>

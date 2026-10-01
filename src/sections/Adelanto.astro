@@ -3,8 +3,8 @@ import { adelanto } from '../content/guion';
 import Rotulo from '../components/Rotulo.astro';
 import TiraProyectos from '../components/TiraProyectos.astro';
 ---
-<!-- En computadora, todo entra en una pantalla: rótulo, título con el botón al lado, y la tira -->
-<section id="adelanto" class="adapta-fondo-rosa flex flex-col justify-center py-24 lg:min-h-svh lg:pt-20 lg:pb-12" aria-labelledby="adelanto-titulo">
+<!-- El único bloque de color fijo de la página: en cartel, en rosa. En computadora, todo entra en una pantalla: rótulo, título con el botón al lado, y la tira -->
+<section id="adelanto" class="bg-tc-rosa flex flex-col justify-center py-24 lg:min-h-svh lg:pt-20 lg:pb-12" aria-labelledby="adelanto-titulo">
   <div class="px-5 md:px-12">
     <Rotulo rotulo={adelanto.rotulo} />
     <div class="mt-10 grid gap-8 lg:mt-6 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -21,3 +21,8 @@ import TiraProyectos from '../components/TiraProyectos.astro';
     <TiraProyectos />
   </div>
 </section>
+
+<style>
+  /* Sobre el rosa, el gris no se lee: los textos secundarios van en tinta suave */
+  #adelanto :global(.text-gris) { color: color-mix(in oklab, var(--color-tinta) 72%, transparent); }
+</style>

@@ -110,7 +110,7 @@ const ficha: [string, string | number | undefined][] = [
         <p class="font-titulo text-[clamp(3rem,13vw,10rem)] leading-[0.85] tracking-[-0.055em] transition-transform duration-700 group-hover:translate-x-2">
           {siguiente.titulo} <span aria-hidden="true">→</span>
         </p>
-        <Image src={fotosSiguiente.portada} alt="" widths={[480, 800]} sizes="(min-width: 768px) 40vw, 100vw" loading="lazy" class="foto-tono block w-full" />
+        <Image src={fotosSiguiente.portada} alt="" widths={[480, 800]} sizes="(min-width: 768px) 40vw, 100vw" loading="lazy" class="block w-full" />
       </div>
     </a>
 
@@ -133,5 +133,4 @@ const ficha: [string, string | number | undefined][] = [
   .texto { max-width: 46ch; font-size: 1.2rem; line-height: 1.5; color: color-mix(in oklab, var(--color-tinta) 78%, transparent); }
   @media (min-width: 768px) { .texto { font-size: 1.4rem; } }
   .celular { border-radius: 1.75rem; border: 6px solid var(--color-tinta); }
-  .siguiente:hover :global(.foto-tono) { filter: none; }
 </style>
