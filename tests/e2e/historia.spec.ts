@@ -10,7 +10,7 @@ async function hidratada(page: import('@playwright/test').Page) {
 test('la pregunta 1 queda marcada y sobrevive a una recarga', async ({ page }) => {
   await page.goto('/');
   await hidratada(page);
-  const grupo = page.getByRole('group', { name: '¿Y la tuya?' });
+  const grupo = page.getByRole('group', { name: '¿Y vos, hoy?' });
   const opcion = grupo.getByRole('button', { name: /no me representa/ });
   await opcion.scrollIntoViewIfNeeded();
   await opcion.click();
@@ -19,14 +19,14 @@ test('la pregunta 1 queda marcada y sobrevive a una recarga', async ({ page }) =
   await page.reload();
   await hidratada(page);
   await expect(
-    page.getByRole('group', { name: '¿Y la tuya?' }).getByRole('button', { name: /no me representa/ }),
+    page.getByRole('group', { name: '¿Y vos, hoy?' }).getByRole('button', { name: /no me representa/ }),
   ).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('tocar de nuevo una opción la desmarca', async ({ page }) => {
   await page.goto('/');
   await hidratada(page);
-  const opcion = page.getByRole('group', { name: '¿Y la tuya?' }).getByRole('button', { name: 'No tengo web' });
+  const opcion = page.getByRole('group', { name: '¿Y vos, hoy?' }).getByRole('button', { name: 'No tengo web' });
   await opcion.scrollIntoViewIfNeeded();
   await opcion.click();
   await opcion.click();

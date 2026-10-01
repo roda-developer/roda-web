@@ -1,7 +1,7 @@
 /** Todo el copy de la web. Tono: rioplatense, voseo, cero jerga técnica. */
 
 export const loader = {
-  frase: 'Toda web cuenta una historia.',
+  frase: 'Todo empieza con una historia.',
   presenta: 'Roda presenta',
 };
 
@@ -11,14 +11,14 @@ export const nav = {
 };
 
 export const apertura = {
-  titulo: ['Tu web ya está', 'contando una historia.'],
-  bajada: 'La pregunta es si es la que querés contar.',
+  titulo: ['Tu marca ya tiene', 'una historia.'],
+  bajada: 'Falta contarla donde te buscan.',
   promesa: 'Quedate hasta el final: vas a ver la tuya.',
 };
 
 export const actoUno = {
   rotulo: ['01', 'La primera impresión'],
-  lineas: ['Alguien entra a tu web.', 'Tiene tres segundos para decidir si se queda.'],
+  lineas: ['Alguien escucha hablar de vos y te busca.', 'Lo que encuentra decide si te escribe.'],
   golpe: ['No lee.', 'Mira.'],
   generica: {
     marca: 'Tu Marca',
@@ -26,18 +26,23 @@ export const actoUno = {
     texto: 'Somos una empresa líder comprometida con la excelencia y la calidad en cada uno de nuestros servicios.',
     boton: 'Saber más',
   },
-  pies: ['Plantilla.', 'Foto de stock.', 'Un botón que dice “Saber más”.'],
+  encuentra: 'Lo que suele encontrar:',
+  /** Las notas que se pegan sobre la web genérica, de arriba hacia abajo */
+  notas: ['Una plantilla que usan otras mil marcas.', 'Una foto de stock.', '“Saber más”… ¿de qué?'],
+  cuenta: 'segundos para decidir',
   cierre: ['Y se va.', 'No perdiste una visita.', 'Perdiste un cliente.'],
-  pregunta: '¿Y la tuya?',
+  pregunta: '¿Y vos, hoy?',
 };
 
 export const actoDos = {
   rotulo: ['02', 'Lo que hace una buena web'],
+  titulo: 'Una buena web hace tres cosas.',
   planos: [
-    { titulo: 'Se entiende al instante.', texto: 'Qué hacés, para quién y por qué vos. Antes de que tenga que buscar nada.' },
+    { titulo: 'Se entiende al instante.', texto: 'Qué hacés y por qué vos, antes de que tenga que buscar nada.' },
     { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va.' },
-    { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.', pregunta: '¿A dónde querés llevar a tu cliente?' },
+    { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.' },
   ],
+  pregunta: '¿A dónde querés llevar a tu cliente?',
 };
 
 export const giro = {
