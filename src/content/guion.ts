@@ -66,14 +66,24 @@ export const technicolor = {
 export const actoTres = {
   rotulo: ['03', 'Cómo trabajamos'],
   titulo: 'De la idea a tu web, en cinco pasos.',
-  /** nombre: lo que se entiende; cine: el guiño, en chiquito */
+  /** Lo que se lee al costado mientras la web se arma sola. cine: el guiño, en chiquito */
   pasos: [
-    { nombre: 'Te escuchamos.', cine: 'Guion', texto: 'Entendemos tu marca, a quién le hablás y qué tiene que pasar cuando alguien llega.' },
-    { nombre: 'Te mostramos cómo va a quedar.', cine: 'Storyboard', texto: 'Diseñamos cada pantalla antes de construirla. Ves todo antes de que exista.' },
-    { nombre: 'La construimos.', cine: 'Rodaje', texto: 'A medida, sin plantillas: rápida, liviana y hecha para durar.' },
-    { nombre: 'La publicamos.', cine: 'Estreno', texto: 'Sale al mundo lista para que te encuentren.' },
-    { nombre: 'Y te acompañamos.', cine: 'Y después', texto: 'No desaparecemos: la cuidamos, la medimos y la hacemos crecer.' },
+    { nombre: 'Te escuchamos.', cine: 'Guion', texto: 'Tu marca, a quién le hablás y qué querés que pase cuando alguien llega.' },
+    { nombre: 'Te mostramos cómo va a quedar.', cine: 'Storyboard', texto: 'Ves cada pantalla antes de que exista.' },
+    { nombre: 'La construimos.', cine: 'Rodaje', texto: 'A medida, sin plantillas. Rápida y liviana.' },
+    { nombre: 'La publicamos.', cine: 'Estreno', texto: 'Sale al mundo, lista para que te encuentren.' },
+    { nombre: 'Y te acompañamos.', cine: 'Y después', texto: 'La cuidamos y la hacemos crecer. Y empiezan a llegar los mensajes.' },
   ],
+  /** La web que se arma sola */
+  obra: {
+    notas: ['Marca: la tuya', 'Le habla a: quienes buscan lo que hacés', 'Objetivo: que te escriban'],
+    marca: 'Tu marca',
+    titular: 'Lo que hacés, dicho en una línea.',
+    boton: 'Escribinos',
+    url: 'tumarca.com',
+    enLinea: 'En línea',
+    mensaje: ['Nuevo mensaje', '¡Hola! Vi tu web y quiero consultarte…'],
+  },
 };
 
 export const adelanto = {

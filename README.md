@@ -30,7 +30,7 @@ Capturas para revisar diseño: `node scripts/capturas.mjs` (con el preview levan
 | Movimiento (Lenis + GSAP), timecode, tono | `src/motion/*` |
 | Colores, tipografías y el sistema de tono | `src/styles/global.css` |
 
-**La web que se reescribe:** el deslizador escribe `data-tono="susurra|grita"` y `--intensidad` en `<html>`. Por defecto todo es papel y tinta; con "grita", cualquier elemento con `adapta-titulo`, `adapta-fondo`, `foto-tono`, `var(--acento)`, `solo-grita` o `solo-susurra` se enciende solo.
+**La web que se reescribe:** el deslizador escribe `data-tono="susurra|grita"` y `--intensidad` en `<html>`. El fondo siempre es papel; con "grita", cualquier elemento con `adapta-titulo`, `foto-tono`, `var(--acento)`, `solo-grita` o `solo-susurra` se enciende solo.
 
 ## Contenido pendiente (Giuli y Facu)
 

@@ -169,10 +169,6 @@ body {
 :root[data-tono='grita'] .adapta-titulo em { font-style: normal; color: var(--color-tc-rojo); }
 :root[data-tono='susurra'] .adapta-titulo { font-style: italic; letter-spacing: -0.01em; }
 
-.adapta-fondo, .adapta-fondo-2 { transition: background-color 0.8s; }
-:root[data-tono='grita'] .adapta-fondo { background-color: var(--color-tc-amarillo); }
-:root[data-tono='grita'] .adapta-fondo-2 { background-color: var(--color-tc-rosa); }
-
 /* Las capturas de proyectos van en blanco y negro; en color al mirarlas o si la marca grita */
 .foto-tono { filter: grayscale(1) contrast(1.05); transition: filter 0.8s var(--ease-cine); }
 :root[data-tono='grita'] .foto-tono { filter: none; }
