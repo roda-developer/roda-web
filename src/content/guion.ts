@@ -201,35 +201,32 @@ export const cartelera = {
   ],
 } as const;
 
-// PENDIENTE (Giuli/Facu): el apellido de Facu y si va "Producida en Buenos Aires".
+// PENDIENTE (Giuli/Facu): si va "Producida en Buenos Aires".
 export const nosotros = {
   /** La secuencia de títulos: un cuadro por pantalla, sobre la foto (o el video) de fondo */
   secuencia: {
     otraVez: 'Ver de nuevo',
     legal: '© 2026 Roda · Producida en Buenos Aires · Todos los derechos reservados',
     /**
-     * Como los créditos iniciales de una película: el estudio presenta, la producción, el título
-     * (grueso, de a una palabra) y después los créditos en letra liviana. La dirección va última.
+     * Como los créditos de una película: el estudio presenta, el título (grueso, de a una palabra) y los créditos
+     * en letra liviana. Cada cosa aparece una sola vez.
      * fondo 'negro': la placa va sobre negro, como en el cine; si no, sobre esa foto.
-     * ms: cuánto dura en pantalla. Corre sola, como un video; termina quieta en el título.
+     * ms: cuánto dura en pantalla. Corre sola, como un video; termina quieta en la última placa.
      */
     cuadros: [
       { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta', ms: 2200 },
-      { fondo: 'negro', tipo: 'credito', rol: 'Una producción de', nombres: ['Giuliana Di Rocco & Facundo'], ms: 2600 },
       { fondo: 'juntos', tipo: 'titulo', texto: 'Una', ms: 800 },
       { fondo: 'juntos', tipo: 'titulo', texto: 'Misma', ms: 800 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1400 },
-      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo'], ms: 2400 },
-      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['La UNLaM, Buenos Aires', 'y donde nos lleve el próximo viaje'], ms: 2800 },
-      { fondo: 'negro', tipo: 'credito', rol: 'Escrita y dirigida por', nombres: ['Giuliana Di Rocco & Facundo'], ms: 2600 },
-      { fondo: 'juntos', tipo: 'final', texto: 'Una misma mirada', ms: 0 },
+      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1600 },
+      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 2600 },
+      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['La UNLaM, Buenos Aires', 'y donde nos lleve el próximo viaje'], ms: 3000 },
     ],
   },
   bajo: 'Pareja, socios y desarrolladores web',
   grande: 'Nosotros',
   creditos: [
-    ['Dirección', 'Giuliana Di Rocco · Facundo'],
-    ['Diseño y desarrollo', 'Giuliana Di Rocco · Facundo'],
+    ['Dirección', 'Giuliana Di Rocco · Facundo Thibaut'],
+    ['Diseño y desarrollo', 'Giuliana Di Rocco · Facundo Thibaut'],
     ['Formación', 'Tecnicatura en Desarrollo Web, UNLaM'],
     ['Inteligencia Artificial', 'Giuliana Di Rocco'],
     ['Ciberdefensa', 'Los dos, próximamente'],
@@ -242,7 +239,7 @@ export const nosotros = {
   foto: { alt: 'Giuliana y Facundo, sonriendo bajo un techo de luces doradas', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
   personas: [
     { nombre: 'Giuliana Di Rocco', texto: 'Técnica en Desarrollo Web por la UNLaM. Hoy estudia la Licenciatura en Inteligencia Artificial.' },
-    { nombre: 'Facundo', texto: 'Está terminando la Tecnicatura en Desarrollo Web en la UNLaM.' },
+    { nombre: 'Facundo Thibaut', texto: 'Está terminando la Tecnicatura en Desarrollo Web en la UNLaM.' },
   ],
   juntos: 'Y los dos estamos por empezar la Licenciatura en Ciberdefensa.',
   cta: 'Hablemos',
