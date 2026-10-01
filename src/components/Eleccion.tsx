@@ -16,7 +16,7 @@ interface Props {
   compacta?: boolean;
 }
 
-export default function Eleccion({ clave, pregunta, numero, total = 3, opciones, compacta = false }: Props) {
+export default function Eleccion({ clave, pregunta, numero, total = 2, opciones, compacta = false }: Props) {
   const respuestas = useStore($respuestas);
   // El HTML estático sale sin selección; la de la sesión se aplica al montar (sin desajuste de hidratación).
   const [montado, setMontado] = useState(false);

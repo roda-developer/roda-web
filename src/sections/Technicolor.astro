@@ -3,7 +3,6 @@ import '@fontsource-variable/bricolage-grotesque';
 import { Image } from 'astro:assets';
 import { technicolor } from '../content/guion';
 import { capturas } from '../content/capturas';
-import Deslizador from '../components/Deslizador.tsx';
 
 const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'];
 
@@ -66,15 +65,6 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
     </p>
   </div>
 
-  <div class="plano !pt-0">
-    <Deslizador
-      client:idle
-      pregunta={technicolor.pregunta}
-      ayuda={technicolor.ayuda}
-      extremos={technicolor.extremos}
-      remate={technicolor.remate}
-    />
-  </div>
 </section>
 
 <style>

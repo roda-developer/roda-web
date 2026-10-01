@@ -83,7 +83,7 @@ export default function Final() {
   if (!sinopsis) {
     return (
       <div className="mx-auto w-full max-w-4xl text-center">
-        <h2 className="adapta-titulo font-titulo text-[clamp(3.2rem,15vw,10rem)] leading-[0.9] tracking-[-0.045em]">
+        <h2 className="font-titulo text-[clamp(3.2rem,15vw,10rem)] leading-[0.9] tracking-[-0.045em]">
           {cierre.sinHistoria.titulo}
         </h2>
         <div className="mt-12 flex flex-col items-center gap-6">
@@ -118,7 +118,7 @@ export default function Final() {
       </div>
 
       <div inert={!termino} className={`mt-12 transition-opacity duration-1000 ${termino ? 'opacity-100' : 'opacity-0'}`}>
-        <p className="adapta-titulo max-w-[26ch] font-titulo text-[clamp(1.9rem,7vw,3.6rem)] leading-[1.02] tracking-[-0.045em]">
+        <p className="max-w-[26ch] font-titulo text-[clamp(1.9rem,7vw,3.6rem)] leading-[1.02] tracking-[-0.045em]">
           {sinopsis}
         </p>
         <p className="mt-10 font-titulo text-[clamp(2.6rem,11vw,6rem)] leading-none italic">

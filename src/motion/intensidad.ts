@@ -12,8 +12,3 @@ export function tonoDe(valor: number | null): Tono {
   return valor >= gritaDesde ? 'grita' : 'susurra';
 }
 
-/** Escribe la intensidad en :root para que el CSS de las secciones la lea sin re-render */
-export function aplicarIntensidad(valor: number | null, raiz: HTMLElement = document.documentElement) {
-  raiz.style.setProperty('--intensidad', String(normalizarIntensidad(valor)));
-  raiz.dataset.tono = tonoDe(valor);
-}

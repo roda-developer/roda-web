@@ -10,13 +10,9 @@ const total = String(pasos.length).padStart(2, '0');
     <div class="obra-marco">
       <header class="obra-cabeza px-5 md:px-12">
         <Rotulo rotulo={actoTres.rotulo} />
-        <h2 id="acto-tres-titulo" class="adapta-titulo mt-4 max-w-[20ch] font-titulo text-[clamp(1.7rem,min(7.5vw,4.6svh),2.6rem)] md:mt-6 lg:text-[clamp(2rem,min(4.4vw,6.5svh),4rem)] leading-[0.95] tracking-[-0.045em]">
+        <h2 id="acto-tres-titulo" class="mt-4 max-w-[20ch] font-titulo text-[clamp(1.7rem,min(7.5vw,4.6svh),2.6rem)] md:mt-6 lg:text-[clamp(2rem,min(4.4vw,6.5svh),4rem)] leading-[0.95] tracking-[-0.045em]">
           {actoTres.titulo}
         </h2>
-        <p class="mono mt-2 text-gris" aria-live="polite">
-          <span class="solo-grita">(Contado en tu tono: a los gritos)</span>
-          <span class="solo-susurra">(Contado en tu tono: en voz baja)</span>
-        </p>
         <div class="progreso mt-4" aria-hidden="true"><span data-progreso></span></div>
       </header>
 
@@ -30,7 +26,7 @@ const total = String(pasos.length).padStart(2, '0');
                 <span class="sr-only">Paso {i + 1} de {pasos.length}:</span>
                 <span class="ml-2 normal-case italic">{p.cine}</span>
               </p>
-              <h3 class="leyenda-nombre adapta-titulo">{p.nombre}</h3>
+              <h3 class="leyenda-nombre">{p.nombre}</h3>
               <p class="leyenda-texto">{p.texto}</p>
             </li>
           ))}
@@ -176,9 +172,6 @@ const total = String(pasos.length).padStart(2, '0');
   .c-img { background: radial-gradient(circle at 75% 25%, var(--color-tc-rosa) 0 22%, transparent 23%), var(--color-tc-azul) !important; }
   .diseno .p-btn,
   .c-btn { background: var(--color-tc-rojo) !important; }
-  /* Si la marca grita, también la tipografía */
-  :root[data-tono='grita'] .diseno .p-tit,
-  :root[data-tono='grita'] .c-tit { font-family: var(--font-grito); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; }
 
   /* El celular: aparece al publicarla, encima de la esquina del navegador */
   .celu {

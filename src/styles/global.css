@@ -20,8 +20,6 @@
 }
 
 :root {
-  /* 0 = susurra, 1 = grita. La escribe motion/intensidad.ts */
-  --intensidad: 0;
   color-scheme: light;
 }
 
@@ -78,101 +76,6 @@ body {
   .js [data-revelar] { opacity: 0; }
 }
 
-/* ── Deslizador "¿susurra o grita?" ─────────────────────────────── */
-.vista {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  max-height: 44svh;
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid color-mix(in oklab, var(--color-tinta) 14%, transparent);
-  color: var(--color-tinta);
-  /* Hasta la mitad susurra: papel y quieto. Pasada la mitad, el color entra de golpe. */
-  --grito: clamp(0, (var(--v) - 0.45) * 3.5, 1);
-  background: color-mix(in oklab, #fbfaf7, var(--color-tc-amarillo) calc(var(--grito) * 100%));
-  border-radius: calc(var(--grito) * 1.25rem);
-  transition: background 0.2s linear, border-radius 0.3s;
-}
-@media (min-width: 768px) { .vista { aspect-ratio: 16 / 9; max-height: 56svh; } }
-
-.mancha {
-  position: absolute;
-  border-radius: 999px;
-  transform: scale(calc(var(--grito, 0) * 1.15));
-  transition: transform 0.25s var(--ease-cine);
-}
-.mancha-a { width: 70%; aspect-ratio: 1; background: var(--color-tc-rosa); left: -20%; bottom: -25%; }
-.mancha-b { width: 42%; aspect-ratio: 1; background: var(--color-tc-azul); right: -8%; top: -10%; }
-.mancha-c { width: 24%; aspect-ratio: 1; background: var(--color-tc-rojo); right: 22%; bottom: 12%; }
-
-.vista-marca {
-  font-family: var(--font-grito);
-  font-weight: calc(200 + var(--v) * 600);
-  font-size: calc(2.6rem + var(--v) * 3.4rem);
-  letter-spacing: calc(0.12em - var(--v) * 0.17em);
-  line-height: 0.85;
-}
-@media (min-width: 768px) { .vista-marca { font-size: calc(4rem + var(--v) * 6rem); } }
-.vista-bajada {
-  max-width: 18ch;
-  font-size: calc(0.95rem + var(--v) * 0.5rem);
-  font-weight: calc(300 + var(--v) * 500);
-}
-
-.rango {
-  appearance: none;
-  height: 2.75rem;
-  background: transparent;
-  cursor: grab;
-}
-.rango:active { cursor: grabbing; }
-.rango::-webkit-slider-runnable-track {
-  height: 2px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--color-tinta) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
-}
-.rango::-moz-range-track {
-  height: 2px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--color-tinta) 30%, transparent), var(--color-tc-rojo) 70%, var(--color-tc-amarillo));
-}
-.rango::-webkit-slider-thumb {
-  appearance: none;
-  width: 2.75rem;
-  height: 2.75rem;
-  margin-top: -1.3rem;
-  border-radius: 999px;
-  border: 2px solid var(--color-tinta);
-  background: var(--color-papel);
-}
-.rango::-moz-range-thumb {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 999px;
-  border: 2px solid var(--color-tinta);
-  background: var(--color-papel);
-}
-
-/* ── La web que se reescribe ─────────────────────────────────────
-   Por defecto todo es papel y tinta. Si el visitante elige "grita",
-   lo que viene después del deslizador se enciende. */
-:root { --acento: var(--color-tinta); }
-[data-tono='grita'] { --acento: var(--color-tc-rojo); }
-
-.adapta-titulo { transition: color 0.6s; }
-:root[data-tono='grita'] .adapta-titulo {
-  font-family: var(--font-grito);
-  font-weight: 800;
-  font-style: normal;
-  text-transform: uppercase;
-  letter-spacing: -0.045em;
-  line-height: 0.86;
-}
-:root[data-tono='grita'] .adapta-titulo em { font-style: normal; color: var(--color-tc-rojo); }
-:root[data-tono='susurra'] .adapta-titulo { font-style: italic; letter-spacing: -0.01em; }
-
-.solo-grita, .solo-susurra { display: none; }
-:root[data-tono='grita'] .solo-grita { display: inline; }
-:root[data-tono='susurra'] .solo-susurra { display: inline; }
-
 /* ── Tráiler final: una pantalla de cine en medio del papel ─────── */
 .pantalla {
   position: relative;
@@ -203,13 +106,6 @@ body {
 }
 .carta-activa { opacity: 1; filter: blur(0); transform: scale(1); }
 .carta-vista { padding: 1.25rem; }
-:root[data-tono='grita'] .carta:not(.carta-vista) {
-  font-family: var(--font-grito);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.04em;
-  color: var(--color-tc-amarillo);
-}
 
 .preestreno {
   display: grid;
@@ -279,7 +175,6 @@ body {
 }
 .cta:hover { transform: translateY(-2px); }
 .cta::after { content: '→'; font-size: 1rem; letter-spacing: 0; }
-:root[data-tono='grita'] .cta { background: var(--color-tc-rojo); }
 
 /* Mobile: pregunta, vista, control, remate. Desktop: la vista a la derecha, todo en un cuadro. */
 .deslizador {

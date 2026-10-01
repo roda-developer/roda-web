@@ -43,37 +43,6 @@ test('el acto II tiene la pregunta 2 y muestra el peso real de la página', asyn
   await expect(page.locator('[data-peso]')).toHaveText(/\d+ KB/);
 });
 
-test('el deslizador cambia el tono de toda la página y se recuerda', async ({ page }) => {
-  await page.goto('/');
-  await hidratada(page);
-  const deslizador = page.getByRole('slider', { name: '¿Tu marca susurra o grita?' });
-  await deslizador.scrollIntoViewIfNeeded();
-  await deslizador.focus();
-  await page.keyboard.press('End');
-  await expect(page.locator('html')).toHaveAttribute('data-tono', 'grita');
-  expect(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--intensidad').trim())).toBe('1');
-
-  await page.keyboard.press('Home');
-  await expect(page.locator('html')).toHaveAttribute('data-tono', 'susurra');
-
-  await page.reload();
-  await hidratada(page);
-  await expect(page.locator('html')).toHaveAttribute('data-tono', 'susurra');
-});
-
-test('después de elegir "grita", el acto III se cuenta con la tipografía del grito', async ({ page }) => {
-  await page.goto('/');
-  await hidratada(page);
-  const deslizador = page.getByRole('slider', { name: '¿Tu marca susurra o grita?' });
-  await deslizador.scrollIntoViewIfNeeded();
-  await deslizador.focus();
-  await page.keyboard.press('End');
-  const paso = page.getByRole('heading', { name: 'Te escuchamos.', exact: true });
-  await paso.scrollIntoViewIfNeeded();
-  expect(await paso.evaluate((el) => getComputedStyle(el).fontFamily)).toContain('Bricolage');
-  await expect(page.getByText('a los gritos')).toBeVisible();
-});
-
 test('la sección para creativos vive en proyectos y promete respetar el diseño', async ({ page }) => {
   await page.goto('/proyectos');
   await expect(page.getByRole('heading', { name: '¿Diseñás o manejás marcas?' })).toBeAttached();

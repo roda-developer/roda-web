@@ -58,10 +58,6 @@ export const technicolor = {
   /** Lo que se lee sobre la explosión de webs: son trabajos nuestros */
   firma: 'Algunas que hicimos nosotros',
   corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu historia.'],
-  pregunta: '¿Tu marca susurra o grita?',
-  ayuda: 'Deslizá. Todo lo que sigue se va a contar en tu tono.',
-  extremos: ['Susurra', 'Grita'],
-  remate: 'Nosotros hacemos las dos cosas.',
 };
 
 export const actoTres = {
