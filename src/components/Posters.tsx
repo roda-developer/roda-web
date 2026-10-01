@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import { useStore } from '@nanostores/react';
 import { $respuestas } from '../story/store';
 import { PROYECTOS, ordenarPorRubro, type Proyecto } from '../content/proyectos';
+import { RUBROS } from '../story/opciones';
 
 function Poster({ p, cerca }: { p: Proyecto; cerca: boolean }) {
   const estilo = { '--fondo': p.fondo, '--tinta': p.tinta } as CSSProperties;
@@ -39,10 +40,15 @@ export default function Posters() {
   const lista = ordenarPorRubro(PROYECTOS, elegido);
 
   return (
-    <div className="posters" aria-live="polite">
-      {lista.map((p) => (
-        <Poster key={p.titulo} p={p} cerca={elegido !== null && p.rubro === elegido} />
-      ))}
-    </div>
+    <>
+      <p role="status" className="sr-only">
+        {elegido ? `Mostrando primero proyectos de ${RUBROS.find((r) => r.id === elegido)?.label.toLowerCase()}` : ''}
+      </p>
+      <div className="posters">
+        {lista.map((p) => (
+          <Poster key={p.titulo} p={p} cerca={elegido !== null && p.rubro === elegido} />
+        ))}
+      </div>
+    </>
   );
 }

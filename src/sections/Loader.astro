@@ -31,7 +31,9 @@ const palabras = loader.frase.split(' ');
       padding: 1.5rem;
       text-align: center;
       background: var(--color-sala);
-      animation: loader-sale 1s var(--ease-cine) 2.1s forwards;
+      /* Es un título, no una puerta: nunca intercepta toques */
+      pointer-events: none;
+      animation: loader-sale 0.8s var(--ease-cine) 1.6s forwards;
     }
   }
 
@@ -47,7 +49,7 @@ const palabras = loader.frase.split(' ');
     opacity: 0;
     filter: blur(8px);
     animation: palabra 0.9s var(--ease-cine) forwards;
-    animation-delay: calc(0.15s + var(--i) * 0.125s);
+    animation-delay: calc(0.1s + var(--i) * 0.1s);
   }
   .loader-presenta {
     font-size: 0.7rem;
@@ -55,7 +57,7 @@ const palabras = loader.frase.split(' ');
     text-transform: uppercase;
     color: var(--color-tungsteno);
     opacity: 0;
-    animation: palabra 0.8s var(--ease-cine) 1.15s forwards;
+    animation: palabra 0.7s var(--ease-cine) 0.85s forwards;
   }
 
   @keyframes palabra { to { opacity: 1; filter: blur(0); } }

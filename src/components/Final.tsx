@@ -20,7 +20,7 @@ function VistaPrevia({ p }: { p: Preestreno }) {
         <p className="preestreno-titular">{p.titular}</p>
         <span className="preestreno-boton">{p.boton}</span>
       </div>
-      <p className="text-[0.55rem] tracking-[0.25em] uppercase opacity-50">Ejemplo ilustrativo</p>
+      <p className="text-[0.65rem] tracking-[0.22em] uppercase opacity-80">Ejemplo ilustrativo</p>
     </div>
   );
 }
@@ -37,6 +37,15 @@ export default function Final() {
   const cartas = montado ? fragmentosSinopsis(respuestas) : [];
   const sinopsis = montado ? armarSinopsis(respuestas) : null;
   const total = cartas.length + 1; // + la vista previa de su web
+
+  // Si cambia una respuesta, el tráiler vuelve a empezar con la historia nueva.
+  const sinopsisPrevia = useRef(sinopsis);
+  useEffect(() => {
+    if (sinopsisPrevia.current === sinopsis) return;
+    sinopsisPrevia.current = sinopsis;
+    setTermino(false);
+    setCarta(-1);
+  }, [sinopsis]);
 
   // El tráiler corre solo cuando la pantalla entra en cuadro.
   useEffect(() => {
@@ -108,7 +117,7 @@ export default function Final() {
         {carta === -1 && <p className="carta carta-activa text-niebla">▶</p>}
       </div>
 
-      <div className={`mt-12 transition-opacity duration-1000 ${termino ? 'opacity-100' : 'opacity-0'}`}>
+      <div inert={!termino} className={`mt-12 transition-opacity duration-1000 ${termino ? 'opacity-100' : 'opacity-0'}`}>
         <p className="adapta-titulo max-w-[26ch] font-titulo text-[clamp(1.9rem,7vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
           {sinopsis}
         </p>
@@ -129,7 +138,7 @@ export default function Final() {
         </button>
       </div>
       {/* La sinopsis también existe fuera del tráiler para lectores de pantalla */}
-      <p className="sr-only">Vista previa de tu web: {p.marca}. {p.titular} Botón: {p.boton}.</p>
+      <p className="sr-only">Vista previa de tu web, un ejemplo ilustrativo: {p.marca}. {p.titular} Botón: {p.boton}.</p>
     </div>
   );
 }

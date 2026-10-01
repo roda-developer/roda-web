@@ -29,7 +29,7 @@ export const actoUno = {
 export const actoDos = {
   rotulo: 'II — Lo que hace una buena web',
   planos: [
-    { titulo: 'Se entiende al instante.', texto: 'Qué hacés, para quién y por qué vos. Antes del primer scroll.' },
+    { titulo: 'Se entiende al instante.', texto: 'Qué hacés, para quién y por qué vos. Antes de que tenga que buscar nada.' },
     { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va. Esta página pesa menos que una foto de tu celular.' },
     { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.', pregunta: '¿A dónde querés llevar a tu cliente?' },
     { titulo: 'Se ve increíble en el celular.', texto: 'Ahí está tu cliente, casi siempre. Por eso la diseñamos primero para una mano.' },
@@ -85,6 +85,12 @@ export const creditos = {
     { nombre: 'Facundo', rol: 'Dirección · Desarrollo' },
   ],
   lema: ['Dos desarrolladores.', 'Una misma mirada.'],
+  ficha: [
+    ['Diseño y desarrollo', 'Giuliana y Facundo'],
+    ['Hecha', 'A mano, sin plantillas'],
+    ['Tipografías', 'Instrument Serif · Instrument Sans · Bricolage Grotesque'],
+    ['Duración', 'Tres minutos, más o menos'],
+  ],
 };
 
 export const cierre = {
