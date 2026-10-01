@@ -27,7 +27,7 @@ const quieto = Math.max(0, secuencia.cuadros.findIndex((c) => c.tipo === 'credit
 const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t.mensaje)}`;
 const textoSecuencia = secuencia.cuadros
   .filter((c) => c.tipo !== 'cierre')
-  .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.tipo === 'tagline' ? c.lineas.join(' ') : c.texto))
+  .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.tipo === 'tagline' ? c.lineas.join(' ') : c.tipo === 'titulo' ? c.palabras.join(' ') : c.texto))
   .join('. ');
 ---
 <Base titulo="Nosotros — Roda" descripcion="Roda es Giuliana y Facundo: pareja, socios y desarrolladores web egresados de la UNLaM.">
@@ -51,15 +51,21 @@ const textoSecuencia = secuencia.cuadros
         <div class="velo" aria-hidden="true"></div>
         <div class="cuadros" aria-hidden="true">
           {secuencia.cuadros.map((c, i) => (
-            <div class:list={['cuadro', `cuadro-${c.tipo}`, { activo: i === quieto }]} data-cuadro={c.fondo} data-ms={c.ms}>
+            <div class:list={['cuadro', `cuadro-${c.tipo}`, c.disposicion && `d-${c.disposicion}`, { activo: i === quieto }]} data-cuadro={c.fondo} data-ms={c.ms}>
               {c.tipo === 'presenta' && <p class="presenta"><Marca class="presenta-logo" /><span>{c.texto.replace(/^Rodas*/, '')}</span></p>}
-              {c.tipo === 'titulo' && <p class="grande">{c.texto}</p>}
+              {c.tipo === 'titulo' && (
+                <>
+                  <p class="lado lado-izq">{c.lados[0]}</p>
+                  <p class="escalera">{c.palabras.map((w, j) => <span class="grande" style={`--j:${j}`}>{w}</span>)}</p>
+                  <p class="lado lado-der">{c.lados[1]}</p>
+                </>
+              )}
               {c.tipo === 'cierre' && <p class="cierre-logo"><Marca /></p>}
               {c.tipo === 'tagline' && <p class="tagline">{c.lineas.map((l) => <span>{l}</span>)}</p>}
               {c.tipo === 'credito' && (
                 <>
                   <p class="rol">{c.rol}</p>
-                  {c.nombres.map((n) => <p class="nombre">{n}</p>)}
+                  {c.nombres.map((n, j) => <p class={`nombre nombre-${j}`}>{n}</p>)}
                 </>
               )}
             </div>
@@ -137,8 +143,34 @@ const textoSecuencia = secuencia.cuadros
   .nombre { margin-top: 0.4em; font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.9rem); line-height: 1.35; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-papel); text-wrap: balance; }
   .rol + .nombre { margin-top: 1.4em; }
   /* La frase clave: más grande que los créditos, la segunda línea en rosa */
-  .tagline { display: grid; gap: 0.6em; color: var(--color-papel); font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.1rem, 2.8vw, 2.3rem); line-height: 1.25; letter-spacing: 0.2em; text-transform: uppercase; text-wrap: balance; }
+  .cuadro-tagline { place-content: center start !important; padding-inline: 7% !important; }
+  .tagline { display: grid; gap: 0.6em; max-width: 26ch; text-align: left; font-size: clamp(1.3rem, 3.2vw, 2.6rem) !important; color: var(--color-papel); font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.1rem, 2.8vw, 2.3rem); line-height: 1.25; letter-spacing: 0.2em; text-transform: uppercase; text-wrap: balance; }
   .tagline span:last-child { color: var(--color-tc-rosa); }
+  /* El título en escalera: cada palabra en su lugar, y se van sumando como placas */
+  .cuadro-titulo { place-content: stretch !important; padding: 7% 6% 4.5rem !important; }
+  .escalera { display: grid; height: 100%; align-content: space-between; }
+  .escalera .grande { font-size: min(17vw, 24svh); }
+  .escalera .grande:nth-child(1) { justify-self: start; }
+  .escalera .grande:nth-child(2) { justify-self: end; }
+  .escalera .grande:nth-child(3) { justify-self: start; }
+  :global(.secuencia-animada) .cuadro-titulo.activo .grande { animation: corte 0.01s steps(1) both; animation-delay: calc(var(--j) * 0.6s); }
+  @keyframes corte { from { opacity: 0; } to { opacity: 1; } }
+  .lado { position: absolute; top: 50%; translate: 0 -50%; font-family: var(--font-titulo); font-style: italic; font-size: clamp(0.9rem, 1.6vw, 1.25rem); }
+  .lado-izq { left: 1.5%; } .lado-der { right: 1.5%; }
+  @media (orientation: portrait) { .lado { display: none; } }
+  /* Los protagonistas, a los costados: enmarcan las caras */
+  .d-lados { place-content: stretch !important; grid-template-rows: auto 1fr; padding: 7% 4% !important; text-align: center; }
+  .d-lados .nombre { position: absolute; top: 50%; translate: 0 -50%; max-width: 38%; margin: 0; line-height: 1.5; }
+  @media (max-width: 767px) { .d-lados .nombre { letter-spacing: 0.2em; } }
+  .d-lados .nombre-0 { left: 4%; text-align: left; }
+  .d-lados .nombre-1 { right: 4%; text-align: right; }
+  @media (orientation: portrait) {
+    .d-lados .nombre-0 { top: 30%; }
+    .d-lados .nombre-1 { top: 72%; }
+  }
+  /* La locación, chiquita abajo a la izquierda, como el rótulo de una escena */
+  .d-esquina { place-content: end start !important; padding: 0 5% 4.5rem !important; text-align: left; }
+  .d-esquina .rol + .nombre { margin-top: 0.8em; }
   /* La placa final: el logo solo, sobre negro, como el cierre de un estudio */
   .cierre-logo { color: var(--color-papel); font-size: clamp(3rem, 8vw, 6rem); }
   .legal {

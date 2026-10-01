@@ -213,15 +213,14 @@ export const nosotros = {
      * fondo 'negro': la placa va sobre negro, como en el cine; si no, sobre esa foto.
      * ms: cuánto dura en pantalla. Corre sola, como un video; termina quieta en la última placa.
      */
+    // disposicion: dónde se acomoda el texto en el cuadro (no todo al centro, como en las intros de cine)
     cuadros: [
       { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta', ms: 1500 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Una', ms: 550 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Misma', ms: 550 },
-      { fondo: 'juntos', tipo: 'titulo', texto: 'Mirada', ms: 1100 },
-      { fondo: 'juntos', tipo: 'credito', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 1800 },
-      { fondo: 'viaje', tipo: 'credito', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 1700 },
+      { fondo: 'juntos', tipo: 'titulo', palabras: ['Una', 'Misma', 'Mirada'], lados: ['Roda', '26'], ms: 2800 },
+      { fondo: 'juntos', tipo: 'credito', disposicion: 'lados', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 2400 },
+      { fondo: 'viaje', tipo: 'credito', disposicion: 'esquina', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 2000 },
       // La frase clave, como el tagline de un afiche
-      { fondo: 'viaje', tipo: 'tagline', lineas: ['Cada web que hacemos es un viaje.', 'Y nos encanta viajar.'], ms: 3000 },
+      { fondo: 'viaje', tipo: 'tagline', lineas: ['Cada web que hacemos es un viaje.', 'Y nos encanta viajar.'], ms: 4200 },
       { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
     ],
   },
