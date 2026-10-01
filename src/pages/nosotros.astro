@@ -28,9 +28,10 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
   <Nav enHome={false} />
   <main class="relative z-10">
     <!-- La secuencia de títulos: el fondo corre como un video y el título cambia de a una palabra al bajar -->
-    <section class="secuencia" data-secuencia data-nav-oscuro aria-labelledby="nosotros-titulo">
+    <section class="secuencia" data-secuencia aria-labelledby="nosotros-titulo">
       <h1 id="nosotros-titulo" class="sr-only">{t.grande}: {textoSecuencia}</h1>
       <div class="escenario">
+        <div class="pantalla">
         {video
           ? (
             <video class="fondo visible" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
@@ -52,6 +53,7 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
           ))}
         </div>
         <p class="legal" aria-hidden="true">{secuencia.legal}</p>
+        </div>
       </div>
     </section>
 
@@ -99,13 +101,18 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
 <style>
   /* ── La secuencia ───────────────────────────────────────────────
      Sin movimiento (o sin JS) se lee como un afiche: todos los títulos, uno abajo del otro, sobre la foto. */
-  .secuencia { position: relative; background: var(--color-negro); color: var(--color-tc-rosa); }
-  .escenario { position: relative; min-height: 100svh; overflow: hidden; display: grid; place-items: center; padding: 6rem 1.25rem; }
+  .secuencia { position: relative; color: var(--color-tc-rosa); }
+  /* El escenario es papel; la pantalla, un recuadro con márgenes, como una proyección dentro de la página */
+  .escenario { position: relative; min-height: 100svh; padding: 4.5rem 1.25rem 1.25rem; display: grid; }
+  @media (min-width: 768px) { .escenario { padding: 5.5rem 3rem 2rem; } }
+  .pantalla { position: relative; overflow: hidden; display: grid; place-items: center; padding: 5rem 1.25rem; background: var(--color-negro); }
   .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 48% 40%; opacity: 0; transition: opacity 0.6s; filter: saturate(0.8) contrast(1.05); }
   .fondo.visible { opacity: 1; }
+  /* En la foto del barco están los dos a la derecha: en pantalla vertical se corre el encuadre */
+  @media (orientation: portrait) { .fondo[data-fondo='viaje'] { object-position: 64% 45%; } }
   .velo { position: absolute; inset: 0; background: linear-gradient(rgb(8 10 20 / 0.55), rgb(8 10 20 / 0.72)); }
   .presenta, .legal, .cuadros { position: relative; z-index: 1; }
-  .presenta { position: absolute; top: 5.5rem; inset-inline: 0; text-align: center; font-family: var(--font-titulo); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.5rem); }
+  .presenta { position: absolute; top: 1.5rem; inset-inline: 0; text-align: center; font-family: var(--font-titulo); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.5rem); }
   .legal {
     position: absolute;
     bottom: 1.25rem;
@@ -123,7 +130,7 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
     font-weight: 800;
     font-stretch: 75%;
     text-transform: uppercase;
-    font-size: min(24vw, 30svh);
+    font-size: min(21vw, 26svh);
     line-height: 0.82;
     letter-spacing: -0.02em;
     text-wrap: balance;
@@ -133,6 +140,7 @@ const textoSecuencia = secuencia.cuadros.map((c) => [c.titulo, c.bajada].filter(
   /* Con movimiento: el escenario queda fijo y los cuadros se turnan, como placas de título */
   :global(.secuencia-animada) .secuencia { height: calc(var(--cuadros) * 85svh + 100svh); }
   :global(.secuencia-animada) .escenario { position: sticky; top: 0; height: 100svh; }
+  :global(.secuencia-animada) .pantalla { padding: 0; }
   :global(.secuencia-animada) .cuadros { position: absolute; inset: 0; display: block; }
   :global(.secuencia-animada) .cuadro {
     position: absolute;
