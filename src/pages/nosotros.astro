@@ -7,6 +7,7 @@ import Base from '../layouts/Base.astro';
 import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
+import Marca from '../components/Marca.astro';
 import { nosotros as t } from '../content/guion';
 import { WHATSAPP } from '../content/contacto';
 import juntos from '../assets/nosotros/juntos.jpg';
@@ -48,7 +49,7 @@ const textoSecuencia = secuencia.cuadros
         <div class="cuadros" aria-hidden="true">
           {secuencia.cuadros.map((c, i) => (
             <div class:list={['cuadro', `cuadro-${c.tipo}`, { activo: i === 0 }]} data-cuadro={c.fondo}>
-              {c.tipo === 'presenta' && <p class="presenta">{c.texto}</p>}
+              {c.tipo === 'presenta' && <p class="presenta"><Marca class="presenta-logo" /><span>{c.texto.replace(/^Rodas*/, '')}</span></p>}
               {c.tipo === 'titulo' && <p class="grande">{c.texto}</p>}
               {c.tipo === 'credito' && (
                 <>
@@ -125,10 +126,12 @@ const textoSecuencia = secuencia.cuadros
   .velo { position: absolute; inset: 0; background: linear-gradient(rgb(8 10 20 / 0.55), rgb(8 10 20 / 0.72)); }
   .legal, .cuadros { position: relative; z-index: 1; }
   /* Las placas livianas: el estudio, la producción y los créditos, en papel */
-  .presenta { font-family: var(--font-titulo); font-style: italic; font-weight: 300; font-size: clamp(1.4rem, 3.4vw, 2.6rem); letter-spacing: -0.02em; color: var(--color-papel); }
-  .rol { font-family: var(--font-titulo); font-style: italic; font-weight: 300; font-size: clamp(1rem, 2vw, 1.4rem); color: color-mix(in oklab, var(--color-papel) 80%, transparent); }
-  .nombre { margin-top: 0.15em; font-family: var(--font-titulo); font-weight: 300; font-size: clamp(2rem, 6vw, 4.8rem); line-height: 1; letter-spacing: -0.04em; color: var(--color-papel); text-wrap: balance; }
-  .rol + .nombre { margin-top: 0.5em; }
+  /* Las placas livianas, como los créditos de cine actuales: mayúsculas con mucho aire entre letras */
+  .presenta { display: flex; align-items: baseline; justify-content: center; gap: 0.9em; color: var(--color-papel); font-family: var(--font-titulo); font-weight: 500; font-size: clamp(0.85rem, 1.6vw, 1.2rem); letter-spacing: 0.42em; text-transform: uppercase; }
+  .presenta :global(.presenta-logo) { font-size: clamp(2.2rem, 4.6vw, 3.6rem); letter-spacing: -0.01em; text-transform: none; }
+  .rol { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(0.62rem, 1vw, 0.78rem); letter-spacing: 0.45em; text-transform: uppercase; color: color-mix(in oklab, var(--color-papel) 72%, transparent); }
+  .nombre { margin-top: 0.4em; font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.9rem); line-height: 1.35; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-papel); text-wrap: balance; }
+  .rol + .nombre { margin-top: 1.4em; }
   .legal {
     position: absolute;
     bottom: 1.25rem;
@@ -153,7 +156,7 @@ const textoSecuencia = secuencia.cuadros
   }
 
   /* Con movimiento: el escenario queda fijo y los cuadros se turnan, como placas de título */
-  :global(.secuencia-animada) .secuencia { height: calc(var(--cuadros) * 85svh + 100svh); }
+  :global(.secuencia-animada) .secuencia { height: calc(var(--cuadros) * 38svh + 100svh); }
   :global(.secuencia-animada) .escenario { position: sticky; top: 0; height: 100svh; }
   :global(.secuencia-animada) .pantalla { padding: 0; }
   :global(.secuencia-animada) .cuadros { position: absolute; inset: 0; display: block; }
