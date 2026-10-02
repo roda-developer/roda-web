@@ -8,6 +8,7 @@ export const loader = {
 export const nav = {
   proyectos: 'Proyectos',
   nosotros: 'Nosotros',
+  precios: 'Precios',
   atajo: 'Hablemos',
 };
 

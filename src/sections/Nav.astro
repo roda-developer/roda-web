@@ -9,88 +9,200 @@ interface Props {
 const { enHome = true } = Astro.props;
 const raiz = enHome ? '' : '/';
 ---
-<header class="nav fixed inset-x-0 top-0 z-50 pointer-events-none flex items-start justify-between">
-  <!-- Parte 1: solo el logo 'roda', pegada al extremo izquierdo sin tocar el borde superior -->
-  <div class="nav-bloque nav-bloque-izq">
-    <a href={enHome ? '#inicio' : '/'} class="inline-flex min-h-11 items-center text-[1.4rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio">
-      <Marca />
-    </a>
-  </div>
+<header class="nav fixed inset-x-0 top-0 z-50 px-4 py-1.5 md:px-8 md:py-1.5">
+  <nav aria-label="Principal" class="mono w-full text-[0.72rem] sm:text-xs md:text-sm">
+    <div class="relative z-50 grid grid-cols-[1fr_auto_1fr] items-center w-full">
+      <!-- Desktop Izquierda: Proyectos, Nosotros -->
+      <div class="hidden md:flex items-center justify-start gap-5 md:gap-8">
+        <a href="/proyectos" class="enlace inline-flex min-h-11 items-center">{nav.proyectos}</a>
+        <a href="/nosotros" class="enlace inline-flex min-h-11 items-center">{nav.nosotros}</a>
+      </div>
 
-  <!-- Parte 2: opciones de las secciones, pegada al extremo derecho sin tocar el borde superior -->
-  <nav aria-label="Principal" class="nav-bloque nav-bloque-der mono">
-    <a href="/proyectos" class="enlace inline-flex min-h-11 items-center">{nav.proyectos}</a>
-    <a href="/nosotros" class="enlace inline-flex min-h-11 items-center">{nav.nosotros}</a>
-    <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center">({nav.atajo})</a>
+      <!-- Mobile Izquierda: Espaciador simétrico para centrar el logo Roda -->
+      <div class="flex md:hidden items-center justify-start w-11 h-11 pointer-events-none" aria-hidden="true"></div>
+
+      <!-- Centro: Logo Roda (en home no tiene href=#inicio para que tocar el nav no te mande arriba) -->
+      <div class="flex items-center justify-center px-1 sm:px-2">
+        {enHome ? (
+          <span class="inline-flex min-h-11 items-center text-[1.35rem] sm:text-[1.5rem] md:text-[1.75rem] cursor-default select-none" aria-label="Roda">
+            <Marca />
+          </span>
+        ) : (
+          <a href="/" class="inline-flex min-h-11 items-center text-[1.35rem] sm:text-[1.5rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio">
+            <Marca />
+          </a>
+        )}
+      </div>
+
+      <!-- Desktop Derecha: Precios, Hablemos -->
+      <div class="hidden md:flex items-center justify-end gap-5 md:gap-8">
+        <a href={`${raiz}#planes`} class="enlace inline-flex min-h-11 items-center">{nav.precios}</a>
+        <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center">({nav.atajo})</a>
+      </div>
+
+      <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
+      <div class="flex md:hidden items-center justify-end">
+        <button
+          type="button"
+          class="boton-hamburguesa inline-flex flex-col items-end justify-center w-11 h-11 p-2 gap-1.5"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="menu-movil"
+        >
+          <span class="linea-hamburguesa linea-arriba"></span>
+          <span class="linea-hamburguesa linea-abajo"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú desplegable Mobile: dentro de nav para accesibilidad y semántica -->
+    <div id="menu-movil" class="menu-movil md:hidden" aria-hidden="true">
+      <div class="space-y-6 pt-8">
+        <p class="mono text-[0.75rem] text-tinta/45 tracking-wider uppercase mb-8">Navegación</p>
+        <div class="flex flex-col space-y-4">
+          <a href="/proyectos" class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(01)</span>
+            <span class="enlace-movil">{nav.proyectos}</span>
+          </a>
+          <a href="/nosotros" class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(02)</span>
+            <span class="enlace-movil">{nav.nosotros}</span>
+          </a>
+          <a href={`${raiz}#planes`} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight" data-ancla>
+            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(03)</span>
+            <span class="enlace-movil">{nav.precios}</span>
+          </a>
+          <a href={`${raiz}#final`} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight" data-ancla>
+            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(04)</span>
+            <span class="enlace-movil">({nav.atajo})</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="border-t border-tinta/10 pt-6 flex items-center justify-between text-xs mono text-tinta/50">
+        <span>Roda — Estudio web</span>
+        <span>Buenos Aires</span>
+      </div>
+    </div>
   </nav>
 </header>
 
 <style>
-  /* Header contenedor transparente sin interacción propia */
+  /* Arriba de todo: transparente y compacto */
   .nav {
-    transition: transform 0.5s var(--ease-cine);
+    color: var(--color-tinta);
+    background-color: transparent;
+    transition: color 0.4s, background-color 0.3s ease, box-shadow 0.3s ease, transform 0.5s var(--ease-cine);
   }
 
-  /* Al bajar se esconde para no pisar los títulos; al subir (o con el teclado adentro) vuelve */
-  .nav.escondida:not(:focus-within) {
-    transform: translateY(-160%);
+  /* Al subir o desplazarse: fondo muy sutil y transparente con desenfoque, sin línea separadora */
+  .nav.con-fondo {
+    background-color: color-mix(in oklab, var(--color-papel) 45%, transparent);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    box-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.04);
   }
+
+  /* Cuando el menú móvil está abierto, la barra superior no interfiere con el fondo del menú */
+  .nav.menu-abierto {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Al bajar se esconde; al subir vuelve */
+  .nav.escondida:not(.menu-abierto) {
+    transform: translateY(-100%);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .nav {
-      transition: none;
+      transition: color 0.4s, background-color 0.3s ease;
     }
   }
 
-  /* Cada bloque separado: glassmorphism, esquinas rectas (sin redondear) */
-  .nav-bloque {
-    margin-top: clamp(0.75rem, 2svh, 1.25rem);
-    pointer-events: auto;
-    display: inline-flex;
-    align-items: center;
-    border-radius: 0;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background: color-mix(in oklab, var(--color-papel) 72%, transparent);
-    color: var(--color-tinta);
-    border: 1px solid color-mix(in oklab, var(--color-tinta) 12%, transparent);
-    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.08);
-    transition: background-color 0.4s, border-color 0.4s, color 0.4s;
-  }
-
-  /* Bloque izquierdo: sale del extremo izquierdo */
-  .nav-bloque-izq {
-    border-left: none;
-    padding: 0.35rem 1.15rem 0.35rem 1.25rem;
-  }
-  @media (min-width: 768px) {
-    .nav-bloque-izq {
-      padding: 0.45rem 1.5rem 0.45rem 1.5rem;
-    }
-  }
-
-  /* Bloque derecho: sale del extremo derecho */
-  .nav-bloque-der {
-    border-right: none;
-    padding: 0.35rem 1.25rem 0.35rem 1.15rem;
-    gap: clamp(0.75rem, 1.8vw, 1.75rem);
-    font-size: clamp(0.78rem, 1.5vw, 0.95rem);
-  }
-  @media (min-width: 768px) {
-    .nav-bloque-der {
-      padding: 0.45rem 1.5rem 0.45rem 1.5rem;
-      gap: 2rem;
-    }
-  }
-
-  /* Sobre fondo oscuro (ej. data-nav-oscuro) */
-  .nav.sobre-oscuro .nav-bloque {
-    background: color-mix(in oklab, var(--color-negro) 68%, transparent);
-    border-color: color-mix(in oklab, var(--color-papel) 14%, transparent);
+  /* Sobre fondo oscuro (la pantalla del tráiler o secciones oscuras) */
+  .nav.sobre-oscuro {
     color: var(--color-papel);
-    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.4);
+  }
+  .nav.sobre-oscuro.con-fondo {
+    background-color: color-mix(in oklab, var(--color-negro) 50%, transparent);
+    box-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.25);
   }
 
-  /* Subrayado animado de los enlaces */
+  /* Botón hamburguesa: dos rayas asimétricas (la de arriba más larga, la de abajo más corta) */
+  .boton-hamburguesa {
+    color: currentColor;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .linea-hamburguesa {
+    display: block;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 999px;
+    transform-origin: center;
+    transition: transform 0.35s var(--ease-cine), width 0.35s var(--ease-cine);
+  }
+  .linea-arriba {
+    width: 22px;
+  }
+  .linea-abajo {
+    width: 14px;
+  }
+
+  /* Cuando el menú está abierto: las líneas se cruzan formando una X */
+  .nav.menu-abierto .linea-arriba {
+    width: 20px;
+    transform: translateY(4px) rotate(45deg);
+  }
+  .nav.menu-abierto .linea-abajo {
+    width: 20px;
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  /* Menú desplegable Mobile: Glassmorphism y pantalla completa real en viewport */
+  .menu-movil {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6.5rem 1.5rem 2.5rem;
+    background-color: color-mix(in oklab, var(--color-papel) 97%, transparent);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    color: var(--color-tinta);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.32s var(--ease-cine), transform 0.32s var(--ease-cine), visibility 0.32s;
+    pointer-events: none;
+    overscroll-behavior: contain;
+  }
+  .menu-movil.sobre-oscuro {
+    background-color: color-mix(in oklab, var(--color-negro) 97%, transparent);
+    color: var(--color-papel);
+  }
+  .menu-movil.abierto {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Animación de entrada y toque de los links móviles */
+  .link-movil {
+    transition: transform 0.3s var(--ease-cine);
+  }
+  .link-movil:active {
+    transform: translateX(6px);
+  }
+
   .enlace {
     background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat;
     transition: background-size 0.5s var(--ease-cine);
@@ -101,30 +213,132 @@ const raiz = enHome ? '' : '/';
 </style>
 
 <script>
-  // Cuando algo oscuro (data-nav-oscuro, la pantalla del tráiler) pasa por debajo del menú, el menú pasa a papel.
-  // Se busca en cada scroll porque la pantalla aparece recién cuando carga el tráiler.
+  // Control del menú hamburguesa en mobile
   const nav = document.querySelector<HTMLElement>('.nav');
+  const botonHamburguesa = document.querySelector<HTMLButtonElement>('.boton-hamburguesa');
+  const menuMovil = document.getElementById('menu-movil');
+
+  if (nav && botonHamburguesa && menuMovil) {
+    const toggleMenu = (abrir?: boolean) => {
+      const nuevoEstado = typeof abrir === 'boolean' ? abrir : !nav.classList.contains('menu-abierto');
+      nav.classList.toggle('menu-abierto', nuevoEstado);
+      menuMovil.classList.toggle('abierto', nuevoEstado);
+      botonHamburguesa.setAttribute('aria-expanded', String(nuevoEstado));
+      botonHamburguesa.setAttribute('aria-label', nuevoEstado ? 'Cerrar menú' : 'Abrir menú');
+      menuMovil.setAttribute('aria-hidden', String(!nuevoEstado));
+      botonHamburguesa.blur();
+    };
+
+    botonHamburguesa.addEventListener('click', () => toggleMenu());
+
+    // Al tocar links del menú móvil: cerrar y navegar de forma precisa
+    menuMovil.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && (href.startsWith('#') || href.startsWith('/#'))) {
+          const targetId = href.replace(/^\//, '');
+          const target = document.querySelector(targetId);
+          if (target) {
+            e.preventDefault();
+            toggleMenu(false);
+            // Esperar que cierre el menú para que el cálculo de scroll sea 100% exacto
+            setTimeout(() => {
+              const y = target.getBoundingClientRect().top + window.scrollY - 15;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }, 60);
+            return;
+          }
+        }
+        toggleMenu(false);
+      });
+    });
+
+    // Cerrar con Escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('menu-abierto')) {
+        toggleMenu(false);
+      }
+    });
+  }
+
+  // Cuando algo oscuro (data-nav-oscuro, la pantalla del tráiler) pasa por debajo del menú, el menú pasa a papel.
   if (nav) {
     let pendiente = false;
-    let ultimoY = scrollY;
+    let ultimoY = Math.max(0, scrollY);
+    let acumuladoBajar = 0;
+    let acumuladoSubir = 0;
+
+    // Secciones donde no debe aparecer el nav al scrollear para arriba:
+    // "#technicolor" incluye "Y a veces más es más" y la explosión de proyectos
+    const enSeccionOculta = () => {
+      const tc = document.getElementById('technicolor');
+      if (tc) {
+        const r = tc.getBoundingClientRect();
+        // Si Technicolor está cubriendo la parte superior del viewport
+        return r.top <= 120 && r.bottom >= 40;
+      }
+      return false;
+    };
+
     const revisar = () => {
       pendiente = false;
+      const y = Math.max(0, scrollY);
       const alto = nav.offsetHeight;
       const encima = [...document.querySelectorAll('[data-nav-oscuro]')].some((el) => {
         const r = el.getBoundingClientRect();
         return r.top < alto && r.bottom > alto / 2;
       });
       nav.classList.toggle('sobre-oscuro', encima);
-      // Bajando se esconde; subiendo vuelve. Arriba de todo, siempre a la vista.
-      const y = scrollY;
-      if (Math.abs(y - ultimoY) > 8) {
-        nav.classList.toggle('escondida', y > ultimoY && y > alto * 2);
-        ultimoY = y;
+      menuMovil?.classList.toggle('sobre-oscuro', encima);
+
+      // Al despegarse de arriba se activa el velo transparente sutil
+      nav.classList.toggle('con-fondo', y > 20);
+
+      const ocultaPorSeccion = enSeccionOculta();
+
+      if (nav.classList.contains('menu-abierto')) {
+        // Con el menú abierto nunca se esconde
+        nav.classList.remove('escondida');
+        acumuladoBajar = 0;
+        acumuladoSubir = 0;
+      } else if (ocultaPorSeccion) {
+        // En las secciones de Technicolor nunca debe aparecer ni en PC ni en móvil
+        nav.classList.add('escondida');
+        acumuladoBajar = 0;
+        acumuladoSubir = 0;
+      } else if (y <= 20) {
+        // Arriba de todo, siempre visible
+        nav.classList.remove('escondida');
+        acumuladoBajar = 0;
+        acumuladoSubir = 0;
+      } else {
+        const diff = y - ultimoY;
+        if (diff > 0) {
+          // Bajando: acumular distancia hacia abajo
+          acumuladoBajar += diff;
+          acumuladoSubir = 0;
+          if (acumuladoBajar > 10 && y > 60) {
+            nav.classList.add('escondida');
+          }
+        } else if (diff < 0) {
+          // Subiendo: acumular distancia hacia arriba
+          acumuladoSubir += Math.abs(diff);
+          acumuladoBajar = 0;
+          if (acumuladoSubir > 8) {
+            nav.classList.remove('escondida');
+          }
+        }
       }
+      ultimoY = y;
     };
-    addEventListener('scroll', () => {
+
+    const alScroll = () => {
       if (!pendiente) { pendiente = true; requestAnimationFrame(revisar); }
-    }, { passive: true });
+    };
+
+    addEventListener('scroll', alScroll, { passive: true });
+    addEventListener('touchmove', alScroll, { passive: true });
+    addEventListener('wheel', alScroll, { passive: true });
     revisar();
   }
 </script>

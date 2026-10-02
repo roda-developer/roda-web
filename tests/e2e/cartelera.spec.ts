@@ -27,6 +27,8 @@ test('la cartelera va antes de los precios y los rótulos siguen en orden', asyn
 
 test('Nosotros es una página aparte, con la foto, los créditos y contacto', async ({ page }) => {
   await page.goto('/');
+  const menuBoton = page.getByRole('button', { name: /menú/i });
+  if (await menuBoton.isVisible()) await menuBoton.click();
   await page.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Nosotros' }).click();
   await page.waitForURL('**/nosotros');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Roda presenta. Una Misma Mirada. Protagonizada por Giuliana Di Rocco Facundo Thibaut');

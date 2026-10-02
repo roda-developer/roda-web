@@ -39,8 +39,13 @@ test('la tira de proyectos no es una región viva; se anuncia una sola línea', 
 
 test('los links del nav miden al menos 44 px de alto', async ({ page }) => {
   await page.goto('/');
-  for (const nombre of [/Hablemos/, 'Proyectos']) {
-    const caja = await page.locator('header').getByRole('link', { name: nombre, exact: typeof nombre === 'string' }).boundingBox();
+  await page.waitForFunction(() => !document.documentElement.classList.contains('bloquear-scroll'));
+  const menuBoton = page.getByRole('button', { name: 'Abrir menú' });
+  const esMovil = await menuBoton.isVisible();
+  if (esMovil) await menuBoton.click();
+  for (const nombre of [/Hablemos/, /Proyectos/]) {
+    const contenedor = esMovil ? page.locator('#menu-movil') : page.locator('header');
+    const caja = await contenedor.getByRole('link', { name: nombre }).first().boundingBox();
     expect(caja!.height).toBeGreaterThanOrEqual(44);
   }
 });
