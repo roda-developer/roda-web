@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 test('la cartelera muestra cinco películas y cada una lleva a su precio', async ({ page }) => {
   await page.goto('/');
   const cartelera = page.locator('#cartelera');
-  await expect(cartelera.getByRole('heading', { level: 2 })).toContainText('Elegí tu película.');
+  await expect(cartelera.getByRole('heading', { level: 2 })).toContainText('En cartelera.');
   const afiches = cartelera.getByRole('link');
   await expect(afiches).toHaveCount(5);
   for (const nombre of ['El Portfolio', 'La Agenda', 'La Tienda', 'La Landing', 'El Panel']) {

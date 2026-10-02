@@ -61,3 +61,27 @@ describe('WhatsApp con el nombre de la marca', () => {
     expect(texto).toBe('Hola Roda, soy de Lupe. Queremos empezar a contar nuestra historia.');
   });
 });
+
+import { textosAfiche } from '../../src/story/afiche';
+
+describe('textosAfiche: lo que respondiste aparece en el afiche', () => {
+  it('sin respuestas, el afiche de siempre', () => {
+    expect(textosAfiche(VACIAS)).toEqual({ antes: 'Una historia que todavía no contamos', estreno: 'Próximamente', genero: null });
+  });
+
+  it('el objetivo cambia la frase de arriba del nombre', () => {
+    expect(textosAfiche({ ...VACIAS, objetivo: 'escriba' }).antes).toBe('Una historia para que te escriban');
+    expect(textosAfiche({ ...VACIAS, objetivo: 'vea' }).antes).toBe('Una historia para que vean tu trabajo');
+  });
+
+  it('si ya tiene web, es un reestreno', () => {
+    expect(textosAfiche({ ...VACIAS, situacion: 'no-representa' }).estreno).toBe('Reestreno');
+    expect(textosAfiche({ ...VACIAS, situacion: 'quiero-mas' }).estreno).toBe('Reestreno');
+    expect(textosAfiche({ ...VACIAS, situacion: 'sin-web' }).estreno).toBe('Próximamente');
+  });
+
+  it('el rubro aparece como género, salvo "otro"', () => {
+    expect(textosAfiche({ ...VACIAS, rubro: 'gastronomia' }).genero).toBe('Gastronomía');
+    expect(textosAfiche({ ...VACIAS, rubro: 'otro' }).genero).toBeNull();
+  });
+});

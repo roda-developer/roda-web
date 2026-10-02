@@ -56,7 +56,7 @@ export const technicolor = {
   ejemplos: ['Una hamburguesería no susurra.', 'Un festival no pide permiso.', 'Una marca de skate no se viste de gris.'],
   /** Lo que se lee sobre la explosión de webs: son trabajos nuestros */
   firma: 'Algunas que hicimos nosotros',
-  corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu historia.'],
+  corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu marca.'],
 };
 
 export const actoTres = {
@@ -91,7 +91,7 @@ export const adelanto = {
 
 export const proyectosPagina = {
   titulo: 'Proyectos seleccionados',
-  bajada: 'Cada web cuenta una historia distinta. Estas son algunas de las que ya contamos.',
+  bajada: 'Cada una, hecha a medida para su marca. Estas son algunas de las que ya hicimos.',
   pregunta: '¿Qué hacés?',
   ayuda: 'Elegí tu rubro y te mostramos primero lo más cercano a vos.',
   todos: 'Todos',
@@ -116,11 +116,11 @@ export const creditos = {
     { nombre: 'Giuliana', rol: 'Dirección · Desarrollo' },
     { nombre: 'Facundo', rol: 'Dirección · Desarrollo' },
   ],
-  lema: ['Dos desarrolladores.', 'Una misma mirada.'],
+  lema: ['Pareja y socios.', 'Una misma mirada.'],
   ficha: [
     ['Diseño y desarrollo', 'Giuliana y Facundo'],
     ['Hecha', 'A mano, sin plantillas'],
-    ['Duración', 'Noventa segundos, más o menos'],
+    ['Duración', 'Lo que tardes en bajar'],
   ],
 };
 
@@ -141,6 +141,10 @@ export const cierre = {
   afiche: {
     presenta: 'presenta',
     antes: 'Una historia que todavía no contamos',
+    /** Lo que respondiste en la web cambia el afiche: para qué es, si es un reestreno y el género */
+    paraQue: { escriba: 'te escriban', compre: 'te compren', reserve: 'te reserven', vea: 'vean tu trabajo' },
+    reestreno: 'Reestreno',
+    genero: 'Género',
     vacio: 'Tu marca',
     creditos: [
       ['Una producción', 'Roda'],
@@ -194,7 +198,7 @@ export const planes = {
 /** La cartelera: cada tipo de web es una película. El precio lleva a la sección de planes. */
 export const cartelera = {
   rotulo: ['05', 'Lo que hacemos'],
-  titulo: ['Elegí tu película.', 'Cada web cuenta una historia distinta.'],
+  titulo: ['En cartelera.', 'Cinco webs, cinco géneros.'],
   enCartel: 'En cartel',
   peliculas: [
     { id: 'portfolio', articulo: 'El', titulo: 'Portfolio', frase: 'Tu trabajo, en pantalla grande.', creditos: 'Protagonizada por tus mejores trabajos · Sin ruido', precio: 'Desde US$ 300', color: 'rosa' },

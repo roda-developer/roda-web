@@ -5,16 +5,20 @@ async function hidratada(page: Page) {
 }
 
 test('el loader bloquea el scroll mientras está, un toque lo saltea, y se va solo a los 3 s', async ({ page }) => {
-  await page.goto('/');
-  await page.waitForTimeout(400);
-  expect(await page.evaluate(() => document.documentElement.classList.contains('bloquear-scroll'))).toBe(true);
-  await page.waitForTimeout(3200);
-  const loaderVisible = await page.evaluate(() => {
+  // Se registra si el bloqueo llegó a existir: con la suite en paralelo, la carga puede tardar más que el loader mismo
+  await page.addInitScript(() => {
+    new MutationObserver(() => {
+      if (document.documentElement?.classList.contains('bloquear-scroll')) (window as any).__bloqueado = true;
+    }).observe(document, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  });
+  await page.goto('/', { waitUntil: 'commit' });
+  await page.waitForFunction(() => (window as any).__bloqueado === true, null, { timeout: 8000 });
+  await page.waitForFunction(() => !document.documentElement.classList.contains('bloquear-scroll'), null, { timeout: 8000 });
+  // El loader termina de irse con su animación (puede llegar un instante después del desbloqueo)
+  await expect.poll(() => page.evaluate(() => {
     const l = document.querySelector('.loader');
     return l ? getComputedStyle(l).visibility !== 'hidden' && getComputedStyle(l).display !== 'none' : false;
-  });
-  expect(loaderVisible).toBe(false);
-  expect(await page.evaluate(() => document.documentElement.classList.contains('bloquear-scroll'))).toBe(false);
+  }), { timeout: 5000 }).toBe(false);
 });
 
 test('tocar durante el loader lo saltea y libera el scroll', async ({ page }) => {

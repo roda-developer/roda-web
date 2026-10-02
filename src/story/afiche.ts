@@ -1,4 +1,25 @@
 /** La lógica del afiche final: qué nombre se muestra, cómo entra y qué dominio le inventamos. */
+import { cierre } from '../content/guion';
+import { RUBROS, type Respuestas } from './opciones';
+
+export interface TextosAfiche {
+  /** La frase arriba del nombre */
+  antes: string;
+  /** "Próximamente", o "Reestreno" si ya tiene web */
+  estreno: string;
+  /** El rubro, para los créditos */
+  genero: string | null;
+}
+
+/** Lo que respondiste en la web aparece en tu afiche. */
+export function textosAfiche(r: Respuestas): TextosAfiche {
+  const a = cierre.afiche;
+  return {
+    antes: r.objetivo ? `Una historia para que ${a.paraQue[r.objetivo]}` : a.antes,
+    estreno: r.situacion === 'no-representa' || r.situacion === 'quiero-mas' ? a.reestreno : a.proximamente,
+    genero: r.rubro && r.rubro !== 'otro' ? (RUBROS.find((x) => x.id === r.rubro)?.label ?? null) : null,
+  };
+}
 
 const LARGO_MAXIMO = 40;
 

@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { $respuestas } from '../story/store';
 import { linkMail, linkWhatsApp } from '../story/sinopsis';
-import { dominioDe, limpiarMarca } from '../story/afiche';
+import { dominioDe, limpiarMarca, textosAfiche } from '../story/afiche';
 import { ALTO, ANCHO, COLORES, ESTILOS, cargarTipografias, dibujarAfiche, type Color, type Estilo } from '../story/dibujarAfiche';
 import { MAIL, WHATSAPP } from '../content/contacto';
 import { cierre } from '../content/guion';
@@ -39,6 +39,8 @@ export default function Afiche() {
   const idCampo = useId();
   const idAyuda = useId();
   const marca = limpiarMarca(texto);
+  // Lo que respondió en la web se ve en el afiche (solo después de montar, para no desajustar el HTML)
+  const textos = textosAfiche(respuestas);
 
   // La marca de esta sesión se recupera al montar (el HTML estático sale vacío)
   useEffect(() => {
@@ -59,9 +61,10 @@ export default function Afiche() {
   useEffect(() => {
     const ctx = lienzo.current?.getContext('2d');
     if (!ctx || !listo) return;
-    const cuadro = requestAnimationFrame(() => dibujarAfiche(ctx, { marca, estilo, color }));
+    const cuadro = requestAnimationFrame(() => dibujarAfiche(ctx, { marca, estilo, color, textos }));
     return () => cancelAnimationFrame(cuadro);
-  }, [marca, estilo, color, listo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [marca, estilo, color, listo, textos.antes, textos.estreno, textos.genero]);
 
   const elegir = (cambio: Partial<{ estilo: Estilo; color: Color }>) => {
     const nuevo = { estilo, color, ...cambio };
@@ -112,7 +115,7 @@ export default function Afiche() {
     }
   };
 
-  const descripcion = `Afiche de estreno: Roda presenta ${marca || cierre.afiche.vacio}. ${cierre.afiche.antes}. ${cierre.afiche.proximamente} ${cierre.afiche.soloEn} ${dominioDe(marca) || 'tumarca.com'}.`;
+  const descripcion = `Afiche de estreno: Roda presenta ${marca || cierre.afiche.vacio}. ${textos.antes}. ${textos.genero ? `${cierre.afiche.genero}: ${textos.genero}. ` : ''}${textos.estreno} ${cierre.afiche.soloEn} ${dominioDe(marca) || 'tumarca.com'}.`;
 
   return (
     <div className="afiche-final w-full">

@@ -72,7 +72,7 @@ export default function Eleccion({ clave, pregunta, numero, total = 2, opciones,
         aria-live="polite"
         className={`mono mt-6 text-gris transition-opacity duration-700 ${elegida ? 'opacity-100' : 'opacity-0'}`}
       >
-        {elegida ? 'Anotado. Seguí bajando.' : ''}
+        {elegida ? 'Anotado: va a aparecer en tu afiche, al final.' : ''}
       </p>
     </div>
   );

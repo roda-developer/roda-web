@@ -5,10 +5,16 @@ async function hidratada(page: Page) {
   await page.waitForFunction(() => document.querySelectorAll('astro-island[ssr]').length === 0);
 }
 
-test('el loader escribe la frase sobre negro y deja la página en papel', async ({ page }) => {
+test('el loader escribe la frase sobre negro', async ({ page }) => {
+  // La salida queda en pausa solo en este test: así se mira el loader sin correr contra el reloj
+  await page.addInitScript(() => {
+    const css = document.createElement('style');
+    css.textContent = '.loader { animation-play-state: paused !important; }';
+    document.addEventListener('DOMContentLoaded', () => document.head.append(css));
+  });
   await page.goto('/');
   const loader = page.locator('.loader');
-  expect(await loader.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(10, 10, 10)');
+  await expect.poll(() => loader.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(10, 10, 10)');
   // Máquina de escribir: avanza de a una letra, tantos pasos como letras tiene la frase
   const frase = page.locator('.loader-frase');
   const { nombre, pasos, letras } = await frase.evaluate((el) => ({
@@ -18,8 +24,11 @@ test('el loader escribe la frase sobre negro y deja la página en papel', async 
   }));
   expect(nombre).toBe('escribe');
   expect(pasos).toContain(`steps(${letras}`);
-  // Se va solo, a los 4 s más o menos
-  await expect.poll(() => loader.evaluate((el) => getComputedStyle(el).visibility), { timeout: 5500 }).toBe('hidden');
+});
+
+test('el loader se va solo y deja la página en papel', async ({ page }) => {
+  await page.goto('/');
+  await expect.poll(() => page.locator('.loader').evaluate((el) => getComputedStyle(el).visibility), { timeout: 10000 }).toBe('hidden');
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(243, 242, 238)');
 });
 

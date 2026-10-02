@@ -1,4 +1,4 @@
-import { ajustarNombre, dominioDe } from './afiche';
+import { ajustarNombre, dominioDe, type TextosAfiche } from './afiche';
 import { cierre } from '../content/guion';
 
 /** El afiche se dibuja siempre a este tamaño (2:3): lo que se ve y lo que se descarga es la misma imagen. */
@@ -102,11 +102,12 @@ function presenta(ctx: CanvasRenderingContext2D, y: number, p: Paleta) {
 }
 
 /** Los créditos en letra chica, centrados, con los nombres en negrita. Devuelve dónde empiezan. */
-function creditos(ctx: CanvasRenderingContext2D, yBase: number, p: Paleta): number {
+function creditos(ctx: CanvasRenderingContext2D, yBase: number, p: Paleta, t: TextosAfiche): number {
   const tam = 22;
   const espacio = tam * 0.14;
   const palabras: { t: string; negrita: boolean }[] = [];
-  cierre.afiche.creditos.forEach(([rol, quien], i) => {
+  const lista = t.genero ? [[cierre.afiche.genero, t.genero], ...cierre.afiche.creditos] : cierre.afiche.creditos;
+  lista.forEach(([rol, quien], i) => {
     if (i) palabras.push({ t: '·', negrita: false });
     rol.toUpperCase().split(' ').forEach((t) => palabras.push({ t, negrita: false }));
     quien.toUpperCase().split(' ').forEach((t) => palabras.push({ t, negrita: true }));
@@ -150,11 +151,11 @@ function creditos(ctx: CanvasRenderingContext2D, yBase: number, p: Paleta): numb
 }
 
 /** "Próximamente · solo en lupe.com", con "Próximamente" resaltado en el color elegido. */
-function estreno(ctx: CanvasRenderingContext2D, y: number, dominio: string, p: Paleta) {
+function estreno(ctx: CanvasRenderingContext2D, y: number, dominio: string, p: Paleta, t: TextosAfiche) {
   const tam = 27;
   const espacio = tam * 0.16;
   const partes = [
-    { t: cierre.afiche.proximamente.toUpperCase(), peso: 400, resalta: true },
+    { t: t.estreno.toUpperCase(), peso: 400, resalta: true },
     { t: `  ·  ${cierre.afiche.soloEn.toUpperCase()}  `, peso: 400, resalta: false },
     { t: (dominio || 'tumarca.com').toUpperCase(), peso: 500, resalta: false },
   ];
@@ -175,10 +176,10 @@ function estreno(ctx: CanvasRenderingContext2D, y: number, dominio: string, p: P
 }
 
 /** El pie común a los tres: estreno, créditos y una línea arriba. Devuelve la altura de la línea. */
-function pie(ctx: CanvasRenderingContext2D, marca: string, p: Paleta) {
+function pie(ctx: CanvasRenderingContext2D, marca: string, p: Paleta, t: TextosAfiche) {
   const yEstreno = ALTO - MARGEN - 10;
-  estreno(ctx, yEstreno, dominioDe(marca), p);
-  const yLinea = creditos(ctx, yEstreno - 70, p) - 30;
+  estreno(ctx, yEstreno, dominioDe(marca), p, t);
+  const yLinea = creditos(ctx, yEstreno - 70, p, t) - 30;
   ctx.fillStyle = p.linea;
   ctx.fillRect(MARGEN, yLinea, ANCHO - MARGEN * 2, 2);
   return yLinea;
@@ -192,10 +193,10 @@ function circulo(ctx: CanvasRenderingContext2D, x: number, y: number, r: number,
 }
 
 /** Estreno: papel, un sol del color elegido y el nombre como título. */
-function afEstreno(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string) {
+function afEstreno(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, t: TextosAfiche) {
   circulo(ctx, 900, 810, 450, p.acento);
   presenta(ctx, MARGEN + 90, p);
-  const yLinea = pie(ctx, marca, p);
+  const yLinea = pie(ctx, marca, p, t);
 
   const interlineado = 0.88;
   const CIERRE = -0.055; // las letras grandes se cierran un poco, como en el resto de la web
@@ -209,7 +210,7 @@ function afEstreno(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean
   let y = zonaArriba + (zonaAbajo - zonaArriba - (tamBajada * 1.6 + lineas.length * tam * interlineado)) / 2 + tamBajada;
   ctx.font = `italic 400 ${tamBajada}px ${TITULO}`;
   ctx.fillStyle = p.suave;
-  ctx.fillText(cierre.afiche.antes, MARGEN, y);
+  ctx.fillText(t.antes, MARGEN, y);
   y += tamBajada * 0.6;
   ctx.font = `500 ${tam}px ${TITULO}`;
   ctx.fillStyle = vacio ? p.suave : p.texto;
@@ -220,10 +221,10 @@ function afEstreno(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean
 }
 
 /** Cartel: color pleno, una forma que acompaña y el nombre a los gritos, como en MÁS ES MÁS. */
-function afCartel(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, color: Color) {
+function afCartel(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, color: Color, t: TextosAfiche) {
   circulo(ctx, 960, 440, 230, COLORES[COMPANERO[color]]);
   presenta(ctx, MARGEN + 90, p);
-  const yLinea = pie(ctx, marca, p);
+  const yLinea = pie(ctx, marca, p, t);
 
   const interlineado = 0.84;
   const CIERRE = -0.03;
@@ -245,13 +246,13 @@ function afCartel(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean,
   }
   ctx.font = `700 ${tamBajada}px ${GRITO}`;
   ctx.fillStyle = p.texto;
-  ctx.fillText(`${cierre.afiche.antes}.`, MARGEN, y + tamBajada * 1.5);
+  ctx.fillText(`${t.antes}.`, MARGEN, y + tamBajada * 1.5);
 }
 
 /** Autor: negro, el nombre en mayúsculas espaciadas como la intro de Nosotros y una línea fina de color. */
-function afAutor(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string) {
+function afAutor(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, t: TextosAfiche) {
   presenta(ctx, MARGEN + 90, p);
-  const yLinea = pie(ctx, marca, p);
+  const yLinea = pie(ctx, marca, p, t);
 
   const ESPACIO = 0.22;
   const interlineado = 1.3;
@@ -268,7 +269,7 @@ function afAutor(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, 
   // Arriba, la bajada chica y espaciada
   ctx.font = `500 ${tamBajada}px ${TITULO}`;
   ctx.fillStyle = p.suave;
-  const bajada = cierre.afiche.antes.toUpperCase();
+  const bajada = t.antes.toUpperCase();
   espaciado(ctx, bajada, (ANCHO - anchoEspaciado(ctx, bajada, tamBajada * 0.4)) / 2, y, tamBajada * 0.4);
   y += tamBajada * 2;
 
@@ -288,10 +289,13 @@ export interface Opciones {
   marca: string;
   estilo?: Estilo;
   color?: Color;
+  /** Lo que respondió en la web (frase, reestreno, género) */
+  textos?: TextosAfiche;
 }
 
 /** Dibuja el afiche completo. Sin marca, el título queda como "Tu marca", esperando. */
-export function dibujarAfiche(ctx: CanvasRenderingContext2D, { marca, estilo = 'estreno', color = 'rosa' }: Opciones) {
+export function dibujarAfiche(ctx: CanvasRenderingContext2D, { marca, estilo = 'estreno', color = 'rosa', textos }: Opciones) {
+  const t: TextosAfiche = textos ?? { antes: cierre.afiche.antes, estreno: cierre.afiche.proximamente, genero: null };
   const acento = COLORES[color];
   const paletas: Record<Estilo, Paleta> = {
     estreno: { fondo: PAPEL, texto: TINTA, suave: GRIS, linea: 'rgba(18,18,18,0.2)', acento, sobreAcento: sobre(color), anillo: TINTA },
@@ -306,8 +310,8 @@ export function dibujarAfiche(ctx: CanvasRenderingContext2D, { marca, estilo = '
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = p.fondo;
   ctx.fillRect(0, 0, ANCHO, ALTO);
-  if (estilo === 'cartel') afCartel(ctx, nombre, vacio, p, marca, color);
-  else if (estilo === 'autor') afAutor(ctx, nombre, vacio, p, marca);
-  else afEstreno(ctx, nombre, vacio, p, marca);
+  if (estilo === 'cartel') afCartel(ctx, nombre, vacio, p, marca, color, t);
+  else if (estilo === 'autor') afAutor(ctx, nombre, vacio, p, marca, t);
+  else afEstreno(ctx, nombre, vacio, p, marca, t);
   ctx.restore();
 }

@@ -73,3 +73,13 @@ test('se elige el estilo y el color del afiche, y se recuerdan al recargar', asy
   await expect(page.getByRole('radio', { name: 'Cartel' })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('radio', { name: 'Azul' })).toHaveAttribute('aria-checked', 'true');
 });
+
+test('lo que respondiste en la web aparece en el afiche', async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('roda:respuestas', JSON.stringify({ situacion: 'no-representa', objetivo: 'reserve', rubro: 'gastronomia' })));
+  const final = await alFinal(page);
+  await final.getByLabel('¿Cómo se llama tu marca?').fill('Lupe');
+  const afiche = final.getByRole('img', { name: /Roda presenta Lupe/ });
+  await expect(afiche).toHaveAttribute('aria-label', /Una historia para que te reserven/);
+  await expect(afiche).toHaveAttribute('aria-label', /Género: Gastronomía/);
+  await expect(afiche).toHaveAttribute('aria-label', /Reestreno/);
+});
