@@ -2,7 +2,7 @@
 /** El pie con los créditos: quiénes somos, la ficha técnica y cómo escribirnos. */
 import Marca from './Marca.astro';
 import { creditos } from '../content/guion';
-import { MAIL } from '../content/contacto';
+import { INSTAGRAM, MAIL } from '../content/contacto';
 const [giuli, facu] = creditos.nombres;
 ---
 <footer class="relative z-10 px-5 pt-16 pb-6 md:px-12" aria-label="Créditos">
@@ -24,6 +24,7 @@ const [giuli, facu] = creditos.nombres;
     </dl>
     <div class="mono grid content-start gap-3">
       <p><span class="block text-gris">Escribinos</span><a class="underline underline-offset-4" href={`mailto:${MAIL}`}>{MAIL}</a></p>
+      <p><span class="block text-gris">Seguinos</span><a class="underline underline-offset-4" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a></p>
       <p><span class="block text-gris">Mirá</span><a class="underline underline-offset-4" href="/proyectos">Proyectos</a> · <a class="underline underline-offset-4" href="/nosotros">Nosotros</a></p>
     </div>
   </div>
