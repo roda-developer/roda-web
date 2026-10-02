@@ -158,6 +158,21 @@ body {
 /* El campo del nombre: subrayado rosa, sin recuadro; al escribir la línea se engrosa */
 .campo-marca:focus-visible { outline: none; box-shadow: 0 3px 0 var(--color-tc-rosa); }
 .campo-marca { caret-color: var(--color-tc-rosa); transition: box-shadow 0.3s; }
+/* Los selectores del afiche: chips para el estilo y muestras redondas para el color */
+.chip-afiche {
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s;
+}
+.chip-afiche[aria-checked='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
+.muestra-afiche { width: 2.75rem; height: 2.75rem; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08); transition: transform 0.3s var(--ease-cine); }
+.muestra-afiche[aria-checked='true'] { box-shadow: 0 0 0 3px var(--color-papel), 0 0 0 5px var(--color-tinta); transform: scale(1.05); }
 .boton-afiche {
   min-height: 3.5rem;
   padding: 0 1.5rem;

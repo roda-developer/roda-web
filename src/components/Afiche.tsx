@@ -3,11 +3,21 @@ import { useStore } from '@nanostores/react';
 import { $respuestas } from '../story/store';
 import { linkMail, linkWhatsApp } from '../story/sinopsis';
 import { dominioDe, limpiarMarca } from '../story/afiche';
-import { ALTO, ANCHO, cargarTipografias, dibujarAfiche } from '../story/dibujarAfiche';
+import { ALTO, ANCHO, COLORES, ESTILOS, cargarTipografias, dibujarAfiche, type Color, type Estilo } from '../story/dibujarAfiche';
 import { MAIL, WHATSAPP } from '../content/contacto';
 import { cierre } from '../content/guion';
 
 const CLAVE = 'roda:marca';
+const CLAVE_DISENO = 'roda:afiche';
+
+function leerDiseno(): { estilo: Estilo; color: Color } {
+  try {
+    const d = JSON.parse(sessionStorage.getItem(CLAVE_DISENO) ?? '{}');
+    return { estilo: ESTILOS.includes(d.estilo) ? d.estilo : 'estreno', color: d.color in COLORES ? d.color : 'rosa' };
+  } catch {
+    return { estilo: 'estreno', color: 'rosa' };
+  }
+}
 
 function leerMarca(): string {
   try {
@@ -23,6 +33,8 @@ export default function Afiche() {
   const [texto, setTexto] = useState('');
   const [listo, setListo] = useState(false);
   const [puedeCompartir, setPuedeCompartir] = useState(false);
+  const [estilo, setEstilo] = useState<Estilo>('estreno');
+  const [color, setColor] = useState<Color>('rosa');
   const lienzo = useRef<HTMLCanvasElement>(null);
   const idCampo = useId();
   const idAyuda = useId();
@@ -31,6 +43,9 @@ export default function Afiche() {
   // La marca de esta sesión se recupera al montar (el HTML estático sale vacío)
   useEffect(() => {
     setTexto(leerMarca());
+    const d = leerDiseno();
+    setEstilo(d.estilo);
+    setColor(d.color);
     cargarTipografias().finally(() => setListo(true));
     // Compartir archivos existe sobre todo en el celular; donde no está, el botón no aparece
     try {
@@ -44,9 +59,20 @@ export default function Afiche() {
   useEffect(() => {
     const ctx = lienzo.current?.getContext('2d');
     if (!ctx || !listo) return;
-    const cuadro = requestAnimationFrame(() => dibujarAfiche(ctx, marca));
+    const cuadro = requestAnimationFrame(() => dibujarAfiche(ctx, { marca, estilo, color }));
     return () => cancelAnimationFrame(cuadro);
-  }, [marca, listo]);
+  }, [marca, estilo, color, listo]);
+
+  const elegir = (cambio: Partial<{ estilo: Estilo; color: Color }>) => {
+    const nuevo = { estilo, color, ...cambio };
+    setEstilo(nuevo.estilo);
+    setColor(nuevo.color);
+    try {
+      sessionStorage.setItem(CLAVE_DISENO, JSON.stringify(nuevo));
+    } catch {
+      /* modo privado: seguimos en memoria */
+    }
+  };
 
   const escribir = (valor: string) => {
     setTexto(valor);
@@ -110,6 +136,37 @@ export default function Afiche() {
           className="campo-marca mt-8 w-full border-b-2 border-tc-rosa bg-transparent pb-2 font-titulo text-[clamp(1.6rem,6vw,2.6rem)] tracking-[-0.03em] placeholder:text-tinta/30"
         />
         <p id={idAyuda} className="mono mt-3 text-gris">{cierre.ayuda}</p>
+
+        {/* Elegí cómo es tu afiche: uno de tres estilos y uno de los colores de la web */}
+        <div className="mt-10 grid gap-6">
+          <div role="radiogroup" aria-label={cierre.estiloEtiqueta}>
+            <p className="mono text-gris" aria-hidden="true">{cierre.estiloEtiqueta}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {ESTILOS.map((e) => (
+                <button key={e} type="button" role="radio" aria-checked={estilo === e} onClick={() => elegir({ estilo: e })} className="chip-afiche">
+                  {cierre.estilos[e]}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div role="radiogroup" aria-label={cierre.colorEtiqueta}>
+            <p className="mono text-gris" aria-hidden="true">{cierre.colorEtiqueta}</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {(Object.keys(COLORES) as Color[]).map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  role="radio"
+                  aria-checked={color === c}
+                  aria-label={cierre.colores[c]}
+                  onClick={() => elegir({ color: c })}
+                  className="muestra-afiche"
+                  style={{ background: COLORES[c] }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <canvas

@@ -131,6 +131,10 @@ export const cierre = {
   placeholder: 'Tu marca',
   cta: 'Hablemos',
   descargar: 'Descargar afiche',
+  estiloEtiqueta: 'Estilo',
+  estilos: { estreno: 'Estreno', cartel: 'Cartel', autor: 'Autor' },
+  colorEtiqueta: 'Color',
+  colores: { rosa: 'Rosa', amarillo: 'Amarillo', azul: 'Azul', rojo: 'Rojo', verde: 'Verde' },
   compartir: 'Compartir',
   alternativa: 'o escribinos a',
   /** Lo que dice el afiche, de arriba hacia abajo */

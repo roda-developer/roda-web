@@ -61,3 +61,15 @@ test('los créditos nombran a Giuliana y Facundo y hay escena post-créditos', a
   await expect(page.getByRole('contentinfo').getByText('Giuliana y Facundo.')).toBeAttached();
   await expect(page.getByText(/nos gustan los buenos finales/)).toBeAttached();
 });
+
+test('se elige el estilo y el color del afiche, y se recuerdan al recargar', async ({ page }) => {
+  const final = await alFinal(page);
+  await final.getByRole('radio', { name: 'Cartel' }).click();
+  await final.getByRole('radio', { name: 'Azul' }).click();
+  await expect(final.getByRole('radio', { name: 'Cartel' })).toHaveAttribute('aria-checked', 'true');
+  await expect(final.getByRole('radio', { name: 'Azul' })).toHaveAttribute('aria-checked', 'true');
+  await page.reload();
+  await hidratada(page);
+  await expect(page.getByRole('radio', { name: 'Cartel' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Azul' })).toHaveAttribute('aria-checked', 'true');
+});
