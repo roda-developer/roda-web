@@ -86,21 +86,25 @@ const g = actoUno.generica;
     padding: 0.55rem 0.8rem;
     background: var(--color-tinta);
     color: var(--color-papel);
-    font-size: 1rem;
+    font-size: 0.88rem;
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: -0.01em;
     box-shadow: 0 14px 30px -12px rgb(0 0 0 / 0.5);
   }
+  .nota-1 { top: -1.1rem; right: -0.5rem; rotate: 2deg; max-width: 14.5rem; }
+  .nota-2 { top: 35%; left: -0.5rem; rotate: -2.5deg; max-width: 13.5rem; }
+  .nota-3 { bottom: -0.9rem; right: -0.5rem; rotate: 1.5deg; max-width: 14.5rem; }
+
   @media (min-width: 768px) {
     .nota {
       font-size: clamp(0.95rem, min(1.8vw, 2.2svh), 1.3rem);
       max-width: clamp(14rem, 24vw, 22rem);
       padding: clamp(0.45rem, 1svh, 0.7rem) clamp(0.7rem, 1.4vw, 1rem);
     }
-    .nota-1 { top: -1.2rem; right: -1.5rem; rotate: 2deg; }
-    .nota-2 { top: 38%; left: -2rem; rotate: -2.5deg; }
-    .nota-3 { bottom: -0.8rem; right: -1.2rem; rotate: 1.5deg; }
+    .nota-1 { top: -1.2rem; right: -1.5rem; rotate: 2deg; max-width: clamp(14rem, 24vw, 22rem); }
+    .nota-2 { top: 38%; left: -2rem; rotate: -2.5deg; max-width: clamp(14rem, 24vw, 22rem); }
+    .nota-3 { bottom: -0.8rem; right: -1.2rem; rotate: 1.5deg; max-width: clamp(14rem, 24vw, 22rem); }
   }
   @media (min-width: 1200px) and (min-height: 750px) {
     .nota-1 { right: -3rem; top: -1.4rem; }

@@ -9,9 +9,16 @@ interface Props {
 const { enHome = true } = Astro.props;
 const raiz = enHome ? '' : '/';
 ---
-<header class="nav fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-4 px-5 py-3 md:px-8 md:py-4">
-  <a href={enHome ? '#inicio' : '/'} class="inline-flex min-h-11 items-center text-[1.5rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio"><Marca /></a>
-  <nav aria-label="Principal" class="mono flex items-center gap-5 md:gap-8">
+<header class="nav fixed inset-x-0 top-0 z-50 pointer-events-none flex items-start justify-between">
+  <!-- Parte 1: solo el logo 'roda', pegada al extremo izquierdo sin tocar el borde superior -->
+  <div class="nav-bloque nav-bloque-izq">
+    <a href={enHome ? '#inicio' : '/'} class="inline-flex min-h-11 items-center text-[1.4rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio">
+      <Marca />
+    </a>
+  </div>
+
+  <!-- Parte 2: opciones de las secciones, pegada al extremo derecho sin tocar el borde superior -->
+  <nav aria-label="Principal" class="nav-bloque nav-bloque-der mono">
     <a href="/proyectos" class="enlace inline-flex min-h-11 items-center">{nav.proyectos}</a>
     <a href="/nosotros" class="enlace inline-flex min-h-11 items-center">{nav.nosotros}</a>
     <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center">({nav.atajo})</a>
@@ -19,14 +26,78 @@ const raiz = enHome ? '' : '/';
 </header>
 
 <style>
-  /* Tinta sobre el papel y los colores; papel cuando pasa por encima de algo oscuro (la pantalla del tráiler) */
-  .nav { color: var(--color-tinta); transition: color 0.4s, transform 0.5s var(--ease-cine); }
+  /* Header contenedor transparente sin interacción propia */
+  .nav {
+    transition: transform 0.5s var(--ease-cine);
+  }
+
   /* Al bajar se esconde para no pisar los títulos; al subir (o con el teclado adentro) vuelve */
-  .nav.escondida:not(:focus-within) { transform: translateY(-100%); }
-  @media (prefers-reduced-motion: reduce) { .nav { transition: color 0.4s; } }
-  .nav.sobre-oscuro { color: var(--color-papel); }
-  .enlace { background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat; transition: background-size 0.5s var(--ease-cine); }
-  .enlace:hover { background-size: 100% 1px; }
+  .nav.escondida:not(:focus-within) {
+    transform: translateY(-160%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav {
+      transition: none;
+    }
+  }
+
+  /* Cada bloque separado: glassmorphism, esquinas rectas (sin redondear) */
+  .nav-bloque {
+    margin-top: clamp(0.75rem, 2svh, 1.25rem);
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: color-mix(in oklab, var(--color-papel) 72%, transparent);
+    color: var(--color-tinta);
+    border: 1px solid color-mix(in oklab, var(--color-tinta) 12%, transparent);
+    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.08);
+    transition: background-color 0.4s, border-color 0.4s, color 0.4s;
+  }
+
+  /* Bloque izquierdo: sale del extremo izquierdo */
+  .nav-bloque-izq {
+    border-left: none;
+    padding: 0.35rem 1.15rem 0.35rem 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .nav-bloque-izq {
+      padding: 0.45rem 1.5rem 0.45rem 1.5rem;
+    }
+  }
+
+  /* Bloque derecho: sale del extremo derecho */
+  .nav-bloque-der {
+    border-right: none;
+    padding: 0.35rem 1.25rem 0.35rem 1.15rem;
+    gap: clamp(0.75rem, 1.8vw, 1.75rem);
+    font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+  }
+  @media (min-width: 768px) {
+    .nav-bloque-der {
+      padding: 0.45rem 1.5rem 0.45rem 1.5rem;
+      gap: 2rem;
+    }
+  }
+
+  /* Sobre fondo oscuro (ej. data-nav-oscuro) */
+  .nav.sobre-oscuro .nav-bloque {
+    background: color-mix(in oklab, var(--color-negro) 68%, transparent);
+    border-color: color-mix(in oklab, var(--color-papel) 14%, transparent);
+    color: var(--color-papel);
+    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.4);
+  }
+
+  /* Subrayado animado de los enlaces */
+  .enlace {
+    background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat;
+    transition: background-size 0.5s var(--ease-cine);
+  }
+  .enlace:hover {
+    background-size: 100% 1px;
+  }
 </style>
 
 <script>
