@@ -82,10 +82,10 @@ const total = String(pasos.length).padStart(2, '0');
 </section>
 
 <style>
-  .obra-cabeza { padding-top: 6rem; }
-  .obra-escena { display: grid; gap: 2rem; padding-top: 2rem; padding-bottom: 5rem; }
+  .obra-cabeza { padding-top: clamp(4rem, 8svh, 5.5rem); }
+  .obra-escena { display: grid; gap: 2rem; padding-top: 1.5rem; padding-bottom: 3.5rem; }
   @media (min-width: 1024px) {
-    .obra-escena { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 4rem; align-items: center; }
+    .obra-escena { grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: clamp(1.5rem, 3.5vw, 4rem); align-items: center; }
   }
 
   .progreso { height: 2px; background: color-mix(in oklab, var(--color-tinta) 12%, transparent); }
@@ -99,8 +99,8 @@ const total = String(pasos.length).padStart(2, '0');
 
   /* ── La mesa: el navegador, el celular y el aviso ───────────────── */
   /* El tamaño sale del alto de la pantalla: en una notebook baja o un celular chico, la web que se arma entra entera */
-  .mesa-obra { position: relative; width: 100%; max-width: min(21rem, calc(100svh - 28rem)); margin-inline: auto; }
-  @media (min-width: 1024px) { .mesa-obra { max-width: min(44rem, calc((100svh - 29rem) * 1.5)); } }
+  .mesa-obra { position: relative; width: 100%; max-width: min(20rem, calc((100svh - 18rem) * 1.1)); min-width: min(15rem, 100%); margin-inline: auto; }
+  @media (min-width: 1024px) { .mesa-obra { max-width: min(34rem, min(100%, calc((100svh - 17rem) * 1.25))); min-width: min(20rem, 100%); } }
 
   .navegador {
     overflow: hidden;
@@ -161,10 +161,10 @@ const total = String(pasos.length).padStart(2, '0');
 
   .diseno .p-tit-2 { display: flex; align-items: center; font-size: max(0.6rem, 3.6cqi); color: color-mix(in oklab, var(--color-tinta) 60%, transparent); }
   @media (min-width: 768px) {
-    .diseno .p-tit-2 { font-size: max(0.6rem, 1.8cqi); }
-    .diseno .p-tit { font-size: 3.6cqi; }
-    .diseno .p-nav { font-size: max(0.6rem, 1.7cqi); }
-    .diseno .p-btn { font-size: max(0.55rem, 1.6cqi); }
+    .diseno .p-tit-2 { font-size: clamp(0.65rem, 1.8cqi, 0.95rem); }
+    .diseno .p-tit { font-size: clamp(0.95rem, 3.8cqi, 1.75rem); }
+    .diseno .p-nav { font-size: clamp(0.65rem, 1.8cqi, 0.95rem); }
+    .diseno .p-btn { font-size: clamp(0.6rem, 1.7cqi, 0.9rem); }
   }
 
   /* La web que se arma tiene color: es la que vamos a hacerte */
@@ -184,7 +184,8 @@ const total = String(pasos.length).padStart(2, '0');
     background: var(--color-tinta);
     box-shadow: 0 30px 50px -20px rgb(0 0 0 / 0.5);
   }
-  @media (min-width: 768px) { .celu { width: 22%; right: -2.5rem; bottom: -3rem; } }
+  @media (min-width: 768px) { .celu { width: 22%; right: -1.25rem; bottom: -0.75rem; } }
+  @media (min-width: 1280px) and (min-height: 750px) { .celu { width: 22%; right: -2rem; bottom: -1.75rem; } }
   .celu-pantalla { position: relative; display: grid; align-content: start; gap: 0.45rem; aspect-ratio: 9 / 18; overflow: hidden; padding: 0.55rem; border-radius: 0.85rem; background: #fff; color: var(--color-tinta); }
   .c-nav { display: flex; justify-content: space-between; font-size: 0.5rem; }
   .c-img { height: 38%; min-height: 3.5rem; border-radius: 0.2rem; background: linear-gradient(160deg, #3a3a3a, #0f0f0f); }
@@ -208,7 +209,8 @@ const total = String(pasos.length).padStart(2, '0');
     line-height: 1.3;
     box-shadow: 0 20px 40px -15px rgb(0 0 0 / 0.4);
   }
-  @media (min-width: 768px) { .aviso { left: -2.5rem; top: 12%; font-size: 0.95rem; max-width: 19rem; } }
+  @media (min-width: 768px) { .aviso { left: -1.25rem; top: 8%; font-size: 0.9rem; max-width: 17rem; } }
+  @media (min-width: 1280px) and (min-height: 720px) { .aviso { left: -2.5rem; top: 12%; font-size: 0.95rem; max-width: 19rem; } }
   .aviso-icono { display: grid; place-items: center; flex: none; width: 1.8rem; height: 1.8rem; border-radius: 99px; background: #25d366; color: #fff; font-size: 0.85rem; }
 
   /* Sin movimiento (o sin JS): se ve la web terminada y los pasos en lista. Las notas y el boceto no hacen falta. */
@@ -225,8 +227,8 @@ const total = String(pasos.length).padStart(2, '0');
     :global(.js) .notas, :global(.js) .boceto { visibility: visible; }
   }
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    :global(.js) .obra { height: 380svh; }
-    :global(.js) .obra-cabeza { padding-top: 6rem; }
+    :global(.js) .obra { height: 420svh; }
+    :global(.js) .obra-cabeza { padding-top: clamp(4rem, 7svh, 5.5rem); }
   }
 </style>
 
@@ -275,7 +277,7 @@ const total = String(pasos.length).padStart(2, '0');
     // 5. Y llegan los mensajes
     pasoA(4, 4);
     tl.to(q('.aviso'), { autoAlpha: 1, y: 0, scale: 1, duration: 0.25, ease: 'back.out(2)' }, 4.2)
-      .to({}, { duration: 0.5 });
+      .to({}, { duration: 1.5 });
 
     const progreso = q('[data-progreso]')[0];
     if (progreso) gsap.to(progreso, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: obra, start: 'top top', end: 'bottom bottom', scrub: true } });

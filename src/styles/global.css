@@ -58,7 +58,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .plano { padding: 8rem 3rem; }
+  .plano { padding: clamp(4.5rem, 8svh, 8rem) clamp(1.5rem, 3.5vw, 3rem); }
 }
 
 /* La voz chica: mono, mayúscula, como las notas al margen de un libro de fotos */

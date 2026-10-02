@@ -36,6 +36,10 @@ const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
     <link rel="icon" href="/favicon-512.png?v=3" type="image/png" sizes="512x512" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
     <script is:inline>
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
       document.documentElement.classList.add('js');
       // Si el JS de movimiento no arranca, nada queda oculto.
       setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 4000);

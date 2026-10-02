@@ -23,7 +23,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   <div class="puerta relative h-[180svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
       <!-- Arriba el grito, abajo las bandas: cada uno en su lugar, sin taparse -->
-      <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-amarillo px-4 pt-16 pb-[5svh] text-tinta">
+      <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-rosa px-4 pt-[clamp(3.5rem,8svh,4.5rem)] pb-[clamp(1.5rem,4svh,2.5rem)] text-tinta">
         <p class="grito text-center">
           <span class="block">{technicolor.grito[0]}</span>
           <span class="mas block" aria-label="más"><span>M</span><span>Á</span><span>S</span></span>
@@ -72,7 +72,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   .grito {
     container-type: inline-size;
     white-space: nowrap;
-    width: min(calc(100vw - 2rem), calc((100svh - 15rem) / 0.78));
+    width: min(calc(100vw - 2rem), calc((100svh - 16rem) / 0.82));
     font-family: var(--font-grito);
     font-weight: 800;
     text-transform: uppercase;
@@ -97,7 +97,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   .mas span { display: inline-block; }
   .mas span:nth-child(1) { color: var(--color-tc-rojo); transform: rotate(-6deg); }
   .mas span:nth-child(2) { color: var(--color-tc-azul); transform: translateY(-0.06em); }
-  .mas span:nth-child(3) { color: var(--color-tc-rosa); transform: rotate(7deg); }
+  .mas span:nth-child(3) { color: var(--color-tc-amarillo); transform: rotate(7deg); }
 
   .cinta {
     overflow: hidden;
@@ -105,14 +105,14 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
     font-family: var(--font-grito);
     font-weight: 800;
     text-transform: uppercase;
-    font-size: clamp(1rem, min(4.5vw, 3.4svh), 2rem);
-    padding: 0.5em 0;
+    font-size: clamp(0.9rem, min(4.2vw, 2.8svh), 1.8rem);
+    padding: 0.45em 0;
     width: 120%;
     margin-left: -10%;
   }
   .cinta > div { display: inline-flex; gap: 1.2em; padding-right: 1.2em; }
   .cinta-a { background: var(--color-tc-rojo); color: var(--color-papel); transform: rotate(-3deg); }
-  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(-0.4em); }
+  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(-0.15em); }
 
   @media (prefers-reduced-motion: no-preference) {
     .cinta-a > div { animation: corre 22s linear infinite; }

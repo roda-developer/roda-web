@@ -4,11 +4,11 @@ import Rotulo from '../components/Rotulo.astro';
 import TiraProyectos from '../components/TiraProyectos.astro';
 ---
 <!-- El único bloque de color fijo de la página: en cartel, en rosa. En computadora, todo entra en una pantalla: rótulo, título con el botón al lado, y la tira -->
-<section id="adelanto" class="bg-tc-rosa flex flex-col justify-center py-24 lg:min-h-svh lg:pt-20 lg:pb-12" aria-labelledby="adelanto-titulo">
+<section id="adelanto" class="bg-tc-rosa flex flex-col justify-center py-16 lg:min-h-svh lg:pt-[clamp(3.5rem,7svh,5rem)] lg:pb-[clamp(2rem,4svh,3rem)]" aria-labelledby="adelanto-titulo">
   <div class="px-5 md:px-12">
     <Rotulo rotulo={adelanto.rotulo} />
-    <div class="mt-10 grid gap-8 lg:mt-6 lg:grid-cols-[1fr_auto] lg:items-end">
-      <h2 id="adelanto-titulo" class="max-w-[14ch] font-titulo text-[clamp(2.8rem,11vw,7.5rem)] leading-[0.92] tracking-[-0.045em] lg:max-w-none lg:text-[clamp(2.4rem,4vw,4.5rem)]" data-revelar>
+    <div class="mt-8 grid gap-6 lg:mt-5 lg:grid-cols-[1fr_auto] lg:items-end">
+      <h2 id="adelanto-titulo" class="max-w-[14ch] font-titulo text-[clamp(2.4rem,min(9vw,6.5svh),7.5rem)] leading-[0.92] tracking-[-0.045em] lg:max-w-none lg:text-[clamp(2rem,min(3.8vw,5.5svh),4.2rem)]" data-revelar>
         {adelanto.titulo}
       </h2>
       <div data-revelar="4">
@@ -17,7 +17,7 @@ import TiraProyectos from '../components/TiraProyectos.astro';
     </div>
   </div>
 
-  <div class="mt-12 lg:mt-8" data-revelar="6">
+  <div class="mt-8 lg:mt-6" data-revelar="6">
     <TiraProyectos />
   </div>
 </section>

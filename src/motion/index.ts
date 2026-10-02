@@ -21,6 +21,19 @@ export function iniciarMotion() {
 
   if (movimientoPermitido()) {
     lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, anchors: true });
+    lenis.scrollTo(0, { immediate: true });
+    if (document.documentElement.classList.contains('bloquear-scroll')) {
+      lenis.stop();
+      const desbloquearLenis = () => {
+        if (!document.documentElement.classList.contains('bloquear-scroll')) {
+          lenis?.start();
+          ScrollTrigger.refresh();
+        } else {
+          requestAnimationFrame(desbloquearLenis);
+        }
+      };
+      requestAnimationFrame(desbloquearLenis);
+    }
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis?.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
