@@ -14,15 +14,41 @@ const dias = Array.from({ length: 28 }, (_, i) => i + 1);
 ---
 <!-- La cartelera: cada tipo de web es una película. En el celular se desliza de costado. -->
 <section id="cartelera" class="py-24 md:py-32" aria-labelledby="cartelera-titulo">
-  <div class="px-5 md:px-12">
-    <Rotulo rotulo={cartelera.rotulo} tipo="Parte" />
-    <h2 id="cartelera-titulo" class="mt-10 font-titulo text-[clamp(2.6rem,9vw,6rem)] leading-[0.95] tracking-[-0.045em] [text-wrap:balance]" data-revelar>
-      <span class="block text-tinta/52">{cartelera.titulo[0]}</span>
-      <span class="block">{cartelera.titulo[1]}</span>
-    </h2>
+  <div class="px-5 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+    <div>
+      <Rotulo rotulo={cartelera.rotulo} tipo="Parte" />
+      <h2 id="cartelera-titulo" class="mt-10 font-titulo text-[clamp(2.6rem,9vw,6rem)] leading-[0.95] tracking-[-0.045em] [text-wrap:balance]" data-revelar>
+        <span class="block text-tinta/52">{cartelera.titulo[0]}</span>
+        <span class="block">{cartelera.titulo[1]}</span>
+      </h2>
+    </div>
+
+    <!-- Controles de navegación horizontal en mobile -->
+    <div class="flex items-center justify-between sm:justify-start gap-4 lg:hidden" aria-label="Navegar cartelera">
+      <span class="mono text-[0.75rem] text-tinta/60 tracking-wider flex items-center gap-1.5">
+        <span class="inline-block w-2 h-2 rounded-full bg-tc-rosa animate-pulse"></span>
+        Deslizá para ver las 5 webs →
+      </span>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="btn-tira-nav btn-prev inline-flex items-center justify-center w-9 h-9 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-95 transition-transform"
+          aria-label="Ver película anterior"
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          class="btn-tira-nav btn-next inline-flex items-center justify-center w-9 h-9 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-95 transition-transform"
+          aria-label="Ver siguiente película"
+        >
+          →
+        </button>
+      </div>
+    </div>
   </div>
 
-  <ul class="tira mt-14 md:mt-20" data-revelar="4">
+  <ul class="tira mt-10 md:mt-20" data-revelar="4" data-lenis-prevent="true">
     {cartelera.peliculas.map((p) => (
       <li>
         <a href="#planes" class="afiche" style={`--color:${colores[p.color]}`} aria-label={`${p.articulo} ${p.titulo}: ${p.frase} ${p.precio}`}>
@@ -50,22 +76,36 @@ const dias = Array.from({ length: 28 }, (_, i) => i + 1);
 </section>
 
 <style>
-  /* La tira: en el celular se desliza; en la compu, las cinco entran a lo ancho */
+  /* La tira: en el celular se desliza de costado suavemente; en la compu entran las cinco */
   .tira {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: min(72vw, 20rem);
+    grid-auto-columns: min(76vw, 20rem);
     gap: 1.25rem;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
     padding: 0 1.25rem 2.5rem;
     scroll-padding: 0 1.25rem;
     scrollbar-width: none;
+    cursor: grab;
+  }
+  .tira:active {
+    cursor: grabbing;
   }
   .tira::-webkit-scrollbar { display: none; }
   .tira > li { scroll-snap-align: start; }
   @media (min-width: 1024px) {
-    .tira { grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible; padding: 0 3rem 2.5rem; }
+    .tira {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      overflow: visible;
+      padding: 0 3rem 2.5rem;
+      cursor: default;
+    }
   }
 
   /* Cada afiche mide en unidades de su propio ancho: se ve igual chico o grande */
@@ -139,3 +179,50 @@ const dias = Array.from({ length: 28 }, (_, i) => i + 1);
   .dibujo-panel s { flex: 1; height: 1.6cqi; background: color-mix(in oklab, var(--color-tinta) 25%, transparent); }
   .dibujo-panel em { font-style: normal; padding: 0.3em 0.8em; border-radius: 99px; color: var(--color-papel); background: #bdbab3; }
 </style>
+
+<script>
+  const tira = document.querySelector<HTMLElement>('.tira');
+  const btnPrev = document.querySelector<HTMLButtonElement>('.btn-prev');
+  const btnNext = document.querySelector<HTMLButtonElement>('.btn-next');
+
+  if (tira) {
+    const avanzar = (delta: number) => {
+      const primerItem = tira.querySelector<HTMLElement>('li');
+      const distancia = primerItem ? primerItem.offsetWidth + 20 : 280;
+      tira.scrollBy({ left: delta * distancia, behavior: 'smooth' });
+    };
+
+    btnPrev?.addEventListener('click', () => avanzar(-1));
+    btnNext?.addEventListener('click', () => avanzar(1));
+
+    // Soporte para arrastrar con mouse / touch además del swipe nativo
+    let arrastrando = false;
+    let posX = 0;
+    let scrollX = 0;
+
+    tira.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      arrastrando = true;
+      posX = e.clientX;
+      scrollX = tira.scrollLeft;
+      tira.style.scrollSnapType = 'none';
+      tira.style.scrollBehavior = 'auto';
+    });
+
+    const terminarArrastre = () => {
+      if (!arrastrando) return;
+      arrastrando = false;
+      tira.style.scrollSnapType = 'x proximity';
+      tira.style.scrollBehavior = 'smooth';
+    };
+
+    window.addEventListener('pointerup', terminarArrastre);
+    window.addEventListener('pointercancel', terminarArrastre);
+
+    tira.addEventListener('pointermove', (e) => {
+      if (!arrastrando) return;
+      const diff = e.clientX - posX;
+      tira.scrollLeft = scrollX - diff;
+    });
+  }
+</script>

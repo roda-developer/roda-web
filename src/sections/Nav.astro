@@ -95,20 +95,23 @@ const raiz = enHome ? '' : '/';
     transition: color 0.4s, background-color 0.3s ease, box-shadow 0.3s ease, transform 0.5s var(--ease-cine);
   }
 
-  /* Al subir o desplazarse: fondo muy sutil y transparente con desenfoque, sin línea separadora */
+  /* Al subir o desplazarse: fondo menos transparente, consistente con el diseño de PC */
   .nav.con-fondo {
-    background-color: color-mix(in oklab, var(--color-papel) 45%, transparent);
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-    box-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.04);
+    background-color: color-mix(in oklab, var(--color-papel) 92%, transparent);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    box-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.08);
   }
 
-  /* Cuando el menú móvil está abierto, la barra superior no interfiere con el fondo del menú */
+  /* Cuando el menú móvil está abierto, la barra superior se mimetiza con el fondo sólido del menú */
   .nav.menu-abierto {
-    background-color: transparent !important;
+    background-color: var(--color-papel) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     box-shadow: none !important;
+  }
+  .nav.sobre-oscuro.menu-abierto {
+    background-color: var(--color-negro) !important;
   }
 
   /* Al bajar se esconde; al subir vuelve */
@@ -127,8 +130,8 @@ const raiz = enHome ? '' : '/';
     color: var(--color-papel);
   }
   .nav.sobre-oscuro.con-fondo {
-    background-color: color-mix(in oklab, var(--color-negro) 50%, transparent);
-    box-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.25);
+    background-color: color-mix(in oklab, var(--color-negro) 92%, transparent);
+    box-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.35);
   }
 
   /* Botón hamburguesa: dos rayas asimétricas (la de arriba más larga, la de abajo más corta) */
@@ -164,7 +167,7 @@ const raiz = enHome ? '' : '/';
     transform: translateY(-4px) rotate(-45deg);
   }
 
-  /* Menú desplegable Mobile: Glassmorphism y pantalla completa real en viewport */
+  /* Menú desplegable Mobile: Color sólido, no transparente, pantalla completa */
   .menu-movil {
     position: fixed;
     inset: 0;
@@ -173,19 +176,17 @@ const raiz = enHome ? '' : '/';
     flex-direction: column;
     justify-content: space-between;
     padding: 6.5rem 1.5rem 2.5rem;
-    background-color: color-mix(in oklab, var(--color-papel) 97%, transparent);
-    backdrop-filter: blur(28px) saturate(160%);
-    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    background-color: var(--color-papel);
     color: var(--color-tinta);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
-    transition: opacity 0.32s var(--ease-cine), transform 0.32s var(--ease-cine), visibility 0.32s;
+    transition: opacity 0.3s var(--ease-cine), transform 0.3s var(--ease-cine), visibility 0.3s;
     pointer-events: none;
     overscroll-behavior: contain;
   }
   .menu-movil.sobre-oscuro {
-    background-color: color-mix(in oklab, var(--color-negro) 97%, transparent);
+    background-color: var(--color-negro);
     color: var(--color-papel);
   }
   .menu-movil.abierto {
@@ -213,6 +214,8 @@ const raiz = enHome ? '' : '/';
 </style>
 
 <script>
+  import { pausarScroll } from '../motion/index';
+
   // Control del menú hamburguesa en mobile
   const nav = document.querySelector<HTMLElement>('.nav');
   const botonHamburguesa = document.querySelector<HTMLButtonElement>('.boton-hamburguesa');
@@ -227,9 +230,22 @@ const raiz = enHome ? '' : '/';
       botonHamburguesa.setAttribute('aria-label', nuevoEstado ? 'Cerrar menú' : 'Abrir menú');
       menuMovil.setAttribute('aria-hidden', String(!nuevoEstado));
       botonHamburguesa.blur();
+
+      // Bloquear scroll de fondo mientras el menú está abierto
+      pausarScroll(nuevoEstado);
+      if (nuevoEstado) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.removeProperty('overflow');
+      }
     };
 
     botonHamburguesa.addEventListener('click', () => toggleMenu());
+
+    // Evitar arrastre de scroll de la página de fondo desde el menú
+    menuMovil.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
 
     // Al tocar links del menú móvil: cerrar y navegar de forma precisa
     menuMovil.querySelectorAll('a').forEach((link) => {
