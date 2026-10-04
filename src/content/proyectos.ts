@@ -32,13 +32,13 @@ export const PROYECTOS: Proyecto[] = [
   {
     slug: 'muda',
     titulo: 'MUDA',
-    rubro: 'moda',
-    logline: 'No vende moda: proyecta imagen.',
+    rubro: 'servicios',
+    logline: 'Estética con propósito.',
     genero: 'Web + panel propio',
     anio: 2026,
     rol: 'Diseño y desarrollo',
     url: 'https://mudaagcy.com',
-    cliente: 'Productora creativa de moda e imagen en Palermo: foto y video, dirección creativa, agencia de talentos, eventos y alquiler de estudio.',
+    cliente: 'Productora creativa integral en Palermo, de Justina Porta y Lucila Beltramino: producción de foto y video, dirección creativa, eventos, agencia de talentos y alquiler de estudio.',
     desafio: 'Hacen muchas cosas distintas y todas tenían que entrar en una sola web sin que pareciera un catálogo. Y necesitaban mostrar trabajos nuevos todo el tiempo, sin depender de nadie para subirlos.',
     solucion: [
       'Una web sobria y editorial, en bordó y blanco, donde la imagen manda y el texto acompaña.',

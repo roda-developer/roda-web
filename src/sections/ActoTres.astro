@@ -10,10 +10,10 @@ const total = String(pasos.length).padStart(2, '0');
     <div class="obra-marco">
       <header class="obra-cabeza px-5 md:px-12">
         <Rotulo rotulo={actoTres.rotulo} />
-        <h2 id="acto-tres-titulo" class="mt-4 max-w-[20ch] font-titulo text-[clamp(1.7rem,min(7.5vw,4.6svh),2.6rem)] md:mt-6 lg:text-[clamp(2rem,min(4.4vw,6.5svh),4rem)] leading-[0.95] tracking-[-0.045em]">
+        <h2 id="acto-tres-titulo" class="mt-2.5 max-w-[20ch] font-titulo text-[clamp(1.55rem,min(7vw,4svh),2.4rem)] md:mt-6 md:text-[clamp(1.7rem,min(7.5vw,4.6svh),2.6rem)] lg:text-[clamp(2rem,min(4.4vw,6.5svh),4rem)] leading-[0.95] tracking-[-0.045em]">
           {actoTres.titulo}
         </h2>
-        <div class="progreso mt-4" aria-hidden="true"><span data-progreso></span></div>
+        <div class="progreso mt-2.5 md:mt-4" aria-hidden="true"><span data-progreso></span></div>
       </header>
 
       <div class="obra-escena px-5 md:px-12">
@@ -82,8 +82,17 @@ const total = String(pasos.length).padStart(2, '0');
 </section>
 
 <style>
-  .obra-cabeza { padding-top: clamp(4rem, 8svh, 5.5rem); }
-  .obra-escena { display: grid; gap: 2rem; padding-top: 1.5rem; padding-bottom: 3.5rem; }
+  #acto-tres {
+    margin-bottom: clamp(3rem, 7svh, 5.5rem);
+  }
+  @media (min-width: 768px) {
+    #acto-tres {
+      margin-bottom: 0;
+    }
+  }
+
+  .obra-cabeza { padding-top: clamp(3.5rem, 7svh, 5.5rem); }
+  .obra-escena { display: grid; gap: 1.5rem; padding-top: 1.25rem; padding-bottom: 3.5rem; }
   @media (min-width: 1024px) {
     .obra-escena { grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: clamp(1.5rem, 3.5vw, 4rem); align-items: center; }
   }
@@ -93,14 +102,24 @@ const total = String(pasos.length).padStart(2, '0');
 
   .leyendas { display: grid; gap: 1.75rem; }
   .leyenda { display: grid; gap: 0.5rem; }
-  .leyenda-nombre { font-family: var(--font-titulo); font-size: clamp(1.5rem, min(7vw, 4.2svh), 3.2rem); line-height: 1; letter-spacing: -0.04em; }
-  .leyenda-texto { max-width: 34ch; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); }
-  @media (min-width: 768px) { .leyenda-texto { font-size: 1.2rem; } }
+  .leyenda-nombre { font-family: var(--font-titulo); font-size: clamp(1.35rem, min(6.5vw, 3.6svh), 3.2rem); line-height: 1; letter-spacing: -0.04em; }
+  .leyenda-texto { max-width: 34ch; font-size: clamp(0.95rem, 2.5vw, 1.2rem); color: color-mix(in oklab, var(--color-tinta) 68%, transparent); }
 
   /* ── La mesa: el navegador, el celular y el aviso ───────────────── */
   /* El tamaño sale del alto de la pantalla: en una notebook baja o un celular chico, la web que se arma entra entera */
-  .mesa-obra { position: relative; width: 100%; max-width: min(20rem, calc((100svh - 18rem) * 1.1)); min-width: min(15rem, 100%); margin-inline: auto; }
-  @media (min-width: 1024px) { .mesa-obra { max-width: min(34rem, min(100%, calc((100svh - 17rem) * 1.25))); min-width: min(20rem, 100%); } }
+  .mesa-obra {
+    position: relative;
+    width: 100%;
+    max-width: min(20rem, 85vw);
+    min-width: min(15rem, 100%);
+    margin-inline: auto;
+  }
+  @media (min-width: 1024px) {
+    .mesa-obra {
+      max-width: min(34rem, min(100%, calc((100svh - 17rem) * 1.25)));
+      min-width: min(20rem, 100%);
+    }
+  }
 
   .navegador {
     overflow: hidden;
@@ -177,30 +196,58 @@ const total = String(pasos.length).padStart(2, '0');
   .celu {
     position: absolute;
     right: -0.75rem;
-    bottom: -2.5rem;
-    width: 38%;
-    padding: 0.3rem;
-    border-radius: 1.1rem;
+    bottom: -1.6rem;
+    width: 41%;
+    min-width: 7.75rem;
+    max-width: 9.25rem;
+    padding: 0.35rem;
+    border-radius: 1.15rem;
     background: var(--color-tinta);
-    box-shadow: 0 30px 50px -20px rgb(0 0 0 / 0.5);
+    box-shadow: 0 20px 40px -15px rgb(0 0 0 / 0.45);
   }
-  @media (min-width: 768px) { .celu { width: 22%; right: -1.25rem; bottom: -0.75rem; } }
-  @media (min-width: 1280px) and (min-height: 750px) { .celu { width: 22%; right: -2rem; bottom: -1.75rem; } }
-  .celu-pantalla { position: relative; display: grid; align-content: start; gap: 0.45rem; aspect-ratio: 9 / 18; overflow: hidden; padding: 0.55rem; border-radius: 0.85rem; background: #fff; color: var(--color-tinta); }
-  .c-nav { display: flex; justify-content: space-between; font-size: 0.5rem; }
-  .c-img { height: 38%; min-height: 3.5rem; border-radius: 0.2rem; background: linear-gradient(160deg, #3a3a3a, #0f0f0f); }
-  .c-tit { font-family: var(--font-titulo); font-weight: 600; font-size: 0.75rem; line-height: 1; letter-spacing: -0.04em; }
-  .c-baj { font-size: 0.45rem; color: color-mix(in oklab, var(--color-tinta) 60%, transparent); }
-  .c-btn { justify-self: start; padding: 0.3em 0.7em; border-radius: 99px; background: var(--color-tinta); color: var(--color-papel); font-size: 0.45rem; }
+  @media (min-width: 768px) {
+    .celu {
+      width: 22%;
+      min-width: 0;
+      max-width: none;
+      right: -1.25rem;
+      bottom: -0.75rem;
+      box-shadow: 0 30px 50px -20px rgb(0 0 0 / 0.5);
+    }
+  }
+  @media (min-width: 1280px) and (min-height: 750px) {
+    .celu {
+      width: 22%;
+      right: -2rem;
+      bottom: -1.75rem;
+    }
+  }
+  .celu-pantalla {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    aspect-ratio: 9 / 19;
+    overflow: hidden;
+    padding: 0.55rem;
+    border-radius: 0.85rem;
+    background: #fff;
+    color: var(--color-tinta);
+  }
+  .c-nav { display: flex; justify-content: space-between; font-size: 0.55rem; line-height: 1; }
+  .c-img { height: 34%; min-height: 2.2rem; border-radius: 0.2rem; background: linear-gradient(160deg, #3a3a3a, #0f0f0f); }
+  .c-tit { font-family: var(--font-titulo); font-weight: 600; font-size: 0.72rem; line-height: 1.1; letter-spacing: -0.04em; }
+  .c-baj { font-size: 0.48rem; line-height: 1.2; color: color-mix(in oklab, var(--color-tinta) 60%, transparent); }
+  .c-btn { justify-self: start; align-self: flex-start; padding: 0.3em 0.7em; border-radius: 99px; background: var(--color-tinta); color: var(--color-papel); font-size: 0.48rem; line-height: 1; }
 
   .aviso {
     position: absolute;
     left: -0.5rem;
-    top: 18%;
+    top: 12%;
     display: flex;
     gap: 0.6rem;
     align-items: flex-start;
-    max-width: 16rem;
+    max-width: 15.5rem;
     padding: 0.7rem 0.9rem;
     border-radius: 0.9rem;
     background: color-mix(in oklab, var(--color-papel) 85%, #fff);
@@ -220,8 +267,14 @@ const total = String(pasos.length).padStart(2, '0');
   @media (prefers-reduced-motion: no-preference) {
     :global(.js) .obra { height: 420svh; }
     :global(.js) .obra-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
-    :global(.js) .obra-cabeza { padding-top: 4.75rem; }
-    :global(.js) .obra-escena { flex: 1; align-content: center; padding-top: 1.25rem; padding-bottom: 3.5rem; gap: 1.5rem; }
+    :global(.js) .obra-cabeza { padding-top: clamp(3.25rem, 5.5svh, 4.25rem); }
+    :global(.js) .obra-escena {
+      flex: 1;
+      align-content: center;
+      padding-top: clamp(0.35rem, 1svh, 0.75rem);
+      padding-bottom: clamp(2rem, 5svh, 3.5rem);
+      gap: clamp(0.5rem, 1.5svh, 1rem);
+    }
     :global(.js) .leyendas { display: grid; }
     :global(.js) .leyenda { grid-area: 1 / 1; }
     :global(.js) .notas, :global(.js) .boceto { visibility: visible; }
@@ -229,6 +282,7 @@ const total = String(pasos.length).padStart(2, '0');
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
     :global(.js) .obra { height: 420svh; }
     :global(.js) .obra-cabeza { padding-top: clamp(4rem, 7svh, 5.5rem); }
+    :global(.js) .obra-escena { padding-top: 1.25rem; padding-bottom: 3.5rem; gap: clamp(1.5rem, 3.5vw, 4rem); }
   }
 </style>
 
