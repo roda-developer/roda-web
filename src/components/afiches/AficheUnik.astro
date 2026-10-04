@@ -1,0 +1,69 @@
+---
+/** Unik: afiche gráfico, a lo Saul Bass. Un solo símbolo: el punto de "unik." se vuelve el sol amarillo de su portada. */
+import '@fontsource/montserrat/900.css';
+import '@fontsource/playfair-display/400-italic.css';
+import Creditos from './Creditos.astro';
+---
+<div class="unik" aria-hidden="true">
+  <span class="unik-luna"></span>
+  <p class="unik-antes">Agencia de publicidad</p>
+
+  <div class="unik-centro">
+    <p class="unik-marca">unik<span class="unik-punto"></span></p>
+    <p class="unik-portfolio">PORTFOLIO</p>
+  </div>
+
+  <p class="unik-lema">
+    Tu marca es{" "}
+    <span class="unik-unica">única<svg viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M8 22 C 6 6, 92 2, 94 18 C 96 34, 12 40, 6 24 C 4 14, 40 6, 70 8" /></svg></span>,
+    hagamos que el mundo la vea.
+  </p>
+  <Creditos class="unik-creditos" texto="Roda {presenta} Unik {una agencia de} branding · contenido · campañas {con} cursor y menú propios {y} galerías a pantalla completa {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut" />
+</div>
+
+<style>
+  .unik { position: absolute; inset: 0; overflow: hidden; background: #3a2371; color: #fff; }
+
+  /* La luna gris de su portada, abajo a la izquierda */
+  .unik-luna { position: absolute; left: -9cqi; bottom: -16cqi; width: 30cqi; aspect-ratio: 1; border-radius: 50%; background: #a3a3a3; }
+
+  .unik-antes {
+    position: absolute; top: 5cqi; left: 0; right: 0; text-align: center;
+    font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: max(0.5rem, 1.2cqi); letter-spacing: 0.45em; text-transform: uppercase;
+  }
+
+  .unik-centro { position: absolute; left: 7cqi; top: 50%; transform: translateY(-58%); }
+  .unik-marca {
+    display: flex; align-items: flex-end;
+    font-family: 'Montserrat', sans-serif; font-weight: 900; color: #f9d300;
+    font-size: 21cqi; line-height: 0.78; letter-spacing: -0.05em;
+  }
+  /* El punto, gigante: es el símbolo del afiche */
+  .unik-punto {
+    flex: none; width: 1.55em; aspect-ratio: 1; margin-left: 0.06em; margin-bottom: -0.02em;
+    border-radius: 50%; background: #f9d300;
+  }
+  .unik-portfolio {
+    margin-top: 2.4cqi;
+    font-family: 'Playfair Display', serif; font-style: italic; font-size: 5.6cqi; letter-spacing: 0.42em;
+  }
+
+  .unik-lema {
+    position: absolute; right: 5cqi; bottom: 5cqi; max-width: 25%; text-align: right;
+    font-family: var(--font-texto); font-size: max(0.75rem, 2.3cqi); line-height: 1.3;
+  }
+  .unik-unica { position: relative; white-space: nowrap; }
+  .unik-unica svg { position: absolute; inset: -0.3em -0.22em; width: calc(100% + 0.44em); height: calc(100% + 0.7em); overflow: visible; }
+  .unik-unica path { fill: none; stroke: #f9d300; stroke-width: 2.4; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+
+  :global(.unik-creditos) { position: absolute; left: 33%; right: 33%; bottom: 4.5cqi; --creditos-tam: 1.1cqi; --creditos-color: rgb(255 255 255 / 0.7); --creditos-estreno: #f9d300; }
+
+  @media (max-width: 767px) {
+    .unik-centro { left: 8cqi; transform: translateY(-70%); }
+    .unik-marca { font-size: 22cqi; }
+    .unik-portfolio { font-size: 6.4cqi; }
+    .unik-lema { left: 8cqi; right: 8cqi; bottom: 27cqi; max-width: none; text-align: left; font-size: 4.4cqi; }
+    :global(.unik-creditos) { left: 8cqi; right: 8cqi; bottom: 5cqi; --creditos-tam: 2.3cqi; }
+  }
+
+</style>

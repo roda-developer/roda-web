@@ -1,0 +1,48 @@
+---
+/** MUDA: cine de autor europeo. Un retrato de su portfolio y la franja bordó de su portada cruzando el afiche. */
+import { Image } from 'astro:assets';
+import '@fontsource/cormorant-garamond/300-italic.css';
+import { capturas } from '../../content/capturas';
+import Creditos from './Creditos.astro';
+
+const foto = capturas('muda').afiche;
+---
+<div class="muda" aria-hidden="true">
+  <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 30vw, 100vw" loading="lazy" class="muda-foto" />
+  <div class="muda-sombra"></div>
+
+
+  <div class="muda-franja">
+    <span class="muda-titulo">MUDA</span>
+  </div>
+
+  <p class="muda-lema">Estética con propósito.</p>
+  <Creditos class="muda-creditos" texto="Roda {presenta} MUDA {productora creativa integral} foto y video · dirección creativa · eventos · agencia de talentos · estudio en Palermo {con} panel propio {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut" />
+</div>
+
+<style>
+  .muda { position: absolute; inset: 0; overflow: hidden; background: #e9e8ec; color: #fff; }
+  .muda-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 20%; }
+  .muda-sombra { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgb(12 4 6 / 0.75) 100%); }
+
+  /* La franja de su portada: bordó con luz en el centro */
+  .muda-franja {
+    position: absolute; left: 0; right: 0; bottom: 27%;
+    height: 22%;
+    display: grid; place-items: center;
+    background: radial-gradient(ellipse 60% 140% at 38% 50%, #8a2433 0%, #5e1a26 45%, #1d0b0e 100%);
+    box-shadow: 0 1.5cqi 6cqi rgb(0 0 0 / 0.35);
+  }
+  .muda-titulo {
+    font-family: var(--font-titulo); font-weight: 250;
+    font-size: 21cqi; line-height: 1; letter-spacing: 0.02em;
+    transform: translateY(0.04em);
+  }
+
+  .muda-lema {
+    position: absolute; left: 0; right: 0; bottom: 14%; text-align: center;
+    font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 300;
+    font-size: 5.6cqi; line-height: 1.1; color: #fff;
+  }
+  :global(.muda-creditos) { position: absolute; left: 9cqi; right: 9cqi; bottom: 4.5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(255 255 255 / 0.7); }
+</style>

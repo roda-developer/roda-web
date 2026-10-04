@@ -1,0 +1,39 @@
+---
+/** El bloque de créditos de un afiche: letra angosta y estirada, con las palabras de enlace ("presenta", "con") más chicas.
+ *  Abajo, la línea de estreno, que es igual en toda la cartelera. */
+import '@fontsource/oswald/300.css';
+import '@fontsource/oswald/400.css';
+
+interface Props {
+  /** Texto de los créditos. Lo que va entre llaves sale chico: "Roda {presenta} una web de…" */
+  texto: string;
+  fuente?: 'oswald' | 'bebas';
+  class?: string;
+}
+const { texto, fuente = 'oswald', class: clase } = Astro.props;
+const partes = texto.split(/(\{[^}]+\})/).filter(Boolean).map((p) => (p.startsWith('{') ? { chico: true, t: p.slice(1, -1) } : { chico: false, t: p }));
+---
+<div class:list={['creditos', `creditos-${fuente}`, clase]}>
+  <p class="creditos-texto">{partes.map((p) => (p.chico ? <b>{p.t}</b> : p.t))}</p>
+  <p class="creditos-estreno">Estreno 2026 <span>·</span> En todas las pantallas</p>
+</div>
+
+<style>
+  .creditos { text-align: center; text-transform: uppercase; }
+  .creditos-texto {
+    font-family: 'Oswald', 'Arial Narrow', sans-serif; font-weight: 300;
+    font-size: var(--creditos-tam, 2.4cqi); line-height: 1.12; letter-spacing: 0.03em;
+    color: var(--creditos-color, rgb(255 255 255 / 0.62));
+    transform: scaleY(1.3); transform-origin: top;
+  }
+  .creditos-texto b { font-weight: 300; font-size: 0.66em; letter-spacing: 0.06em; margin: 0 0.3em; opacity: 0.75; }
+  .creditos-estreno {
+    margin-top: calc(var(--creditos-tam, 2.4cqi) * 1.6);
+    font-family: 'Oswald', 'Arial Narrow', sans-serif; font-weight: 400;
+    font-size: calc(var(--creditos-tam, 2.4cqi) * 1.25); letter-spacing: 0.22em;
+    color: var(--creditos-estreno, #fff);
+  }
+  .creditos-estreno span { margin: 0 0.4em; opacity: 0.6; }
+  .creditos-bebas .creditos-texto, .creditos-bebas .creditos-estreno { font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; }
+  .creditos-bebas .creditos-texto b { font-weight: 400; }
+</style>

@@ -1,0 +1,55 @@
+---
+/** Craft Studio: la foto de su portada a sangre, con el título abajo a la izquierda como un afiche de cine europeo. */
+import { Image } from 'astro:assets';
+import '@fontsource-variable/instrument-sans';
+import '@fontsource/la-belle-aurore';
+import { capturas } from '../../content/capturas';
+import Creditos from './Creditos.astro';
+import wordmark from '../../assets/proyectos/craft/wordmark.svg?raw';
+
+const foto = capturas('craft').afiche;
+// El SVG original trae aire alrededor de las letras: se recorta a lo justo para que alinee con el lema
+const logo = wordmark.replace('fill="#000000"', 'fill="currentColor"').replace('viewBox="0 0 723.62 204.27"', 'viewBox="58.14 59.11 607.18 87.6"');
+---
+<div class="craft" aria-hidden="true">
+  <Image src={foto} alt="" widths={[800, 1600]} sizes="(min-width: 768px) 62vw, 100vw" loading="lazy" class="craft-foto" />
+  <div class="craft-sombra"></div>
+
+  <p class="craft-firma">Tu marca tiene mucho para decir.</p>
+
+  <div class="craft-titulo">
+    <span class="craft-logo" set:html={logo} />
+    <p class="craft-lema">we <span class="craft-shape">shape</span> communication</p>
+  </div>
+  <Creditos class="craft-creditos" texto="Roda {presenta} Craft Studio {un estudio de} identidad visual · branding · comunicación estratégica {con} panel propio {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut" />
+</div>
+
+<style>
+  .craft { position: absolute; inset: 0; overflow: hidden; background: #2a1d14; color: #f6efe6; }
+  .craft-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 45%; filter: saturate(1.05); }
+  .craft-sombra {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgb(20 12 8 / 0.55) 0%, transparent 55%),
+      linear-gradient(0deg, rgb(20 12 8 / 0.6) 0%, transparent 45%);
+  }
+  .craft-firma {
+    position: absolute; top: 4cqi; right: 4.5cqi;
+    font-family: 'Instrument Sans Variable', sans-serif; font-size: max(0.6rem, 1.3cqi); letter-spacing: 0.24em; text-transform: uppercase;
+    color: rgb(246 239 230 / 0.8);
+  }
+  .craft-titulo { position: absolute; left: 6cqi; bottom: 27cqi; width: 64%; }
+  :global(.craft-creditos) { position: absolute; left: 6cqi; right: 6cqi; bottom: 5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(246 239 230 / 0.75); --creditos-estreno: #f6efe6; }
+  @media (min-width: 768px) {
+    .craft-titulo { left: 4.5cqi; bottom: 4.5cqi; width: 38%; }
+    :global(.craft-creditos) { left: auto; right: 4.5cqi; bottom: 4.5cqi; width: 34%; --creditos-tam: 1.1cqi; }
+  }
+  .craft-logo { display: block; }
+  .craft-logo :global(svg) { display: block; width: 100%; height: auto; }
+  .craft-lema {
+    margin-top: 2.2cqi;
+    font-family: 'Instrument Sans Variable', sans-serif; font-size: max(0.75rem, 2.5cqi); letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .craft-shape { font-family: 'La Belle Aurore', cursive; font-size: 1.45em; margin: 0 0.15em; }
+</style>

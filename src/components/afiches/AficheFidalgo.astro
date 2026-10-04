@@ -1,0 +1,52 @@
+---
+/** Fidalgo Select: afiche de película de acción. El auto de frente, el título en el cielo y el bloque de créditos abajo. */
+import { Image } from 'astro:assets';
+import '@fontsource/bebas-neue';
+import Creditos from './Creditos.astro';
+import { capturas } from '../../content/capturas';
+
+const foto = capturas('fidalgo').afiche;
+---
+<div class="fid" aria-hidden="true">
+  <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 30vw, 100vw" loading="lazy" class="fid-foto" />
+  <div class="fid-sombra"></div>
+
+  <div class="fid-cabeza">
+    <p class="fid-antes">Tucumán · Salta · Buenos Aires</p>
+    <p class="fid-titulo">FIDALGO<span>SELECT</span></p>
+  </div>
+
+  <div class="fid-pie">
+    <p class="fid-lema">Autos y propiedades, con trato directo.</p>
+    <Creditos class="fid-creditos" fuente="bebas" texto="Roda {presenta una web de} Fidalgo Select {catálogo de} autos · propiedades · inversiones {con} panel de gestión propio {y} consultas por WhatsApp {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut" />
+  </div>
+</div>
+
+<style>
+  .fid { position: absolute; inset: 0; overflow: hidden; background: #0b0d10; color: #fff; }
+  .fid-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; filter: contrast(1.08) saturate(0.95); }
+  .fid-sombra {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgb(8 10 14 / 0.88) 0%, rgb(8 10 14 / 0.35) 34%, transparent 48%),
+      linear-gradient(0deg, rgb(8 10 14 / 0.92) 0%, rgb(8 10 14 / 0.5) 20%, transparent 34%);
+  }
+
+  .fid-cabeza { position: absolute; top: 6cqi; left: 0; right: 0; text-align: center; }
+  .fid-antes {
+    font-family: var(--font-mono); font-size: max(0.5rem, 2.2cqi); letter-spacing: 0.24em; text-transform: uppercase;
+    color: rgb(255 255 255 / 0.75);
+  }
+  .fid-titulo {
+    margin-top: 2cqi;
+    font-family: 'Bebas Neue', Impact, sans-serif; font-size: 25cqi; line-height: 0.8; letter-spacing: 0.01em;
+  }
+  /* El verde sale del auto */
+  .fid-titulo span { display: block; color: #d4ec3a; font-size: 0.58em; letter-spacing: 0.32em; margin-left: 0.32em; }
+
+  .fid-pie { position: absolute; left: 7cqi; right: 7cqi; bottom: 5.5cqi; text-align: center; }
+  .fid-lema {
+    font-family: 'Bebas Neue', Impact, sans-serif; font-size: 5.4cqi; letter-spacing: 0.05em; line-height: 1; white-space: nowrap;
+  }
+  :global(.fid-creditos) { margin-top: 3cqi; --creditos-tam: 2.9cqi; --creditos-color: rgb(255 255 255 / 0.62); }
+</style>

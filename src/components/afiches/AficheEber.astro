@@ -1,0 +1,44 @@
+---
+/** Eber: retrato en blanco y negro y la frase de su portada en letra gigante, como un afiche de cine independiente. */
+import { Image } from 'astro:assets';
+import { capturas } from '../../content/capturas';
+
+const foto = capturas('eber').afiche;
+---
+<div class="eber" aria-hidden="true">
+  <div class="eber-retrato">
+    <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 30vw, 100vw" loading="lazy" class="eber-foto" />
+  </div>
+  <p class="eber-nombre">EBER</p>
+
+  <div class="eber-pie">
+    <p class="eber-titulo">DISEÑO &amp;<br />DIRECCIÓN</p>
+    <p class="eber-linea"><span>Roda presenta</span><span>Estreno 2026 · En todas las pantallas</span></p>
+  </div>
+</div>
+
+<style>
+  .eber { position: absolute; inset: 0; overflow: hidden; background: #0a0a0b; color: #fff; }
+  .eber-retrato { position: absolute; inset: 0 0 30% 0; }
+  .eber-retrato::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 62%, #0a0a0b 100%); }
+  .eber-foto { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; filter: grayscale(1) contrast(1.05); }
+
+  .eber-nombre {
+    position: absolute; top: 4.5cqi; left: 0; right: 0; text-align: center;
+    font-family: var(--font-titulo); font-weight: 800; font-size: max(0.7rem, 3.6cqi); letter-spacing: -0.02em;
+  }
+
+  .eber-pie { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 5cqi 5cqi; }
+  /* La frase de su portada: grotesca negra, apretada, ocupa todo el ancho */
+  .eber-titulo {
+    font-family: var(--font-titulo); font-weight: 900;
+    font-size: 15.4cqi; line-height: 0.86; letter-spacing: -0.065em;
+    text-align: center;
+  }
+  .eber-linea {
+    display: flex; justify-content: space-between; gap: 1rem; margin-top: 4.5cqi;
+    font-family: var(--font-mono); font-size: max(0.5rem, 2.1cqi); letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgb(255 255 255 / 0.5);
+  }
+  @media (max-width: 767px) { .eber-linea { letter-spacing: 0.04em; } }
+</style>

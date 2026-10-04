@@ -1,0 +1,107 @@
+---
+/** Emme Digital: el hero de su web tal cual (sin la tarjeta del medio). En compu es apaisado, como un quad de cine;
+ *  en celu usa su hero de celu: "EM" arriba y "ME" calado abajo. */
+import { Image } from 'astro:assets';
+import '@fontsource/italianno';
+import { capturas } from '../../content/capturas';
+import fotoMovil from '../../assets/proyectos/emme/afiche-movil.jpg';
+import Creditos from './Creditos.astro';
+
+const foto = capturas('emme').afiche;
+const grano = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+
+// Las letras, igual que en su web
+const E = 'M 0,0 H 70 V 16 H 16 V 42 H 60 V 58 H 16 V 84 H 70 V 100 H 0 Z';
+const M = 'M 82,100 V 0 H 98 L 138,45 L 178,0 H 194 V 5 L 176,25 V 25 L 138,65 L 98,25 V 100 H 82 Z';
+const ME_M = 'M 0,100 V 0 H 16 L 56,46 L 96,0 H 112 V 100 H 96 V 24 L 56,70 L 16,24 V 100 Z';
+const ME_E = 'M 124,0 H 194 V 100 H 124 V 84 H 178 V 58 H 134 V 42 H 178 V 16 H 124 Z';
+---
+<div class="emme" aria-hidden="true">
+  <Image src={foto} alt="" widths={[800, 1434]} sizes="62vw" loading="lazy" class="emme-foto solo-compu" />
+  <Image src={fotoMovil} alt="" widths={[500, 1000]} sizes="100vw" loading="lazy" class="emme-foto solo-celu" />
+  <div class="emme-velo"></div>
+  <div class="emme-grano" style={`background-image: ${grano}`}></div>
+
+  <!-- Primera mitad: "EM" rojo sobre la foto, con "digital" en cursiva -->
+  <div class="emme-mitad">
+    <svg class="emme-lienzo">
+      <svg class="solo-compu" x="5%" y="36%" width="90%" height="40%" viewBox="0 0 198 100" preserveAspectRatio="xMidYMid meet" overflow="visible">
+        <path d={E} fill="#FF0000" /><path d={M} fill="#FF0000" />
+        <path d="M 182,45 L 198,27.3 V 100 H 182 V 45 Z" fill="#FF0000" />
+        <text x="2" y="2" fill="#F5F5F5" font-family="Italianno, cursive" font-size="24">digital</text>
+      </svg>
+      <svg class="solo-celu" x="5%" y="41%" width="90%" height="50%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" overflow="visible">
+        <path d={E} fill="#FF0000" /><path d={M} fill="#FF0000" />
+        <path d="M 176,47 L 194,25 V 100 H 178 V 47 Z" fill="#FF0000" />
+        <text x="2" y="5" fill="#F5F5F5" font-family="Italianno, cursive" font-size="28">digital</text>
+      </svg>
+    </svg>
+  </div>
+
+  <!-- Segunda mitad: rojo pleno con "ME" calado, se ve la foto a través de las letras -->
+  <div class="emme-mitad">
+    <svg class="emme-lienzo">
+      <defs>
+        <mask id="emme-me-compu">
+          <rect width="100%" height="100%" fill="white" />
+          <svg x="5%" y="36%" width="90%" height="40%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet">
+            <path d={ME_M} fill="black" /><path d={ME_E} fill="black" />
+          </svg>
+        </mask>
+        <mask id="emme-me-celu">
+          <rect width="100%" height="100%" fill="white" />
+          <svg x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet">
+            <path d={ME_M} fill="black" /><path d={ME_E} fill="black" />
+          </svg>
+        </mask>
+      </defs>
+      <rect class="solo-compu" width="100%" height="100%" fill="#FF0000" mask="url(#emme-me-compu)" />
+      <rect class="solo-celu" width="100%" height="100%" fill="#FF0000" mask="url(#emme-me-celu)" />
+      <svg class="solo-compu" x="5%" y="36%" width="90%" height="40%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" overflow="visible">
+        <text x="194" y="95" fill="white" text-anchor="end" class="emme-impulso" font-size="5">
+          <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
+          <tspan x="194" dy="7">QUE TU MARCA NECESITA.</tspan>
+        </text>
+      </svg>
+      <svg class="solo-celu" x="5%" y="5%" width="90%" height="55%" viewBox="0 0 194 100" preserveAspectRatio="xMidYMid meet" overflow="visible">
+        <text x="194" y="103" fill="white" text-anchor="end" class="emme-impulso" font-size="8">
+          <tspan x="194" dy="0">SOMOS EL IMPULSO</tspan>
+          <tspan x="194" dy="12">QUE TU MARCA NECESITA.</tspan>
+        </text>
+      </svg>
+    </svg>
+  </div>
+
+  <p class="emme-firma">Para quienes no piden permiso.</p>
+  <Creditos class="emme-creditos" texto="Roda {presenta una web de} Emme Digital {con} un logotipo dibujado trazo por trazo {y} un manifiesto que se lee al bajar {dirección de arte, diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut" />
+</div>
+
+<style>
+  .emme { position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden; background: #050505; }
+  .emme-foto {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    opacity: 0.9; mix-blend-mode: screen; filter: contrast(1.1) brightness(0.9);
+  }
+  .emme-velo { position: absolute; inset: 0; background: rgb(0 0 0 / 0.1); }
+  .emme-grano { position: absolute; inset: 0; opacity: 0.2; mix-blend-mode: overlay; pointer-events: none; }
+  .emme-mitad { position: relative; z-index: 1; width: 100%; height: 50%; }
+  .emme-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .emme-impulso { font-family: var(--font-texto); font-weight: 700; letter-spacing: 0.2em; }
+  .emme-firma {
+    position: absolute; z-index: 2; top: 4.5cqi; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: max(0.55rem, 1.1cqi); letter-spacing: 0.32em; text-transform: uppercase; white-space: nowrap;
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  :global(.emme-creditos) { position: absolute; z-index: 2; left: 5%; right: 5%; bottom: 3.5cqi; --creditos-tam: 1.75cqi; --creditos-color: rgb(255 255 255 / 0.78); }
+  @media (min-width: 768px) { :global(.emme-creditos) { left: 22%; right: 22%; --creditos-tam: 1.15cqi; } }
+
+  .solo-compu { display: none; }
+  @media (min-width: 768px) {
+    .emme { flex-direction: row; }
+    .emme-mitad { width: 50%; height: 100%; }
+    .solo-compu { display: block; }
+    .solo-celu { display: none; }
+  }
+</style>
