@@ -1,11 +1,10 @@
 ---
 import { creativos } from '../content/guion';
-import { WHATSAPP } from '../content/contacto';
 
-const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(creativos.mensaje)}`;
+const link = `/contacto?tipo=nose&mensaje=${encodeURIComponent(creativos.mensaje)}`;
 ---
 <!-- Para quien diseña o maneja marcas: una línea, sin ocupar una sección -->
 <p class="mono mx-5 mt-24 mb-8 border-t border-tinta/15 pt-3 text-gris md:mx-12">
   {creativos.pregunta}{' '}
-  <a href={link} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{creativos.cta} →</a>
+  <a href={link} class="enlace text-tinta underline underline-offset-4">{creativos.cta} →</a>
 </p>

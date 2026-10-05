@@ -24,6 +24,14 @@ export interface Proyecto {
   destacados: string[];
   /** Resultado medible y real. Si no hay dato real, no se muestra nada. */
   resultado?: string;
+  /** Lo que dijeron los clientes, textual (nunca editado ni inventado) */
+  testimonios?: Testimonio[];
+}
+
+export interface Testimonio {
+  texto: string;
+  nombre: string;
+  rol: string;
 }
 
 // PENDIENTE (Giuli/Facu): revisar todos los textos, confirmar rubros y años, y sumar resultados reales.
@@ -48,6 +56,13 @@ export const PROYECTOS: Proyecto[] = [
   },
   {
     slug: 'emme',
+    testimonios: [
+      {
+        texto: 'Una experiencia increíble de principio a fin. Supo entender exactamente lo que buscaba y crear una web que me representa 100%. Siempre estuvo atenta, predispuesta y resolviendo todo rapidísimo. El resultado superó totalmente mis expectativas. La recomiendo muchísimo.',
+        nombre: 'Macarena López',
+        rol: 'Emme Digital',
+      },
+    ],
     titulo: 'Emme Digital',
     rubro: 'servicios',
     logline: 'Para quienes no piden permiso.',
@@ -117,6 +132,18 @@ export const PROYECTOS: Proyecto[] = [
   },
   {
     slug: 'unik',
+    testimonios: [
+      {
+        texto: 'Pasar de un PDF en Canva a una web profesional cambió totalmente cómo nos ven los clientes. Giuliana logró una identidad digital con animaciones que realmente rompe lo convencional.',
+        nombre: 'Camila Grondona',
+        rol: 'Unik — Business Strategy',
+      },
+      {
+        texto: 'Buscábamos que el acceso a nuestro trabajo y el contacto por WhatsApp fuera directo y profesional. Giuliana nos dio una solución impecable que simplificó la llegada de nuevos clientes.',
+        nombre: 'Iara Robles',
+        rol: 'Unik — Directora Creativa',
+      },
+    ],
     titulo: 'Unik',
     rubro: 'servicios',
     logline: 'Tu marca es única. Que el mundo la vea.',

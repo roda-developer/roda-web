@@ -1,4 +1,4 @@
-import { OBJETIVOS, RUBROS, SITUACIONES, frase, gritaDesde, type Respuestas } from './opciones';
+import { OBJETIVOS, RUBROS, SITUACIONES, frase, type Respuestas } from './opciones';
 
 export const VACIAS: Respuestas = { situacion: null, objetivo: null, estilo: null, rubro: null };
 
@@ -11,7 +11,6 @@ export function fragmentosSinopsis(r: Respuestas): string[] {
   const sujeto = rubro ? `Una marca de ${rubro}` : 'Una marca';
 
   const clausulas: string[] = [];
-  if (r.estilo !== null) clausulas.push(`que ${r.estilo >= gritaDesde ? 'grita' : 'susurra'}`);
   const situacion = frase(SITUACIONES, r.situacion);
   if (situacion) clausulas.push(`que hoy ${situacion}`);
   const objetivo = frase(OBJETIVOS, r.objetivo);
@@ -36,10 +35,6 @@ function mensaje(r: Respuestas, marca = ''): string {
   return sinopsis
     ? `Hola Roda, esta es mi historia: ${sinopsis} ¿La filmamos?`
     : 'Hola Roda, quiero contarles mi historia.';
-}
-
-export function linkWhatsApp(r: Respuestas, numero: string, marca = ''): string {
-  return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje(r, marca))}`;
 }
 
 export function linkMail(r: Respuestas, mail: string, marca = ''): string {

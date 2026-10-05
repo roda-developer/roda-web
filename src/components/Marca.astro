@@ -2,7 +2,7 @@
 interface Props { class?: string }
 const { class: clase = '' } = Astro.props;
 ---
-<span class:list={['marca', clase]} aria-label="Roda">
+<span class:list={['marca', clase]} role="img" aria-label="Roda">
   <span aria-hidden="true">R</span><span class="marca-o" aria-hidden="true"></span><span aria-hidden="true">da</span>
 </span>
 

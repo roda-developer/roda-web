@@ -5,6 +5,8 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
 import { MAIL, WHATSAPP } from '../content/contacto';
+// Visitas por página, sin cookies (Vercel Web Analytics: se activa en el panel de Vercel)
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   titulo?: string;
@@ -63,11 +65,26 @@ const empresa = {
       }
       window.scrollTo(0, 0);
       document.documentElement.classList.add('js');
-      // Si el JS de movimiento no arranca, nada queda oculto.
-      setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 4000);
+      // Si el JS de movimiento no arranca, nada queda oculto. Espera 20s: en celus lentos tarda, y si lo saca antes, las secciones fijas se desarman y la página salta.
+      setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 20000);
     </script>
   </head>
   <body>
     <slot />
+    <Analytics />
+    <script is:inline>
+      // Lo que ya se ve al cargar no espera al JS de movimiento: aparece con un fundido en CSS (más rápido en celus lentos).
+      // Lo de más abajo sigue apareciendo al scrollear, con GSAP.
+      (function () {
+        var alto = window.innerHeight;
+        document.querySelectorAll('[data-revelar]').forEach(function (el) {
+          if (el.getBoundingClientRect().top < alto) {
+            el.style.setProperty('--retraso', (Number(el.dataset.revelar || 0) * 0.042).toFixed(2) + 's');
+            el.removeAttribute('data-revelar');
+            el.classList.add('revelar-css');
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -74,6 +74,11 @@ body {
 /* Los estados iniciales ocultos solo existen con JS y con movimiento permitido */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-revelar] { opacity: 0; }
+  /* Lo que ya se ve al cargar: mismo efecto que GSAP (sube, se enfoca y se ilumina), pero en CSS */
+  .revelar-css { animation: revelar-css 1.25s cubic-bezier(0.16, 1, 0.3, 1) var(--retraso, 0s) both; }
+}
+@keyframes revelar-css {
+  from { opacity: 0; transform: translateY(28px); filter: blur(10px); }
 }
 
 .cta {

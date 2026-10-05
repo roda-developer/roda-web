@@ -4,9 +4,12 @@ import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Rotulo from '../components/Rotulo.astro';
+import Criticas from '../components/Criticas.astro';
+import { PROYECTOS } from '../content/proyectos';
 import { planes, preciosPagina as t, proyectosPagina } from '../content/guion';
 
 const { moneda, adicionales, aMedida } = planes;
+const testimonios = PROYECTOS.flatMap((p) => p.testimonios ?? []);
 // El sticker del precio lleva el color del afiche de ese plan en la cartelera de la home
 const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-rosa)', tienda: 'var(--color-tc-amarillo)' } as const;
 ---
@@ -59,7 +62,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
               </ul>
 
               <div class="cuerpo">
-                <p class="sticker" aria-label={`${moneda} ${p.precio}`}><span class="mono" aria-hidden="true">{moneda}</span><b aria-hidden="true">{p.precio}</b></p>
+                <p class="sticker"><span class="sr-only">Precio: {moneda} {p.precio}</span><span class="mono" aria-hidden="true">{moneda}</span><b aria-hidden="true">{p.precio}</b></p>
                 <h3 class="carpeta-nombre">{p.nombre}</h3>
                 <p class="hoy mono" data-hoy={p.precio} hidden></p>
                 <p class="ideal">{ficha.ideal}</p>
@@ -97,6 +100,13 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
         </div>
       </div>
     </section>
+
+    <!-- Lo que dice la crítica: los clientes, justo cuando hay que decidir -->
+    {testimonios.length > 0 && (
+      <div class="mt-24 px-5 md:mt-32 md:px-12">
+        <Criticas testimonios={testimonios} />
+      </div>
+    )}
 
     <!-- Todas incluyen: como los créditos de una película, en el rosa de la web -->
     <section class="creditos mt-24 md:mt-32" aria-labelledby="precios-creditos">

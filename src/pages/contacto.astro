@@ -22,7 +22,8 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
     </header>
 
     <!-- El formulario: casi todo se toca en vez de escribirse. Se envía al mail de Roda con Web3Forms -->
-    <form class="formulario mt-14 px-5 pb-8 md:px-12" data-formulario data-whatsapp={WHATSAPP} data-clave={WEB3FORMS} novalidate>
+    <div class="contacto-cuerpo mt-14 px-5 pb-8 md:px-12">
+    <form class="formulario" data-formulario data-whatsapp={WHATSAPP} data-clave={WEB3FORMS} novalidate>
       <!-- Trampa para bots: un humano no la ve ni la completa -->
       <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <fieldset class="bloque">
@@ -70,8 +71,20 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
         <p class="falta mono" role="alert" data-falta hidden>{t.falta}</p>
         <button type="submit" class="cta" data-enviar>{t.enviarMail}</button>
         <p class="mono mt-4 text-gris">{t.avisoMail}</p>
+        <p class="mt-3 text-sm text-gris">{t.privacidad.texto} <a href="/privacidad" class="underline underline-offset-4">{t.privacidad.link}</a></p>
       </div>
     </form>
+
+    <!-- Qué pasa después: baja la ansiedad de mandar algo sin saber qué sigue -->
+    <aside class="despues" aria-labelledby="despues-titulo" data-despues>
+      <p id="despues-titulo" class="mono text-gris">{t.despues.titulo}</p>
+      <ol class="mt-5">
+        {t.despues.pasos.map((paso, i) => (
+          <li><span class="mono text-gris">({String(i + 1).padStart(2, '0')})</span><span>{paso}</span></li>
+        ))}
+      </ol>
+    </aside>
+    </div>
 
     <!-- Cuando la consulta llegó al mail: la llamada se agenda acá, con el envión (para un sistema a medida, más directo) -->
     <div class="exito mt-14 px-5 pb-8 md:px-12" data-exito data-agenda={AGENDA} hidden tabindex="-1">
@@ -98,6 +111,11 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
 
 <style>
   .formulario { display: grid; gap: 3rem; max-width: 56rem; }
+  .contacto-cuerpo { display: grid; gap: 3.5rem; }
+  @media (min-width: 1024px) { .contacto-cuerpo { grid-template-columns: minmax(0, 1fr) 18rem; gap: 5rem; align-items: start; } .despues { position: sticky; top: 7rem; } }
+  .despues { border-top: 1px solid var(--color-tinta); padding-top: 1rem; }
+  .despues[hidden] { display: none; }
+  .despues li { display: grid; grid-template-columns: 2.75rem 1fr; gap: 0.5rem; padding: 0.9rem 0; border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); line-height: 1.35; }
   .bloque { border: 0; padding: 0; margin: 0; min-width: 0; }
   .bloque[hidden] { display: none; }
   .pregunta { display: block; margin-bottom: 1rem; font-size: clamp(1.2rem, 3.5vw, 1.5rem); font-weight: 500; letter-spacing: -0.025em; }
@@ -166,6 +184,11 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
     const inicial = params.get('plan') ?? params.get('tipo');
     const radio = inicial ? form.querySelector<HTMLInputElement>(`input[name="tipo"][value="${CSS.escape(inicial)}"]`) : null;
     if (radio) radio.checked = true;
+    for (const campo of ['marca', 'mensaje']) {
+      const v = params.get(campo);
+      const el = form.elements.namedItem(campo) as HTMLInputElement | null;
+      if (v && el) el.value = v;
+    }
     const ideas = params.get('ideas');
     const campoIdeas = form.elements.namedItem('ideas') as HTMLTextAreaElement | null;
     if (ideas && campoIdeas) campoIdeas.value = ideas.split('|').join(', ') + '. ';
@@ -220,6 +243,8 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
           agenda.href = url.href;
         }
         form.hidden = true;
+        const despues = document.querySelector<HTMLElement>('[data-despues]');
+        if (despues) despues.hidden = true;
         const directo = document.querySelector<HTMLElement>('[data-directo]');
         if (directo) directo.hidden = true;
         if (exito) { exito.hidden = false; exito.focus(); exito.scrollIntoView({ block: 'start' }); }

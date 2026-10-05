@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Motion from '../../components/Motion.astro';
 import Nav from '../../sections/Nav.astro';
 import Pie from '../../components/Pie.astro';
+import Criticas from '../../components/Criticas.astro';
 import { PROYECTOS, proyectoSiguiente, type Proyecto } from '../../content/proyectos';
 import { capturas } from '../../content/capturas';
 import { RUBROS } from '../../story/opciones';
@@ -102,6 +103,12 @@ const ficha: [string, string | number | undefined][] = [
         </section>
       )}
     </article>
+
+    {p.testimonios?.length && (
+      <div class="px-5 pb-24 md:px-12 md:pb-32">
+        <Criticas testimonios={p.testimonios} />
+      </div>
+    )}
 
     <!-- El siguiente: como el avance de la próxima película -->
     <a href={`/proyectos/${siguiente.slug}`} class="siguiente group block px-5 pb-24 md:px-12">

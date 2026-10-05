@@ -18,6 +18,8 @@ export function iniciarMotion() {
   if (iniciado) return lenis;
   iniciado = true;
   (window as Window & { __rodaMotion?: boolean }).__rodaMotion = true;
+  // Si el seguro del layout ya había sacado la clase (celu muy lento), la recuperamos para que todo se anime bien
+  document.documentElement.classList.add('js');
 
   if (movimientoPermitido()) {
     lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, anchors: true });

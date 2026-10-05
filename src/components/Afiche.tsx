@@ -1,10 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { $respuestas } from '../story/store';
-import { linkMail, linkWhatsApp } from '../story/sinopsis';
+import { linkMail } from '../story/sinopsis';
 import { dominioDe, limpiarMarca, textosAfiche } from '../story/afiche';
 import { ALTO, ANCHO, COLORES, ESTILOS, cargarTipografias, dibujarAfiche, type Color, type Estilo } from '../story/dibujarAfiche';
-import { MAIL, WHATSAPP } from '../content/contacto';
+import { MAIL } from '../content/contacto';
 import { cierre } from '../content/guion';
 
 const CLAVE = 'roda:marca';
@@ -183,7 +183,7 @@ export default function Afiche() {
 
       <div className="afiche-acciones">
         <div className="flex flex-wrap items-center gap-3">
-          <a className="cta" href={linkWhatsApp(respuestas, WHATSAPP, marca)} target="_blank" rel="noopener">
+          <a className="cta" href={marca.trim() ? `/contacto?marca=${encodeURIComponent(marca.trim())}` : '/contacto'}>
             {cierre.cta}
           </a>
           <button type="button" onClick={descargar} className="boton-afiche">

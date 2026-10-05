@@ -16,6 +16,7 @@ export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
   bajada: 'Falta contarla donde te buscan.',
   queHacemos: 'Estudio de diseño y desarrollo web · De Buenos Aires al mundo',
+  verPrecios: 'Ver precios →',
 };
 
 export const actoUno = {
@@ -102,7 +103,7 @@ export const proyectosPagina = {
 export const creativos = {
   pregunta: '¿Diseñás o manejás marcas?',
   cta: 'Trabajemos juntos',
-  mensaje: '¡Hola! Diseño o manejo marcas y quiero trabajar con Roda.',
+  mensaje: 'Diseño o manejo marcas y quiero trabajar con Roda.',
 };
 
 export const creditos = {
@@ -316,6 +317,15 @@ export const contactoPagina = {
   enviarMail: 'Enviar',
   enviando: 'Enviando…',
   avisoMail: 'Nos llega al toque. Te respondemos por WhatsApp o mail, como prefieras.',
+  privacidad: { texto: 'Usamos tus datos solo para responderte.', link: 'Privacidad' },
+  despues: {
+    titulo: 'Qué pasa después',
+    pasos: [
+      'Leemos tu consulta y te respondemos por WhatsApp o mail.',
+      'Si querés, charlamos 30 minutos por videollamada.',
+      'Te pasamos la propuesta y, si te cierra, arrancamos.',
+    ],
+  },
   exito: {
     titulo: '¡Listo!',
     texto: (nombre: string) => 'Gracias, ' + nombre + '. Ya nos llegó tu consulta: te escribimos pronto.',

@@ -9,7 +9,6 @@ import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Marca from '../components/Marca.astro';
 import { nosotros as t } from '../content/guion';
-import { WHATSAPP } from '../content/contacto';
 import juntos from '../assets/nosotros/juntos.jpg';
 import viaje from '../assets/nosotros/viaje.jpg';
 
@@ -24,7 +23,7 @@ const videoVertical = publico('fondo-vertical.mp4') ? '/nosotros/fondo-vertical.
 const { secuencia } = t;
 // Sin movimiento (o sin JS) queda quieta la placa de los protagonistas, sobre su foto
 const quieto = Math.max(0, secuencia.cuadros.findIndex((c) => c.tipo === 'credito'));
-const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t.mensaje)}`;
+const link = '/contacto';
 const textoSecuencia = secuencia.cuadros
   .filter((c) => c.tipo !== 'cierre')
   .map((c) => (c.tipo === 'credito' ? `${c.rol} ${c.nombres.join(' ')}` : c.tipo === 'tagline' ? c.lineas.join(' ') : c.tipo === 'titulo' ? c.palabras.join(' ') : c.texto))
@@ -111,7 +110,7 @@ const textoSecuencia = secuencia.cuadros
       <p class="font-titulo text-[clamp(2.8rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.045em]">
         ¿Filmamos<br /><em class="text-tinta/52">la tuya?</em>
       </p>
-      <a href={link} target="_blank" rel="noopener" class="cta">{t.cta}</a>
+      <a href={link} class="cta">{t.cta}</a>
     </section>
   </main>
   <Pie />

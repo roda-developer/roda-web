@@ -43,4 +43,3 @@ export interface Respuestas {
 export const frase = <Id extends string>(lista: readonly Opcion<Id>[], id: Id | null) =>
   id === null ? null : (lista.find((o) => o.id === id)?.frase ?? null);
 
-export const gritaDesde = 0.5;
