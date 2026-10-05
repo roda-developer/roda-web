@@ -31,8 +31,8 @@ import { loader } from '../content/guion';
   }
 
   if (tieneLoader) {
-    // 1.7s dura la animación del loader (1.25s espera + 0.45s salida): corto, para no hacer esperar
-    setTimeout(desbloquear, 1700);
+    // 2.5s dura el loader: la frase se escribe en 0.9s y queda 1s entera para leerla, después sale en 0.45s
+    setTimeout(desbloquear, 2500);
     // Quien toca o hace clic lo saltea
     ['pointerdown', 'keydown'].forEach(function (ev) {
       addEventListener(ev, function () {
@@ -70,7 +70,7 @@ import { loader } from '../content/guion';
       pointer-events: auto;
       touch-action: none;
       /* El telón sube y deja ver el papel */
-      animation: loader-sale 0.45s cubic-bezier(0.7, 0, 0.2, 1) 1.25s forwards;
+      animation: loader-sale 0.45s cubic-bezier(0.7, 0, 0.2, 1) 2.05s forwards;
     }
   }
 
@@ -96,7 +96,7 @@ import { loader } from '../content/guion';
     overflow: hidden;
     white-space: nowrap;
     width: 0;
-    animation: escribe 0.85s steps(var(--n)) 0.15s forwards;
+    animation: escribe 0.9s steps(var(--n)) 0.15s forwards;
   }
   .loader-cursor {
     display: inline-block;

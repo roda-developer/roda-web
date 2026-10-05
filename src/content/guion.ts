@@ -15,7 +15,7 @@ export const nav = {
 export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
   bajada: 'Falta contarla donde te buscan.',
-  queHacemos: 'Estudio de diseño y desarrollo web · Buenos Aires',
+  queHacemos: 'Estudio de diseño y desarrollo web · De Buenos Aires al mundo',
 };
 
 export const actoUno = {
@@ -284,7 +284,7 @@ export const preciosPagina = {
 
 /**
  * La página /contacto: un formulario corto para saber qué busca cada persona antes de hablar.
- * Por ahora arma el mensaje y lo abre en WhatsApp (el mail todavía no existe). Si hay PUBLIC_AGENDA (Cal.com), se puede agendar directo.
+ * Se envía al mail de Roda con Web3Forms. Después de enviar, se puede agendar la llamada (Cal.com).
  */
 export const contactoPagina = {
   rotulo: 'Contacto',
@@ -303,18 +303,26 @@ export const contactoPagina = {
   ideas: { etiqueta: '¿Qué te gustaría resolver?', ayuda: 'Por ejemplo: hoy anoto los turnos en una planilla y se me pisan.' },
   nombre: { etiqueta: 'Tu nombre', placeholder: 'Cómo te llamás' },
   marca: { etiqueta: 'Tu marca o negocio', placeholder: 'Opcional' },
+  contacto: { etiqueta: 'Tu WhatsApp o mail', placeholder: 'Para poder responderte' },
   web: { etiqueta: 'Tu web o Instagram, si tenés', placeholder: 'Opcional' },
   mensaje: { etiqueta: 'Contanos un poco, o preguntanos lo que quieras', placeholder: 'Qué hacés, qué necesitás, qué dudas tenés…' },
-  reunion: {
-    pregunta: '¿Querés que nos juntemos?',
-    no: 'Con mensajes alcanza',
-    si: 'Sí, una videollamada',
-    cuando: { etiqueta: '¿Qué días y horarios te quedan bien?', placeholder: 'Ej.: martes o jueves a la tarde' },
-    agendar: 'Elegí día y horario en nuestra agenda',
+  /** La llamada se agenda en el "¡Listo!", después de enviar (Cal.com) */
+  agenda: {
+    cta: 'Agendar una llamada',
+    otros: { titulo: '¿Querés adelantar la charla?', texto: 'Elegí un horario de 30 minutos y lo vemos juntos por videollamada.' },
+    sistema: { titulo: 'Para pasarte un presupuesto, charlemos 30 minutos.', texto: 'Elegí el horario que te quede cómodo y entendemos bien lo que necesitás.' },
   },
-  enviar: 'Enviar por WhatsApp',
-  aviso: 'Se abre WhatsApp con tu mensaje listo. Solo tenés que tocar enviar.',
-  falta: 'Contanos qué buscás y tu nombre, así sabemos con quién hablamos.',
+  falta: 'Contanos qué buscás, tu nombre y cómo responderte.',
+  enviarMail: 'Enviar',
+  enviando: 'Enviando…',
+  avisoMail: 'Nos llega al toque. Te respondemos por WhatsApp o mail, como prefieras.',
+  exito: {
+    titulo: '¡Listo!',
+    texto: (nombre: string) => 'Gracias, ' + nombre + '. Ya nos llegó tu consulta: te escribimos pronto.',
+    whatsapp: '¿Querés hablar ya? Abrí WhatsApp',
+  },
+  errorEnvio: 'No pudimos enviarlo. Probá de nuevo en un ratito: tus datos quedan cargados.',
+  asunto: (tipo: string, nombre: string) => 'Nueva consulta: ' + tipo + ' — ' + nombre,
   directo: '¿Preferís escribir directo?',
   directoCta: 'Abrir WhatsApp',
   /** Cómo llega el mensaje a nuestro WhatsApp */
@@ -323,7 +331,7 @@ export const contactoPagina = {
     busco: (tipo: string) => 'Busco: ' + tipo + '.',
     resolver: (texto: string) => 'Me gustaría resolver: ' + texto,
     web: (web: string) => 'Mi web o Instagram: ' + web,
-    reunion: (cuando: string) => 'Me gustaría una videollamada' + (cuando ? ' (' + cuando + ')' : '') + '.',
+    contacto: (dato: string) => 'Me contactan por: ' + dato,
   },
 };
 

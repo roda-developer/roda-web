@@ -4,12 +4,10 @@ import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import { contactoPagina as t, proyectosPagina } from '../content/guion';
-import { WHATSAPP } from '../content/contacto';
+import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
 
-// La agenda (Cal.com) es opcional: con PUBLIC_AGENDA cargada, la reunión se agenda directo
-const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
 ---
-<Base titulo="Contacto — Roda" descripcion="Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos por WhatsApp.">
+<Base titulo="Contacto — Roda" descripcion="Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos enseguida.">
   <Nav enHome={false} actual="contacto" />
   <main class="relative z-10">
     <header class="px-5 pt-28 md:px-12 md:pt-32">
@@ -23,8 +21,10 @@ const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
       <p class="mt-5 max-w-[40ch] text-lg leading-snug text-tinta/70 md:text-xl" data-revelar="4">{t.bajada}</p>
     </header>
 
-    <!-- El formulario: casi todo se toca en vez de escribirse; arma el mensaje y lo abre en WhatsApp -->
-    <form class="formulario mt-14 px-5 pb-8 md:px-12" data-formulario data-whatsapp={WHATSAPP} novalidate>
+    <!-- El formulario: casi todo se toca en vez de escribirse. Se envía al mail de Roda con Web3Forms -->
+    <form class="formulario mt-14 px-5 pb-8 md:px-12" data-formulario data-whatsapp={WHATSAPP} data-clave={WEB3FORMS} novalidate>
+      <!-- Trampa para bots: un humano no la ve ni la completa -->
+      <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <fieldset class="bloque">
         <legend class="pregunta">{t.tipos.pregunta}</legend>
         <div class="opciones">
@@ -53,6 +53,10 @@ const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
           <input id="marca" name="marca" type="text" autocomplete="organization" class="campo" placeholder={t.marca.placeholder} />
         </div>
         <div class="md:col-span-2">
+          <label class="pregunta" for="contacto">{t.contacto.etiqueta}</label>
+          <input id="contacto" name="contacto" type="text" autocomplete="email" class="campo" placeholder={t.contacto.placeholder} required />
+        </div>
+        <div class="md:col-span-2">
           <label class="pregunta" for="web">{t.web.etiqueta}</label>
           <input id="web" name="web" type="text" autocomplete="url" class="campo" placeholder={t.web.placeholder} />
         </div>
@@ -62,32 +66,28 @@ const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
         </div>
       </div>
 
-      <fieldset class="bloque">
-        <legend class="pregunta">{t.reunion.pregunta}</legend>
-        <div class="opciones">
-          <label class="opcion"><input type="radio" name="reunion" value="no" checked /><span>{t.reunion.no}</span></label>
-          <label class="opcion"><input type="radio" name="reunion" value="si" /><span>{t.reunion.si}</span></label>
-        </div>
-        <div class="mt-6" data-solo-reunion hidden>
-          {AGENDA ? (
-            <a href={AGENDA} target="_blank" rel="noopener" class="cta cta-claro">{t.reunion.agendar}</a>
-          ) : (
-            <>
-              <label class="pregunta" for="cuando">{t.reunion.cuando.etiqueta}</label>
-              <input id="cuando" name="cuando" type="text" class="campo" placeholder={t.reunion.cuando.placeholder} />
-            </>
-          )}
-        </div>
-      </fieldset>
-
       <div class="bloque">
         <p class="falta mono" role="alert" data-falta hidden>{t.falta}</p>
-        <button type="submit" class="cta">{t.enviar}</button>
-        <p class="mono mt-4 text-gris">{t.aviso}</p>
+        <button type="submit" class="cta" data-enviar>{t.enviarMail}</button>
+        <p class="mono mt-4 text-gris">{t.avisoMail}</p>
       </div>
     </form>
 
-    <p class="mono mx-5 mt-10 mb-16 border-t border-tinta/15 pt-3 text-gris md:mx-12">
+    <!-- Cuando la consulta llegó al mail: la llamada se agenda acá, con el envión (para un sistema a medida, más directo) -->
+    <div class="exito mt-14 px-5 pb-8 md:px-12" data-exito data-agenda={AGENDA} hidden tabindex="-1">
+      <p class="font-titulo text-[clamp(3rem,13vw,8rem)] leading-[0.9] tracking-[-0.055em]">{t.exito.titulo}</p>
+      <p class="mt-6 max-w-[34ch] text-xl text-tinta/70 md:text-2xl" data-exito-texto></p>
+      <div class="mt-12 max-w-[40rem] border-t border-tinta pt-6">
+        <p class="text-2xl font-medium tracking-[-0.03em] md:text-3xl" data-agenda-titulo></p>
+        <p class="mt-2 text-tinta/65 md:text-lg" data-agenda-texto></p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href={AGENDA} target="_blank" rel="noopener" class="cta" data-exito-agenda>{t.agenda.cta}</a>
+          <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="cta cta-claro" data-exito-whatsapp>{t.exito.whatsapp}</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mono mx-5 mt-10 mb-16 border-t border-tinta/15 pt-3 text-gris md:mx-12" data-directo>
       {t.directo}{' '}
       <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{t.directoCta} →</a>
     </p>
@@ -138,6 +138,10 @@ const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
   .falta { margin-bottom: 1rem; color: var(--color-tc-rojo); }
   .cta { cursor: pointer; border: 0; }
   .cta-claro { background: transparent; color: var(--color-tinta); border: 1px solid var(--color-tinta); }
+  .cta:disabled { opacity: 0.5; cursor: wait; }
+  .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .exito[hidden], [data-directo][hidden] { display: none; }
+  .exito { scroll-margin-top: 6rem; }
 </style>
 
 <script>
@@ -148,14 +152,12 @@ const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
 
   if (form) {
     const soloSistema = form.querySelector<HTMLElement>('[data-solo-sistema]');
-    const soloReunion = form.querySelector<HTMLElement>('[data-solo-reunion]');
     const falta = form.querySelector<HTMLElement>('[data-falta]');
     const valor = (nombre: string) => (form.elements.namedItem(nombre) as HTMLInputElement | null)?.value.trim() ?? '';
     const elegido = (nombre: string) => form.querySelector<HTMLInputElement>(`input[name="${nombre}"]:checked`);
 
     const actualizar = () => {
       if (soloSistema) soloSistema.hidden = elegido('tipo')?.value !== 'sistema';
-      if (soloReunion) soloReunion.hidden = elegido('reunion')?.value !== 'si';
     };
     form.addEventListener('change', actualizar);
 
@@ -169,26 +171,90 @@ const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
     if (ideas && campoIdeas) campoIdeas.value = ideas.split('|').join(', ') + '. ';
     actualizar();
 
-    form.addEventListener('submit', (e) => {
+    const enviar = form.querySelector<HTMLButtonElement>('[data-enviar]');
+    const exito = document.querySelector<HTMLElement>('[data-exito]');
+    const clave = form.dataset.clave ?? '';
+    const numero = form.dataset.whatsapp ?? '';
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const tipo = elegido('tipo');
       const nombre = valor('nombre');
-      if (!tipo || !nombre) {
-        if (falta) falta.hidden = false;
-        (tipo ? form.elements.namedItem('nombre') as HTMLInputElement : form.querySelector<HTMLInputElement>('input[name="tipo"]'))?.focus();
+      const contacto = valor('contacto');
+      if (!tipo || !nombre || !contacto) {
+        if (falta) { falta.textContent = t.falta; falta.hidden = false; }
+        const primero = !tipo ? form.querySelector<HTMLInputElement>('input[name="tipo"]') : (form.elements.namedItem(!nombre ? 'nombre' : 'contacto') as HTMLInputElement);
+        primero?.focus();
         return;
       }
       if (falta) falta.hidden = true;
 
       const l = t.lineas;
-      const partes = [l.hola(nombre, valor('marca')), l.busco(tipo.dataset.nombre ?? tipo.value)];
+      const nombreTipo = tipo.dataset.nombre ?? tipo.value;
+      const partes = [l.hola(nombre, valor('marca')), l.busco(nombreTipo), l.contacto(contacto)];
       if (tipo.value === 'sistema' && valor('ideas')) partes.push(l.resolver(valor('ideas')));
       if (valor('web')) partes.push(l.web(valor('web')));
       if (valor('mensaje')) partes.push(valor('mensaje'));
-      if (elegido('reunion')?.value === 'si') partes.push(l.reunion(valor('cuando')));
+      const texto = partes.join('\n\n');
 
-      const numero = form.dataset.whatsapp ?? '';
-      window.open(`https://wa.me/${numero}?text=${encodeURIComponent(partes.join('\n\n'))}`, '_blank', 'noopener');
+      // El "¡Listo!": lo que pasó, WhatsApp a mano y la agenda (para un sistema a medida, la llamada hace falta para cotizar)
+      const mostrarExito = () => {
+        const whatsapp = document.querySelector<HTMLAnchorElement>('[data-exito-whatsapp]');
+        if (whatsapp) whatsapp.href = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+        const textoExito = document.querySelector<HTMLElement>('[data-exito-texto]');
+        if (textoExito) textoExito.textContent = t.exito.texto(nombre);
+
+        const esSistema = tipo.value === 'sistema';
+        const agendaTitulo = document.querySelector<HTMLElement>('[data-agenda-titulo]');
+        const agendaTexto = document.querySelector<HTMLElement>('[data-agenda-texto]');
+        if (agendaTitulo) agendaTitulo.textContent = esSistema ? t.agenda.sistema.titulo : t.agenda.otros.titulo;
+        if (agendaTexto) agendaTexto.textContent = esSistema ? t.agenda.sistema.texto : t.agenda.otros.texto;
+        // Cal.com recibe el nombre, el mail (si dejó uno) y un resumen: nadie escribe dos veces
+        const agenda = document.querySelector<HTMLAnchorElement>('[data-exito-agenda]');
+        const base = exito?.dataset.agenda;
+        if (agenda && base) {
+          const url = new URL(base);
+          url.searchParams.set('name', nombre);
+          if (contacto.includes('@')) url.searchParams.set('email', contacto);
+          url.searchParams.set('notes', [nombreTipo, valor('marca'), valor('ideas'), valor('mensaje')].filter(Boolean).join(' · '));
+          agenda.href = url.href;
+        }
+        form.hidden = true;
+        const directo = document.querySelector<HTMLElement>('[data-directo]');
+        if (directo) directo.hidden = true;
+        if (exito) { exito.hidden = false; exito.focus(); exito.scrollIntoView({ block: 'start' }); }
+      };
+
+      if (enviar) { enviar.disabled = true; enviar.textContent = t.enviando; }
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: clave,
+            subject: t.asunto(nombreTipo, nombre),
+            from_name: 'Web de Roda',
+            // Si dejó un mail, "Responder" en el correo le contesta directo
+            ...(contacto.includes('@') ? { replyto: contacto } : {}),
+            Nombre: nombre,
+            Busca: nombreTipo,
+            Contacto: contacto,
+            Marca: valor('marca'),
+            'Web o Instagram': valor('web'),
+            'Quiere resolver': tipo.value === 'sistema' ? valor('ideas') : '',
+            Mensaje: valor('mensaje'),
+            botcheck: (form.elements.namedItem('botcheck') as HTMLInputElement | null)?.checked ?? false,
+          }),
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.success === false) throw new Error(d.message || String(r.status));
+        mostrarExito();
+      } catch {
+        // Si falla, lo decimos y se puede volver a intentar (los datos quedan cargados)
+        if (falta) { falta.textContent = t.errorEnvio; falta.hidden = false; }
+      } finally {
+        if (enviar) { enviar.disabled = false; enviar.textContent = t.enviarMail; }
+      }
     });
   }
 </script>

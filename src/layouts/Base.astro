@@ -13,7 +13,7 @@ interface Props {
 
 const {
   titulo = 'Roda — Estudio web',
-  descripcion = 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida.',
+  descripcion = 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida, de Buenos Aires al mundo.',
 } = Astro.props;
 const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
 const canonica = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
@@ -22,10 +22,11 @@ const empresa = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: 'Roda',
-  description: 'Estudio de diseño y desarrollo web en Buenos Aires: landings, webs multisección y tiendas online.',
+  description: 'Estudio de diseño y desarrollo web de Buenos Aires, para clientes de todo el mundo: landings, webs multisección y tiendas online.',
   url: new URL('/', Astro.site ?? Astro.url).href,
   image: imagen,
-  areaServed: 'AR',
+  // Trabajamos para cualquier país
+  areaServed: 'Worldwide',
   address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
   founder: [{ '@type': 'Person', name: 'Giuliana Di Rocco' }, { '@type': 'Person', name: 'Facundo Thibaut' }],
   sameAs: ['https://instagram.com/roda.development'],
