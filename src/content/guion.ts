@@ -353,7 +353,7 @@ export const laCritica = { titulo: 'La crítica dice' };
 export const cartelera = {
   rotulo: ['04', 'Lo que hacemos'],
   titulo: ['En cartelera.', 'Tres webs, tres géneros.'],
-  deslizar: 'Deslizá para ver las 3 webs →',
+  deslizar: 'Deslizá para ver más',
   enCartel: 'En cartel',
   peliculas: [
     { id: 'landing', dibujo: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'US$ 300', color: 'rojo' },
