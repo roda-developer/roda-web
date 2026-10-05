@@ -146,13 +146,21 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   const puerta = document.querySelector<HTMLElement>('[data-puerta]');
   if (puerta && movimientoPermitido()) {
     const q = gsap.utils.selector(puerta);
+    // El círculo se abre en dos tiempos (en px, recalculados si cambia el tamaño de la pantalla):
+    // 1) mientras la sección entra, crece hasta un tamaño que no llega al borde de arriba de la sección (así no se corta);
+    // 2) cuando la sección ya llena la pantalla, termina de expandirse hasta cubrirla entera.
+    const centroY = () => puerta.querySelector<HTMLElement>('.color')!.offsetHeight * 0.72;
+    const seguro = () => `circle(${Math.round(centroY() * 0.94)}px at 78% 72%)`;
+    const entero = () => `circle(${Math.round(Math.hypot(innerWidth, innerHeight) * 1.1)}px at 78% 72%)`;
+    // La sección mide 180svh y empieza a contar cuando asoma: llena la pantalla al 100/180 del recorrido
+    const llena = 100 / 180;
     gsap
-      // Empieza cuando la sección ya llena la pantalla: así el círculo crece hasta cubrirla entera, sin cortarse en el borde de arriba
-      .timeline({ scrollTrigger: { trigger: puerta, start: 'top top', end: 'bottom bottom', scrub: 0.5 } })
-      .fromTo(q('.color'), { clipPath: 'circle(0% at 78% 72%)' }, { clipPath: 'circle(150% at 78% 72%)', ease: 'power2.in', duration: 1 })
-      .from(q('.grito > span'), { yPercent: 60, opacity: 0, stagger: 0.12, duration: 0.6, ease: 'expo.out' }, 0.45)
-      .from(q('.mas span'), { scale: 0.2, rotate: (i: number) => [-40, 20, 50][i], stagger: 0.08, duration: 0.6, ease: 'expo.out' }, 0.6)
-      .to({}, { duration: 0.3 });
+      .timeline({ scrollTrigger: { trigger: puerta, start: 'top bottom', end: 'bottom bottom', scrub: 0.5, invalidateOnRefresh: true } })
+      .fromTo(q('.color'), { clipPath: 'circle(0px at 78% 72%)' }, { clipPath: seguro, ease: 'power1.out', duration: llena }, 0)
+      .to(q('.color'), { clipPath: entero, ease: 'power2.in', duration: 0.3 }, llena)
+      .from(q('.grito > span'), { yPercent: 60, opacity: 0, stagger: 0.06, duration: 0.25, ease: 'expo.out' }, llena + 0.04)
+      .from(q('.mas span'), { scale: 0.2, rotate: (i: number) => [-40, 20, 50][i], stagger: 0.04, duration: 0.25, ease: 'expo.out' }, llena + 0.1)
+      .to({}, { duration: 1 - (llena + 0.35) > 0 ? 1 - (llena + 0.35) : 0.05 });
   }
 
   const explosion = document.querySelector<HTMLElement>('[data-explosion]');
