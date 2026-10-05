@@ -38,6 +38,13 @@ export function iniciarMotion() {
       requestAnimationFrame(desbloquearLenis);
     }
     lenis.on('scroll', ScrollTrigger.update);
+    // Mientras se scrollea, pausamos los hovers: si no, cada tarjeta que pasa bajo el mouse se prende y se apaga
+    let quieto: number | undefined;
+    lenis.on('scroll', () => {
+      document.documentElement.classList.add('scrolleando');
+      clearTimeout(quieto);
+      quieto = window.setTimeout(() => document.documentElement.classList.remove('scrolleando'), 180);
+    });
     gsap.ticker.add((t) => lenis?.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
     revelarTodo();

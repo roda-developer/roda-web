@@ -71,6 +71,9 @@ body {
 }
 }
 
+/* Mientras se scrollea, las tarjetas con hover no reaccionan al mouse (ver motion/index.ts) */
+html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas, html.scrolleando .carpetas { pointer-events: none; }
+
 /* Los estados iniciales ocultos solo existen con JS y con movimiento permitido */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-revelar] { opacity: 0; }

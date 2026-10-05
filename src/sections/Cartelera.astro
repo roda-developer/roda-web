@@ -123,8 +123,9 @@ const colores = {
     box-shadow: 0 30px 50px -30px rgb(0 0 0 / 0.45);
     transition: transform 0.6s var(--ease-cine), box-shadow 0.6s var(--ease-cine);
   }
-  .afiche:hover { transform: translateY(-6px) rotate(-0.6deg); box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.5); }
-  @media (prefers-reduced-motion: reduce) { .afiche, .afiche:hover { transition: none; transform: none; } }
+  /* El que detecta el mouse es el li, que no se mueve: si fuera el afiche, al subir se escaparía del cursor y temblaría */
+  .tira > li:hover .afiche, .afiche:focus-visible { transform: translateY(-6px) rotate(-0.6deg); box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.5); }
+  @media (prefers-reduced-motion: reduce) { .afiche, .tira > li:hover .afiche { transition: none; transform: none; } }
 
   .interior { display: flex; flex-direction: column; height: 100%; padding: 6cqi; }
   .presenta { display: flex; align-items: baseline; justify-content: center; gap: 2.4cqi; font-size: 7.4cqi; }

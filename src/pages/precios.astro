@@ -120,12 +120,14 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       <h3 class="mt-8 text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-medium tracking-[-0.035em]" data-revelar>{adicionales.titulo}</h3>
       <ul class="etiquetas mt-10">
         {adicionales.lista.map((a, i) => (
-          <li class="etiqueta" data-revelar={i * 2}>
-            <span class="agujero" aria-hidden="true"></span>
-            <p class="etiqueta-nombre">{a.nombre}</p>
-            <p class="etiqueta-detalle">{a.detalle}</p>
-            <p class="etiqueta-precio"><span class="mono">+ {moneda}</span> {a.precio}</p>
-            <p class="hoy mono" data-hoy={a.precio} hidden></p>
+          <li class="etiqueta-caja" data-revelar={i * 2}>
+            <div class="etiqueta">
+              <span class="agujero" aria-hidden="true"></span>
+              <p class="etiqueta-nombre">{a.nombre}</p>
+              <p class="etiqueta-detalle">{a.detalle}</p>
+              <p class="etiqueta-precio"><span class="mono">+ {moneda}</span> {a.precio}</p>
+              <p class="hoy mono" data-hoy={a.precio} hidden></p>
+            </div>
           </li>
         ))}
       </ul>
@@ -307,8 +309,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   #adicionales { scroll-margin-top: 6rem; }
   .etiquetas { display: grid; gap: 1rem; }
   @media (min-width: 768px) { .etiquetas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; } }
+  .etiqueta-caja { display: flex; }
   .etiqueta {
     position: relative;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 1.4rem 1.4rem 1.4rem 3.2rem;
@@ -318,7 +322,8 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.08));
     transition: transform 0.5s var(--ease-cine);
   }
-  .etiqueta:hover { transform: rotate(-1.5deg) translateY(-3px); }
+  /* La caja (quieta) detecta el mouse; la etiqueta es la que se inclina: así no tiembla en los bordes */
+  .etiqueta-caja:hover .etiqueta { transform: rotate(-1.5deg) translateY(-3px); }
   .agujero { position: absolute; left: 1.35rem; top: 50%; width: 0.7rem; height: 0.7rem; margin-top: -0.35rem; border-radius: 999px; background: var(--color-papel); border: 1px solid color-mix(in oklab, var(--color-tinta) 35%, transparent); box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.3); }
   .etiqueta-nombre { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
   .etiqueta-detalle { margin-top: 0.4rem; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); line-height: 1.35; }
