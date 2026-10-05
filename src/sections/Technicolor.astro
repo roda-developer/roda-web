@@ -20,7 +20,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
 ---
 <section id="technicolor" aria-label="Technicolor: a veces más es más">
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
-  <div class="puerta relative h-[110svh]" data-puerta>
+  <div class="puerta relative h-[180svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
       <!-- Arriba el grito, abajo las bandas: cada uno en su lugar, sin taparse -->
       <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-rosa px-4 pt-[clamp(3.5rem,8svh,4.5rem)] pb-[clamp(1.5rem,4svh,2.5rem)] text-tinta">
@@ -147,7 +147,8 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   if (puerta && movimientoPermitido()) {
     const q = gsap.utils.selector(puerta);
     gsap
-      .timeline({ scrollTrigger: { trigger: puerta, start: 'top bottom', end: 'bottom bottom', scrub: 0.5 } })
+      // Empieza cuando la sección ya llena la pantalla: así el círculo crece hasta cubrirla entera, sin cortarse en el borde de arriba
+      .timeline({ scrollTrigger: { trigger: puerta, start: 'top top', end: 'bottom bottom', scrub: 0.5 } })
       .fromTo(q('.color'), { clipPath: 'circle(0% at 78% 72%)' }, { clipPath: 'circle(150% at 78% 72%)', ease: 'power2.in', duration: 1 })
       .from(q('.grito > span'), { yPercent: 60, opacity: 0, stagger: 0.12, duration: 0.6, ease: 'expo.out' }, 0.45)
       .from(q('.mas span'), { scale: 0.2, rotate: (i: number) => [-40, 20, 50][i], stagger: 0.08, duration: 0.6, ease: 'expo.out' }, 0.6)
