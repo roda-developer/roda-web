@@ -4,6 +4,7 @@ import '@fontsource-variable/inter-tight/wght-italic.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
+import { MAIL, WHATSAPP } from '../content/contacto';
 
 interface Props {
   titulo?: string;
@@ -28,6 +29,8 @@ const empresa = {
   address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
   founder: [{ '@type': 'Person', name: 'Giuliana Di Rocco' }, { '@type': 'Person', name: 'Facundo Thibaut' }],
   sameAs: ['https://instagram.com/roda.development'],
+  email: MAIL,
+  telephone: '+' + WHATSAPP,
 };
 ---
 <!doctype html>
