@@ -15,6 +15,7 @@ export const nav = {
 export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
   bajada: 'Falta contarla donde te buscan.',
+  queHacemos: 'Estudio de diseño y desarrollo web · Buenos Aires',
 };
 
 export const actoUno = {
@@ -32,7 +33,6 @@ export const actoUno = {
   notas: ['Una plantilla que usan otras mil marcas.', 'Una foto de stock.', '“Saber más”… ¿de qué?'],
   cuenta: 'segundos para decidir',
   cierre: ['Y se va.', 'No perdiste una visita.', 'Perdiste un cliente.'],
-  pregunta: '¿Y vos, hoy?',
 };
 
 export const actoDos = {
@@ -43,7 +43,6 @@ export const actoDos = {
     { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va.' },
     { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.' },
   ],
-  pregunta: '¿A dónde querés llevar a tu cliente?',
 };
 
 export const giro = {
@@ -54,9 +53,9 @@ export const giro = {
 
 export const technicolor = {
   grito: ['Y a veces', 'más', 'es más.'],
-  ejemplos: ['Una hamburguesería no susurra.', 'Un festival no pide permiso.', 'Una marca de skate no se viste de gris.'],
   /** Lo que se lee sobre la explosión de webs: son trabajos nuestros */
   firma: 'Algunas que hicimos nosotros',
+  verTodos: 'Ver todos los proyectos',
   corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu marca.'],
 };
 
@@ -84,12 +83,6 @@ export const actoTres = {
   },
 };
 
-export const adelanto = {
-  rotulo: ['04', 'Proyectos'],
-  titulo: 'Historias que convertimos en web.',
-  verTodos: 'Ver todos los proyectos',
-};
-
 export const proyectosPagina = {
   titulo: 'Proyectos seleccionados',
   bajada: 'Cada una, hecha a medida para su marca. Estas son algunas de las que ya hicimos.',
@@ -101,6 +94,7 @@ export const proyectosPagina = {
   verEnVivo: 'Ver en vivo',
   siguiente: 'Siguiente proyecto',
   volver: 'Todos los proyectos',
+  inicio: 'Inicio',
   ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
   secciones: { cliente: 'El cliente', desafio: 'El desafío', solucion: 'Lo que hicimos', destacados: 'Detalles', resultado: 'Resultado' },
 };
@@ -126,7 +120,7 @@ export const creditos = {
 };
 
 export const cierre = {
-  rotulo: ['07', 'El estreno'],
+  rotulo: ['05', 'El estreno'],
   pregunta: '¿Cómo se llama tu marca?',
   ayuda: 'Escribila y mirá tu afiche de estreno.',
   placeholder: 'Tu marca',
@@ -138,6 +132,7 @@ export const cierre = {
   colores: { rosa: 'Rosa', amarillo: 'Amarillo', azul: 'Azul', rojo: 'Rojo', verde: 'Verde' },
   compartir: 'Compartir',
   alternativa: 'o escribinos a',
+  formulario: 'O contanos más en el formulario →',
   /** Lo que dice el afiche, de arriba hacia abajo */
   afiche: {
     presenta: 'presenta',
@@ -161,31 +156,42 @@ export const cierre = {
 };
 
 export const planes = {
-  rotulo: ['06', 'Cuánto sale'],
-  titulo: ['Tu historia, tu escala.', 'Elegí cómo contarla.'],
   moneda: 'US$',
+  /** incluye: la línea corta de la home, alineada con las carpetas de /precios (que tienen el detalle completo) */
   lista: [
-    { nombre: 'Landing', precio: 300, incluye: 'Una sola página que cuenta qué hacés y lleva a que te escriban.' },
-    { nombre: 'Multisección', precio: 400, incluye: 'Hasta 5 páginas: inicio, servicios, trabajos, nosotros, contacto. Cada página extra, US$ 30; más de 10, lo cotizamos.' },
-    { nombre: 'Tienda', precio: 550, incluye: 'Tu catálogo con carrito y pasarela de pagos para cobrar online.' },
+    { id: 'landing', nombre: 'Landing', precio: 300, incluye: 'Una sola página. Ideal si estás arrancando o lanzás algo puntual.' },
+    { id: 'multiseccion', nombre: 'Multisección', precio: 400, incluye: 'Hasta 5 páginas. Ideal si tenés varios servicios o trabajos para mostrar.' },
+    { id: 'tienda', nombre: 'Tienda', precio: 550, incluye: 'Carrito y pasarela de pagos. Ideal si vendés productos.' },
   ],
-  todas: ['Diseño propio', 'Se ve bien en el celular', 'Botón a WhatsApp', 'O su equivalente en pesos'],
+  todas: ['Diseño propio', 'Cambios sin límite', 'Online en 1 a 2 semanas', 'Mantenimiento opcional desde US$ 20/mes'],
+  verTodo: 'Ver qué incluye cada plan',
   adicionales: {
     rotulo: 'Adicionales',
     titulo: 'Sumale lo que necesites.',
     consultar: 'Consultanos',
     lista: [
-      { nombre: 'Panel propio: subí tus proyectos, productos y novedades sin depender de nadie', precio: 150 },
-      { nombre: 'Turnos y reservas', precio: 100 },
-      { nombre: 'Tu web en otro idioma', precio: 100 },
+      { nombre: 'Panel propio', detalle: 'Subís tus proyectos, productos y novedades sin depender de nadie', precio: 150 },
+      { nombre: 'Turnos y reservas', detalle: 'Te reservan solos, a cualquier hora', precio: 100 },
+      { nombre: 'Otro idioma', detalle: 'Tu web también en inglés, o el que necesites', precio: 100 },
     ],
   },
+  /** A medida: va debajo de las carpetas. Los ejemplos ayudan a quien no sabe cómo se llama lo que necesita. PENDIENTE (Giuli/Facu): revisar que sean cosas que hacen. */
   aMedida: {
     rotulo: 'A medida',
-    titulo: '¿Necesitás un sistema?',
-    texto: 'Paneles, gestión interna, algo que hoy hacés a mano en una planilla. Lo pensamos juntos y te pasamos un presupuesto.',
+    titulo: '¿Lo tuyo no entra en ninguna carpeta?',
+    texto: 'Hacemos sistemas a medida: lo que hoy resolvés a mano, en una planilla o por mensajes, convertido en una herramienta para tu negocio. También webs de más de 10 páginas. Lo pensamos juntos y te pasamos un presupuesto.',
+    ejemplosTitulo: 'Por ejemplo (tocá los que se parecen a lo tuyo)',
+    ejemplos: [
+      'Turnos con seña y recordatorios',
+      'Stock y ventas de tu local',
+      'Presupuestos que se arman solos',
+      'Pedidos para mayoristas',
+      'Reservas de canchas, salas o equipos',
+      'Gestión de alumnos, socios o pacientes',
+      'Un portal para que tus clientes sigan su pedido',
+      'Un panel con los números de tu negocio',
+    ],
     cta: 'Contanos qué necesitás',
-    mensaje: '¡Hola! Vi la web de Roda y necesito un sistema a medida.',
   },
   dominio: {
     pregunta: '¿Y el dominio y el hosting?',
@@ -196,17 +202,141 @@ export const planes = {
   },
 };
 
-/** La cartelera: cada tipo de web es una película. El precio lleva a la sección de planes. */
+/**
+ * La página /precios: cada plan es una carpeta de archivo. Las lengüetas son lo que trae tu web
+ * (la landing tiene una sola; la multisección, varias; la tienda, un carrito) y adentro va solo lo que incluye el servicio.
+ */
+export const preciosPagina = {
+  rotulo: 'Precios',
+  titulo: ['Cuánto sale', 'tu estreno.'],
+  bajada: 'Precios a la vista, sin letra chica. Abrí cada carpeta.',
+  rotulos: {
+    planes: ['01', 'Los planes'],
+    extras: ['02', 'Sumale'],
+    preguntas: ['03', 'Preguntas'],
+  },
+  /** Lo que define cada plan va siempre a la vista, fuera de las lengüetas */
+  fichas: {
+    landing: { ideal: 'Ideal si estás arrancando o lanzás algo puntual.', clave: ['1 página'], mantenimiento: 20 },
+    multiseccion: { ideal: 'Ideal si tenés varios servicios o trabajos para mostrar.', clave: ['Hasta 5 páginas', 'Página extra US$ 30'], mantenimiento: 25 },
+    tienda: { ideal: 'Ideal si vendés productos.', clave: ['Carrito', 'Pasarela de pagos'], mantenimiento: 35 },
+  },
+  /** El mantenimiento: opcional, por mes, con tope de cambios. PENDIENTE (Giuli/Facu): confirmar el tope de 4 cambios. */
+  mantenimiento: {
+    linea: (precio: number) => `Mantenimiento opcional: US$ ${precio}/mes`,
+    explicacion: 'Opcional, sin permanencia: hasta 4 cambios por mes (textos, fotos, precios o productos). Lo que no usás no se acumula; secciones o funciones nuevas se cotizan aparte.',
+  },
+  /** "Todas incluyen", como los créditos de una película */
+  creditos: {
+    titulo: 'Todas incluyen',
+    lista: [
+      ['Diseño', 'Propio, hecho a mano'],
+      ['Pantallas', 'Celu, tablet y compu'],
+      ['Contacto', 'Botón a WhatsApp'],
+      ['Cambios', 'Sin límite, hasta que te encante'],
+      ['Estreno', 'En 1 a 2 semanas'],
+      ['Hosting', 'Gratis en la mayoría de los casos'],
+      ['Google', 'Indexación y SEO técnico'],
+    ],
+    aviso: 'Ninguna web de esta cartelera viene con letra chica.',
+  },
+  /** El precio real es en dólares; el interruptor muestra cuánto sale hoy en pesos (cotización de DolarApi) */
+  moneda: {
+    etiqueta: 'Ver cuánto sale hoy en pesos',
+    hoy: (pesos: string) => 'Hoy: $ ' + pesos,
+    cotizacion: (valor: string, fecha: string) => 'Dólar oficial $ ' + valor + ' · ' + fecha,
+  },
+  pedir: 'Quiero esta',
+  /** Las lengüetas de cada carpeta: solo dicen el tamaño de la web (una página, varias, una tienda) */
+  carpetas: {
+    landing: [{ id: 'inicio', nombre: 'Inicio' }],
+    multiseccion: [
+      { id: 'inicio', nombre: 'Inicio' },
+      { id: 'servicios', nombre: 'Servicios' },
+      { id: 'mas', nombre: '+3', etiqueta: 'Tres páginas más' },
+    ],
+    tienda: [
+      { id: 'catalogo', nombre: 'Catálogo' },
+      { id: 'carrito', nombre: 'Carrito', carrito: true },
+    ],
+  },
+  preguntas: [
+    { p: '¿Tengo que pagar algo por mes?', r: ['No. Pagás tu web una sola vez. El hosting, en la mayoría de los casos, es gratis, y el dominio (tumarca.com) se renueva una vez por año, a tu nombre.', 'Si querés que sigamos actualizando tu web, hay un mantenimiento mensual totalmente opcional: Landing US$ 20, Multisección US$ 25 y Tienda US$ 35, con hasta 4 cambios por mes. Sin permanencia: lo das de baja cuando quieras.'] },
+    { p: '¿Cómo se paga?', r: ['La mitad al arrancar y la otra mitad cuando te entregamos la web. En dólares o su equivalente en pesos.'] },
+    { p: '¿Y si no me gusta cómo queda?', r: ['La cambiamos. No hay un límite de rondas de cambios: trabajamos hasta que quede perfecta para vos.'] },
+    { p: '¿Tengo que tener los textos y las fotos?', r: ['Lo ideal es que sí: nadie cuenta tu marca mejor que vos. Si no los tenés, podemos usar imágenes de internet y escribir los textos con inteligencia artificial.'] },
+    {
+      p: '¿Voy a aparecer primero en Google?',
+      r: [
+        'No de entrada, y desconfiá de quien te lo prometa. Lo que hacemos es SEO técnico e indexación: tu web sale rápida, con títulos y descripciones pensados para Google, y la damos de alta para que Google sepa que existe.',
+        'Esa es la base, pero no te posiciona sola. Subir en búsquedas como “pastelería en Palermo” lleva tiempo, contenido y, muchas veces, publicidad.',
+      ],
+    },
+    { p: '¿Y el dominio y el hosting?', r: planes.dominio.respuestas },
+    { p: '¿Puedo actualizar la web yo?', r: ['Sí, si sumás el Panel propio: subís tus proyectos, productos y novedades sin depender de nadie. Y si preferís que lo hagamos nosotros, está el mantenimiento opcional.'] },
+  ],
+  final: {
+    titulo: '¿Arrancamos?',
+    texto: 'Contanos de tu marca y te decimos qué carpeta te conviene.',
+    cta: 'Hablemos',
+  },
+};
+
+/**
+ * La página /contacto: un formulario corto para saber qué busca cada persona antes de hablar.
+ * Por ahora arma el mensaje y lo abre en WhatsApp (el mail todavía no existe). Si hay PUBLIC_AGENDA (Cal.com), se puede agendar directo.
+ */
+export const contactoPagina = {
+  rotulo: 'Contacto',
+  titulo: ['Contanos', 'tu historia.'],
+  bajada: 'Son dos minutos. Con esto llegamos a la charla sabiendo qué necesitás.',
+  tipos: {
+    pregunta: '¿Qué estás buscando?',
+    opciones: [
+      { id: 'landing', nombre: 'Landing' },
+      { id: 'multiseccion', nombre: 'Multisección' },
+      { id: 'tienda', nombre: 'Tienda online' },
+      { id: 'sistema', nombre: 'Sistema a medida' },
+      { id: 'nose', nombre: 'Todavía no sé' },
+    ],
+  },
+  ideas: { etiqueta: '¿Qué te gustaría resolver?', ayuda: 'Por ejemplo: hoy anoto los turnos en una planilla y se me pisan.' },
+  nombre: { etiqueta: 'Tu nombre', placeholder: 'Cómo te llamás' },
+  marca: { etiqueta: 'Tu marca o negocio', placeholder: 'Opcional' },
+  web: { etiqueta: 'Tu web o Instagram, si tenés', placeholder: 'Opcional' },
+  mensaje: { etiqueta: 'Contanos un poco, o preguntanos lo que quieras', placeholder: 'Qué hacés, qué necesitás, qué dudas tenés…' },
+  reunion: {
+    pregunta: '¿Querés que nos juntemos?',
+    no: 'Con mensajes alcanza',
+    si: 'Sí, una videollamada',
+    cuando: { etiqueta: '¿Qué días y horarios te quedan bien?', placeholder: 'Ej.: martes o jueves a la tarde' },
+    agendar: 'Elegí día y horario en nuestra agenda',
+  },
+  enviar: 'Enviar por WhatsApp',
+  aviso: 'Se abre WhatsApp con tu mensaje listo. Solo tenés que tocar enviar.',
+  falta: 'Contanos qué buscás y tu nombre, así sabemos con quién hablamos.',
+  directo: '¿Preferís escribir directo?',
+  directoCta: 'Abrir WhatsApp',
+  /** Cómo llega el mensaje a nuestro WhatsApp */
+  lineas: {
+    hola: (nombre: string, marca: string) => '¡Hola Roda! Soy ' + nombre + (marca ? ', de ' + marca : '') + '.',
+    busco: (tipo: string) => 'Busco: ' + tipo + '.',
+    resolver: (texto: string) => 'Me gustaría resolver: ' + texto,
+    web: (web: string) => 'Mi web o Instagram: ' + web,
+    reunion: (cuando: string) => 'Me gustaría una videollamada' + (cuando ? ' (' + cuando + ')' : '') + '.',
+  },
+};
+
+/** La cartelera: cada plan es una película (los mismos tres de /precios). Cada afiche lleva a su carpeta. dibujo: qué escena lleva. */
 export const cartelera = {
-  rotulo: ['05', 'Lo que hacemos'],
-  titulo: ['En cartelera.', 'Cinco webs, cinco géneros.'],
+  rotulo: ['04', 'Lo que hacemos'],
+  titulo: ['En cartelera.', 'Tres webs, tres géneros.'],
+  deslizar: 'Deslizá para ver las 3 webs →',
   enCartel: 'En cartel',
   peliculas: [
-    { id: 'portfolio', articulo: 'El', titulo: 'Portfolio', frase: 'Tu trabajo, en pantalla grande.', creditos: 'Protagonizada por tus mejores trabajos · Sin ruido', precio: 'Desde US$ 300', color: 'rosa' },
-    { id: 'agenda', articulo: 'La', titulo: 'Agenda', frase: 'Turnos sin llamadas a las once de la noche.', creditos: 'Protagonizada por tus turnos · Abierta las 24 horas', precio: 'Adicional US$ 100', color: 'verde' },
-    { id: 'tienda', articulo: 'La', titulo: 'Tienda', frase: 'Vende mientras dormís.', creditos: 'Con tus productos · Y pagos en línea', precio: 'Desde US$ 550', color: 'amarillo' },
-    { id: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'Desde US$ 300', color: 'rojo' },
-    { id: 'panel', articulo: 'El', titulo: 'Panel', frase: 'Tu web, la actualizás vos.', creditos: 'Dirigida por vos · Sin depender de nadie', precio: 'Adicional US$ 150', color: 'azul' },
+    { id: 'landing', dibujo: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'US$ 300', color: 'rojo' },
+    { id: 'multiseccion', dibujo: 'portfolio', articulo: 'La', titulo: 'Multisección', frase: 'Tu trabajo, en pantalla grande.', creditos: 'Hasta 5 páginas · Para contarlo todo', precio: 'US$ 400', color: 'rosa' },
+    { id: 'tienda', dibujo: 'tienda', articulo: 'La', titulo: 'Tienda', frase: 'Vende mientras dormís.', creditos: 'Con tus productos · Y pagos en línea', precio: 'US$ 550', color: 'amarillo' },
   ],
 } as const;
 

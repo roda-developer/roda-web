@@ -20,7 +20,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
 ---
 <section id="technicolor" aria-label="Technicolor: a veces más es más">
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
-  <div class="puerta relative h-[180svh]" data-puerta>
+  <div class="puerta relative h-[110svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
       <!-- Arriba el grito, abajo las bandas: cada uno en su lugar, sin taparse -->
       <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-rosa px-4 pt-[clamp(3.5rem,8svh,4.5rem)] pb-[clamp(1.5rem,4svh,2.5rem)] text-tinta">
@@ -37,10 +37,10 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
     </div>
   </div>
 
-  <!-- La explosión: webs reales que hicimos, mientras pasan los ejemplos -->
-  <div class="explosion relative h-[300svh]" data-explosion>
+  <!-- La explosión: webs reales que hicimos, cayendo sobre la mesa mientras cambia el color -->
+  <div class="explosion relative h-[135svh]" data-explosion>
     <div class="mesa sticky top-0 h-svh overflow-hidden" style={`background:${fondos[0]}`}>
-      <p class="mono absolute top-20 left-5 z-20 text-papel md:top-24 md:left-12">({technicolor.firma})</p>
+      <p class="mono absolute top-20 left-5 z-20 bg-tinta px-2 py-1 text-papel md:top-24 md:left-12">({technicolor.firma})</p>
       {tarjetas.map((t) => (
         <figure
           class:list={['tarjeta', { 'hidden md:block': t.soloGrande }]}
@@ -49,16 +49,12 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
           <Image src={t.img} alt={t.alt} widths={[480, 800]} sizes="(min-width: 768px) 30vw, 46vw" loading="lazy" class="block w-full" />
         </figure>
       ))}
-      <div class="frases absolute inset-x-5 bottom-[8svh] z-20 md:inset-x-12">
-        {technicolor.ejemplos.map((e) => (
-          <p class="frase"><span>{e}</span></p>
-        ))}
-      </div>
+      <a href="/proyectos" class="ver-todos cta absolute bottom-[6svh] left-5 z-20 md:left-12">{technicolor.verTodos}</a>
     </div>
   </div>
 
-  <!-- Corte seco a blanco -->
-  <div class="plano">
+  <!-- Corte seco a blanco: el remate, sin ocupar una pantalla entera -->
+  <div class="plano !min-h-[65svh]">
     <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
       <span class="block text-tinta/52">{technicolor.corte[0]}</span>
       <span class="block">Es saber cuál necesita tu <em>marca.</em></span>
@@ -130,27 +126,9 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
     box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.55);
     transform: rotate(var(--giro));
   }
+  /* En el celu van cinco tarjetas (no siete): las bajamos para que no tapen el rótulo ni dejen vacío el pie */
+  @media (max-width: 767px) { .tarjeta { margin-top: 14svh; } }
   @media (min-width: 768px) { .tarjeta { width: 30vw; padding: 0.5rem; } }
-
-  .frases { display: grid; gap: 0.75rem; }
-  /* Con movimiento, las frases se turnan en el mismo lugar */
-  :global(.animada) .frase { grid-area: 1 / 1; }
-  .frase span {
-    display: inline;
-    padding: 0.05em 0.2em;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    background: var(--color-tc-amarillo);
-    color: var(--color-tinta);
-    font-family: var(--font-grito);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    font-size: clamp(2rem, 8.5vw, 6.5rem);
-  }
-  .frase:nth-child(2) span { background: var(--color-tc-rosa); }
-  .frase:nth-child(3) span { background: var(--color-papel); }
 
   @media (prefers-reduced-motion: reduce) {
     .puerta { height: auto; }
@@ -158,7 +136,7 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
     .explosion { height: auto; }
     .mesa { position: relative; height: auto; min-height: 100svh; padding: 8rem 1.25rem 3rem; display: grid; gap: 2rem; }
     .tarjeta { position: relative; left: auto !important; top: auto !important; width: 100%; max-width: 32rem; }
-    .frases { position: relative; inset: auto; }
+    .ver-todos { position: relative; bottom: auto; left: auto; justify-self: start; }
   }
 </style>
 
@@ -180,15 +158,13 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   if (explosion && movimientoPermitido()) {
     explosion.classList.add('animada');
     const q = gsap.utils.selector(explosion);
-    const frases = q('.frase');
     const fondos = ['--color-tc-rojo', '--color-tc-azul', '--color-tc-verde'].map((v) =>
       getComputedStyle(document.documentElement).getPropertyValue(v).trim(),
     );
-    gsap.set(frases.slice(1), { autoAlpha: 0, y: 40 });
 
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: explosion, start: 'top top', end: 'bottom bottom', scrub: 0.5 },
+      scrollTrigger: { trigger: explosion, start: 'top 75%', end: 'bottom bottom', scrub: 0.5 },
     });
     // Las webs caen sobre la mesa, una atrás de otra
     tl.from(q('.tarjeta'), {
@@ -200,12 +176,9 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
       duration: 0.5,
       ease: 'back.out(1.6)',
     }, 0);
-    // Tres ejemplos, tres colores
+    // La mesa cambia de color mientras caen las webs
     [1, 2].forEach((n) => {
-      const en = n * 0.75;
-      tl.to(q('.mesa'), { backgroundColor: fondos[n], duration: 0.15 }, en)
-        .to(frases[n - 1], { autoAlpha: 0, y: -40, duration: 0.12 }, en)
-        .to(frases[n], { autoAlpha: 1, y: 0, duration: 0.15 }, en + 0.05);
+      tl.to(q('.mesa'), { backgroundColor: fondos[n], duration: 0.15 }, n * 0.6);
     });
     // Las capturas se mueven distinto mientras bajás: la mesa respira
     tl.to(q('.tarjeta'), { yPercent: (i: number) => (i % 2 ? -18 : 12), rotate: (i: number) => (i % 2 ? '+=4' : '-=4'), duration: 2.2 }, 0.2);

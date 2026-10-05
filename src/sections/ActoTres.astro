@@ -265,7 +265,7 @@ const total = String(pasos.length).padStart(2, '0');
 
   /* Con movimiento: todo fijo en pantalla y la web se arma con el scroll */
   @media (prefers-reduced-motion: no-preference) {
-    :global(.js) .obra { height: 420svh; }
+    :global(.js) .obra { height: 260svh; }
     :global(.js) .obra-marco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
     :global(.js) .obra-cabeza { padding-top: clamp(3.25rem, 5.5svh, 4.25rem); }
     :global(.js) .obra-escena {
@@ -280,7 +280,7 @@ const total = String(pasos.length).padStart(2, '0');
     :global(.js) .notas, :global(.js) .boceto { visibility: visible; }
   }
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    :global(.js) .obra { height: 420svh; }
+    :global(.js) .obra { height: 260svh; }
     :global(.js) .obra-cabeza { padding-top: clamp(4rem, 7svh, 5.5rem); }
     :global(.js) .obra-escena { padding-top: 1.25rem; padding-bottom: 3.5rem; gap: clamp(1.5rem, 3.5vw, 4rem); }
   }

@@ -1,0 +1,194 @@
+---
+import Base from '../layouts/Base.astro';
+import Motion from '../components/Motion.astro';
+import Nav from '../sections/Nav.astro';
+import Pie from '../components/Pie.astro';
+import { contactoPagina as t, proyectosPagina } from '../content/guion';
+import { WHATSAPP } from '../content/contacto';
+
+// La agenda (Cal.com) es opcional: con PUBLIC_AGENDA cargada, la reunión se agenda directo
+const AGENDA: string = import.meta.env.PUBLIC_AGENDA ?? '';
+---
+<Base titulo="Contacto — Roda" descripcion="Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos por WhatsApp.">
+  <Nav enHome={false} actual="contacto" />
+  <main class="relative z-10">
+    <header class="px-5 pt-28 md:px-12 md:pt-32">
+      <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
+        <a href="/" class="inline-flex min-h-11 items-center hover:underline">← {proyectosPagina.inicio}</a>
+        <span>{t.rotulo}</span>
+      </p>
+      <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
+        <span class="text-tinta/52">{t.titulo[0]}</span> {t.titulo[1]}
+      </h1>
+      <p class="mt-5 max-w-[40ch] text-lg leading-snug text-tinta/70 md:text-xl" data-revelar="4">{t.bajada}</p>
+    </header>
+
+    <!-- El formulario: casi todo se toca en vez de escribirse; arma el mensaje y lo abre en WhatsApp -->
+    <form class="formulario mt-14 px-5 pb-8 md:px-12" data-formulario data-whatsapp={WHATSAPP} novalidate>
+      <fieldset class="bloque">
+        <legend class="pregunta">{t.tipos.pregunta}</legend>
+        <div class="opciones">
+          {t.tipos.opciones.map((o) => (
+            <label class="opcion">
+              <input type="radio" name="tipo" value={o.id} data-nombre={o.nombre} />
+              <span>{o.nombre}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <!-- Solo si busca un sistema a medida: qué quiere resolver (viene completo si eligió ejemplos en /precios) -->
+      <div class="bloque" data-solo-sistema hidden>
+        <label class="pregunta" for="ideas">{t.ideas.etiqueta}</label>
+        <textarea id="ideas" name="ideas" rows="3" class="campo" placeholder={t.ideas.ayuda}></textarea>
+      </div>
+
+      <div class="bloque grid gap-8 md:grid-cols-2">
+        <div>
+          <label class="pregunta" for="nombre">{t.nombre.etiqueta}</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" class="campo" placeholder={t.nombre.placeholder} required />
+        </div>
+        <div>
+          <label class="pregunta" for="marca">{t.marca.etiqueta}</label>
+          <input id="marca" name="marca" type="text" autocomplete="organization" class="campo" placeholder={t.marca.placeholder} />
+        </div>
+        <div class="md:col-span-2">
+          <label class="pregunta" for="web">{t.web.etiqueta}</label>
+          <input id="web" name="web" type="text" autocomplete="url" class="campo" placeholder={t.web.placeholder} />
+        </div>
+        <div class="md:col-span-2">
+          <label class="pregunta" for="mensaje">{t.mensaje.etiqueta}</label>
+          <textarea id="mensaje" name="mensaje" rows="3" class="campo" placeholder={t.mensaje.placeholder}></textarea>
+        </div>
+      </div>
+
+      <fieldset class="bloque">
+        <legend class="pregunta">{t.reunion.pregunta}</legend>
+        <div class="opciones">
+          <label class="opcion"><input type="radio" name="reunion" value="no" checked /><span>{t.reunion.no}</span></label>
+          <label class="opcion"><input type="radio" name="reunion" value="si" /><span>{t.reunion.si}</span></label>
+        </div>
+        <div class="mt-6" data-solo-reunion hidden>
+          {AGENDA ? (
+            <a href={AGENDA} target="_blank" rel="noopener" class="cta cta-claro">{t.reunion.agendar}</a>
+          ) : (
+            <>
+              <label class="pregunta" for="cuando">{t.reunion.cuando.etiqueta}</label>
+              <input id="cuando" name="cuando" type="text" class="campo" placeholder={t.reunion.cuando.placeholder} />
+            </>
+          )}
+        </div>
+      </fieldset>
+
+      <div class="bloque">
+        <p class="falta mono" role="alert" data-falta hidden>{t.falta}</p>
+        <button type="submit" class="cta">{t.enviar}</button>
+        <p class="mono mt-4 text-gris">{t.aviso}</p>
+      </div>
+    </form>
+
+    <p class="mono mx-5 mt-10 mb-16 border-t border-tinta/15 pt-3 text-gris md:mx-12">
+      {t.directo}{' '}
+      <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{t.directoCta} →</a>
+    </p>
+  </main>
+  <Pie />
+  <Motion />
+</Base>
+
+<style>
+  .formulario { display: grid; gap: 3rem; max-width: 56rem; }
+  .bloque { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .bloque[hidden] { display: none; }
+  .pregunta { display: block; margin-bottom: 1rem; font-size: clamp(1.2rem, 3.5vw, 1.5rem); font-weight: 500; letter-spacing: -0.025em; }
+
+  /* Las opciones se tocan: chips como los filtros de /proyectos */
+  .opciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .opcion { position: relative; cursor: pointer; }
+  .opcion input { position: absolute; opacity: 0; pointer-events: none; }
+  .opcion span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
+    border-radius: 999px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .opcion:hover span { border-color: var(--color-tinta); }
+  .opcion input:checked + span { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
+  .opcion input:focus-visible + span { outline: 2px solid var(--color-tinta); outline-offset: 3px; }
+
+  /* Los campos: una línea abajo, como el "Tu marca" del afiche; el foco en rosa */
+  .campo {
+    width: 100%;
+    padding: 0.6rem 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent);
+    border-radius: 0;
+    font-size: 1.15rem;
+    caret-color: var(--color-tc-rosa);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+  }
+  .campo::placeholder { color: color-mix(in oklab, var(--color-tinta) 38%, transparent); }
+  .campo:focus { outline: none; border-bottom-color: var(--color-tinta); box-shadow: 0 2px 0 var(--color-tc-rosa); }
+
+  .falta { margin-bottom: 1rem; color: var(--color-tc-rojo); }
+  .cta { cursor: pointer; border: 0; }
+  .cta-claro { background: transparent; color: var(--color-tinta); border: 1px solid var(--color-tinta); }
+</style>
+
+<script>
+  import { contactoPagina } from '../content/guion';
+
+  const t = contactoPagina;
+  const form = document.querySelector<HTMLFormElement>('[data-formulario]');
+
+  if (form) {
+    const soloSistema = form.querySelector<HTMLElement>('[data-solo-sistema]');
+    const soloReunion = form.querySelector<HTMLElement>('[data-solo-reunion]');
+    const falta = form.querySelector<HTMLElement>('[data-falta]');
+    const valor = (nombre: string) => (form.elements.namedItem(nombre) as HTMLInputElement | null)?.value.trim() ?? '';
+    const elegido = (nombre: string) => form.querySelector<HTMLInputElement>(`input[name="${nombre}"]:checked`);
+
+    const actualizar = () => {
+      if (soloSistema) soloSistema.hidden = elegido('tipo')?.value !== 'sistema';
+      if (soloReunion) soloReunion.hidden = elegido('reunion')?.value !== 'si';
+    };
+    form.addEventListener('change', actualizar);
+
+    // Llega precompletado según de dónde viene: ?plan=landing (las carpetas) o ?tipo=sistema&ideas=a|b (el a medida)
+    const params = new URLSearchParams(location.search);
+    const inicial = params.get('plan') ?? params.get('tipo');
+    const radio = inicial ? form.querySelector<HTMLInputElement>(`input[name="tipo"][value="${CSS.escape(inicial)}"]`) : null;
+    if (radio) radio.checked = true;
+    const ideas = params.get('ideas');
+    const campoIdeas = form.elements.namedItem('ideas') as HTMLTextAreaElement | null;
+    if (ideas && campoIdeas) campoIdeas.value = ideas.split('|').join(', ') + '. ';
+    actualizar();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const tipo = elegido('tipo');
+      const nombre = valor('nombre');
+      if (!tipo || !nombre) {
+        if (falta) falta.hidden = false;
+        (tipo ? form.elements.namedItem('nombre') as HTMLInputElement : form.querySelector<HTMLInputElement>('input[name="tipo"]'))?.focus();
+        return;
+      }
+      if (falta) falta.hidden = true;
+
+      const l = t.lineas;
+      const partes = [l.hola(nombre, valor('marca')), l.busco(tipo.dataset.nombre ?? tipo.value)];
+      if (tipo.value === 'sistema' && valor('ideas')) partes.push(l.resolver(valor('ideas')));
+      if (valor('web')) partes.push(l.web(valor('web')));
+      if (valor('mensaje')) partes.push(valor('mensaje'));
+      if (elegido('reunion')?.value === 'si') partes.push(l.reunion(valor('cuando')));
+
+      const numero = form.dataset.whatsapp ?? '';
+      window.open(`https://wa.me/${numero}?text=${encodeURIComponent(partes.join('\n\n'))}`, '_blank', 'noopener');
+    });
+  }
+</script>

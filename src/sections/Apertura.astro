@@ -5,11 +5,13 @@ import { apertura } from '../content/guion';
   <!-- Como el original, pero el título también mira el alto: en pantallas bajas se achica para que entre todo -->
   <div class="flex min-h-[calc(100svh-12rem)] flex-col justify-end gap-10 md:min-h-[calc(100svh-clamp(10rem,18svh,16rem))] md:gap-[clamp(2rem,5svh,3.5rem)]">
     <h1 id="apertura-titulo" class="font-titulo text-[clamp(2.8rem,min(14.5vw,21svh),11.5rem)] leading-[0.88] tracking-[-0.045em]">
-      <span class="mascara block"><span class="entra block" style="--d:0">{apertura.titulo[0]}</span></span>
+      <span class="mascara block"><span class="entra block [text-wrap:balance]" style="--d:0">{apertura.titulo[0]}</span></span>
       <span class="mascara block"><span class="entra block" style="--d:1">una <em>historia.</em></span></span>
     </h1>
     <div class="grid gap-8 border-t border-tinta/15 pt-5 md:grid-cols-[1fr_auto] md:items-start">
       <p class="entra-suave max-w-[22ch] text-xl leading-snug text-tinta/75 md:text-[clamp(1.25rem,2.6svh,1.5rem)]" style="--d:2">{apertura.bajada}</p>
+      <!-- Qué hacemos, dicho claro desde la primera pantalla -->
+      <p class="entra-suave mono text-tinta md:text-right" style="--d:3">{apertura.queHacemos}</p>
     </div>
   </div>
 </section>
@@ -21,12 +23,12 @@ import { apertura } from '../content/guion';
     .entra {
       transform: translateY(105%);
       animation: sube 1.25s var(--ease-cine) forwards;
-      animation-delay: calc(2.4s + var(--d) * 0.12s);
+      animation-delay: calc(1.4s + var(--d) * 0.12s);
     }
     .entra-suave {
       opacity: 0;
       animation: aparece 1.2s var(--ease-cine) forwards;
-      animation-delay: calc(2.6s + var(--d) * 0.14s);
+      animation-delay: calc(1.6s + var(--d) * 0.14s);
     }
     :global(.ya-visto) .entra, :global(.loader-salteado) .entra { animation-delay: calc(0.2s + var(--d) * 0.14s); }
     :global(.ya-visto) .entra-suave, :global(.loader-salteado) .entra-suave { animation-delay: calc(0.35s + var(--d) * 0.16s); }

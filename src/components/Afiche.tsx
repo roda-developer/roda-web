@@ -196,8 +196,14 @@ export default function Afiche() {
           )}
         </div>
         <p className="mt-6 text-gris">
-          {cierre.alternativa}{' '}
-          <a className="text-tinta underline underline-offset-4" href={linkMail(respuestas, MAIL, marca)}>{MAIL}</a>
+          {MAIL ? (
+            <>
+              {cierre.alternativa}{' '}
+              <a className="text-tinta underline underline-offset-4" href={linkMail(respuestas, MAIL, marca)}>{MAIL}</a>
+            </>
+          ) : (
+            <a className="text-tinta underline underline-offset-4" href="/contacto">{cierre.formulario}</a>
+          )}
         </p>
       </div>
     </div>

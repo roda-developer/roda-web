@@ -15,6 +15,20 @@ const {
   descripcion = 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida.',
 } = Astro.props;
 const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
+const canonica = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+// Los datos de la empresa para Google (schema.org)
+const empresa = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Roda',
+  description: 'Estudio de diseño y desarrollo web en Buenos Aires: landings, webs multisección y tiendas online.',
+  url: new URL('/', Astro.site ?? Astro.url).href,
+  image: imagen,
+  areaServed: 'AR',
+  address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
+  founder: [{ '@type': 'Person', name: 'Giuliana Di Rocco' }, { '@type': 'Person', name: 'Facundo Thibaut' }],
+  sameAs: ['https://instagram.com/roda.development'],
+};
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -24,9 +38,13 @@ const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
     <meta name="theme-color" content="#f3f2ee" />
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(empresa)} />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonica} />
     <meta property="og:locale" content="es_AR" />
     <meta property="og:image" content={imagen} />
     <meta property="og:image:width" content="1200" />

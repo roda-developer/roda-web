@@ -23,9 +23,11 @@ const [giuli, facu] = creditos.nombres;
       ))}
     </dl>
     <div class="mono grid content-start gap-3">
-      <p><span class="block text-gris">Escribinos</span><a class="underline underline-offset-4" href={`mailto:${MAIL}`}>{MAIL}</a></p>
-      <p><span class="block text-gris">Seguinos</span><a class="underline underline-offset-4" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a></p>
-      <p><span class="block text-gris">Mirá</span><a class="underline underline-offset-4" href="/proyectos">Proyectos</a> · <a class="underline underline-offset-4" href="/nosotros">Nosotros</a></p>
+      <p><span class="block text-gris">Escribinos</span>{MAIL
+        ? <a class="enlace-pie" href={`mailto:${MAIL}`}>{MAIL}</a>
+        : <a class="enlace-pie" href="/contacto">Contacto</a>}</p>
+      <p><span class="block text-gris">Seguinos</span><a class="enlace-pie" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a></p>
+      <p><span class="block text-gris">Mirá</span><span class="flex flex-wrap gap-x-4"><a class="enlace-pie" href="/proyectos">Proyectos</a><a class="enlace-pie" href="/nosotros">Nosotros</a><a class="enlace-pie" href="/precios">Precios</a><a class="enlace-pie" href="/contacto">Contacto</a></span></p>
     </div>
   </div>
   <div class="mt-16 flex items-end justify-between gap-6">
@@ -33,3 +35,8 @@ const [giuli, facu] = creditos.nombres;
     <p class="mono pb-2 text-right text-gris">© {new Date().getFullYear()}</p>
   </div>
 </footer>
+
+<style>
+  /* Links del pie: subrayados y con 44px de alto para tocarlos cómodo con el dedo */
+  .enlace-pie { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: underline; text-underline-offset: 4px; }
+</style>

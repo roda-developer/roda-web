@@ -1,8 +1,6 @@
 ---
 import { actoDos } from '../content/guion';
-import { OBJETIVOS } from '../story/opciones';
 import Rotulo from '../components/Rotulo.astro';
-import Eleccion from '../components/Eleccion.tsx';
 ---
 <section id="acto-dos" class="plano !place-items-stretch !content-center" aria-labelledby="acto-dos-titulo">
   <div class="w-full space-y-14 md:space-y-20">
@@ -30,9 +28,6 @@ import Eleccion from '../components/Eleccion.tsx';
       </ol>
     </div>
 
-    <div class="pt-10" data-revelar="6">
-      <Eleccion client:idle clave="objetivo" numero={2} pregunta={actoDos.pregunta} opciones={OBJETIVOS} />
-    </div>
   </div>
 </section>
 

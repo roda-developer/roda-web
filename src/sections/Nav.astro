@@ -3,23 +3,27 @@ import Marca from '../components/Marca.astro';
 import { nav } from '../content/guion';
 
 interface Props {
-  /** En la home los links son anclas; en las otras páginas vuelven a la home */
+  /** En la home el logo no es link (ya estás ahí); en las otras páginas vuelve a la home */
   enHome?: boolean;
+  /** La página en la que estás: su link queda marcado */
+  actual?: 'proyectos' | 'nosotros' | 'precios' | 'contacto';
 }
-const { enHome = true } = Astro.props;
-const raiz = enHome ? '' : '/';
+const { enHome = true, actual } = Astro.props;
+const aqui = (pagina: string) => (actual === pagina ? 'page' : undefined);
 ---
 <header class="nav fixed inset-x-0 top-0 z-50 px-4 py-1.5 md:px-8 md:py-1.5">
   <nav aria-label="Principal" class="mono w-full text-[0.72rem] sm:text-xs md:text-sm">
     <div class="relative z-50 grid grid-cols-[1fr_auto_1fr] items-center w-full">
       <!-- Desktop Izquierda: Proyectos, Nosotros -->
       <div class="hidden md:flex items-center justify-start gap-5 md:gap-8">
-        <a href="/proyectos" class="enlace inline-flex min-h-11 items-center">{nav.proyectos}</a>
-        <a href="/nosotros" class="enlace inline-flex min-h-11 items-center">{nav.nosotros}</a>
+        <a href="/proyectos" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('proyectos')}>{nav.proyectos}</a>
+        <a href="/nosotros" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('nosotros')}>{nav.nosotros}</a>
       </div>
 
-      <!-- Mobile Izquierda: Espaciador simétrico para centrar el logo Roda -->
-      <div class="flex md:hidden items-center justify-start w-11 h-11 pointer-events-none" aria-hidden="true"></div>
+      <!-- Mobile Izquierda: Hablemos, siempre a mano (el logo sigue centrado por la grilla) -->
+      <div class="flex md:hidden items-center justify-start">
+        <a href="/contacto" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+      </div>
 
       <!-- Centro: Logo Roda (en home no tiene href=#inicio para que tocar el nav no te mande arriba) -->
       <div class="flex items-center justify-center px-1 sm:px-2">
@@ -36,8 +40,8 @@ const raiz = enHome ? '' : '/';
 
       <!-- Desktop Derecha: Precios, Hablemos -->
       <div class="hidden md:flex items-center justify-end gap-5 md:gap-8">
-        <a href={`${raiz}#planes`} class="enlace inline-flex min-h-11 items-center">{nav.precios}</a>
-        <a href={`${raiz}#final`} class="enlace inline-flex min-h-11 items-center">({nav.atajo})</a>
+        <a href="/precios" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
+        <a href="/contacto" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
       </div>
 
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
@@ -60,19 +64,19 @@ const raiz = enHome ? '' : '/';
       <div class="space-y-6 pt-8">
         <p class="mono text-[0.75rem] text-tinta/45 tracking-wider uppercase mb-8">Navegación</p>
         <div class="flex flex-col space-y-4">
-          <a href="/proyectos" class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+          <a href="/proyectos" aria-current={aqui('proyectos')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(01)</span>
             <span class="enlace-movil">{nav.proyectos}</span>
           </a>
-          <a href="/nosotros" class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+          <a href="/nosotros" aria-current={aqui('nosotros')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(02)</span>
             <span class="enlace-movil">{nav.nosotros}</span>
           </a>
-          <a href={`${raiz}#planes`} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight" data-ancla>
+          <a href="/precios" aria-current={aqui('precios')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(03)</span>
             <span class="enlace-movil">{nav.precios}</span>
           </a>
-          <a href={`${raiz}#final`} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight" data-ancla>
+          <a href="/contacto" aria-current={aqui('contacto')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(04)</span>
             <span class="enlace-movil">({nav.atajo})</span>
           </a>
@@ -208,8 +212,20 @@ const raiz = enHome ? '' : '/';
     background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat;
     transition: background-size 0.5s var(--ease-cine);
   }
-  .enlace:hover {
+  .enlace:hover,
+  .enlace[aria-current='page'] {
     background-size: 100% 1px;
+  }
+  /* En el menú del celu, la página actual lleva el puntito rosa */
+  .link-movil[aria-current='page'] .enlace-movil::after {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: 0.6rem;
+    border-radius: 999px;
+    background: var(--color-tc-rosa);
+    vertical-align: middle;
   }
 </style>
 
