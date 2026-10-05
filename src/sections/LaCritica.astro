@@ -1,0 +1,41 @@
+---
+/**
+ * La crítica dice: la frase más fuerte de cada testimonio, como las críticas que se citan en un afiche de estreno.
+ * Va justo antes de la cartelera: la confianza llega antes de ver los precios. Las citas completas están en los casos y en /precios.
+ */
+import { PROYECTOS } from '../content/proyectos';
+import { laCritica } from '../content/guion';
+
+const criticas = PROYECTOS.flatMap((p) => (p.testimonios ?? []).map((t) => ({ ...t, proyecto: p.titulo, slug: p.slug })));
+// Cada fragmento tiene que ser textual: si no está dentro de la cita completa, no se publica
+const textuales = criticas.filter((c) => c.texto.toLowerCase().includes(c.destacado.toLowerCase().replace(/\.$/, '')));
+---
+<section id="la-critica" class="px-5 pt-20 pb-4 md:px-12 md:pt-28 md:pb-8" aria-labelledby="la-critica-titulo">
+  <p id="la-critica-titulo" class="mono text-center text-gris" data-revelar>({laCritica.titulo})</p>
+  <ul class="fragmentos mt-10 md:mt-14">
+    {textuales.map((c, i) => (
+      <li data-revelar={3 + i * 3}>
+        <blockquote class="fragmento">“{c.destacado}”</blockquote>
+        <p class="mono mt-4 text-gris">
+          <span class="text-tinta">{c.nombre.split(' ')[0]}</span> · <a href={`/proyectos/${c.slug}`} class="underline underline-offset-4">{c.proyecto}</a>
+        </p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .fragmentos { display: grid; gap: 2.75rem; text-align: center; }
+  @media (min-width: 1024px) { .fragmentos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; align-items: start; } }
+  .fragmento {
+    margin: 0 auto;
+    max-width: 18ch;
+    font-family: var(--font-titulo);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.7rem, 6vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+</style>

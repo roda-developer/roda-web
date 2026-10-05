@@ -102,13 +102,6 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       </div>
     </section>
 
-    <!-- Lo que dice la crítica: los clientes, justo cuando hay que decidir -->
-    {testimonios.length > 0 && (
-      <div class="mt-24 px-5 md:mt-32 md:px-12">
-        <Criticas testimonios={testimonios} />
-      </div>
-    )}
-
     <!-- Todas incluyen: como los créditos de una película, en el rosa de la web -->
     <section class="creditos mt-24 md:mt-32" aria-labelledby="precios-creditos">
       <h2 id="precios-creditos" class="mono text-center">{t.creditos.titulo}</h2>
@@ -120,7 +113,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       <p class="aviso">{t.creditos.aviso}</p>
     </section>
 
-    <!-- Sumale: los adicionales como etiquetas de precio, y el a medida -->
+    <!-- Sumale: los adicionales como etiquetas de precio -->
     <section id="adicionales" class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="precios-extras">
       <h2 id="precios-extras" class="sr-only">{t.rotulos.extras[1]}</h2>
       <Rotulo rotulo={t.rotulos.extras} tipo="Parte" />
@@ -137,6 +130,13 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
         ))}
       </ul>
     </section>
+
+    <!-- Lo que dice la crítica: después de ver toda la oferta y antes de las dudas (por qué confiar) -->
+    {testimonios.length > 0 && (
+      <div class="mt-24 px-5 md:mt-32 md:px-12">
+        <Criticas testimonios={testimonios} />
+      </div>
+    )}
 
     <!-- Preguntas frecuentes: se abren de a una -->
     <section class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="precios-preguntas">

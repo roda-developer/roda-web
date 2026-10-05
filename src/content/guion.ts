@@ -346,6 +346,9 @@ export const contactoPagina = {
   },
 };
 
+/** La crítica dice: los fragmentos de los testimonios en la home, antes de la cartelera */
+export const laCritica = { titulo: 'La crítica dice' };
+
 /** La cartelera: cada plan es una película (los mismos tres de /precios). Cada afiche lleva a su carpeta. dibujo: qué escena lleva. */
 export const cartelera = {
   rotulo: ['04', 'Lo que hacemos'],

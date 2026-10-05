@@ -30,6 +30,8 @@ export interface Proyecto {
 
 export interface Testimonio {
   texto: string;
+  /** La frase más fuerte, textual (tiene que estar dentro de texto): es la que se cita en la home */
+  destacado: string;
   nombre: string;
   rol: string;
 }
@@ -59,6 +61,7 @@ export const PROYECTOS: Proyecto[] = [
     testimonios: [
       {
         texto: 'Una experiencia increíble de principio a fin. Supieron entender exactamente lo que buscaba y crear una web que me representa 100%. Siempre estuvieron atentos, predispuestos y resolviendo todo rapidísimo. El resultado superó totalmente mis expectativas. Los recomiendo muchísimo.',
+        destacado: 'El resultado superó totalmente mis expectativas.',
         nombre: 'Macarena López',
         rol: 'Emme Digital',
       },
@@ -135,11 +138,13 @@ export const PROYECTOS: Proyecto[] = [
     testimonios: [
       {
         texto: 'Pasar de un PDF en Canva a una web profesional cambió totalmente cómo nos ven los clientes. Los chicos lograron una identidad digital con animaciones que realmente rompe lo convencional.',
+        destacado: 'Cambió totalmente cómo nos ven los clientes.',
         nombre: 'Camila Grondona',
         rol: 'Unik — Business Strategy',
       },
       {
         texto: 'Buscábamos que el acceso a nuestro trabajo y el contacto por WhatsApp fuera directo y profesional. Facu y Giuli nos dieron una solución impecable que simplificó la llegada de nuevos clientes.',
+        destacado: 'Una solución impecable.',
         nombre: 'Iara Robles',
         rol: 'Unik — Directora Creativa',
       },
