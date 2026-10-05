@@ -10,7 +10,7 @@ const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
 
 export default defineConfig({
   // Dominio final (ver .env.example): con él, la imagen para compartir lleva la dirección completa
-  site: process.env.SITE_URL || env.SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) || undefined,
+  site: process.env.SITE_URL || env.SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) || 'https://rodadevelop.com',
   output: 'static',
   // El sitemap deja afuera la 404
   integrations: [react(), sitemap({ filter: (pagina) => !pagina.includes('/404') })],
