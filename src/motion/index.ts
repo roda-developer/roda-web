@@ -23,7 +23,8 @@ export function iniciarMotion() {
 
   if (movimientoPermitido()) {
     lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, anchors: true });
-    lenis.scrollTo(0, { immediate: true });
+    // Arriba de todo, salvo al volver atrás (Base guarda la altura donde estabas)
+    lenis.scrollTo((window as Window & { __rodaVolverA?: number }).__rodaVolverA || 0, { immediate: true });
     if (document.documentElement.classList.contains('bloquear-scroll')) {
       lenis.stop();
       const desbloquearLenis = () => {

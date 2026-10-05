@@ -96,6 +96,7 @@ export const proyectosPagina = {
   siguiente: 'Siguiente proyecto',
   volver: 'Todos los proyectos',
   inicio: 'Inicio',
+  volverAtras: 'Volver',
   ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
   secciones: { cliente: 'El cliente', desafio: 'El desafío', solucion: 'Lo que hicimos', destacados: 'Detalles', resultado: 'Resultado' },
 };

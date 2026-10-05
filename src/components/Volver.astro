@@ -1,0 +1,27 @@
+---
+/**
+ * "← Volver": vuelve a la página de la que viniste (como el botón atrás del navegador).
+ * Si entraste directo (desde Instagram, un link o escribiendo la dirección), no hay "atrás" en Roda: va a `alternativa`.
+ */
+import { proyectosPagina } from '../content/guion';
+
+interface Props {
+  alternativa?: string;
+}
+const { alternativa = '/' } = Astro.props;
+---
+<a href={alternativa} class="inline-flex min-h-11 items-center hover:underline" data-volver>← {proyectosPagina.volverAtras}</a>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-volver]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      let vieneDeRoda = false;
+      try { vieneDeRoda = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch {}
+      // Solo si hay una página anterior de Roda en este historial: si no, sigue el link (va al inicio)
+      if (vieneDeRoda && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  });
+</script>

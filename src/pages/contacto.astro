@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
+import Volver from '../components/Volver.astro';
 import { contactoPagina as t, proyectosPagina } from '../content/guion';
 import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
 
@@ -12,7 +13,7 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
   <main class="relative z-10">
     <header class="px-5 pt-28 md:px-12 md:pt-32">
       <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
-        <a href="/" class="inline-flex min-h-11 items-center hover:underline">← {proyectosPagina.inicio}</a>
+        <Volver />
         <span>{t.rotulo}</span>
       </p>
       <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>

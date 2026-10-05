@@ -63,7 +63,18 @@ const empresa = {
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
+      // La página arranca arriba (las animaciones lo necesitan), salvo al volver atrás: ahí vuelve a la altura donde estabas
+      window.__rodaVolverA = 0;
+      try {
+        var navegacion = performance.getEntriesByType('navigation')[0];
+        if (navegacion && navegacion.type === 'back_forward') {
+          window.__rodaVolverA = Number(sessionStorage.getItem('roda:scroll:' + location.pathname)) || 0;
+        }
+      } catch (e) {}
       window.scrollTo(0, 0);
+      addEventListener('pagehide', function () {
+        try { sessionStorage.setItem('roda:scroll:' + location.pathname, String(Math.round(scrollY))); } catch (e) {}
+      });
       document.documentElement.classList.add('js');
       // Si el JS de movimiento no arranca, nada queda oculto. Espera 20s: en celus lentos tarda, y si lo saca antes, las secciones fijas se desarman y la página salta.
       setTimeout(function () { if (!window.__rodaMotion) document.documentElement.classList.remove('js'); }, 20000);
@@ -85,6 +96,10 @@ const empresa = {
           }
         });
       })();
+      // Sin animaciones (movimiento reducido), volver atrás también recupera la altura
+      if (window.__rodaVolverA && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        addEventListener('load', function () { window.scrollTo(0, window.__rodaVolverA); });
+      }
     </script>
   </body>
 </html>

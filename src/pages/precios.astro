@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
+import Volver from '../components/Volver.astro';
 import Rotulo from '../components/Rotulo.astro';
 import Criticas from '../components/Criticas.astro';
 import { PROYECTOS } from '../content/proyectos';
@@ -19,7 +20,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     <!-- Encabezado corto: quien entra a Precios quiere ver números, las carpetas tienen que asomar en la primera pantalla -->
     <header class="px-5 pt-28 md:px-12 md:pt-32">
       <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
-        <a href="/" class="inline-flex min-h-11 items-center hover:underline">← {proyectosPagina.inicio}</a>
+        <Volver />
         <span>{t.rotulo}</span>
       </p>
       <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
