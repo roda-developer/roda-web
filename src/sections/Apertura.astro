@@ -7,7 +7,7 @@ const { apertura } = textos(idioma);
 <section id="inicio" class="plano !place-items-stretch" aria-labelledby="apertura-titulo">
   <!-- Como el original, pero el título también mira el alto: en pantallas bajas se achica para que entre todo -->
   <div class="flex min-h-[calc(100svh-12rem)] flex-col justify-end gap-10 md:min-h-[calc(100svh-clamp(10rem,18svh,16rem))] md:gap-[clamp(2rem,5svh,3.5rem)]">
-    <h1 id="apertura-titulo" class="font-titulo text-[clamp(2.8rem,min(14.5vw,21svh),11.5rem)] leading-[0.88] tracking-[-0.045em]">
+    <h1 id="apertura-titulo" class="font-titulo text-[clamp(2.8rem,min(14.5vw,21svh),11.5rem)] leading-[1] tracking-[-0.045em]">
       <span class="mascara block"><span class="entra block [text-wrap:balance]" style="--d:0">{apertura.titulo[0]}</span></span>
       <span class="mascara block"><span class="entra block" style="--d:1">{apertura.enfasis[0]}<em>{apertura.enfasis[1]}</em></span></span>
     </h1>
@@ -25,8 +25,8 @@ const { apertura } = textos(idioma);
 </section>
 
 <style>
-  /* Lugar para las colas de la y, la g y la j (el interlineado es muy apretado); el margen negativo deja el título igual de junto */
-  .mascara { overflow: hidden; padding-bottom: 0.22em; margin-bottom: -0.16em; }
+  /* Lugar para las colas de la y, la g y la j; el margen negativo lo compensa, así el interlineado es el mismo entre renglones y cuando una línea se parte sola */
+  .mascara { overflow: hidden; padding-bottom: 0.22em; margin-bottom: -0.22em; }
 
   @media (prefers-reduced-motion: no-preference) {
     .entra {
