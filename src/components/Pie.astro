@@ -1,16 +1,18 @@
 ---
 /** El pie con los créditos: quiénes somos, la ficha técnica y cómo escribirnos. */
 import Marca from './Marca.astro';
-import { creditos } from '../content/guion';
+import { idiomaDe, ruta, textos } from '../i18n';
 import { INSTAGRAM, MAIL } from '../content/contacto';
+const idioma = idiomaDe(Astro.currentLocale);
+const { creditos, nav, ui } = textos(idioma);
 const [giuli, facu] = creditos.nombres;
 ---
-<footer class="relative z-10 px-5 pt-16 pb-6 md:px-12" aria-label="Créditos">
+<footer class="relative z-10 px-5 pt-16 pb-6 md:px-12" aria-label={ui.creditosPie}>
   <div class="grid gap-10 border-t border-tinta/15 pt-5 md:grid-cols-[1.4fr_1fr_1fr]">
     <div>
       <p class="mono text-gris">({creditos.intro})</p>
       <p class="mt-3 font-titulo text-[clamp(2.2rem,7vw,4rem)] leading-[0.95] tracking-[-0.045em]">
-        {giuli.nombre} y {facu.nombre}.
+        {giuli.nombre} {creditos.y} {facu.nombre}.
       </p>
       <p class="mt-2 text-xl text-tinta/60">{creditos.lema.join(' ')}</p>
     </div>
@@ -23,11 +25,11 @@ const [giuli, facu] = creditos.nombres;
       ))}
     </dl>
     <div class="mono grid content-start gap-3">
-      <p><span class="block text-gris">Escribinos</span>{MAIL
+      <p><span class="block text-gris">{ui.escribinos}</span>{MAIL
         ? <a class="enlace-pie" href={`mailto:${MAIL}`}>{MAIL}</a>
-        : <a class="enlace-pie" href="/contacto">Contacto</a>}</p>
-      <p><span class="block text-gris">Seguinos</span><a class="enlace-pie" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a></p>
-      <p><span class="block text-gris">Mirá</span><span class="flex flex-wrap gap-x-4"><a class="enlace-pie" href="/proyectos">Proyectos</a><a class="enlace-pie" href="/nosotros">Nosotros</a><a class="enlace-pie" href="/precios">Precios</a><a class="enlace-pie" href="/contacto">Contacto</a></span></p>
+        : <a class="enlace-pie" href={ruta(idioma, 'contacto')}>{ui.contacto}</a>}</p>
+      <p><span class="block text-gris">{ui.seguinos}</span><a class="enlace-pie" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a></p>
+      <p><span class="block text-gris">{ui.mira}</span><span class="flex flex-wrap gap-x-4"><a class="enlace-pie" href={ruta(idioma, 'proyectos')}>{nav.proyectos}</a><a class="enlace-pie" href={ruta(idioma, 'nosotros')}>{nav.nosotros}</a><a class="enlace-pie" href={ruta(idioma, 'precios')}>{nav.precios}</a><a class="enlace-pie" href={ruta(idioma, 'contacto')}>{ui.contacto}</a></span></p>
     </div>
   </div>
   <div class="mt-16 flex items-end justify-between gap-6">

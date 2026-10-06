@@ -1,5 +1,4 @@
 import { ajustarNombre, dominioDe, type TextosAfiche } from './afiche';
-import { cierre } from '../content/guion';
 
 /** El afiche se dibuja siempre a este tamaño (2:3): lo que se ve y lo que se descarga es la misma imagen. */
 export const ANCHO = 1080;
@@ -70,7 +69,7 @@ function espaciado(ctx: CanvasRenderingContext2D, texto: string, x: number, y: n
 }
 
 /** "Roda presenta": el logo (la o es un anillo) y "presenta" en mono espaciada, centrados. */
-function presenta(ctx: CanvasRenderingContext2D, y: number, p: Paleta) {
+function presenta(ctx: CanvasRenderingContext2D, y: number, p: Paleta, t: TextosAfiche) {
   const tam = 90;
   ctx.font = `500 ${tam}px ${TITULO}`;
   const anchoR = ctx.measureText('R').width;
@@ -80,7 +79,7 @@ function presenta(ctx: CanvasRenderingContext2D, y: number, p: Paleta) {
   const logo = anchoR + separo + anillo + separo + anchoDa;
 
   ctx.font = `400 33px ${MONO}`;
-  const palabra = cierre.afiche.presenta.toUpperCase();
+  const palabra = t.palabras.presenta.toUpperCase();
   const espacio = 33 * 0.3;
   const total = logo + 30 + anchoEspaciado(ctx, palabra, espacio);
 
@@ -106,7 +105,7 @@ function creditos(ctx: CanvasRenderingContext2D, yBase: number, p: Paleta, t: Te
   const tam = 22;
   const espacio = tam * 0.14;
   const palabras: { t: string; negrita: boolean }[] = [];
-  const lista = t.genero ? [[cierre.afiche.genero, t.genero], ...cierre.afiche.creditos] : cierre.afiche.creditos;
+  const lista = t.genero ? [[t.palabras.genero, t.genero], ...t.palabras.creditos] : t.palabras.creditos;
   lista.forEach(([rol, quien], i) => {
     if (i) palabras.push({ t: '·', negrita: false });
     rol.toUpperCase().split(' ').forEach((t) => palabras.push({ t, negrita: false }));
@@ -156,8 +155,8 @@ function estreno(ctx: CanvasRenderingContext2D, y: number, dominio: string, p: P
   const espacio = tam * 0.16;
   const partes = [
     { t: t.estreno.toUpperCase(), peso: 400, resalta: true },
-    { t: `  ·  ${cierre.afiche.soloEn.toUpperCase()}  `, peso: 400, resalta: false },
-    { t: (dominio || 'tumarca.com').toUpperCase(), peso: 500, resalta: false },
+    { t: `  ·  ${t.palabras.soloEn.toUpperCase()}  `, peso: 400, resalta: false },
+    { t: (dominio || t.palabras.dominio).toUpperCase(), peso: 500, resalta: false },
   ];
   const medidas = partes.map((w) => {
     ctx.font = `${w.peso} ${tam}px ${MONO}`;
@@ -195,7 +194,7 @@ function circulo(ctx: CanvasRenderingContext2D, x: number, y: number, r: number,
 /** Estreno: papel, un sol del color elegido y el nombre como título. */
 function afEstreno(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, t: TextosAfiche) {
   circulo(ctx, 900, 810, 450, p.acento);
-  presenta(ctx, MARGEN + 90, p);
+  presenta(ctx, MARGEN + 90, p, t);
   const yLinea = pie(ctx, marca, p, t);
 
   const interlineado = 0.88;
@@ -223,7 +222,7 @@ function afEstreno(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean
 /** Cartel: color pleno, una forma que acompaña y el nombre a los gritos, como en MÁS ES MÁS. */
 function afCartel(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, color: Color, t: TextosAfiche) {
   circulo(ctx, 960, 440, 230, COLORES[COMPANERO[color]]);
-  presenta(ctx, MARGEN + 90, p);
+  presenta(ctx, MARGEN + 90, p, t);
   const yLinea = pie(ctx, marca, p, t);
 
   const interlineado = 0.84;
@@ -251,7 +250,7 @@ function afCartel(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean,
 
 /** Autor: negro, el nombre en mayúsculas espaciadas como la intro de Nosotros y una línea fina de color. */
 function afAutor(ctx: CanvasRenderingContext2D, nombre: string, vacio: boolean, p: Paleta, marca: string, t: TextosAfiche) {
-  presenta(ctx, MARGEN + 90, p);
+  presenta(ctx, MARGEN + 90, p, t);
   const yLinea = pie(ctx, marca, p, t);
 
   const ESPACIO = 0.22;
@@ -289,13 +288,13 @@ export interface Opciones {
   marca: string;
   estilo?: Estilo;
   color?: Color;
-  /** Lo que respondió en la web (frase, reestreno, género) */
-  textos?: TextosAfiche;
+  /** Lo que respondió en la web (frase, reestreno, género) y las palabras del afiche en su idioma */
+  textos: TextosAfiche;
 }
 
 /** Dibuja el afiche completo. Sin marca, el título queda como "Tu marca", esperando. */
 export function dibujarAfiche(ctx: CanvasRenderingContext2D, { marca, estilo = 'estreno', color = 'rosa', textos }: Opciones) {
-  const t: TextosAfiche = textos ?? { antes: cierre.afiche.antes, estreno: cierre.afiche.proximamente, genero: null };
+  const t = textos;
   const acento = COLORES[color];
   const paletas: Record<Estilo, Paleta> = {
     estreno: { fondo: PAPEL, texto: TINTA, suave: GRIS, linea: 'rgba(18,18,18,0.2)', acento, sobreAcento: sobre(color), anillo: TINTA },
@@ -304,7 +303,7 @@ export function dibujarAfiche(ctx: CanvasRenderingContext2D, { marca, estilo = '
   };
   const p = paletas[estilo];
   const vacio = !marca;
-  const nombre = marca || cierre.afiche.vacio;
+  const nombre = marca || t.palabras.vacio;
 
   ctx.save();
   ctx.textBaseline = 'alphabetic';

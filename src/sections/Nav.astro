@@ -1,6 +1,6 @@
 ---
 import Marca from '../components/Marca.astro';
-import { nav } from '../content/guion';
+import { IDIOMAS, NOMBRE_IDIOMA, equivalente, idiomaDe, ruta, textos } from '../i18n';
 
 interface Props {
   /** En la home el logo no es link (ya estás ahí); en las otras páginas vuelve a la home */
@@ -10,38 +10,47 @@ interface Props {
 }
 const { enHome = true, actual } = Astro.props;
 const aqui = (pagina: string) => (actual === pagina ? 'page' : undefined);
+const idioma = idiomaDe(Astro.currentLocale);
+const { nav, ui } = textos(idioma);
+// El selector de idioma lleva a esta misma página en el otro idioma
+const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l), ...NOMBRE_IDIOMA[l] }));
 ---
 <header class="nav fixed inset-x-0 top-0 z-50 px-4 py-1.5 md:px-8 md:py-1.5">
-  <nav aria-label="Principal" class="mono w-full text-[0.72rem] sm:text-xs md:text-sm">
+  <nav aria-label={ui.principal} class="mono w-full text-[0.72rem] sm:text-xs md:text-sm">
     <div class="relative z-50 grid grid-cols-[1fr_auto_1fr] items-center w-full">
       <!-- Desktop Izquierda: Proyectos, Nosotros -->
       <div class="hidden md:flex items-center justify-start gap-5 md:gap-8">
-        <a href="/proyectos" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('proyectos')}>{nav.proyectos}</a>
-        <a href="/nosotros" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('nosotros')}>{nav.nosotros}</a>
+        <a href={ruta(idioma, 'proyectos')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('proyectos')}>{nav.proyectos}</a>
+        <a href={ruta(idioma, 'nosotros')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('nosotros')}>{nav.nosotros}</a>
       </div>
 
       <!-- Mobile Izquierda: Hablemos, siempre a mano (el logo sigue centrado por la grilla) -->
       <div class="flex md:hidden items-center justify-start">
-        <a href="/contacto" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
       </div>
 
-      <!-- Centro: Logo Roda (en home no tiene href=#inicio para que tocar el nav no te mande arriba) -->
+      <!-- Centro: Logo Roda (en home no tiene link para que tocar el nav no te mande arriba) -->
       <div class="flex items-center justify-center px-1 sm:px-2">
         {enHome ? (
           <span class="inline-flex min-h-11 items-center text-[1.35rem] sm:text-[1.5rem] md:text-[1.75rem] cursor-default select-none">
             <Marca />
           </span>
         ) : (
-          <a href="/" class="inline-flex min-h-11 items-center text-[1.35rem] sm:text-[1.5rem] md:text-[1.75rem]" aria-label="Roda, volver al inicio">
+          <a href={ruta(idioma, 'inicio')} class="inline-flex min-h-11 items-center text-[1.35rem] sm:text-[1.5rem] md:text-[1.75rem]" aria-label={ui.volverInicio}>
             <Marca />
           </a>
         )}
       </div>
 
-      <!-- Desktop Derecha: Precios, Hablemos -->
+      <!-- Desktop Derecha: Precios, Hablemos y el idioma -->
       <div class="hidden md:flex items-center justify-end gap-5 md:gap-8">
-        <a href="/precios" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
-        <a href="/contacto" class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+        <a href={ruta(idioma, 'precios')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
+        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+        <ul class="idiomas" aria-label={ui.idioma}>
+          {idiomas.map((i) => (
+            <li><a href={i.href} hreflang={i.l} lang={i.l} aria-label={i.largo} aria-current={i.l === idioma ? 'true' : undefined} class="idioma inline-flex min-h-11 items-center">{i.corto}</a></li>
+          ))}
+        </ul>
       </div>
 
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
@@ -49,7 +58,9 @@ const aqui = (pagina: string) => (actual === pagina ? 'page' : undefined);
         <button
           type="button"
           class="boton-hamburguesa inline-flex flex-col items-end justify-center w-11 h-11 p-2 gap-1.5"
-          aria-label="Abrir menú"
+          aria-label={ui.abrirMenu}
+          data-abrir={ui.abrirMenu}
+          data-cerrar={ui.cerrarMenu}
           aria-expanded="false"
           aria-controls="menu-movil"
         >
@@ -62,30 +73,36 @@ const aqui = (pagina: string) => (actual === pagina ? 'page' : undefined);
     <!-- Menú desplegable Mobile: dentro de nav para accesibilidad y semántica -->
     <div id="menu-movil" class="menu-movil md:hidden" aria-hidden="true">
       <div class="space-y-6 pt-8">
-        <p class="mono text-[0.75rem] text-tinta/45 tracking-wider uppercase mb-8">Navegación</p>
+        <p class="mono text-[0.75rem] text-tinta/45 tracking-wider uppercase mb-8">{ui.navegacion}</p>
         <div class="flex flex-col space-y-4">
-          <a href="/proyectos" aria-current={aqui('proyectos')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+          <a href={ruta(idioma, 'proyectos')} aria-current={aqui('proyectos')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(01)</span>
             <span class="enlace-movil">{nav.proyectos}</span>
           </a>
-          <a href="/nosotros" aria-current={aqui('nosotros')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+          <a href={ruta(idioma, 'nosotros')} aria-current={aqui('nosotros')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(02)</span>
             <span class="enlace-movil">{nav.nosotros}</span>
           </a>
-          <a href="/precios" aria-current={aqui('precios')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+          <a href={ruta(idioma, 'precios')} aria-current={aqui('precios')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(03)</span>
             <span class="enlace-movil">{nav.precios}</span>
           </a>
-          <a href="/contacto" aria-current={aqui('contacto')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
+          <a href={ruta(idioma, 'contacto')} aria-current={aqui('contacto')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
             <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(04)</span>
             <span class="enlace-movil">({nav.atajo})</span>
           </a>
         </div>
+        <!-- El idioma, también en el menú del celu -->
+        <ul class="idiomas idiomas-movil" aria-label={ui.idioma}>
+          {idiomas.map((i) => (
+            <li><a href={i.href} hreflang={i.l} lang={i.l} aria-current={i.l === idioma ? 'true' : undefined} class="idioma inline-flex min-h-11 items-center">{i.largo}</a></li>
+          ))}
+        </ul>
       </div>
 
       <div class="border-t border-tinta/10 pt-6 flex items-center justify-between text-xs mono text-tinta/50">
-        <span>Roda — Estudio web</span>
-        <span>De Buenos Aires al mundo</span>
+        <span>{ui.estudio}</span>
+        <span>{ui.desde}</span>
       </div>
     </div>
   </nav>
@@ -212,6 +229,14 @@ const aqui = (pagina: string) => (actual === pagina ? 'page' : undefined);
     background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat;
     transition: background-size 0.5s var(--ease-cine);
   }
+  /* El selector de idioma: chico, en mono; el actual subrayado */
+  .idiomas { display: flex; gap: 0.15rem; align-items: center; }
+  .idiomas li + li::before { content: '·'; margin-right: 0.15rem; opacity: 0.4; }
+  .idioma { padding: 0 0.15rem; opacity: 0.55; transition: opacity 0.3s; }
+  .idioma:hover, .idioma[aria-current='true'] { opacity: 1; }
+  .idioma[aria-current='true'] { text-decoration: underline; text-underline-offset: 4px; }
+  .idiomas-movil { margin-top: 2rem; gap: 0.75rem; font-size: 0.9rem; }
+  .idiomas-movil li + li::before { margin-right: 0.75rem; }
   .enlace:hover,
   .enlace[aria-current='page'] {
     background-size: 100% 1px;
@@ -243,7 +268,7 @@ const aqui = (pagina: string) => (actual === pagina ? 'page' : undefined);
       nav.classList.toggle('menu-abierto', nuevoEstado);
       menuMovil.classList.toggle('abierto', nuevoEstado);
       botonHamburguesa.setAttribute('aria-expanded', String(nuevoEstado));
-      botonHamburguesa.setAttribute('aria-label', nuevoEstado ? 'Cerrar menú' : 'Abrir menú');
+      botonHamburguesa.setAttribute('aria-label', (nuevoEstado ? botonHamburguesa.dataset.cerrar : botonHamburguesa.dataset.abrir) ?? '');
       menuMovil.setAttribute('aria-hidden', String(!nuevoEstado));
       botonHamburguesa.blur();
 

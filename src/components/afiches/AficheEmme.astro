@@ -6,8 +6,11 @@ import '@fontsource/italianno';
 import { capturas } from '../../content/capturas';
 import fotoMovil from '../../assets/proyectos/emme/afiche-movil.jpg';
 import Creditos from './Creditos.astro';
+import { idiomaDe } from '../../i18n';
+import { proyectosEn } from '../../content/proyectos';
 
 const foto = capturas('emme').afiche;
+const firma = proyectosEn(idiomaDe(Astro.currentLocale)).find((p) => p.slug === 'emme')?.logline;
 const grano = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
 // Las letras, igual que en su web
@@ -72,8 +75,8 @@ const ME_E = 'M 124,0 H 194 V 100 H 124 V 84 H 178 V 58 H 134 V 42 H 178 V 16 H 
     </svg>
   </div>
 
-  <p class="emme-firma">Para quienes no piden permiso.</p>
-  <Creditos class="emme-creditos" texto="Roda {presenta una web de} Emme Digital {con} un logotipo dibujado trazo por trazo {y} un manifiesto que se lee al bajar {dirección de arte, diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut" />
+  <p class="emme-firma">{firma}</p>
+  <Creditos class="emme-creditos" slug="emme" />
 </div>
 
 <style>

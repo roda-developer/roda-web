@@ -1,11 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { $respuestas } from '../story/store';
-import { linkMail } from '../story/sinopsis';
-import { dominioDe, limpiarMarca, textosAfiche } from '../story/afiche';
+import { dominioDe, limpiarMarca, textosAfiche, type TextosCierre } from '../story/afiche';
 import { ALTO, ANCHO, COLORES, ESTILOS, cargarTipografias, dibujarAfiche, type Color, type Estilo } from '../story/dibujarAfiche';
 import { MAIL } from '../content/contacto';
-import { cierre } from '../content/guion';
 
 const CLAVE = 'roda:marca';
 const CLAVE_DISENO = 'roda:afiche';
@@ -27,8 +25,17 @@ function leerMarca(): string {
   }
 }
 
+interface Props {
+  /** Los textos del cierre, ya en el idioma de la página */
+  cierre: TextosCierre;
+  /** Los rubros en el idioma de la página (para el género del afiche) */
+  rubros: Record<string, string>;
+  /** La dirección del formulario de contacto en ese idioma */
+  contacto: string;
+}
+
 /** El final: escribís el nombre de tu marca y se arma tu afiche de estreno. */
-export default function Afiche() {
+export default function Afiche({ cierre, rubros, contacto }: Props) {
   const respuestas = useStore($respuestas);
   const [texto, setTexto] = useState('');
   const [listo, setListo] = useState(false);
@@ -40,7 +47,7 @@ export default function Afiche() {
   const idAyuda = useId();
   const marca = limpiarMarca(texto);
   // Lo que respondió en la web se ve en el afiche (solo después de montar, para no desajustar el HTML)
-  const textos = textosAfiche(respuestas);
+  const textos = textosAfiche(respuestas, cierre, rubros);
 
   // La marca de esta sesión se recupera al montar (el HTML estático sale vacío)
   useEffect(() => {
@@ -115,7 +122,13 @@ export default function Afiche() {
     }
   };
 
-  const descripcion = `Afiche de estreno: Roda presenta ${marca || cierre.afiche.vacio}. ${textos.antes}. ${textos.genero ? `${cierre.afiche.genero}: ${textos.genero}. ` : ''}${textos.estreno} ${cierre.afiche.soloEn} ${dominioDe(marca) || 'tumarca.com'}.`;
+  const descripcion = cierre.descripcion
+    .replace('{marca}', marca || cierre.afiche.vacio)
+    .replace('{antes}', textos.antes)
+    .replace('{genero}', textos.genero ? `${cierre.afiche.genero}: ${textos.genero}. ` : '')
+    .replace('{estreno}', textos.estreno)
+    .replace('{soloEn}', cierre.afiche.soloEn)
+    .replace('{dominio}', dominioDe(marca) || cierre.afiche.dominio);
 
   return (
     <div className="afiche-final w-full">
@@ -183,7 +196,7 @@ export default function Afiche() {
 
       <div className="afiche-acciones">
         <div className="flex flex-wrap items-center gap-3">
-          <a className="cta" href={marca.trim() ? `/contacto?marca=${encodeURIComponent(marca.trim())}` : '/contacto'}>
+          <a className="cta" href={marca.trim() ? `${contacto}?marca=${encodeURIComponent(marca.trim())}` : contacto}>
             {cierre.cta}
           </a>
           <button type="button" onClick={descargar} className="boton-afiche">
@@ -199,10 +212,10 @@ export default function Afiche() {
           {MAIL ? (
             <>
               {cierre.alternativa}{' '}
-              <a className="text-tinta underline underline-offset-4" href={linkMail(respuestas, MAIL, marca)}>{MAIL}</a>
+              <a className="text-tinta underline underline-offset-4" href={`mailto:${MAIL}?subject=${encodeURIComponent(marca ? cierre.mail.asunto.replace('{marca}', marca) : cierre.mail.asuntoSinMarca)}&body=${encodeURIComponent(marca ? cierre.mail.cuerpo.replace('{marca}', marca) : cierre.mail.cuerpoSinMarca)}`}>{MAIL}</a>
             </>
           ) : (
-            <a className="text-tinta underline underline-offset-4" href="/contacto">{cierre.formulario}</a>
+            <a className="text-tinta underline underline-offset-4" href={contacto}>{cierre.formulario}</a>
           )}
         </p>
       </div>

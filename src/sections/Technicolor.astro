@@ -1,20 +1,21 @@
 ---
 import '@fontsource-variable/bricolage-grotesque';
 import { Image } from 'astro:assets';
-import { technicolor } from '../content/guion';
+import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import { capturas } from '../content/capturas';
-import { PROYECTOS } from '../content/proyectos';
-
-const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'];
+import { proyectosEn } from '../content/proyectos';
+const idioma = idiomaDe(Astro.currentLocale);
+const { technicolor, ui } = textos(idioma);
+const cinta = technicolor.cinta;
 
 // El tráiler: una web por vez, como los cortes de un tráiler. Las cuatro con la portada horizontal más fuerte.
 const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
-  const p = PROYECTOS.find((x) => x.slug === slug)!;
+  const p = proyectosEn(idioma).find((x) => x.slug === slug)!;
   return { slug, titulo: p.titulo, genero: p.genero, anio: p.anio, img: capturas(slug).portada };
 });
 const total = String(tomas.length).padStart(2, '0');
 ---
-<section id="technicolor" aria-label="Technicolor: a veces más es más">
+<section id="technicolor" aria-label={ui.technicolor}>
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
   <div class="puerta relative h-[180svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
@@ -22,7 +23,7 @@ const total = String(tomas.length).padStart(2, '0');
       <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-rosa px-4 pt-[clamp(3.5rem,8svh,4.5rem)] pb-[clamp(1.5rem,4svh,2.5rem)] text-tinta">
         <p class="grito text-center">
           <span class="block">{technicolor.grito[0]}</span>
-          <span class="mas block" aria-label="más"><span>M</span><span>Á</span><span>S</span></span>
+          <span class="mas block" aria-label={ui.mas}>{technicolor.letras.map((l) => <span>{l}</span>)}</span>
           <span class="block">{technicolor.grito[2]}</span>
         </p>
         <div class="cintas pointer-events-none w-screen" aria-hidden="true">
@@ -38,9 +39,9 @@ const total = String(tomas.length).padStart(2, '0');
     <div class="sala sticky top-0 h-svh overflow-hidden bg-tc-rosa text-tinta">
       <p class="mono absolute top-20 left-5 z-20 md:top-24 md:left-12">({technicolor.firma})</p>
       {tomas.map((t, i) => (
-        <a href={`/proyectos/${t.slug}`} class="toma" data-toma>
+        <a href={ruta(idioma, 'proyectos', t.slug)} class="toma" data-toma>
           <span class="toma-cuadro">
-            <Image src={t.img} alt={`Web de ${t.titulo}`} widths={[640, 1200, 1800]} sizes="(min-width: 1024px) 60vw, 90vw" loading="lazy" class="toma-img" />
+            <Image src={t.img} alt={rellenar(technicolor.webDe, { titulo: t.titulo })} widths={[640, 1200, 1800]} sizes="(min-width: 1024px) 60vw, 90vw" loading="lazy" class="toma-img" />
           </span>
           <span class="toma-pie">
             <span class="toma-titulo">{t.titulo}</span>
@@ -48,7 +49,7 @@ const total = String(tomas.length).padStart(2, '0');
           </span>
         </a>
       ))}
-      <a href="/proyectos" class="ver-todos cta absolute bottom-[5svh] left-5 z-20 md:left-12">{technicolor.verTodos}</a>
+      <a href={ruta(idioma, 'proyectos')} class="ver-todos cta absolute bottom-[5svh] left-5 z-20 md:left-12">{technicolor.verTodos}</a>
     </div>
   </div>
 
@@ -56,7 +57,7 @@ const total = String(tomas.length).padStart(2, '0');
   <div class="plano !min-h-[65svh]">
     <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
       <span class="block text-tinta/52">{technicolor.corte[0]}</span>
-      <span class="block">Es saber cuál necesita tu <em>marca.</em></span>
+      <span class="block">{technicolor.corteEnfasis[0]}<em>{technicolor.corteEnfasis[1]}</em></span>
     </p>
   </div>
 

@@ -1,6 +1,7 @@
 ---
-import { actoDos } from '../content/guion';
+import { textos } from '../i18n';
 import Rotulo from '../components/Rotulo.astro';
+const { actoDos } = textos(Astro.currentLocale);
 ---
 <section id="acto-dos" class="plano !place-items-stretch !content-center" aria-labelledby="acto-dos-titulo">
   <div class="w-full space-y-14 md:space-y-20">
@@ -20,7 +21,7 @@ import Rotulo from '../components/Rotulo.astro';
               <h3 class="text-[clamp(1.45rem,5vw,2.1rem)] leading-tight font-medium tracking-[-0.035em]">{p.titulo}</h3>
               <p class="mt-1.5 max-w-[40ch] text-tinta/65 md:text-lg">
                 {p.texto}
-                {i === 1 && <> Esta página pesa <strong class="font-medium text-tinta" data-peso>poco</strong>.</>}
+                {i === 1 && <> {actoDos.pesa} <strong class="font-medium text-tinta" data-peso>{actoDos.poco}</strong>.</>}
               </p>
             </div>
           </li>
@@ -37,7 +38,7 @@ import Rotulo from '../components/Rotulo.astro';
   const salida = document.querySelector<HTMLElement>('[data-peso]');
   const pintar = () => {
     const kb = pesoDeLaPagina(performance);
-    if (salida && kb) salida.textContent = `${kb.toLocaleString('es-AR')} KB`;
+    if (salida && kb) salida.textContent = `${kb.toLocaleString(document.documentElement.lang)} KB`;
   };
   if (document.readyState === 'complete') pintar();
   else addEventListener('load', pintar);

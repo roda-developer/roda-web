@@ -1,0 +1,293 @@
+---
+import Base from '../layouts/Base.astro';
+import Motion from '../components/Motion.astro';
+import Nav from '../sections/Nav.astro';
+import Pie from '../components/Pie.astro';
+import Volver from '../components/Volver.astro';
+import { NOMBRE_IDIOMA, idiomaDe, ruta, textos } from '../i18n';
+import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
+const idioma = idiomaDe(Astro.currentLocale);
+const { contactoPagina: t, metas } = textos(idioma);
+// Lo que necesita el script del navegador, ya en el idioma de la página (así no carga los tres guiones)
+const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.enviarMail, errorEnvio: t.errorEnvio, exito: t.exito, agenda: t.agenda, lineas: t.lineas, idioma: NOMBRE_IDIOMA[idioma].largo, esEspanol: idioma === 'es' };
+
+---
+<Base titulo={metas.contacto.titulo} descripcion={metas.contacto.descripcion}>
+  <script type="application/json" id="textos-contacto" set:html={JSON.stringify(paraElNavegador)} />
+  <Nav enHome={false} actual="contacto" />
+  <main class="relative z-10">
+    <header class="px-5 pt-28 md:px-12 md:pt-32">
+      <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
+        <Volver />
+        <span>{t.rotulo}</span>
+      </p>
+      <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
+        <span class="text-tinta/52">{t.titulo[0]}</span> {t.titulo[1]}
+      </h1>
+      <p class="mt-5 max-w-[40ch] text-lg leading-snug text-tinta/70 md:text-xl" data-revelar="4">{t.bajada}</p>
+    </header>
+
+    <!-- El formulario: casi todo se toca en vez de escribirse. Se envía al mail de Roda con Web3Forms -->
+    <div class="contacto-cuerpo mt-14 px-5 pb-8 md:px-12">
+    <form class="formulario" data-formulario data-whatsapp={WHATSAPP} data-clave={WEB3FORMS} novalidate>
+      <!-- Trampa para bots: un humano no la ve ni la completa -->
+      <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <fieldset class="bloque">
+        <legend class="pregunta">{t.tipos.pregunta}</legend>
+        <div class="opciones">
+          {t.tipos.opciones.map((o) => (
+            <label class="opcion">
+              <input type="radio" name="tipo" value={o.id} data-nombre={o.nombre} />
+              <span>{o.nombre}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <!-- Solo si busca un sistema a medida: qué quiere resolver (viene completo si eligió ejemplos en /precios) -->
+      <div class="bloque" data-solo-sistema hidden>
+        <label class="pregunta" for="ideas">{t.ideas.etiqueta}</label>
+        <textarea id="ideas" name="ideas" rows="3" class="campo" placeholder={t.ideas.ayuda}></textarea>
+      </div>
+
+      <div class="bloque grid gap-8 md:grid-cols-2">
+        <div>
+          <label class="pregunta" for="nombre">{t.nombre.etiqueta}</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" class="campo" placeholder={t.nombre.placeholder} required />
+        </div>
+        <div>
+          <label class="pregunta" for="marca">{t.marca.etiqueta}</label>
+          <input id="marca" name="marca" type="text" autocomplete="organization" class="campo" placeholder={t.marca.placeholder} />
+        </div>
+        <div class="md:col-span-2">
+          <label class="pregunta" for="contacto">{t.contacto.etiqueta}</label>
+          <input id="contacto" name="contacto" type="text" autocomplete="email" class="campo" placeholder={t.contacto.placeholder} required />
+        </div>
+        <div class="md:col-span-2">
+          <label class="pregunta" for="web">{t.web.etiqueta}</label>
+          <input id="web" name="web" type="text" autocomplete="url" class="campo" placeholder={t.web.placeholder} />
+        </div>
+        <div class="md:col-span-2">
+          <label class="pregunta" for="mensaje">{t.mensaje.etiqueta}</label>
+          <textarea id="mensaje" name="mensaje" rows="3" class="campo" placeholder={t.mensaje.placeholder}></textarea>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <p class="falta mono" role="alert" data-falta hidden>{t.falta}</p>
+        <button type="submit" class="cta" data-enviar>{t.enviarMail}</button>
+        <p class="mono mt-4 text-gris">{t.avisoMail}</p>
+        <p class="mt-3 text-sm text-gris">{t.privacidad.texto} <a href={ruta(idioma, 'privacidad')} class="underline underline-offset-4">{t.privacidad.link}</a></p>
+      </div>
+    </form>
+
+    <!-- Qué pasa después: baja la ansiedad de mandar algo sin saber qué sigue -->
+    <aside class="despues" aria-labelledby="despues-titulo" data-despues>
+      <p id="despues-titulo" class="mono text-gris">{t.despues.titulo}</p>
+      <ol class="mt-5">
+        {t.despues.pasos.map((paso, i) => (
+          <li><span class="mono text-gris">({String(i + 1).padStart(2, '0')})</span><span>{paso}</span></li>
+        ))}
+      </ol>
+    </aside>
+    </div>
+
+    <!-- Cuando la consulta llegó al mail: la llamada se agenda acá, con el envión (para un sistema a medida, más directo) -->
+    <div class="exito mt-14 px-5 pb-8 md:px-12" data-exito data-agenda={AGENDA} hidden tabindex="-1">
+      <p class="font-titulo text-[clamp(3rem,13vw,8rem)] leading-[0.9] tracking-[-0.055em]">{t.exito.titulo}</p>
+      <p class="mt-6 max-w-[34ch] text-xl text-tinta/70 md:text-2xl" data-exito-texto></p>
+      <div class="mt-12 max-w-[40rem] border-t border-tinta pt-6">
+        <p class="text-2xl font-medium tracking-[-0.03em] md:text-3xl" data-agenda-titulo></p>
+        <p class="mt-2 text-tinta/65 md:text-lg" data-agenda-texto></p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href={AGENDA} target="_blank" rel="noopener" class="cta" data-exito-agenda>{t.agenda.cta}</a>
+          <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="cta cta-claro" data-exito-whatsapp>{t.exito.whatsapp}</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mono mx-5 mt-10 mb-16 border-t border-tinta/15 pt-3 text-gris md:mx-12" data-directo>
+      {t.directo}{' '}
+      <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{t.directoCta} →</a>
+    </p>
+  </main>
+  <Pie />
+  <Motion />
+</Base>
+
+<style>
+  .formulario { display: grid; gap: 3rem; max-width: 56rem; }
+  .contacto-cuerpo { display: grid; gap: 3.5rem; }
+  @media (min-width: 1024px) { .contacto-cuerpo { grid-template-columns: minmax(0, 1fr) 18rem; gap: 5rem; align-items: start; } .despues { position: sticky; top: 7rem; } }
+  .despues { border-top: 1px solid var(--color-tinta); padding-top: 1rem; }
+  .despues[hidden] { display: none; }
+  .despues li { display: grid; grid-template-columns: 2.75rem 1fr; gap: 0.5rem; padding: 0.9rem 0; border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); line-height: 1.35; }
+  .bloque { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .bloque[hidden] { display: none; }
+  .pregunta { display: block; margin-bottom: 1rem; font-size: clamp(1.2rem, 3.5vw, 1.5rem); font-weight: 500; letter-spacing: -0.025em; }
+
+  /* Las opciones se tocan: chips como los filtros de /proyectos */
+  .opciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .opcion { position: relative; cursor: pointer; }
+  .opcion input { position: absolute; opacity: 0; pointer-events: none; }
+  .opcion span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
+    border-radius: 999px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .opcion:hover span { border-color: var(--color-tinta); }
+  .opcion input:checked + span { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
+  .opcion input:focus-visible + span { outline: 2px solid var(--color-tinta); outline-offset: 3px; }
+
+  /* Los campos: una línea abajo, como el "Tu marca" del afiche; el foco en rosa */
+  .campo {
+    width: 100%;
+    padding: 0.6rem 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent);
+    border-radius: 0;
+    font-size: 1.15rem;
+    caret-color: var(--color-tc-rosa);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+  }
+  .campo::placeholder { color: color-mix(in oklab, var(--color-tinta) 38%, transparent); }
+  .campo:focus { outline: none; border-bottom-color: var(--color-tinta); box-shadow: 0 2px 0 var(--color-tc-rosa); }
+
+  .falta { margin-bottom: 1rem; color: var(--color-tc-rojo); }
+  .cta { cursor: pointer; border: 0; }
+  .cta-claro { background: transparent; color: var(--color-tinta); border: 1px solid var(--color-tinta); }
+  .cta:disabled { opacity: 0.5; cursor: wait; }
+  .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .exito[hidden], [data-directo][hidden] { display: none; }
+  .exito { scroll-margin-top: 6rem; }
+</style>
+
+<script>
+  // Los textos vienen del HTML, en el idioma de la página
+  const t = JSON.parse(document.getElementById('textos-contacto')?.textContent ?? '{}');
+  const rellenar = (plantilla: string, valores: Record<string, string>) => plantilla.replace(/\{(\w+)\}/g, (_: string, k: string) => valores[k] ?? '');
+  const form = document.querySelector<HTMLFormElement>('[data-formulario]');
+
+  if (form) {
+    const soloSistema = form.querySelector<HTMLElement>('[data-solo-sistema]');
+    const falta = form.querySelector<HTMLElement>('[data-falta]');
+    const valor = (nombre: string) => (form.elements.namedItem(nombre) as HTMLInputElement | null)?.value.trim() ?? '';
+    const elegido = (nombre: string) => form.querySelector<HTMLInputElement>(`input[name="${nombre}"]:checked`);
+
+    const actualizar = () => {
+      if (soloSistema) soloSistema.hidden = elegido('tipo')?.value !== 'sistema';
+    };
+    form.addEventListener('change', actualizar);
+
+    // Llega precompletado según de dónde viene: ?plan=landing (las carpetas) o ?tipo=sistema&ideas=a|b (el a medida)
+    const params = new URLSearchParams(location.search);
+    const inicial = params.get('plan') ?? params.get('tipo');
+    const radio = inicial ? form.querySelector<HTMLInputElement>(`input[name="tipo"][value="${CSS.escape(inicial)}"]`) : null;
+    if (radio) radio.checked = true;
+    for (const campo of ['marca', 'mensaje']) {
+      const v = params.get(campo);
+      const el = form.elements.namedItem(campo) as HTMLInputElement | null;
+      if (v && el) el.value = v;
+    }
+    const ideas = params.get('ideas');
+    const campoIdeas = form.elements.namedItem('ideas') as HTMLTextAreaElement | null;
+    if (ideas && campoIdeas) campoIdeas.value = ideas.split('|').join(', ') + '. ';
+    actualizar();
+
+    const enviar = form.querySelector<HTMLButtonElement>('[data-enviar]');
+    const exito = document.querySelector<HTMLElement>('[data-exito]');
+    const clave = form.dataset.clave ?? '';
+    const numero = form.dataset.whatsapp ?? '';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const tipo = elegido('tipo');
+      const nombre = valor('nombre');
+      const contacto = valor('contacto');
+      if (!tipo || !nombre || !contacto) {
+        if (falta) { falta.textContent = t.falta; falta.hidden = false; }
+        const primero = !tipo ? form.querySelector<HTMLInputElement>('input[name="tipo"]') : (form.elements.namedItem(!nombre ? 'nombre' : 'contacto') as HTMLInputElement);
+        primero?.focus();
+        return;
+      }
+      if (falta) falta.hidden = true;
+
+      const l = t.lineas;
+      const nombreTipo = tipo.dataset.nombre ?? tipo.value;
+      const marca = valor('marca') ? rellenar(l.holaMarca, { marca: valor('marca') }) : '';
+      const partes = [rellenar(l.hola, { nombre, marca }), rellenar(l.busco, { tipo: nombreTipo }), rellenar(l.contacto, { dato: contacto })];
+      if (tipo.value === 'sistema' && valor('ideas')) partes.push(rellenar(l.resolver, { texto: valor('ideas') }));
+      if (valor('web')) partes.push(rellenar(l.web, { web: valor('web') }));
+      if (valor('mensaje')) partes.push(valor('mensaje'));
+      const texto = partes.join('\n\n');
+
+      // El "¡Listo!": lo que pasó, WhatsApp a mano y la agenda (para un sistema a medida, la llamada hace falta para cotizar)
+      const mostrarExito = () => {
+        const whatsapp = document.querySelector<HTMLAnchorElement>('[data-exito-whatsapp]');
+        if (whatsapp) whatsapp.href = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+        const textoExito = document.querySelector<HTMLElement>('[data-exito-texto]');
+        if (textoExito) textoExito.textContent = rellenar(t.exito.texto, { nombre });
+
+        const esSistema = tipo.value === 'sistema';
+        const agendaTitulo = document.querySelector<HTMLElement>('[data-agenda-titulo]');
+        const agendaTexto = document.querySelector<HTMLElement>('[data-agenda-texto]');
+        if (agendaTitulo) agendaTitulo.textContent = esSistema ? t.agenda.sistema.titulo : t.agenda.otros.titulo;
+        if (agendaTexto) agendaTexto.textContent = esSistema ? t.agenda.sistema.texto : t.agenda.otros.texto;
+        // Cal.com recibe el nombre, el mail (si dejó uno) y un resumen: nadie escribe dos veces
+        const agenda = document.querySelector<HTMLAnchorElement>('[data-exito-agenda]');
+        const base = exito?.dataset.agenda;
+        if (agenda && base) {
+          const url = new URL(base);
+          url.searchParams.set('name', nombre);
+          if (contacto.includes('@')) url.searchParams.set('email', contacto);
+          url.searchParams.set('notes', [nombreTipo, valor('marca'), valor('ideas'), valor('mensaje')].filter(Boolean).join(' · '));
+          agenda.href = url.href;
+        }
+        form.hidden = true;
+        const despues = document.querySelector<HTMLElement>('[data-despues]');
+        if (despues) despues.hidden = true;
+        const directo = document.querySelector<HTMLElement>('[data-directo]');
+        if (directo) directo.hidden = true;
+        if (exito) { exito.hidden = false; exito.focus(); exito.scrollIntoView({ block: 'start' }); }
+      };
+
+      if (enviar) { enviar.disabled = true; enviar.textContent = t.enviando; }
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: clave,
+            subject: `Nueva consulta${t.esEspanol ? '' : ` (${t.idioma})`}: ${nombreTipo} — ${nombre}`,
+            from_name: 'Web de Roda',
+            // Si dejó un mail, "Responder" en el correo le contesta directo
+            ...(contacto.includes('@') ? { replyto: contacto } : {}),
+            Idioma: t.idioma,
+            Nombre: nombre,
+            Busca: nombreTipo,
+            Contacto: contacto,
+            Marca: valor('marca'),
+            'Web o Instagram': valor('web'),
+            'Quiere resolver': tipo.value === 'sistema' ? valor('ideas') : '',
+            Mensaje: valor('mensaje'),
+            botcheck: (form.elements.namedItem('botcheck') as HTMLInputElement | null)?.checked ?? false,
+          }),
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.success === false) throw new Error(d.message || String(r.status));
+        mostrarExito();
+      } catch {
+        // Si falla, lo decimos y se puede volver a intentar (los datos quedan cargados)
+        if (falta) { falta.textContent = t.errorEnvio; falta.hidden = false; }
+      } finally {
+        if (enviar) { enviar.disabled = false; enviar.textContent = t.enviarMail; }
+      }
+    });
+  }
+</script>

@@ -3,10 +3,12 @@
  * La crítica dice: la frase más fuerte de cada testimonio, como las críticas que se citan en un afiche de estreno.
  * Va justo antes de la cartelera: la confianza llega antes de ver los precios. Las citas completas están en los casos y en /precios.
  */
-import { PROYECTOS } from '../content/proyectos';
-import { laCritica } from '../content/guion';
+import { proyectosEn } from '../content/proyectos';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { laCritica } = textos(idioma);
 
-const criticas = PROYECTOS.flatMap((p) => (p.testimonios ?? []).map((t) => ({ ...t, proyecto: p.titulo, slug: p.slug })));
+const criticas = proyectosEn(idioma).flatMap((p) => (p.testimonios ?? []).map((t) => ({ ...t, proyecto: p.titulo, slug: p.slug })));
 // Cada fragmento tiene que ser textual: si no está dentro de la cita completa, no se publica
 const textuales = criticas.filter((c) => c.texto.toLowerCase().includes(c.destacado.toLowerCase().replace(/\.$/, '')));
 ---
@@ -17,7 +19,7 @@ const textuales = criticas.filter((c) => c.texto.toLowerCase().includes(c.destac
       <li data-revelar={3 + i * 3}>
         <blockquote class="fragmento">“{c.destacado}”</blockquote>
         <p class="mono mt-4 text-gris">
-          <span class="text-tinta">{c.nombre.split(' ')[0]}</span> · <a href={`/proyectos/${c.slug}`} class="underline underline-offset-4">{c.proyecto}</a>
+          <span class="text-tinta">{c.nombre.split(' ')[0]}</span> · <a href={ruta(idioma, 'proyectos', c.slug)} class="underline underline-offset-4">{c.proyecto}</a>
         </p>
       </li>
     ))}

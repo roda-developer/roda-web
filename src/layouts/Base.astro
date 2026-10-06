@@ -7,24 +7,27 @@ import '../styles/global.css';
 import { MAIL, WHATSAPP } from '../content/contacto';
 // Visitas por página, sin cookies (Vercel Web Analytics: se activa en el panel de Vercel)
 import Analytics from '@vercel/analytics/astro';
+import { HTML_LANG, IDIOMAS, OG_LOCALE, equivalente, idiomaDe, textos } from '../i18n';
 
 interface Props {
   titulo?: string;
   descripcion?: string;
 }
 
-const {
-  titulo = 'Roda — Estudio web',
-  descripcion = 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida, de Buenos Aires al mundo.',
-} = Astro.props;
+const idioma = idiomaDe(Astro.currentLocale);
+const { metas } = textos(idioma);
+const { titulo = metas.inicio.titulo, descripcion = metas.inicio.descripcion } = Astro.props;
 const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
 const canonica = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+// La misma página en los otros idiomas, para que Google muestre la versión de cada país (hreflang)
+const alternativas = IDIOMAS.map((l) => ({ hreflang: HTML_LANG[l], href: new URL(equivalente(Astro.url.pathname, l), Astro.site ?? Astro.url).href }));
+const porDefecto = new URL(equivalente(Astro.url.pathname, 'es'), Astro.site ?? Astro.url).href;
 // Los datos de la empresa para Google (schema.org)
 const empresa = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: 'Roda',
-  description: 'Estudio de diseño y desarrollo web de Buenos Aires, para clientes de todo el mundo: landings, webs multisección y tiendas online.',
+  description: metas.empresa,
   url: new URL('/', Astro.site ?? Astro.url).href,
   image: imagen,
   // Trabajamos para cualquier país
@@ -37,7 +40,7 @@ const empresa = {
 };
 ---
 <!doctype html>
-<html lang="es-AR">
+<html lang={HTML_LANG[idioma]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -47,13 +50,16 @@ const empresa = {
     <!-- Verificación de Google Search Console -->
     <meta name="google-site-verification" content="3tEIVGU7KAhx047kPRdxamCFTjkJUOXC69We-PIyEgw" />
     <link rel="canonical" href={canonica} />
+    {alternativas.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={porDefecto} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script type="application/ld+json" set:html={JSON.stringify(empresa)} />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonica} />
-    <meta property="og:locale" content="es_AR" />
+    <meta property="og:locale" content={OG_LOCALE[idioma]} />
+    {IDIOMAS.filter((l) => l !== idioma).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}
     <meta property="og:image" content={imagen} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

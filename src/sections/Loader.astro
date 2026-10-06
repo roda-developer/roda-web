@@ -1,5 +1,7 @@
 ---
-import { loader } from '../content/guion';
+import { textos } from '../i18n';
+const { loader } = textos(Astro.currentLocale);
+
 ---
 <div class="loader" aria-hidden="true">
   <p class="loader-presenta mono">{loader.presenta}</p>

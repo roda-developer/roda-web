@@ -2,13 +2,15 @@
 /** Lo que dice la crítica: testimonios reales de clientes, citados como las críticas en un afiche de estreno. */
 import type { Testimonio } from '../content/proyectos';
 import Rotulo from './Rotulo.astro';
+import { textos } from '../i18n';
 
 interface Props {
   testimonios: Testimonio[];
   rotulo?: readonly string[];
   titulo?: string;
 }
-const { testimonios, rotulo, titulo = 'Lo que dice la crítica' } = Astro.props;
+const { laCritica, ui } = textos(Astro.currentLocale);
+const { testimonios, rotulo, titulo = laCritica.completo } = Astro.props;
 ---
 <section class="criticas" aria-labelledby="criticas-titulo">
   {rotulo && <Rotulo rotulo={rotulo} tipo="Parte" />}
@@ -19,7 +21,7 @@ const { testimonios, rotulo, titulo = 'Lo que dice la crítica' } = Astro.props;
         <blockquote class="cita">
           <p>“{c.texto}”</p>
         </blockquote>
-        <p class="firma mono"><span class="text-tinta">{c.nombre}</span> · {c.rol}</p>
+        <p class="firma mono"><span class="text-tinta">{c.nombre}</span> · {c.rol}{c.traducido && <span class="block mt-1 normal-case opacity-80">({ui.traducido})</span>}</p>
       </li>
     ))}
   </ul>

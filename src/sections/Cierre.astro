@@ -1,7 +1,11 @@
 ---
 import Afiche from '../components/Afiche.tsx';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { cierre, ui, rubros } = textos(idioma);
 ---
 <!-- El final: Roda presenta… tu marca, en un afiche de estreno -->
-<section id="final" class="plano !place-items-stretch" aria-label="Tu estreno">
-  <Afiche client:idle />
+<section id="final" class="plano !place-items-stretch" aria-label={ui.estreno}>
+  <!-- El afiche recibe sus textos ya en el idioma de la página (así no carga los tres guiones en el navegador) -->
+  <Afiche client:idle cierre={cierre} rubros={rubros} contacto={ruta(idioma, 'contacto')} />
 </section>

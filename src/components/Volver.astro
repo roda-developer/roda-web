@@ -3,12 +3,14 @@
  * "← Volver": vuelve a la página de la que viniste (como el botón atrás del navegador).
  * Si entraste directo (desde Instagram, un link o escribiendo la dirección), no hay "atrás" en Roda: va a `alternativa`.
  */
-import { proyectosPagina } from '../content/guion';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { proyectosPagina } = textos(idioma);
 
 interface Props {
   alternativa?: string;
 }
-const { alternativa = '/' } = Astro.props;
+const { alternativa = ruta(idioma, 'inicio') } = Astro.props;
 ---
 <a href={alternativa} class="inline-flex min-h-11 items-center hover:underline" data-volver>← {proyectosPagina.volverAtras}</a>
 

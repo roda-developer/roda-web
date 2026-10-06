@@ -1,7 +1,9 @@
 ---
-import { giro } from '../content/guion';
+import { textos } from '../i18n';
+const { giro, ui } = textos(Astro.currentLocale);
+
 ---
-<section id="giro" class="giro relative h-[120svh]" aria-label="El giro" data-giro>
+<section id="giro" class="giro relative h-[120svh]" aria-label={ui.giro} data-giro>
   <div class="sticky top-0 grid h-svh place-items-center px-5">
     <figure class="text-center">
       <blockquote class="cita font-titulo text-[clamp(3rem,min(16vw,13.5svh),12rem)] leading-[0.9] tracking-[-0.045em]">

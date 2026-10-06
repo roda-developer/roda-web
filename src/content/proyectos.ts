@@ -1,3 +1,4 @@
+import { TRADUCCIONES } from './proyectos.traducciones';
 import type { RubroId } from '../story/opciones';
 
 export interface Proyecto {
@@ -24,6 +25,8 @@ export interface Proyecto {
   destacados: string[];
   /** Resultado medible y real. Si no hay dato real, no se muestra nada. */
   resultado?: string;
+  /** Los créditos al pie del afiche del proyecto ({entre llaves} va en letra chica) */
+  creditosAfiche?: string;
   /** Lo que dijeron los clientes. Solo se edita con su permiso (2026-10-05: las clientas aprobaron nombrar a los dos) */
   testimonios?: Testimonio[];
 }
@@ -34,6 +37,8 @@ export interface Testimonio {
   destacado: string;
   nombre: string;
   rol: string;
+  /** true si se muestra traducido (el original es en español) */
+  traducido?: boolean;
 }
 
 // PENDIENTE (Giuli/Facu): revisar todos los textos, confirmar rubros y años, y sumar resultados reales.
@@ -41,6 +46,7 @@ export interface Testimonio {
 export const PROYECTOS: Proyecto[] = [
   {
     slug: 'muda',
+    creditosAfiche: 'Roda {presenta} MUDA {productora creativa integral} foto y video · dirección creativa · eventos · agencia de talentos · estudio en Palermo {con} panel propio {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
     titulo: 'MUDA',
     rubro: 'servicios',
     logline: 'Estética con propósito.',
@@ -58,6 +64,7 @@ export const PROYECTOS: Proyecto[] = [
   },
   {
     slug: 'emme',
+    creditosAfiche: 'Roda {presenta una web de} Emme Digital {con} un logotipo dibujado trazo por trazo {y} un manifiesto que se lee al bajar {dirección de arte, diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
     testimonios: [
       {
         texto: 'Una experiencia increíble de principio a fin. Supieron entender exactamente lo que buscaba y crear una web que me representa 100%. Siempre estuvieron atentos, predispuestos y resolviendo todo rapidísimo. El resultado superó totalmente mis expectativas. Los recomiendo muchísimo.',
@@ -100,6 +107,7 @@ export const PROYECTOS: Proyecto[] = [
   },
   {
     slug: 'craft',
+    creditosAfiche: 'Roda {presenta} Craft Studio {un estudio de} identidad visual · branding · comunicación estratégica {con} panel propio {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
     titulo: 'Craft Studio',
     rubro: 'arte',
     logline: 'Tu marca tiene mucho para decir.',
@@ -117,6 +125,7 @@ export const PROYECTOS: Proyecto[] = [
   },
   {
     slug: 'fidalgo',
+    creditosAfiche: 'Roda {presenta una web de} Fidalgo Select {catálogo de} autos · propiedades · inversiones {con} panel de gestión propio {y} consultas por WhatsApp {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
     titulo: 'Fidalgo Select',
     rubro: 'otro',
     logline: 'Autos y propiedades, con trato directo.',
@@ -135,6 +144,7 @@ export const PROYECTOS: Proyecto[] = [
   },
   {
     slug: 'unik',
+    creditosAfiche: 'Roda {presenta} Unik {una agencia de} branding · contenido · campañas {con} cursor y menú propios {y} galerías a pantalla completa {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
     testimonios: [
       {
         texto: 'Pasar de un PDF en Canva a una web profesional cambió totalmente cómo nos ven los clientes. Los chicos lograron una identidad digital con animaciones que realmente rompe lo convencional.',
@@ -166,12 +176,24 @@ export const PROYECTOS: Proyecto[] = [
   },
 ];
 
+/** Los proyectos en un idioma: los textos traducidos (proyectos.traducciones.ts) sobre los datos en español */
+export function proyectosEn(idioma: 'es' | 'en' | 'pt'): Proyecto[] {
+  if (idioma === 'es') return PROYECTOS;
+  return PROYECTOS.map((p) => {
+    const t = TRADUCCIONES[idioma][p.slug];
+    if (!t) return p;
+    const testimonios = p.testimonios?.map((orig, i) => (t.testimonios?.[i] ? { ...orig, ...t.testimonios[i], traducido: true } : orig));
+    return { ...p, ...t, testimonios };
+  });
+}
+
 export function ordenarPorRubro(proyectos: Proyecto[], rubro: RubroId | null): Proyecto[] {
   if (!rubro) return proyectos;
   return [...proyectos].sort((a, b) => Number(b.rubro === rubro) - Number(a.rubro === rubro));
 }
 
-export function proyectoSiguiente(slug: string): Proyecto {
-  const i = PROYECTOS.findIndex((p) => p.slug === slug);
-  return PROYECTOS[(i + 1) % PROYECTOS.length];
+export function proyectoSiguiente(slug: string, idioma: 'es' | 'en' | 'pt' = 'es'): Proyecto {
+  const lista = proyectosEn(idioma);
+  const i = lista.findIndex((p) => p.slug === slug);
+  return lista[(i + 1) % lista.length];
 }

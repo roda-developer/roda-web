@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../sections/Nav.astro';
+import Pie from '../components/Pie.astro';
+import Volver from '../components/Volver.astro';
+import { MAIL } from '../content/contacto';
+import { textos } from '../i18n';
+const { privacidad: t, metas } = textos(Astro.currentLocale);
+
+// Cada párrafo: **así** va en negrita y {mail} es el link al mail
+const partes = (parrafo: string) =>
+  parrafo.split(/(\*\*[^*]+\*\*|\{mail\})/).filter(Boolean).map((p) =>
+    p === '{mail}' ? { tipo: 'mail' as const, texto: '' } : p.startsWith('**') ? { tipo: 'fuerte' as const, texto: p.slice(2, -2) } : { tipo: 'texto' as const, texto: p },
+  );
+---
+<Base titulo={metas.privacidad.titulo} descripcion={metas.privacidad.descripcion}>
+  <Nav enHome={false} />
+  <main class="relative z-10 px-5 pt-28 pb-24 md:px-12 md:pt-32">
+    <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
+      <Volver />
+      <span>{t.rotulo}</span>
+    </p>
+    <h1 class="mt-8 font-titulo text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]">{t.titulo}</h1>
+    <div class="legal mt-10 max-w-[62ch] space-y-5 text-lg leading-relaxed text-tinta/80">
+      {t.parrafos.map((parrafo) => (
+        <p>
+          {partes(parrafo).map((p) =>
+            p.tipo === 'mail' ? <a class="underline underline-offset-4" href={`mailto:${MAIL}`}>{MAIL}</a>
+            : p.tipo === 'fuerte' ? <strong>{p.texto}</strong>
+            : p.texto,
+          )}
+        </p>
+      ))}
+    </div>
+  </main>
+  <Pie />
+</Base>

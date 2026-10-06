@@ -2,6 +2,9 @@
 /** Eber: retrato en blanco y negro y la frase de su portada en letra gigante, como un afiche de cine independiente. */
 import { Image } from 'astro:assets';
 import { capturas } from '../../content/capturas';
+import { textos } from '../../i18n';
+
+const { loader, proyectosPagina } = textos(Astro.currentLocale);
 
 const foto = capturas('eber').afiche;
 ---
@@ -13,7 +16,7 @@ const foto = capturas('eber').afiche;
 
   <div class="eber-pie">
     <p class="eber-titulo">DISEÑO &amp;<br />DIRECCIÓN</p>
-    <p class="eber-linea"><span>Roda presenta</span><span>Estreno 2026 · En todas las pantallas</span></p>
+    <p class="eber-linea"><span>{loader.presenta}</span><span>{proyectosPagina.afiche.estreno} · {proyectosPagina.afiche.pantallas}</span></p>
   </div>
 </div>
 

@@ -1,9 +1,10 @@
 ---
-import { actoUno } from '../content/guion';
+import { textos } from '../i18n';
 import Rotulo from '../components/Rotulo.astro';
+const { actoUno, ui } = textos(Astro.currentLocale);
 const g = actoUno.generica;
 ---
-<section id="acto-uno" aria-label="Acto uno: la primera impresión">
+<section id="acto-uno" aria-label={ui.actoUno}>
   <div class="plano !place-items-stretch !content-center">
     <div class="w-full space-y-16 md:space-y-24">
       <Rotulo rotulo={actoUno.rotulo} />
@@ -36,7 +37,7 @@ const g = actoUno.generica;
           <div class="generica overflow-hidden rounded-xl bg-white text-[#333] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.35)]" aria-hidden="true">
             <div class="flex items-center justify-between border-b border-black/10 px-4 py-2.5 text-[11px] md:px-6 md:py-3">
               <span class="font-bold text-[#1e3a8a]">{g.marca}</span>
-              <span class="hidden gap-4 text-black/60 md:flex"><span>Inicio</span><span>Nosotros</span><span>Servicios</span><span>Contacto</span></span>
+              <span class="hidden gap-4 text-black/60 md:flex">{g.menu.map((item) => <span>{item}</span>)}</span>
               <span class="text-black/60 md:hidden">☰</span>
             </div>
             <div class="stock relative grid h-28 place-items-center bg-gradient-to-br from-sky-300 via-sky-200 to-emerald-200 md:h-[clamp(7.5rem,22svh,15rem)]">
@@ -64,7 +65,7 @@ const g = actoUno.generica;
   <div class="plano !min-h-[60svh] !place-items-start !content-center">
     <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em]">
       <span class="block text-tinta/52" data-revelar>{actoUno.cierre[1]}</span>
-      <span class="block" data-revelar="10">Perdiste un <em>cliente.</em></span>
+      <span class="block" data-revelar="10">{actoUno.cierreEnfasis[0]}<em>{actoUno.cierreEnfasis[1]}</em></span>
     </p>
   </div>
 

@@ -1,18 +1,43 @@
 ---
 import Base from '../layouts/Base.astro';
 import Nav from '../sections/Nav.astro';
+import { textos } from '../i18n';
+
+// La 404 es una sola página para todas las direcciones que no existen: sale en español
+// y, si la dirección empieza con /en o /pt, el script la pasa a ese idioma.
+const es = textos('es');
+const tresIdiomas = Object.fromEntries((['es', 'en', 'pt'] as const).map((l) => [l, { ...textos(l).error404, titulo404: textos(l).metas.error }]));
 ---
 <!-- La escena que se cortó en el montaje -->
-<Base titulo="Página no encontrada — Roda">
+<Base titulo={es.metas.error}>
   <Nav enHome={false} />
   <main class="plano">
     <div class="w-full max-w-5xl">
-      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3"><span>(404)</span><span>Escena eliminada</span></p>
+      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3"><span>(404)</span><span data-e404="rotulo">{es.error404.rotulo}</span></p>
       <h1 class="mt-12 font-titulo text-[clamp(2.8rem,11vw,7rem)] leading-[0.92] tracking-[-0.045em]">
-        <span class="block text-tinta/52">Esta parte</span>
-        <span class="block">no quedó en el <em>corte final.</em></span>
+        <span class="block text-tinta/52" data-e404="t0">{es.error404.titulo[0]}</span>
+        <span class="block"><span data-e404="t1">{es.error404.titulo[1]}</span><em data-e404="t2">{es.error404.titulo[2]}</em></span>
       </h1>
-      <a href="/" class="cta mt-12">Volver al inicio</a>
+      <a href="/" class="cta mt-12" data-e404="cta">{es.error404.cta}</a>
     </div>
   </main>
+  <script type="application/json" id="textos-404" set:html={JSON.stringify(tresIdiomas)} />
 </Base>
+
+<script>
+  const idioma = location.pathname.split('/')[1];
+  if (idioma === 'en' || idioma === 'pt') {
+    const t = JSON.parse(document.getElementById('textos-404')?.textContent ?? '{}')[idioma];
+    if (t) {
+      document.documentElement.lang = idioma === 'pt' ? 'pt-BR' : 'en';
+      document.title = t.titulo404;
+      const poner = (clave: string, texto: string) => { const el = document.querySelector(`[data-e404="${clave}"]`); if (el) el.textContent = texto; };
+      poner('rotulo', t.rotulo);
+      poner('t0', t.titulo[0]);
+      poner('t1', t.titulo[1]);
+      poner('t2', t.titulo[2]);
+      poner('cta', t.cta);
+      document.querySelector<HTMLAnchorElement>('[data-e404="cta"]')?.setAttribute('href', '/' + idioma);
+    }
+  }
+</script>

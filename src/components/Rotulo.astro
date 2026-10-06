@@ -1,14 +1,17 @@
 ---
 /** Rótulo de acto: "(01) La primera impresión", chico y en mono, como la nota de un libro de fotos. */
+import { textos } from '../i18n';
 interface Props {
   rotulo: readonly [string, string] | readonly string[];
   /** Acto, etapa… lo que leen los lectores de pantalla antes del número */
   tipo?: string;
 }
 const { rotulo, tipo = 'Acto' } = Astro.props;
+const { ui } = textos(Astro.currentLocale);
+const palabra = tipo === 'Parte' ? ui.parte : ui.acto;
 const [numero, nombre] = rotulo;
 ---
 <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3" data-revelar>
   <span aria-hidden="true">({numero})</span>
-  <span><span class="sr-only">{tipo} {Number(numero)}: </span>{nombre}</span>
+  <span><span class="sr-only">{palabra} {Number(numero)}: </span>{nombre}</span>
 </p>

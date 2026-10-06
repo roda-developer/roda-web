@@ -1,6 +1,7 @@
 ---
-import { actoTres } from '../content/guion';
+import { textos } from '../i18n';
 import Rotulo from '../components/Rotulo.astro';
+const { actoTres } = textos(Astro.currentLocale);
 const { obra, pasos } = actoTres;
 const total = String(pasos.length).padStart(2, '0');
 ---

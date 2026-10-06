@@ -1,25 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../sections/Nav.astro';
-import Pie from '../components/Pie.astro';
-import Volver from '../components/Volver.astro';
-import { MAIL } from '../content/contacto';
-import { proyectosPagina } from '../content/guion';
+// La vista vive en src/vistas; esta ruta solo la muestra en su idioma (el idioma sale de la dirección)
+import Vista from '../vistas/Privacidad.astro';
 ---
-<Base titulo="Privacidad — Roda" descripcion="Qué datos guarda Roda cuando nos escribís y para qué los usamos.">
-  <Nav enHome={false} />
-  <main class="relative z-10 px-5 pt-28 pb-24 md:px-12 md:pt-32">
-    <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
-      <Volver />
-      <span>Privacidad</span>
-    </p>
-    <h1 class="mt-8 font-titulo text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]">Tus datos, cuidados.</h1>
-    <div class="legal mt-10 max-w-[62ch] space-y-5 text-lg leading-relaxed text-tinta/80">
-      <p>Cuando completás el formulario de contacto, nos llegan los datos que escribiste: tu nombre, tu WhatsApp o mail, tu marca, tu web y tu mensaje. Si agendás una llamada, Cal.com nos pasa tu nombre, tu mail y el horario elegido.</p>
-      <p><strong>Los usamos solo para responderte</strong> y, si trabajamos juntos, para hacer tu web. No los vendemos, no los compartimos con nadie para publicidad y no te sumamos a ninguna lista de correo.</p>
-      <p>Para recibirlos usamos dos servicios: Web3Forms (el formulario nos llega por mail) y Cal.com (la agenda de reuniones). La web está alojada en Vercel. No usamos cookies de publicidad ni de seguimiento.</p>
-      <p>Podés pedirnos ver, corregir o borrar tus datos cuando quieras escribiendo a <a class="underline underline-offset-4" href={`mailto:${MAIL}`}>{MAIL}</a>. Es tu derecho según la Ley 25.326 de Protección de Datos Personales.</p>
-    </div>
-  </main>
-  <Pie />
-</Base>
+<Vista />

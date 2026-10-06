@@ -1,7 +1,9 @@
 ---
-import { creativos } from '../content/guion';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { creativos } = textos(idioma);
 
-const link = `/contacto?tipo=nose&mensaje=${encodeURIComponent(creativos.mensaje)}`;
+const link = `${ruta(idioma, 'contacto')}?tipo=nose&mensaje=${encodeURIComponent(creativos.mensaje)}`;
 ---
 <!-- Para quien diseña o maneja marcas: una línea, sin ocupar una sección -->
 <p class="mono mx-5 mt-24 mb-8 border-t border-tinta/15 pt-3 text-gris md:mx-12">

@@ -1,0 +1,12 @@
+---
+// Un caso de proyecto; la vista vive en src/vistas/Caso.astro (el idioma sale de la dirección)
+import Vista from '../../../vistas/Caso.astro';
+import { PROYECTOS } from '../../../content/proyectos';
+
+export function getStaticPaths() {
+  return PROYECTOS.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+---
+<Vista slug={slug!} />

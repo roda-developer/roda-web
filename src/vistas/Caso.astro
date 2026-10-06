@@ -1,0 +1,143 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Motion from '../components/Motion.astro';
+import Nav from '../sections/Nav.astro';
+import Pie from '../components/Pie.astro';
+import Volver from '../components/Volver.astro';
+import Criticas from '../components/Criticas.astro';
+import { proyectosEn, proyectoSiguiente } from '../content/proyectos';
+import { capturas } from '../content/capturas';
+import { idiomaDe, rellenar, ruta, textos } from '../i18n';
+
+// La ruta (src/pages/…/[slug].astro) pasa el slug; los textos salen del idioma de la dirección
+const idioma = idiomaDe(Astro.currentLocale);
+const { proyectosPagina: t, rubros, metas } = textos(idioma);
+const lista = proyectosEn(idioma);
+const p = lista.find((x) => x.slug === Astro.props.slug)!;
+const fotos = capturas(p.slug);
+const siguiente = proyectoSiguiente(p.slug, idioma);
+const fotosSiguiente = capturas(siguiente.slug);
+const numero = String(lista.indexOf(p) + 1).padStart(2, '0');
+const total = String(lista.length).padStart(2, '0');
+const rubro = rubros[p.rubro];
+const ficha: [string, string | number | undefined][] = [
+  [t.ficha.genero, p.genero],
+  [t.ficha.rubro, rubro],
+  [t.ficha.rol, p.rol],
+  [t.ficha.anio, p.anio],
+];
+---
+<Base titulo={rellenar(metas.caso, { titulo: p.titulo })} descripcion={`${p.titulo}: ${p.logline} ${p.cliente}`}>
+  <Nav enHome={false} actual="proyectos" />
+  <main class="relative z-10">
+    <header class="px-5 pt-32 md:px-12 md:pt-40">
+      <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
+        <Volver alternativa={ruta(idioma, 'proyectos')} />
+        <span>({numero} / {total})</span>
+      </p>
+      <h1 class="mt-12 font-titulo text-[clamp(3.6rem,17vw,14rem)] leading-[0.85] tracking-[-0.055em]" data-revelar>{p.titulo}</h1>
+      <p class="mt-6 max-w-[24ch] text-2xl leading-tight text-tinta/70 italic md:text-4xl" data-revelar="4">{p.logline}</p>
+
+      <div class="mt-14 grid gap-8 border-t border-tinta/15 pt-4 md:grid-cols-[1fr_auto] md:items-start">
+        <dl class="mono grid grid-cols-2 gap-x-6 gap-y-4 md:grid-cols-4">
+          {ficha.map(([k, v]) => (
+            <div><dt class="text-gris">{k}</dt><dd>{v}</dd></div>
+          ))}
+        </dl>
+        <a href={p.url} target="_blank" rel="noopener" class="cta self-start">{t.verEnVivo}<span class="sr-only"> {t.otraPestana}</span></a>
+      </div>
+    </header>
+
+    <figure class="mt-14 px-5 md:mt-20 md:px-12" data-revelar>
+      <Image src={fotos.portada} alt={rellenar(t.portadaDe, { titulo: p.titulo })} widths={[640, 1200, 1800]} sizes="(min-width: 768px) calc(100vw - 6rem), calc(100vw - 2.5rem)" loading="eager" class="block w-full border border-tinta/10" />
+    </figure>
+
+    <article class="caso grid gap-16 px-5 py-24 md:px-12 md:py-32">
+      <section class="bloque">
+        <h2 class="mono text-gris">({t.secciones.cliente})</h2>
+        <p class="texto-grande" data-revelar>{p.cliente}</p>
+      </section>
+      <section class="bloque">
+        <h2 class="mono text-gris">({t.secciones.desafio})</h2>
+        <p class="texto-grande" data-revelar>{p.desafio}</p>
+      </section>
+      <section class="bloque">
+        <h2 class="mono text-gris">({t.secciones.solucion})</h2>
+        <div class="space-y-5">
+          {p.solucion.map((s) => <p class="texto" data-revelar>{s}</p>)}
+        </div>
+      </section>
+    </article>
+
+    <!-- Las capturas: pantallas de computadora y una de celular -->
+    <div class="galeria grid gap-4 px-5 md:grid-cols-[1fr_0.42fr] md:gap-6 md:px-12">
+      <div class="grid gap-4 md:gap-6">
+        {fotos.pantallas.map((img, i) => (
+          <Image src={img} alt={rellenar(t.pantallaDe, { titulo: p.titulo, n: i + 2 })} widths={[640, 1200]} sizes="(min-width: 768px) 60vw, calc(100vw - 2.5rem)" loading="lazy" class="block w-full border border-tinta/10" data-revelar />
+        ))}
+      </div>
+      {fotos.mobile && (
+        <figure class="md:sticky md:top-24 md:self-start" data-revelar>
+          <Image src={fotos.mobile} alt={rellenar(t.celularDe, { titulo: p.titulo })} widths={[390, 780]} sizes="(min-width: 768px) 24vw, 70vw" loading="lazy" class="celular block w-[70vw] md:w-full" />
+          <figcaption class="mono mt-3 text-gris">{t.enCelular}</figcaption>
+        </figure>
+      )}
+    </div>
+
+    <article class="caso grid gap-16 px-5 py-24 md:px-12 md:py-32">
+      <section class="bloque">
+        <h2 class="mono text-gris">({t.secciones.destacados})</h2>
+        <ul class="divide-y divide-tinta/15 border-y border-tinta/15">
+          {p.destacados.map((d, i) => (
+            <li class="flex gap-4 py-4 text-lg md:text-xl" data-revelar>
+              <span class="mono pt-1 text-gris">({String(i + 1).padStart(2, '0')})</span>{d}
+            </li>
+          ))}
+        </ul>
+      </section>
+      {p.resultado && (
+        <section class="bloque">
+          <h2 class="mono text-gris">({t.secciones.resultado})</h2>
+          <p class="texto-grande" data-revelar>{p.resultado}</p>
+        </section>
+      )}
+    </article>
+
+    {p.testimonios?.length && (
+      <div class="px-5 pb-24 md:px-12 md:pb-32">
+        <Criticas testimonios={p.testimonios} />
+      </div>
+    )}
+
+    <!-- El siguiente: como el avance de la próxima película -->
+    <a href={ruta(idioma, 'proyectos', siguiente.slug)} class="siguiente group block px-5 pb-24 md:px-12">
+      <p class="mono border-t border-tinta/15 pt-3 text-gris">({t.siguiente})</p>
+      <div class="mt-8 grid gap-6 md:grid-cols-[1fr_0.8fr] md:items-end">
+        <p class="font-titulo text-[clamp(3rem,13vw,10rem)] leading-[0.85] tracking-[-0.055em] transition-transform duration-700 group-hover:translate-x-2">
+          {siguiente.titulo} <span aria-hidden="true">→</span>
+        </p>
+        <Image src={fotosSiguiente.portada} alt="" widths={[480, 800]} sizes="(min-width: 768px) 40vw, 100vw" loading="lazy" class="block w-full" />
+      </div>
+    </a>
+
+  </main>
+  <Pie />
+  <Motion />
+</Base>
+
+<style>
+  .bloque {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 72rem;
+  }
+  @media (min-width: 1024px) {
+    .bloque { grid-template-columns: 16rem 1fr; gap: 3rem; }
+    .bloque > h2 { padding-top: 0.5rem; }
+  }
+  .texto-grande { max-width: 30ch; font-size: clamp(1.6rem, 4.5vw, 2.6rem); line-height: 1.12; letter-spacing: -0.03em; font-weight: 500; }
+  .texto { max-width: 46ch; font-size: 1.2rem; line-height: 1.5; color: color-mix(in oklab, var(--color-tinta) 78%, transparent); }
+  @media (min-width: 768px) { .texto { font-size: 1.4rem; } }
+  .celular { border-radius: 1.75rem; border: 6px solid var(--color-tinta); }
+</style>

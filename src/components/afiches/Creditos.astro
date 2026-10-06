@@ -3,19 +3,24 @@
  *  Abajo, la línea de estreno, que es igual en toda la cartelera. */
 import '@fontsource/oswald/300.css';
 import '@fontsource/oswald/400.css';
+import { idiomaDe, textos } from '../../i18n';
+import { proyectosEn } from '../../content/proyectos';
 
 interface Props {
-  /** Texto de los créditos. Lo que va entre llaves sale chico: "Roda {presenta} una web de…" */
-  texto: string;
+  /** El proyecto: sus créditos (proyectos.ts y sus traducciones). Lo que va entre llaves sale chico: "Roda {presenta} una web de…" */
+  slug: string;
   fuente?: 'oswald' | 'bebas';
   class?: string;
 }
-const { texto, fuente = 'oswald', class: clase } = Astro.props;
+const { slug, fuente = 'oswald', class: clase } = Astro.props;
+const idioma = idiomaDe(Astro.currentLocale);
+const { proyectosPagina } = textos(idioma);
+const texto = proyectosEn(idioma).find((p) => p.slug === slug)?.creditosAfiche ?? '';
 const partes = texto.split(/(\{[^}]+\})/).filter(Boolean).map((p) => (p.startsWith('{') ? { chico: true, t: p.slice(1, -1) } : { chico: false, t: p }));
 ---
 <div class:list={['creditos', `creditos-${fuente}`, clase]}>
   <p class="creditos-texto">{partes.map((p) => (p.chico ? <b>{p.t}</b> : p.t))}</p>
-  <p class="creditos-estreno">Estreno 2026 <span>·</span> En todas las pantallas</p>
+  <p class="creditos-estreno">{proyectosPagina.afiche.estreno} <span>·</span> {proyectosPagina.afiche.pantallas}</p>
 </div>
 
 <style>

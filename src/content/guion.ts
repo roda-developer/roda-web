@@ -1,8 +1,52 @@
-/** Todo el copy de la web. Tono: rioplatense, voseo, cero jerga técnica. */
+/**
+ * Todo el copy de la web, en español (el original). Tono: rioplatense, voseo, cero jerga técnica.
+ * guion.en.ts y guion.pt.ts tienen exactamente la misma forma. Los textos con {algo} son plantillas: se completan con rellenar().
+ */
 
 export const loader = {
   frase: 'Todo empieza con una historia.',
   presenta: 'Roda presenta',
+};
+
+/** Títulos y descripciones de cada página (lo que ve Google y lo que aparece al compartir el link) */
+export const metas = {
+  inicio: { titulo: 'Roda — Estudio web', descripcion: 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida, de Buenos Aires al mundo.' },
+  precios: { titulo: 'Precios — Roda', descripcion: 'Landing US$ 300, Multisección US$ 400, Tienda US$ 550. Abrí cada carpeta y mirá lo que trae.' },
+  contacto: { titulo: 'Contacto — Roda', descripcion: 'Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos enseguida.' },
+  nosotros: { titulo: 'Nosotros — Roda', descripcion: 'Roda es Giuliana y Facundo: pareja, socios y desarrolladores web egresados de la UNLaM.' },
+  proyectos: { titulo: 'Proyectos — Roda', descripcion: 'Webs que hicimos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select y Unik.' },
+  privacidad: { titulo: 'Privacidad — Roda', descripcion: 'Qué datos guarda Roda cuando nos escribís y para qué los usamos.' },
+  caso: '{titulo} — Roda',
+  error: 'Página no encontrada — Roda',
+  empresa: 'Estudio de diseño y desarrollo web de Buenos Aires, para clientes de todo el mundo: landings, webs multisección y tiendas online.',
+};
+
+/** Textos chicos de la interfaz: menú, avisos para lectores de pantalla, pie */
+export const ui = {
+  principal: 'Principal',
+  navegacion: 'Navegación',
+  abrirMenu: 'Abrir menú',
+  cerrarMenu: 'Cerrar menú',
+  volverInicio: 'Roda, volver al inicio',
+  estudio: 'Roda — Estudio web',
+  desde: 'De Buenos Aires al mundo',
+  idioma: 'Idioma',
+  creditosPie: 'Créditos',
+  escribinos: 'Escribinos',
+  seguinos: 'Seguinos',
+  mira: 'Mirá',
+  contacto: 'Contacto',
+  privacidad: 'Privacidad',
+  /** Al lado de un testimonio que no está en su idioma original */
+  traducido: 'Traducido del español',
+  postCreditos: 'Escena post-créditos',
+  actoUno: 'Acto uno: la primera impresión',
+  giro: 'El giro',
+  technicolor: 'Technicolor: a veces más es más',
+  mas: 'más',
+  acto: 'Acto',
+  parte: 'Parte',
+  estreno: 'Tu estreno',
 };
 
 export const nav = {
@@ -14,6 +58,8 @@ export const nav = {
 
 export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
+  /** La segunda línea del título: lo normal y lo que va en cursiva */
+  enfasis: ['una ', 'historia.'],
   bajada: 'Falta contarla donde te buscan.',
   queHacemos: 'Estudio de diseño y desarrollo web · De Buenos Aires al mundo',
   verPrecios: 'Ver precios →',
@@ -25,6 +71,7 @@ export const actoUno = {
   golpe: ['No lee.', 'Mira.'],
   generica: {
     marca: 'Tu Marca',
+    menu: ['Inicio', 'Nosotros', 'Servicios', 'Contacto'],
     titulo: 'Bienvenidos a nuestro sitio web',
     texto: 'Somos una empresa líder comprometida con la excelencia y la calidad en cada uno de nuestros servicios.',
     boton: 'Saber más',
@@ -34,6 +81,7 @@ export const actoUno = {
   notas: ['Una plantilla que usan otras mil marcas.', 'Una foto de stock.', '“Saber más”… ¿de qué?'],
   cuenta: 'segundos para decidir',
   cierre: ['Y se va.', 'No perdiste una visita.', 'Perdiste un cliente.'],
+  cierreEnfasis: ['Perdiste un ', 'cliente.'],
 };
 
 export const actoDos = {
@@ -44,6 +92,8 @@ export const actoDos = {
     { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va.' },
     { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.' },
   ],
+  pesa: 'Esta página pesa',
+  poco: 'poco',
 };
 
 export const giro = {
@@ -54,10 +104,15 @@ export const giro = {
 
 export const technicolor = {
   grito: ['Y a veces', 'más', 'es más.'],
+  /** Las tres letras del "MÁS" grande, cada una con su color */
+  letras: ['M', 'Á', 'S'],
+  cinta: ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'],
   /** Lo que se lee sobre el tráiler de proyectos: son trabajos nuestros */
   firma: 'Algunas que hicimos nosotros',
   verTodos: 'Ver todos los proyectos',
   corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu marca.'],
+  corteEnfasis: ['Es saber cuál necesita tu ', 'marca.'],
+  webDe: 'Web de {titulo}',
 };
 
 export const actoTres = {
@@ -93,12 +148,28 @@ export const proyectosPagina = {
   cerca: 'Cerca de lo tuyo',
   verCaso: 'Ver el caso',
   verEnVivo: 'Ver en vivo',
+  otraPestana: '(se abre en otra pestaña)',
   siguiente: 'Siguiente proyecto',
-  volver: 'Todos los proyectos',
-  inicio: 'Inicio',
   volverAtras: 'Volver',
+  enCelular: '(En el celular)',
+  portadaDe: 'Portada de la web de {titulo}',
+  pantallaDe: '{titulo}, pantalla {n}',
+  celularDe: '{titulo} en el celular',
+  mostrandoPrimero: 'Mostrando primero proyectos de {rubro}',
   ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
   secciones: { cliente: 'El cliente', desafio: 'El desafío', solucion: 'Lo que hicimos', destacados: 'Detalles', resultado: 'Resultado' },
+  /** Los créditos al pie de cada afiche de proyecto */
+  afiche: { estreno: 'Estreno 2026', pantallas: 'En todas las pantallas' },
+};
+
+/** Los rubros, como se leen en los botones (los ids están en story/opciones.ts) */
+export const rubros = {
+  gastronomia: 'Gastronomía',
+  moda: 'Moda',
+  salud: 'Salud y bienestar',
+  servicios: 'Servicios profesionales',
+  arte: 'Arte y diseño',
+  otro: 'Otros',
 };
 
 export const creativos = {
@@ -113,6 +184,7 @@ export const creditos = {
     { nombre: 'Giuliana', rol: 'Dirección · Desarrollo' },
     { nombre: 'Facundo', rol: 'Dirección · Desarrollo' },
   ],
+  y: 'y',
   lema: ['Pareja y socios.', 'Una misma mirada.'],
   ficha: [
     ['Diseño y desarrollo', 'Giuliana y Facundo'],
@@ -135,10 +207,20 @@ export const cierre = {
   compartir: 'Compartir',
   alternativa: 'o escribinos a',
   formulario: 'O contanos más en el formulario →',
+  /** El mail que se arma con el link de abajo del afiche */
+  mail: {
+    asunto: 'La historia de {marca}',
+    asuntoSinMarca: 'Mi historia',
+    cuerpo: 'Hola Roda, soy de {marca}. Queremos empezar a contar nuestra historia.',
+    cuerpoSinMarca: 'Hola Roda, quiero contarles mi historia.',
+  },
+  /** Para lectores de pantalla: lo que muestra el afiche */
+  descripcion: 'Afiche de estreno: Roda presenta {marca}. {antes}. {genero}{estreno} {soloEn} {dominio}.',
   /** Lo que dice el afiche, de arriba hacia abajo */
   afiche: {
     presenta: 'presenta',
     antes: 'Una historia que todavía no contamos',
+    historiaPara: 'Una historia para que {objetivo}',
     /** Lo que respondiste en la web cambia el afiche: para qué es, si es un reestreno y el género */
     paraQue: { escriba: 'te escriban', compre: 'te compren', reserve: 'te reserven', vea: 'vean tu trabajo' },
     reestreno: 'Reestreno',
@@ -153,6 +235,7 @@ export const cierre = {
     ],
     proximamente: 'Próximamente',
     soloEn: 'solo en',
+    dominio: 'tumarca.com',
   },
   postCreditos: 'Si llegaste hasta acá, ya sabés que nos gustan los buenos finales. Empecemos el tuyo.',
 };
@@ -170,7 +253,6 @@ export const planes = {
   adicionales: {
     rotulo: 'Adicionales',
     titulo: 'Sumale lo que necesites.',
-    consultar: 'Consultanos',
     lista: [
       { nombre: 'Panel propio', detalle: 'Subís tus proyectos, productos y novedades sin depender de nadie', precio: 150 },
       { nombre: 'Turnos y reservas', detalle: 'Te reservan solos, a cualquier hora', precio: 100 },
@@ -217,6 +299,9 @@ export const preciosPagina = {
     extras: ['02', 'Sumale'],
     preguntas: ['03', 'Preguntas'],
   },
+  queTrae: 'Qué trae {plan}',
+  defineElPlan: 'Lo que define el plan',
+  precio: 'Precio: {moneda} {precio}',
   /** Lo que define cada plan va siempre a la vista, fuera de las lengüetas */
   fichas: {
     landing: { ideal: 'Ideal si estás arrancando o lanzás algo puntual.', clave: ['1 página'], mantenimiento: 20 },
@@ -225,8 +310,7 @@ export const preciosPagina = {
   },
   /** El mantenimiento: opcional, por mes, con tope de cambios. PENDIENTE (Giuli/Facu): confirmar el tope de 4 cambios. */
   mantenimiento: {
-    linea: (precio: number) => `Mantenimiento opcional: US$ ${precio}/mes`,
-    explicacion: 'Opcional, sin permanencia: hasta 4 cambios por mes (textos, fotos, precios o productos). Lo que no usás no se acumula; secciones o funciones nuevas se cotizan aparte.',
+    linea: 'Mantenimiento opcional: US$ {precio}/mes',
   },
   /** "Todas incluyen", como los créditos de una película */
   creditos: {
@@ -242,11 +326,15 @@ export const preciosPagina = {
     ],
     aviso: 'Ninguna web de esta cartelera viene con letra chica.',
   },
-  /** El precio real es en dólares; el interruptor muestra cuánto sale hoy en pesos (cotización de DolarApi) */
+  /**
+   * El precio real es en dólares; el interruptor muestra cuánto sale hoy en moneda local.
+   * tipo: 'ars' (DolarApi, dólar oficial), 'brl' (Frankfurter) o '' (sin interruptor).
+   */
   moneda: {
+    tipo: 'ars',
     etiqueta: 'Ver cuánto sale hoy en pesos',
-    hoy: (pesos: string) => 'Hoy: $ ' + pesos,
-    cotizacion: (valor: string, fecha: string) => 'Dólar oficial $ ' + valor + ' · ' + fecha,
+    hoy: 'Hoy: $ {valor}',
+    cotizacion: 'Dólar oficial $ {valor} · {fecha}',
   },
   pedir: 'Quiero esta',
   /** Las lengüetas de cada carpeta: solo dicen el tamaño de la web (una página, varias, una tienda) */
@@ -329,38 +417,43 @@ export const contactoPagina = {
   },
   exito: {
     titulo: '¡Listo!',
-    texto: (nombre: string) => 'Gracias, ' + nombre + '. Ya nos llegó tu consulta: te escribimos pronto.',
+    texto: 'Gracias, {nombre}. Ya nos llegó tu consulta: te escribimos pronto.',
     whatsapp: '¿Querés hablar ya? Abrí WhatsApp',
   },
   errorEnvio: 'No pudimos enviarlo. Probá de nuevo en un ratito: tus datos quedan cargados.',
-  asunto: (tipo: string, nombre: string) => 'Nueva consulta: ' + tipo + ' — ' + nombre,
   directo: '¿Preferís escribir directo?',
   directoCta: 'Abrir WhatsApp',
-  /** Cómo llega el mensaje a nuestro WhatsApp */
+  /** Cómo llega el mensaje (WhatsApp y el resumen para Cal.com). Los mails a Roda van siempre en español. */
   lineas: {
-    hola: (nombre: string, marca: string) => '¡Hola Roda! Soy ' + nombre + (marca ? ', de ' + marca : '') + '.',
-    busco: (tipo: string) => 'Busco: ' + tipo + '.',
-    resolver: (texto: string) => 'Me gustaría resolver: ' + texto,
-    web: (web: string) => 'Mi web o Instagram: ' + web,
-    contacto: (dato: string) => 'Me contactan por: ' + dato,
+    hola: '¡Hola Roda! Soy {nombre}{marca}.',
+    holaMarca: ', de {marca}',
+    busco: 'Busco: {tipo}.',
+    resolver: 'Me gustaría resolver: {texto}',
+    web: 'Mi web o Instagram: {web}',
+    contacto: 'Me contactan por: {dato}',
   },
 };
 
 /** La crítica dice: los fragmentos de los testimonios en la home, antes de la cartelera */
-export const laCritica = { titulo: 'La crítica dice' };
+export const laCritica = { titulo: 'La crítica dice', completo: 'Lo que dice la crítica' };
 
 /** La cartelera: cada plan es una película (los mismos tres de /precios). Cada afiche lleva a su carpeta. dibujo: qué escena lleva. */
 export const cartelera = {
   rotulo: ['04', 'Lo que hacemos'],
   titulo: ['En cartelera.', 'Tres webs, tres géneros.'],
   deslizar: 'Deslizá para ver más',
+  navegar: 'Navegar cartelera',
+  anterior: 'Ver película anterior',
+  siguiente: 'Ver siguiente película',
+  presenta: 'presenta',
+  escribinos: 'Escribinos →',
   enCartel: 'En cartel',
   peliculas: [
     { id: 'landing', dibujo: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'US$ 300', color: 'rojo' },
     { id: 'multiseccion', dibujo: 'portfolio', articulo: 'La', titulo: 'Multisección', frase: 'Tu trabajo, en pantalla grande.', creditos: 'Hasta 5 páginas · Para contarlo todo', precio: 'US$ 400', color: 'rosa' },
     { id: 'tienda', dibujo: 'tienda', articulo: 'La', titulo: 'Tienda', frase: 'Vende mientras dormís.', creditos: 'Con tus productos · Y pagos en línea', precio: 'US$ 550', color: 'amarillo' },
   ],
-} as const;
+};
 
 // PENDIENTE (Giuli/Facu): si va "Producida en Buenos Aires".
 export const nosotros = {
@@ -405,6 +498,25 @@ export const nosotros = {
     { nombre: 'Facundo Thibaut', texto: 'Está terminando la Tecnicatura en Desarrollo Web en la UNLaM.' },
   ],
   juntos: 'Y los dos estamos por empezar la Licenciatura en Ciberdefensa.',
+  filmamos: ['¿Filmamos', 'la tuya?'],
   cta: 'Hablemos',
-  mensaje: '¡Hola! Vi quiénes son en la web de Roda y quiero contarles mi historia.',
+};
+
+/** La página de privacidad. **así** va en negrita y {mail} es el link al mail. */
+export const privacidad = {
+  rotulo: 'Privacidad',
+  titulo: 'Tus datos, cuidados.',
+  parrafos: [
+    'Cuando completás el formulario de contacto, nos llegan los datos que escribiste: tu nombre, tu WhatsApp o mail, tu marca, tu web y tu mensaje. Si agendás una llamada, Cal.com nos pasa tu nombre, tu mail y el horario elegido.',
+    '**Los usamos solo para responderte** y, si trabajamos juntos, para hacer tu web. No los vendemos, no los compartimos con nadie para publicidad y no te sumamos a ninguna lista de correo.',
+    'Para recibirlos usamos dos servicios: Web3Forms (el formulario nos llega por mail) y Cal.com (la agenda de reuniones). La web está alojada en Vercel. No usamos cookies de publicidad ni de seguimiento.',
+    'Podés pedirnos ver, corregir o borrar tus datos cuando quieras escribiendo a {mail}. Es tu derecho según la Ley 25.326 de Protección de Datos Personales.',
+  ],
+};
+
+/** La 404: la escena que se cortó en el montaje */
+export const error404 = {
+  rotulo: 'Escena eliminada',
+  titulo: ['Esta parte', 'no quedó en el ', 'corte final.'],
+  cta: 'Volver al inicio',
 };

@@ -1,7 +1,9 @@
 ---
-import { cartelera, planes } from '../content/guion';
+import { idiomaDe, ruta, textos } from '../i18n';
 import Rotulo from '../components/Rotulo.astro';
 import Marca from '../components/Marca.astro';
+const idioma = idiomaDe(Astro.currentLocale);
+const { cartelera, planes } = textos(idioma);
 
 const colores = {
   rosa: 'var(--color-tc-rosa)',
@@ -9,7 +11,7 @@ const colores = {
   amarillo: 'var(--color-tc-amarillo)',
   rojo: 'var(--color-tc-rojo)',
   azul: 'var(--color-tc-azul)',
-} as const;
+} as Record<string, string>;
 ---
 <!-- La cartelera: cada tipo de web es una película. En el celular se desliza de costado. -->
 <section id="cartelera" class="py-24 md:py-32" aria-labelledby="cartelera-titulo">
@@ -23,7 +25,7 @@ const colores = {
     </div>
 
     <!-- Controles de navegación horizontal en mobile -->
-    <div class="flex items-center justify-between sm:justify-start gap-4 lg:hidden" aria-label="Navegar cartelera">
+    <div class="flex items-center justify-between sm:justify-start gap-4 lg:hidden" aria-label={cartelera.navegar}>
       <span class="mono text-[0.75rem] text-tinta/60 tracking-wider flex items-center gap-1.5">
         <span class="inline-block w-2 h-2 rounded-full bg-tc-rosa animate-pulse"></span>
         {cartelera.deslizar}
@@ -32,7 +34,7 @@ const colores = {
         <button
           type="button"
           class="btn-tira-nav btn-prev inline-flex items-center justify-center w-11 h-11 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-95 transition-transform"
-          aria-label="Ver película anterior"
+          aria-label={cartelera.anterior}
         >
           <!-- Flecha dibujada (no un carácter): así queda centrada exacta en el círculo -->
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
@@ -40,7 +42,7 @@ const colores = {
         <button
           type="button"
           class="btn-tira-nav btn-next inline-flex items-center justify-center w-11 h-11 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-95 transition-transform"
-          aria-label="Ver siguiente película"
+          aria-label={cartelera.siguiente}
         >
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </button>
@@ -51,15 +53,15 @@ const colores = {
   <ul class="tira mt-10 md:mt-20" data-revelar="4" data-lenis-prevent="true">
     {cartelera.peliculas.map((p) => (
       <li>
-        <a href={`/precios#${p.id}`} class="afiche" style={`--color:${colores[p.color]}`} aria-label={`${p.articulo} ${p.titulo}: ${p.frase} ${p.precio}`}>
+        <a href={`${ruta(idioma, 'precios')}#${p.id}`} class="afiche" style={`--color:${colores[p.color]}`} aria-label={`${p.articulo} ${p.titulo}: ${p.frase} ${p.precio}`}>
           <div class="interior">
-          <p class="presenta" aria-hidden="true"><Marca /><span>presenta</span></p>
+          <p class="presenta" aria-hidden="true"><Marca /><span>{cartelera.presenta}</span></p>
           <div class="escena" aria-hidden="true">
             <span class="sol"></span>
             <div class={`dibujo dibujo-${p.dibujo}`}>
               {p.dibujo === 'portfolio' && Array.from({ length: 9 }, (_, i) => <i class:list={{ destacado: i === 4 }} style={`--o:${0.12 + (i % 3) * 0.1}`}></i>)}
               {p.dibujo === 'tienda' && <><span class="bolsa">2</span>{[0, 1, 2, 3].map((i) => <div><i class:list={{ destacado: i === 1 }}></i><s></s><u></u></div>)}</>}
-              {p.dibujo === 'landing' && <><s></s><s class="corta"></s><span class="boton">Escribinos →</span></>}
+              {p.dibujo === 'landing' && <><s></s><s class="corta"></s><span class="boton">{cartelera.escribinos}</span></>}
             </div>
           </div>
           <p class="frase" aria-hidden="true">{p.frase}</p>
@@ -75,7 +77,7 @@ const colores = {
   <!-- Los precios ya están en los afiches: abajo solo lo que incluyen todas y el detalle completo -->
   <div class="mt-4 flex flex-col gap-5 px-5 md:px-12 lg:flex-row lg:items-center lg:justify-between" data-revelar="6">
     <p class="mono text-gris">{planes.todas.join(' · ')}</p>
-    <a href="/precios" class="cta self-start">{planes.verTodo}</a>
+    <a href={ruta(idioma, 'precios')} class="cta self-start">{planes.verTodo}</a>
   </div>
 </section>
 

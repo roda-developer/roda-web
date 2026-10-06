@@ -1,6 +1,9 @@
 /** La lógica del afiche final: qué nombre se muestra, cómo entra y qué dominio le inventamos. */
-import { cierre } from '../content/guion';
-import { RUBROS, type Respuestas } from './opciones';
+import type { cierre as CierreES } from '../content/guion';
+import type { Respuestas } from './opciones';
+
+/** Los textos del cierre, en el idioma de la página (la forma es la del guion en español) */
+export type TextosCierre = typeof CierreES;
 
 export interface TextosAfiche {
   /** La frase arriba del nombre */
@@ -9,15 +12,18 @@ export interface TextosAfiche {
   estreno: string;
   /** El rubro, para los créditos */
   genero: string | null;
+  /** Las palabras fijas del afiche (presenta, créditos, "solo en"…) en el idioma de la página */
+  palabras: TextosCierre['afiche'];
 }
 
 /** Lo que respondiste en la web aparece en tu afiche. */
-export function textosAfiche(r: Respuestas): TextosAfiche {
+export function textosAfiche(r: Respuestas, cierre: TextosCierre, rubros: Record<string, string>): TextosAfiche {
   const a = cierre.afiche;
   return {
-    antes: r.objetivo ? `Una historia para que ${a.paraQue[r.objetivo]}` : a.antes,
+    antes: r.objetivo ? a.historiaPara.replace('{objetivo}', a.paraQue[r.objetivo]) : a.antes,
     estreno: r.situacion === 'no-representa' || r.situacion === 'quiero-mas' ? a.reestreno : a.proximamente,
-    genero: r.rubro && r.rubro !== 'otro' ? (RUBROS.find((x) => x.id === r.rubro)?.label ?? null) : null,
+    genero: r.rubro && r.rubro !== 'otro' ? (rubros[r.rubro] ?? null) : null,
+    palabras: a,
   };
 }
 
