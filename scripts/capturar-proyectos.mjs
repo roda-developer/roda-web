@@ -22,7 +22,8 @@ const AJUSTES = {
   fidalgo: { espera: 9000 },
   // The Magical Duo arranca con un preloader ("Preparando la magia...")
   tmd: { espera: 8000 },
-  newave: { espera: 6000 },
+  // En el celu se muestra el catálogo de productos, no la portada
+  newave: { espera: 6000, movil: '/productos' },
 };
 
 const solo = process.argv[2];
@@ -32,7 +33,7 @@ for (const [slug, url] of Object.entries(WEBS)) {
   if (solo && solo !== slug) continue;
   const dir = `src/assets/proyectos/${slug}`;
   mkdirSync(dir, { recursive: true });
-  const { espera = 4500, saltos = [1.2, 2.6] } = AJUSTES[slug] ?? {};
+  const { espera = 4500, saltos = [1.2, 2.6], movil = '' } = AJUSTES[slug] ?? {};
   try {
     const d = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await d.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
@@ -47,7 +48,7 @@ for (const [slug, url] of Object.entries(WEBS)) {
     await d.close();
 
     const m = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
-    await m.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
+    await m.goto(url + movil, { waitUntil: 'domcontentloaded', timeout: 60_000 });
     await m.waitForTimeout(espera);
     await m.screenshot({ path: `${dir}/mobile.jpg`, type: 'jpeg', quality: 85 });
     await m.close();
