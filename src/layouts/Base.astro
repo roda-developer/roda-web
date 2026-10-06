@@ -20,8 +20,10 @@ const { titulo = metas.inicio.titulo, descripcion = metas.inicio.descripcion } =
 const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
 const canonica = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 // La misma página en los otros idiomas, para que Google muestre la versión de cada país (hreflang)
-const alternativas = IDIOMAS.map((l) => ({ hreflang: HTML_LANG[l], href: new URL(equivalente(Astro.url.pathname, l), Astro.site ?? Astro.url).href }));
-const porDefecto = new URL(equivalente(Astro.url.pathname, 'es'), Astro.site ?? Astro.url).href;
+// Con la barra final, igual que la canónica y el sitemap
+const conBarra = (ruta: string) => (ruta.endsWith('/') ? ruta : ruta + '/');
+const alternativas = IDIOMAS.map((l) => ({ hreflang: HTML_LANG[l], href: new URL(conBarra(equivalente(Astro.url.pathname, l)), Astro.site ?? Astro.url).href }));
+const porDefecto = new URL(conBarra(equivalente(Astro.url.pathname, 'es')), Astro.site ?? Astro.url).href;
 // Los datos de la empresa para Google (schema.org)
 const empresa = {
   '@context': 'https://schema.org',
