@@ -1,5 +1,6 @@
 ---
 import Marca from '../components/Marca.astro';
+import Bandera from '../components/Bandera.astro';
 import { IDIOMAS, NOMBRE_IDIOMA, equivalente, idiomaDe, rellenar, ruta, textos } from '../i18n';
 
 interface Props {
@@ -47,14 +48,14 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
         <a href={ruta(idioma, 'precios')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
         <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
         <button type="button" class="boton-cc hidden md:inline-flex" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
-          <svg class="cc" viewBox="0 0 20 16" aria-hidden="true"><rect x="1" y="1" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 9.5h6M13 9.5h2M5 12h3M10 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>{NOMBRE_IDIOMA[idioma].corto}</span>
+          <Bandera idioma={idioma} /><span>{NOMBRE_IDIOMA[idioma].corto}</span>
         </button>
       </div>
 
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
       <div class="flex md:hidden items-center justify-end gap-1">
         <button type="button" class="boton-cc inline-flex md:hidden" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
-          <svg class="cc" viewBox="0 0 20 16" aria-hidden="true"><rect x="1" y="1" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 9.5h6M13 9.5h2M5 12h3M10 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>{NOMBRE_IDIOMA[idioma].corto}</span>
+          <Bandera idioma={idioma} /><span>{NOMBRE_IDIOMA[idioma].corto}</span>
         </button>
         <button
           type="button"
@@ -112,7 +113,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     {idiomas.map((i) => (
       <li>
         <a href={i.href} hreflang={i.l} lang={i.l} aria-current={i.l === idioma ? 'true' : undefined} class="opcion-cc">
-          <span class="check-cc" aria-hidden="true">✓</span>{i.largo}
+          <span class="check-cc" aria-hidden="true">✓</span><Bandera idioma={i.l} />{i.largo}
         </a>
       </li>
     ))}
@@ -240,18 +241,13 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat;
     transition: background-size 0.5s var(--ease-cine);
   }
-  /* Subtítulos: el botón es el ícono de subtítulos + la sigla del idioma */
+  /* Subtítulos: el botón es la banderita + la sigla del idioma */
   .boton-cc {
     min-height: 2.75rem; align-items: center; gap: 0.4rem; padding: 0 0.25rem;
     color: currentColor; background: transparent; border: 0; cursor: pointer; touch-action: manipulation;
-    opacity: 0.7; transition: opacity 0.3s;
+    opacity: 0.85; transition: opacity 0.3s;
   }
   .boton-cc:hover, .boton-cc[aria-expanded='true'] { opacity: 1; }
-  .cc { width: 1.15rem; height: auto; }
-  .cc rect, .cc path { transition: fill 0.25s, stroke 0.25s; }
-  .boton-cc[aria-expanded='true'] .cc rect { fill: currentColor; }
-  .boton-cc[aria-expanded='true'] .cc path { stroke: var(--color-papel); }
-  .nav.sobre-oscuro .boton-cc[aria-expanded='true'] .cc path { stroke: var(--color-negro); }
 
   /* El panel: una tarjeta de papel, como el menú de un reproductor */
   .panel-cc {
@@ -266,9 +262,9 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
   .opcion-cc {
     display: flex; align-items: center; gap: 0.75rem; min-height: 3rem;
     font-family: var(--font-titulo); font-size: 1.5rem; letter-spacing: -0.02em; text-transform: none;
-    opacity: 0.5; transition: opacity 0.25s;
+    color: color-mix(in oklab, var(--color-tinta) 50%, transparent); transition: color 0.25s;
   }
-  .opcion-cc:hover, .opcion-cc:focus-visible, .opcion-cc[aria-current='true'] { opacity: 1; }
+  .opcion-cc:hover, .opcion-cc:focus-visible, .opcion-cc[aria-current='true'] { color: var(--color-tinta); }
   .check-cc { width: 1rem; font-size: 0.9rem; color: var(--color-tc-rosa); visibility: hidden; }
   .opcion-cc[aria-current='true'] .check-cc { visibility: visible; }
   .velo-cc { position: fixed; inset: 0; z-index: 55; background: rgb(0 0 0 / 0.3); opacity: 0; transition: opacity 0.3s; }
