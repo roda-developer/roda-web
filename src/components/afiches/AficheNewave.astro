@@ -1,0 +1,53 @@
+---
+/** Newave: un afiche de cine de acción. Negro, los productos flotando y su lema en letra de impacto, el último en dorado. */
+import { Image } from 'astro:assets';
+import { capturas } from '../../content/capturas';
+import Creditos from './Creditos.astro';
+
+const foto = capturas('newave').afiche;
+---
+<div class="newave" aria-hidden="true">
+  <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 30vw, 100vw" loading="lazy" class="newave-foto" />
+  <div class="newave-sombra"></div>
+
+  <p class="newave-marca">NEWAVE.</p>
+
+  <div class="newave-pie">
+    <p class="newave-titulo"><span>ENERGÍA.</span><span>FUERZA.</span><span class="newave-calado">RESULTADOS.</span></p>
+    <Creditos class="newave-creditos" slug="newave" />
+  </div>
+</div>
+
+<style>
+  .newave { position: absolute; inset: 0; overflow: hidden; background: #0b0b0c; color: #fff; }
+  .newave-foto { position: absolute; inset: 0 0 18% 0; width: 100%; height: 82%; object-fit: cover; object-position: center 20%; }
+  .newave-sombra { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(11 11 12 / 0.7) 0%, transparent 18%, transparent 40%, #0b0b0c 70%); }
+
+  /* Su logo: grotesca negra, cursiva y espaciada */
+  .newave-marca {
+    position: absolute; top: 5cqi; left: 0; right: 0; text-align: center;
+    font-family: var(--font-titulo); font-weight: 900; font-style: italic;
+    font-size: 5.4cqi; letter-spacing: 0.2em;
+  }
+
+  .newave-pie { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 6cqi 5cqi; }
+  .newave-titulo {
+    font-family: var(--font-titulo); font-weight: 900;
+    font-size: 14cqi; line-height: 0.9; letter-spacing: -0.055em;
+  }
+  .newave-titulo span { display: block; }
+  /* RESULTADOS: en dorado, como en su portada */
+  .newave-calado { color: #c9a456; }
+  :global(.newave-creditos) { margin-top: 5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(255 255 255 / 0.6); --creditos-estreno: #c9a456; }
+
+  /* Apaisado (en la compu ocupa dos columnas): los productos a la derecha, el lema a la izquierda, como su portada */
+  .newave { container-type: size; }
+  @container (min-aspect-ratio: 1.15) {
+    .newave-foto { inset: 0 0 0 auto; width: 58%; height: 100%; object-position: center 30%; }
+    .newave-sombra { background: linear-gradient(90deg, #0b0b0c 40%, rgb(11 11 12 / 0.5) 55%, transparent 75%); }
+    .newave-marca { left: 5cqi; right: auto; text-align: left; font-size: 2.6cqi; top: 4cqi; }
+    .newave-pie { right: 45%; padding: 0 0 4cqi 5cqi; }
+    .newave-titulo { font-size: 8.4cqi; }
+    :global(.newave-creditos) { margin-top: 3cqi; --creditos-tam: 1.15cqi; text-align: left; }
+  }
+</style>

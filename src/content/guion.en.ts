@@ -14,7 +14,7 @@ export const metas: typeof ES.metas = {
   precios: { titulo: 'Pricing — Roda', descripcion: 'Landing page US$ 300, Multi-page site US$ 400, Online store US$ 550. Open each folder and see what’s inside.' },
   contacto: { titulo: 'Contact — Roda', descripcion: 'Tell us what you need: a landing page, a multi-page site, an online store or a custom system. We’ll get back to you soon.' },
   nosotros: { titulo: 'About — Roda', descripcion: 'Roda is Giuliana and Facundo: partners in life and work, web developers from Buenos Aires.' },
-  proyectos: { titulo: 'Work — Roda', descripcion: 'Websites we made: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select and Unik.' },
+  proyectos: { titulo: 'Work — Roda', descripcion: 'Websites we made: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select, Unik, The Magical Duo and Newave.' },
   privacidad: { titulo: 'Privacy — Roda', descripcion: 'What data Roda keeps when you write to us, and what we use it for.' },
   caso: '{titulo} — Roda',
   error: 'Page not found — Roda',

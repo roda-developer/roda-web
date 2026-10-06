@@ -14,7 +14,7 @@ export const metas = {
   precios: { titulo: 'Precios — Roda', descripcion: 'Landing US$ 300, Multisección US$ 400, Tienda US$ 550. Abrí cada carpeta y mirá lo que trae.' },
   contacto: { titulo: 'Contacto — Roda', descripcion: 'Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos enseguida.' },
   nosotros: { titulo: 'Nosotros — Roda', descripcion: 'Roda es Giuliana y Facundo: pareja, socios y desarrolladores web egresados de la UNLaM.' },
-  proyectos: { titulo: 'Proyectos — Roda', descripcion: 'Webs que hicimos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select y Unik.' },
+  proyectos: { titulo: 'Proyectos — Roda', descripcion: 'Webs que hicimos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select, Unik, The Magical Duo y Newave.' },
   privacidad: { titulo: 'Privacidad — Roda', descripcion: 'Qué datos guarda Roda cuando nos escribís y para qué los usamos.' },
   caso: '{titulo} — Roda',
   error: 'Página no encontrada — Roda',

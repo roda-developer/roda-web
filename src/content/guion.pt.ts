@@ -14,7 +14,7 @@ export const metas: typeof ES.metas = {
   precios: { titulo: 'Preços — Roda', descripcion: 'Landing US$ 300, Multipágina US$ 400, Loja US$ 550. Abra cada pasta e veja o que vem dentro.' },
   contacto: { titulo: 'Contato — Roda', descripcion: 'Conte o que você procura: uma landing, um site multipágina, uma loja online ou um sistema sob medida. Respondemos rapidinho.' },
   nosotros: { titulo: 'Sobre — Roda', descripcion: 'A Roda é Giuliana e Facundo: casal, sócios e desenvolvedores web de Buenos Aires.' },
-  proyectos: { titulo: 'Projetos — Roda', descripcion: 'Sites que fizemos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select e Unik.' },
+  proyectos: { titulo: 'Projetos — Roda', descripcion: 'Sites que fizemos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select, Unik, The Magical Duo e Newave.' },
   privacidad: { titulo: 'Privacidade — Roda', descripcion: 'Quais dados a Roda guarda quando você nos escreve e para que usamos.' },
   caso: '{titulo} — Roda',
   error: 'Página não encontrada — Roda',

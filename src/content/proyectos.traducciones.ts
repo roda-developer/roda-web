@@ -11,6 +11,32 @@ export type TextosProyecto = Pick<Proyecto, 'logline' | 'genero' | 'rol' | 'clie
 
 export const TRADUCCIONES: Record<'en' | 'pt', Record<string, TextosProyecto>> = {
   en: {
+    newave: {
+      logline: 'Energy. Strength. Results.',
+      genero: 'Online store',
+      rol: 'Design and development',
+      cliente: 'A sports supplement store: protein, creatine, pre-workouts, minerals, collagen and snacks.',
+      desafio: 'A store carrying many brands had to look premium and tidy, and take people from the catalog to checkout without detours.',
+      solucion: [
+        'A dark store with gold details, high-impact type and products floating on the home page, in tune with the world of training.',
+        'A catalog by category, a page for each product, search, user accounts and a shopping cart.',
+      ],
+      destacados: ['Catalog in six categories', 'Best sellers on the home page', 'Search, user accounts and cart'],
+      creditosAfiche: 'Roda {presents} Newave {a store for} sports supplements {with} a catalog by category {and} a shopping cart {design and development} Facundo Thibaut',
+    },
+    tmd: {
+      logline: 'Your dream trip, one message away.',
+      genero: 'Travel agency website',
+      rol: 'Design and development',
+      cliente: 'Travel agents from Buenos Aires specializing in Disney, Universal, cruises and the Caribbean, with personal advice in Spanish.',
+      desafio: 'Selling a trip is selling a dream. The website had to make people want to travel and, at the same time, turn every visit into a conversation with them.',
+      solucion: [
+        'A home page that moves through the six destinations (Disney, Universal, cruises, beaches, tours and hotels) with full-screen photos and the brand\'s promise: "Your dream trip, one message away".',
+        'A page for each service and another for packages, a form that lands straight in their inbox and WhatsApp always at hand.',
+      ],
+      destacados: ['Six destinations in a full-screen carousel', 'Custom cursor and particles in the brand colors', 'WhatsApp one tap away from any page'],
+      creditosAfiche: 'Roda {presents} The Magical Duo {a travel agency for} Disney · Universal · cruises · Caribbean {design and development} Giuliana Di Rocco · Facundo Thibaut',
+    },
     muda: {
       logline: 'Aesthetics with purpose.',
       genero: 'Website + own dashboard',
@@ -110,6 +136,32 @@ export const TRADUCCIONES: Record<'en' | 'pt', Record<string, TextosProyecto>> =
     },
   },
   pt: {
+    newave: {
+      logline: 'Energia. Força. Resultados.',
+      genero: 'Loja online',
+      rol: 'Design e desenvolvimento',
+      cliente: 'Loja de suplementos esportivos: proteínas, creatinas, pré-treinos, minerais, colágenos e snacks.',
+      desafio: 'Uma loja com produtos de muitas marcas tinha que parecer premium e organizada, e levar do catálogo à compra sem rodeios.',
+      solucion: [
+        'Uma loja escura com detalhes dourados, tipografia de alto impacto e os produtos flutuando na página inicial, em sintonia com o mundo do treino.',
+        'Um catálogo por categorias, uma página para cada produto, busca, conta de usuário e carrinho de compras.',
+      ],
+      destacados: ['Catálogo em seis categorias', 'Os mais vendidos na página inicial', 'Busca, conta de usuário e carrinho'],
+      creditosAfiche: 'Roda {apresenta} Newave {uma loja de} suplementos esportivos {com} catálogo por categorias {e} carrinho de compras {design e desenvolvimento} Facundo Thibaut',
+    },
+    tmd: {
+      logline: 'A viagem dos seus sonhos, a uma mensagem de distância.',
+      genero: 'Site de agência de viagens',
+      rol: 'Design e desenvolvimento',
+      cliente: 'Agentes de viagem de Buenos Aires especializados em Disney, Universal, cruzeiros e Caribe, com atendimento personalizado em espanhol.',
+      desafio: 'Vender uma viagem é vender um sonho. O site tinha que dar vontade de viajar e, ao mesmo tempo, levar cada visita a uma conversa com eles.',
+      solucion: [
+        'Uma página inicial que passa pelos seis destinos (Disney, Universal, cruzeiros, praias, passeios e hotéis) com fotos em tela cheia e a promessa da marca: "A viagem dos seus sonhos, a uma mensagem de distância".',
+        'Uma página para cada serviço e outra de pacotes, um formulário que chega direto no e-mail deles e o WhatsApp sempre à mão.',
+      ],
+      destacados: ['Seis destinos num carrossel em tela cheia', 'Cursor próprio e partículas nas cores da marca', 'WhatsApp a um toque de qualquer página'],
+      creditosAfiche: 'Roda {apresenta} The Magical Duo {uma agência de viagens para} Disney · Universal · cruzeiros · Caribe {design e desenvolvimento} Giuliana Di Rocco · Facundo Thibaut',
+    },
     muda: {
       logline: 'Estética com propósito.',
       genero: 'Site + painel próprio',

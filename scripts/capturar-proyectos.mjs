@@ -11,6 +11,8 @@ const WEBS = {
   craft: 'https://craftstudio.com.ar',
   fidalgo: 'https://fidalgoselect.com',
   unik: 'https://unik-kappa.vercel.app',
+  tmd: 'https://themagicalduo.com',
+  newave: 'https://newave-suplementos.vercel.app',
 };
 
 // Ajustes por web: cuánto esperar a que cargue y cuánto bajar entre capturas (en pantallas).
@@ -18,6 +20,9 @@ const AJUSTES = {
   // MUDA traba el scroll en la sección "Estética": más abajo sale siempre la misma pantalla.
   muda: { saltos: [1.2] },
   fidalgo: { espera: 9000 },
+  // The Magical Duo arranca con un preloader ("Preparando la magia...")
+  tmd: { espera: 8000 },
+  newave: { espera: 6000 },
 };
 
 const solo = process.argv[2];

@@ -45,6 +45,42 @@ export interface Testimonio {
 // Están escritos a partir de cada repo; nada de lo que dice es inventado, pero puede faltar contexto.
 export const PROYECTOS: Proyecto[] = [
   {
+    slug: 'newave',
+    creditosAfiche: 'Roda {presenta} Newave {una tienda de} suplementos deportivos {con} catálogo por categorías {y} carrito de compras {diseño y desarrollo} Facundo Thibaut',
+    titulo: 'Newave',
+    rubro: 'salud',
+    logline: 'Energía. Fuerza. Resultados.',
+    genero: 'Tienda online',
+    anio: 2026,
+    rol: 'Diseño y desarrollo',
+    url: 'https://newave-suplementos.vercel.app',
+    cliente: 'Tienda de suplementos deportivos: proteínas, creatinas, pre entrenos, minerales, colágenos y comestibles.',
+    desafio: 'Una tienda con productos de muchas marcas tenía que verse premium y ordenada, y llevar del catálogo a la compra sin vueltas.',
+    solucion: [
+      'Una tienda oscura con detalles dorados, letra de alto impacto y los productos flotando en la portada, en sintonía con el mundo del entrenamiento.',
+      'Un catálogo por categorías, una página para cada producto, buscador, cuenta de usuario y carrito de compras.',
+    ],
+    destacados: ['Catálogo en seis categorías', 'Los más vendidos, en la portada', 'Buscador, cuenta de usuario y carrito'],
+  },
+  {
+    slug: 'tmd',
+    creditosAfiche: 'Roda {presenta} The Magical Duo {una agencia de viajes a} Disney · Universal · cruceros · Caribe {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
+    titulo: 'The Magical Duo',
+    rubro: 'servicios',
+    logline: 'Tu viaje soñado, a un mensaje de distancia.',
+    genero: 'Web de agencia de viajes',
+    anio: 2026,
+    rol: 'Diseño y desarrollo',
+    url: 'https://themagicalduo.com',
+    cliente: 'Agentes de viajes de Buenos Aires especializados en Disney, Universal, cruceros y el Caribe, con asesoramiento personalizado en español.',
+    desafio: 'Vender un viaje es vender un sueño. La web tenía que contagiar las ganas de viajar y, a la vez, llevar cada visita a una consulta con ellos.',
+    solucion: [
+      'Una portada que pasa por los seis destinos (Disney, Universal, cruceros, playas, tours y hoteles) con fotos a pantalla completa y la promesa de la marca: "Tu viaje soñado, a un mensaje de distancia".',
+      'Una página para cada servicio y otra de paquetes, un formulario que llega directo a su mail y WhatsApp siempre a mano.',
+    ],
+    destacados: ['Seis destinos en un carrusel a pantalla completa', 'Cursor propio y partículas con los colores de la marca', 'WhatsApp a un toque desde cualquier página'],
+  },
+  {
     slug: 'muda',
     creditosAfiche: 'Roda {presenta} MUDA {productora creativa integral} foto y video · dirección creativa · eventos · agencia de talentos · estudio en Palermo {con} panel propio {diseño y desarrollo} Giuliana Di Rocco · Facundo Thibaut',
     titulo: 'MUDA',

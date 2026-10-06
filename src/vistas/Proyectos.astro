@@ -11,6 +11,8 @@ import AficheEber from '../components/afiches/AficheEber.astro';
 import AficheCraft from '../components/afiches/AficheCraft.astro';
 import AficheUnik from '../components/afiches/AficheUnik.astro';
 import AficheFidalgo from '../components/afiches/AficheFidalgo.astro';
+import AficheTmd from '../components/afiches/AficheTmd.astro';
+import AficheNewave from '../components/afiches/AficheNewave.astro';
 import { proyectosEn } from '../content/proyectos';
 import { RUBROS } from '../story/opciones';
 import { idiomaDe, ruta, textos } from '../i18n';
@@ -32,6 +34,8 @@ const AFICHES = {
   craft: { Afiche: AficheCraft, quad: true },
   unik: { Afiche: AficheUnik, quad: true },
   fidalgo: { Afiche: AficheFidalgo, quad: false },
+  tmd: { Afiche: AficheTmd, quad: false },
+  newave: { Afiche: AficheNewave, quad: true },
 } as const;
 const orden = Object.keys(AFICHES);
 const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.indexOf(b.slug));
