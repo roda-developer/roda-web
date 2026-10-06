@@ -54,7 +54,7 @@ export const giro = {
 
 export const technicolor = {
   grito: ['Y a veces', 'más', 'es más.'],
-  /** Lo que se lee sobre la explosión de webs: son trabajos nuestros */
+  /** Lo que se lee sobre el tráiler de proyectos: son trabajos nuestros */
   firma: 'Algunas que hicimos nosotros',
   verTodos: 'Ver todos los proyectos',
   corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu marca.'],

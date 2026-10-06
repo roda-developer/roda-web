@@ -3,20 +3,16 @@ import '@fontsource-variable/bricolage-grotesque';
 import { Image } from 'astro:assets';
 import { technicolor } from '../content/guion';
 import { capturas } from '../content/capturas';
+import { PROYECTOS } from '../content/proyectos';
 
 const cinta = ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'];
 
-// La explosión: webs que hicimos, tiradas sobre la mesa. Posición en % del cuadro, giro en grados.
-const tarjetas = [
-  { img: capturas('emme').portada, alt: 'Web de Emme Digital', x: 3, y: 9, giro: -6 },
-  { img: capturas('unik').portada, alt: 'Web de Unik', x: 50, y: 5, giro: 5 },
-  { img: capturas('eber').pantallas[0], alt: 'Web de Eber', x: 28, y: 33, giro: -3 },
-  { img: capturas('unik').pantallas[1] ?? capturas('unik').portada, alt: 'Proyectos de Unik', x: 58, y: 47, giro: 7 },
-  { img: capturas('emme').pantallas[1] ?? capturas('emme').portada, alt: 'Trabajos de Emme Digital', x: 1, y: 54, giro: 4 },
-  { img: capturas('craft').portada, alt: 'Web de Craft Studio', x: 38, y: 66, giro: -5, soloGrande: true },
-  { img: capturas('muda').portada, alt: 'Web de MUDA', x: 71, y: 19, giro: -8, soloGrande: true },
-];
-const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-verde)'];
+// El tráiler: una web por vez, como los cortes de un tráiler. Las cuatro con la portada horizontal más fuerte.
+const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
+  const p = PROYECTOS.find((x) => x.slug === slug)!;
+  return { slug, titulo: p.titulo, genero: p.genero, anio: p.anio, img: capturas(slug).portada };
+});
+const total = String(tomas.length).padStart(2, '0');
 ---
 <section id="technicolor" aria-label="Technicolor: a veces más es más">
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
@@ -37,19 +33,22 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
     </div>
   </div>
 
-  <!-- La explosión: webs reales que hicimos, cayendo sobre la mesa mientras cambia el color -->
-  <div class="explosion relative h-[135svh]" data-explosion>
-    <div class="mesa sticky top-0 h-svh overflow-hidden" style={`background:${fondos[0]}`}>
-      <p class="mono absolute top-20 left-5 z-20 bg-tinta px-2 py-1 text-papel md:top-24 md:left-12">({technicolor.firma})</p>
-      {tarjetas.map((t) => (
-        <figure
-          class:list={['tarjeta', { 'hidden md:block': t.soloGrande }]}
-          style={`left:${t.x}%;top:${t.y}%;--giro:${t.giro}deg`}
-        >
-          <Image src={t.img} alt={t.alt} widths={[480, 800]} sizes="(min-width: 768px) 30vw, 46vw" loading="lazy" class="block w-full" />
-        </figure>
+  <!-- El tráiler: los proyectos de a uno, con cortes secos, sobre el mismo rosa del círculo (un solo color) -->
+  <div class="trailer relative h-[220svh]" data-trailer>
+    <div class="sala sticky top-0 h-svh overflow-hidden bg-tc-rosa text-tinta">
+      <p class="mono absolute top-20 left-5 z-20 md:top-24 md:left-12">({technicolor.firma})</p>
+      {tomas.map((t, i) => (
+        <a href={`/proyectos/${t.slug}`} class="toma" data-toma>
+          <span class="toma-cuadro">
+            <Image src={t.img} alt={`Web de ${t.titulo}`} widths={[640, 1200, 1800]} sizes="(min-width: 1024px) 60vw, 90vw" loading="lazy" class="toma-img" />
+          </span>
+          <span class="toma-pie">
+            <span class="toma-titulo">{t.titulo}</span>
+            <span class="mono">({String(i + 1).padStart(2, '0')} / {total}) · {t.genero} · {t.anio}</span>
+          </span>
+        </a>
       ))}
-      <a href="/proyectos" class="ver-todos cta absolute bottom-[6svh] left-5 z-20 md:left-12">{technicolor.verTodos}</a>
+      <a href="/proyectos" class="ver-todos cta absolute bottom-[5svh] left-5 z-20 md:left-12">{technicolor.verTodos}</a>
     </div>
   </div>
 
@@ -116,26 +115,20 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
   }
   @keyframes corre { to { transform: translateX(-50%); } }
 
-  /* La mesa de luz: capturas tiradas como fotos sobre un fondo que cambia de color */
-  .tarjeta {
-    position: absolute;
-    width: 46vw;
-    margin: 0;
-    padding: 0.35rem;
-    background: var(--color-papel);
-    box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.55);
-    transform: rotate(var(--giro));
-  }
-  /* En el celu van cinco tarjetas (no siete): las bajamos para que no tapen el rótulo ni dejen vacío el pie */
-  @media (max-width: 767px) { .tarjeta { margin-top: 14svh; } }
-  @media (min-width: 768px) { .tarjeta { width: 30vw; padding: 0.5rem; } }
+  /* El tráiler: cada toma ocupa la pantalla; la captura derecha, en un marco de papel, y el nombre grande abajo */
+  .toma { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 1.25rem; padding: 7.5rem 1.25rem 8rem; }
+  .toma-cuadro { display: block; width: min(90vw, calc((100svh - 19rem) * 1.6)); padding: 0.4rem; overflow: hidden; background: var(--color-papel); box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.55); }
+  @media (min-width: 1024px) { .toma-cuadro { width: min(60vw, calc((100svh - 17rem) * 1.6)); padding: 0.5rem; } }
+  .toma-cuadro :global(.toma-img) { display: block; width: 100%; height: auto; }
+  .toma-pie { display: grid; justify-items: center; gap: 0.45rem; text-align: center; }
+  .toma-titulo { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(2.2rem, 8vw, 4.5rem); line-height: 1; letter-spacing: -0.045em; }
 
   @media (prefers-reduced-motion: reduce) {
     .puerta { height: auto; }
     .puerta > div { position: relative; height: 100svh; }
-    .explosion { height: auto; }
-    .mesa { position: relative; height: auto; min-height: 100svh; padding: 8rem 1.25rem 3rem; display: grid; gap: 2rem; }
-    .tarjeta { position: relative; left: auto !important; top: auto !important; width: 100%; max-width: 32rem; }
+    .trailer { height: auto; }
+    .sala { position: relative; height: auto; padding: 8rem 1.25rem 3rem; display: grid; gap: 3.5rem; }
+    .toma { position: relative; inset: auto; padding: 0; }
     .ver-todos { position: relative; bottom: auto; left: auto; justify-self: start; }
   }
 </style>
@@ -167,33 +160,21 @@ const fondos = ['var(--color-tc-rojo)', 'var(--color-tc-azul)', 'var(--color-tc-
       .to({}, { duration: 1 - (llena + 0.35) > 0 ? 1 - (llena + 0.35) : 0.05 });
   }
 
-  const explosion = document.querySelector<HTMLElement>('[data-explosion]');
-  if (explosion && movimientoPermitido()) {
-    explosion.classList.add('animada');
-    const q = gsap.utils.selector(explosion);
-    const fondos = ['--color-tc-rojo', '--color-tc-azul', '--color-tc-verde'].map((v) =>
-      getComputedStyle(document.documentElement).getPropertyValue(v).trim(),
-    );
-
+  const trailer = document.querySelector<HTMLElement>('[data-trailer]');
+  if (trailer && movimientoPermitido()) {
+    const q = gsap.utils.selector(trailer);
+    const tomas = q('[data-toma]');
+    gsap.set(tomas.slice(1), { autoAlpha: 0 });
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: explosion, start: 'top 75%', end: 'bottom bottom', scrub: 0.5 },
+      scrollTrigger: { trigger: trailer, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
     });
-    // Las webs caen sobre la mesa, una atrás de otra
-    tl.from(q('.tarjeta'), {
-      scale: 0.3,
-      opacity: 0,
-      yPercent: 80,
-      rotate: (i: number) => (i % 2 ? 30 : -30),
-      stagger: 0.18,
-      duration: 0.5,
-      ease: 'back.out(1.6)',
-    }, 0);
-    // La mesa cambia de color mientras caen las webs
-    [1, 2].forEach((n) => {
-      tl.to(q('.mesa'), { backgroundColor: fondos[n], duration: 0.15 }, n * 0.6);
+    const tramo = 1 / tomas.length;
+    tomas.forEach((toma, i) => {
+      // Cada plano se acerca apenas mientras dura, como una cámara que empuja
+      tl.fromTo(toma.querySelector('.toma-img'), { scale: 1.06 }, { scale: 1, duration: tramo }, i * tramo);
+      // Corte seco al siguiente
+      if (i > 0) tl.set(tomas[i - 1], { autoAlpha: 0 }, i * tramo).set(toma, { autoAlpha: 1 }, i * tramo);
     });
-    // Las capturas se mueven distinto mientras bajás: la mesa respira
-    tl.to(q('.tarjeta'), { yPercent: (i: number) => (i % 2 ? -18 : 12), rotate: (i: number) => (i % 2 ? '+=4' : '-=4'), duration: 2.2 }, 0.2);
   }
 </script>
