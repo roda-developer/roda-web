@@ -55,7 +55,8 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
       <div class="flex md:hidden items-center justify-end gap-1">
         <button type="button" class="boton-cc inline-flex md:hidden" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
-          <Bandera idioma={idioma} /><span>{NOMBRE_IDIOMA[idioma].corto}</span>
+          <!-- En el celu, solo la bandera: la barra queda más liviana -->
+          <Bandera idioma={idioma} />
         </button>
         <button
           type="button"
