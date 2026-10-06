@@ -1,6 +1,6 @@
 ---
 import Marca from '../components/Marca.astro';
-import { IDIOMAS, NOMBRE_IDIOMA, equivalente, idiomaDe, ruta, textos } from '../i18n';
+import { IDIOMAS, NOMBRE_IDIOMA, equivalente, idiomaDe, rellenar, ruta, textos } from '../i18n';
 
 interface Props {
   /** En la home el logo no es link (ya estás ahí); en las otras páginas vuelve a la home */
@@ -46,15 +46,16 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       <div class="hidden md:flex items-center justify-end gap-5 md:gap-8">
         <a href={ruta(idioma, 'precios')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
         <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
-        <ul class="idiomas" aria-label={ui.idioma}>
-          {idiomas.map((i) => (
-            <li><a href={i.href} hreflang={i.l} lang={i.l} aria-label={i.largo} aria-current={i.l === idioma ? 'true' : undefined} class="idioma inline-flex min-h-11 items-center">{i.corto}</a></li>
-          ))}
-        </ul>
+        <button type="button" class="boton-cc hidden md:inline-flex" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
+          <svg class="cc" viewBox="0 0 20 16" aria-hidden="true"><rect x="1" y="1" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 9.5h6M13 9.5h2M5 12h3M10 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>{NOMBRE_IDIOMA[idioma].corto}</span>
+        </button>
       </div>
 
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
-      <div class="flex md:hidden items-center justify-end">
+      <div class="flex md:hidden items-center justify-end gap-1">
+        <button type="button" class="boton-cc inline-flex md:hidden" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
+          <svg class="cc" viewBox="0 0 20 16" aria-hidden="true"><rect x="1" y="1" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 9.5h6M13 9.5h2M5 12h3M10 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>{NOMBRE_IDIOMA[idioma].corto}</span>
+        </button>
         <button
           type="button"
           class="boton-hamburguesa inline-flex flex-col items-end justify-center w-11 h-11 p-2 gap-1.5"
@@ -92,12 +93,6 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
             <span class="enlace-movil">({nav.atajo})</span>
           </a>
         </div>
-        <!-- El idioma, también en el menú del celu -->
-        <ul class="idiomas idiomas-movil" aria-label={ui.idioma}>
-          {idiomas.map((i) => (
-            <li><a href={i.href} hreflang={i.l} lang={i.l} aria-current={i.l === idioma ? 'true' : undefined} class="idioma inline-flex min-h-11 items-center">{i.largo}</a></li>
-          ))}
-        </ul>
       </div>
 
       <div class="border-t border-tinta/10 pt-6 flex items-center justify-between text-xs mono text-tinta/50">
@@ -107,6 +102,22 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     </div>
   </nav>
 </header>
+
+<!-- Subtítulos: el idioma se elige como en una plataforma de streaming.
+     En compu cae debajo del botón; en el celu sube desde abajo, a lo ancho. -->
+<div class="velo-cc" data-velo-cc hidden></div>
+<div id="subtitulos" class="panel-cc" role="group" aria-label={ui.idioma} hidden>
+  <p class="titulo-cc">{ui.subtitulos}</p>
+  <ul>
+    {idiomas.map((i) => (
+      <li>
+        <a href={i.href} hreflang={i.l} lang={i.l} aria-current={i.l === idioma ? 'true' : undefined} class="opcion-cc">
+          <span class="check-cc" aria-hidden="true">✓</span>{i.largo}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
 
 <style>
   /* Arriba de todo: transparente y compacto */
@@ -136,7 +147,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
   }
 
   /* Al bajar se esconde; al subir vuelve */
-  .nav.escondida:not(.menu-abierto) {
+  .nav.escondida:not(.menu-abierto):not(.cc-abierto) {
     transform: translateY(-100%);
   }
 
@@ -229,14 +240,55 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     background: linear-gradient(currentColor, currentColor) 0 calc(50% + 0.8em) / 0 1px no-repeat;
     transition: background-size 0.5s var(--ease-cine);
   }
-  /* El selector de idioma: chico, en mono; el actual subrayado */
-  .idiomas { display: flex; gap: 0.15rem; align-items: center; }
-  .idiomas li + li::before { content: '·'; margin-right: 0.15rem; opacity: 0.4; }
-  .idioma { padding: 0 0.15rem; opacity: 0.55; transition: opacity 0.3s; }
-  .idioma:hover, .idioma[aria-current='true'] { opacity: 1; }
-  .idioma[aria-current='true'] { text-decoration: underline; text-underline-offset: 4px; }
-  .idiomas-movil { margin-top: 2rem; gap: 0.75rem; font-size: 0.9rem; }
-  .idiomas-movil li + li::before { margin-right: 0.75rem; }
+  /* Subtítulos: el botón es el ícono de subtítulos + la sigla del idioma */
+  .boton-cc {
+    min-height: 2.75rem; align-items: center; gap: 0.4rem; padding: 0 0.25rem;
+    color: currentColor; background: transparent; border: 0; cursor: pointer; touch-action: manipulation;
+    opacity: 0.7; transition: opacity 0.3s;
+  }
+  .boton-cc:hover, .boton-cc[aria-expanded='true'] { opacity: 1; }
+  .cc { width: 1.15rem; height: auto; }
+  .cc rect, .cc path { transition: fill 0.25s, stroke 0.25s; }
+  .boton-cc[aria-expanded='true'] .cc rect { fill: currentColor; }
+  .boton-cc[aria-expanded='true'] .cc path { stroke: var(--color-papel); }
+  .nav.sobre-oscuro .boton-cc[aria-expanded='true'] .cc path { stroke: var(--color-negro); }
+
+  /* El panel: una tarjeta de papel, como el menú de un reproductor */
+  .panel-cc {
+    position: fixed; z-index: 60; inset: auto 0 0 0;
+    padding: 1.25rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom));
+    background: var(--color-papel); color: var(--color-tinta);
+    border-radius: 1.25rem 1.25rem 0 0; box-shadow: 0 -12px 40px -12px rgb(0 0 0 / 0.25);
+    transform: translateY(100%); transition: transform 0.4s var(--ease-cine);
+  }
+  .panel-cc.abierto { transform: translateY(0); }
+  .titulo-cc { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; margin-bottom: 0.5rem; }
+  .opcion-cc {
+    display: flex; align-items: center; gap: 0.75rem; min-height: 3rem;
+    font-family: var(--font-titulo); font-size: 1.5rem; letter-spacing: -0.02em; text-transform: none;
+    opacity: 0.5; transition: opacity 0.25s;
+  }
+  .opcion-cc:hover, .opcion-cc:focus-visible, .opcion-cc[aria-current='true'] { opacity: 1; }
+  .check-cc { width: 1rem; font-size: 0.9rem; color: var(--color-tc-rosa); visibility: hidden; }
+  .opcion-cc[aria-current='true'] .check-cc { visibility: visible; }
+  .velo-cc { position: fixed; inset: 0; z-index: 55; background: rgb(0 0 0 / 0.3); opacity: 0; transition: opacity 0.3s; }
+  .velo-cc.abierto { opacity: 1; }
+
+  @media (min-width: 768px) {
+    .panel-cc {
+      position: fixed; inset: 3.4rem 2rem auto auto; min-width: 13rem;
+      padding: 0.9rem 1.1rem 0.7rem; border-radius: 0.9rem;
+      border: 1px solid color-mix(in oklab, var(--color-tinta) 12%, transparent);
+      box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.25);
+      transform: translateY(-6px); opacity: 0; transition: transform 0.3s var(--ease-cine), opacity 0.3s;
+    }
+    .panel-cc.abierto { transform: translateY(0); opacity: 1; }
+    .opcion-cc { font-size: 1.1rem; min-height: 2.5rem; }
+    .velo-cc { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel-cc, .velo-cc { transition: none; }
+  }
   .enlace:hover,
   .enlace[aria-current='page'] {
     background-size: 100% 1px;
@@ -316,6 +368,40 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
         toggleMenu(false);
       }
     });
+  }
+
+  // ── Subtítulos: abrir y cerrar el panel de idiomas ──
+  const panelCC = document.getElementById('subtitulos');
+  const veloCC = document.querySelector<HTMLElement>('[data-velo-cc]');
+  const botonesCC = [...document.querySelectorAll<HTMLButtonElement>('.boton-cc')];
+  if (panelCC && veloCC && botonesCC.length) {
+    let origen: HTMLButtonElement | null = null;
+    const estaAbierto = () => panelCC.classList.contains('abierto');
+    const abrirCC = (boton: HTMLButtonElement | null) => {
+      const abrir = boton !== null;
+      if (abrir) {
+        origen = boton;
+        panelCC.hidden = false;
+        veloCC.hidden = false;
+        // un cuadro después, para que la transición arranque desde afuera
+        requestAnimationFrame(() => requestAnimationFrame(() => { panelCC.classList.add('abierto'); veloCC.classList.add('abierto'); }));
+        setTimeout(() => panelCC.querySelector<HTMLAnchorElement>('[aria-current="true"]')?.focus({ preventScroll: true }), 60);
+      } else {
+        panelCC.classList.remove('abierto');
+        veloCC.classList.remove('abierto');
+        setTimeout(() => { if (!estaAbierto()) { panelCC.hidden = true; veloCC.hidden = true; } }, 400);
+        origen?.focus({ preventScroll: true });
+      }
+      botonesCC.forEach((b) => b.setAttribute('aria-expanded', String(abrir && b === boton)));
+      // Mientras está abierto, el nav no se esconde
+      nav?.classList.toggle('cc-abierto', abrir);
+    };
+    botonesCC.forEach((b) => b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      abrirCC(estaAbierto() ? null : b);
+    }));
+    document.addEventListener('click', (e) => { if (estaAbierto() && !panelCC.contains(e.target as Node)) abrirCC(null); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && estaAbierto()) abrirCC(null); });
   }
 
   // Cuando algo oscuro (data-nav-oscuro, la pantalla del tráiler) pasa por debajo del menú, el menú pasa a papel.

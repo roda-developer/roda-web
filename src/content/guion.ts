@@ -31,6 +31,9 @@ export const ui = {
   estudio: 'Roda — Estudio web',
   desde: 'De Buenos Aires al mundo',
   idioma: 'Idioma',
+  /** El selector de idioma es un menú de subtítulos, como en el streaming */
+  subtitulos: 'Subtítulos',
+  cambiarIdioma: 'Idioma: {idioma}. Cambiar',
   creditosPie: 'Créditos',
   escribinos: 'Escribinos',
   seguinos: 'Seguinos',

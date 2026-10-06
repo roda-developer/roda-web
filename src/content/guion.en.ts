@@ -30,6 +30,8 @@ export const ui: typeof ES.ui = {
   estudio: 'Roda — Web studio',
   desde: 'From Buenos Aires to the world',
   idioma: 'Language',
+  subtitulos: 'Subtitles',
+  cambiarIdioma: 'Language: {idioma}. Change',
   creditosPie: 'Credits',
   escribinos: 'Write to us',
   seguinos: 'Follow us',
