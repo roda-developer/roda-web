@@ -11,10 +11,12 @@ const { laCritica } = textos(idioma);
 const criticas = proyectosEn(idioma).flatMap((p) => (p.testimonios ?? []).map((t) => ({ ...t, proyecto: p.titulo, slug: p.slug })));
 // Cada fragmento tiene que ser textual: si no está dentro de la cita completa, no se publica
 const textuales = criticas.filter((c) => c.texto.toLowerCase().includes(c.destacado.toLowerCase().replace(/\.$/, '')));
+// Con 4 frases van de a 2 (dos filas parejas); si no, de a 3. Así ninguna queda sola en una fila.
+const columnas = textuales.length === 4 ? 2 : 3;
 ---
 <section id="la-critica" class="px-5 pt-20 pb-4 md:px-12 md:pt-28 md:pb-8" aria-labelledby="la-critica-titulo">
   <p id="la-critica-titulo" class="mono text-center text-gris" data-revelar>({laCritica.titulo})</p>
-  <ul class="fragmentos mt-10 md:mt-14">
+  <ul class="fragmentos mt-10 md:mt-14" style={`--columnas: ${columnas}`}>
     {textuales.map((c, i) => (
       <li data-revelar={3 + i * 3}>
         <blockquote class="fragmento">“{c.destacado}”</blockquote>
@@ -28,7 +30,7 @@ const textuales = criticas.filter((c) => c.texto.toLowerCase().includes(c.destac
 
 <style>
   .fragmentos { display: grid; gap: 2.75rem; text-align: center; }
-  @media (min-width: 1024px) { .fragmentos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; align-items: start; } }
+  @media (min-width: 1024px) { .fragmentos { grid-template-columns: repeat(var(--columnas, 3), minmax(0, 1fr)); gap: 3rem 4rem; align-items: start; max-width: calc(var(--columnas, 3) * 24rem); margin-inline: auto; } }
   .fragmento {
     margin: 0 auto;
     max-width: 18ch;

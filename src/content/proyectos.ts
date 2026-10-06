@@ -61,6 +61,14 @@ export const PROYECTOS: Proyecto[] = [
       'Un catálogo por categorías, una página para cada producto, buscador, cuenta de usuario y carrito de compras.',
     ],
     destacados: ['Catálogo en seis categorías', 'Los más vendidos, en la portada', 'Buscador, cuenta de usuario y carrito'],
+    testimonios: [
+      {
+        texto: 'Los chicos entendieron super bien lo que buscábamos, e hicieron todo muy rápido. Cada cosa que le pedíamos que la cambien, lo hacían sin problema. Hasta que no le dijimos que estaba perfecto no terminaron de trabajar!',
+        destacado: 'Hasta que no le dijimos que estaba perfecto no terminaron de trabajar!',
+        nombre: 'Agustín Marchetta',
+        rol: 'Newave',
+      },
+    ],
   },
   {
     slug: 'tmd',

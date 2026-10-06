@@ -32,10 +32,10 @@ const AFICHES = {
   muda: { Afiche: AficheMuda, quad: false },
   eber: { Afiche: AficheEber, quad: false },
   craft: { Afiche: AficheCraft, quad: true },
-  unik: { Afiche: AficheUnik, quad: true },
-  fidalgo: { Afiche: AficheFidalgo, quad: false },
   tmd: { Afiche: AficheTmd, quad: false },
   newave: { Afiche: AficheNewave, quad: true },
+  unik: { Afiche: AficheUnik, quad: true },
+  fidalgo: { Afiche: AficheFidalgo, quad: false },
 } as const;
 const orden = Object.keys(AFICHES);
 const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.indexOf(b.slug));

@@ -22,6 +22,13 @@ export const TRADUCCIONES: Record<'en' | 'pt', Record<string, TextosProyecto>> =
         'A catalog by category, a page for each product, search, user accounts and a shopping cart.',
       ],
       destacados: ['Catalog in six categories', 'Best sellers on the home page', 'Search, user accounts and cart'],
+      testimonios: [
+        {
+          texto: 'They understood exactly what we were looking for and did everything really fast. Whatever we asked them to change, they changed it without a problem. They didn’t stop working until we told them it was perfect!',
+          destacado: 'They didn’t stop working until we told them it was perfect!',
+          rol: 'Newave',
+        },
+      ],
       creditosAfiche: 'Roda {presents} Newave {a store for} sports supplements {with} a catalog by category {and} a shopping cart {design and development} Facundo Thibaut',
     },
     tmd: {
@@ -147,6 +154,13 @@ export const TRADUCCIONES: Record<'en' | 'pt', Record<string, TextosProyecto>> =
         'Um catálogo por categorias, uma página para cada produto, busca, conta de usuário e carrinho de compras.',
       ],
       destacados: ['Catálogo em seis categorias', 'Os mais vendidos na página inicial', 'Busca, conta de usuário e carrinho'],
+      testimonios: [
+        {
+          texto: 'Eles entenderam super bem o que a gente queria e fizeram tudo muito rápido. Tudo o que pedíamos para mudar, eles mudavam sem problema. Não pararam de trabalhar até a gente dizer que estava perfeito!',
+          destacado: 'Não pararam de trabalhar até a gente dizer que estava perfeito!',
+          rol: 'Newave',
+        },
+      ],
       creditosAfiche: 'Roda {apresenta} Newave {uma loja de} suplementos esportivos {com} catálogo por categorias {e} carrinho de compras {design e desenvolvimento} Facundo Thibaut',
     },
     tmd: {
