@@ -10,7 +10,9 @@ const { laCritica } = textos(idioma);
 
 const criticas = proyectosEn(idioma).flatMap((p) => (p.testimonios ?? []).map((t) => ({ ...t, proyecto: p.titulo, slug: p.slug })));
 // Cada fragmento tiene que ser textual: si no está dentro de la cita completa, no se publica
-const textuales = criticas.filter((c) => c.texto.toLowerCase().includes(c.destacado.toLowerCase().replace(/\.$/, '')));
+const validas = criticas.filter((c) => c.texto.toLowerCase().includes(c.destacado.toLowerCase().replace(/\.$/, '')));
+// En el home, una sola por proyecto (la primera): así son voces de clientes distintos
+const textuales = validas.filter((c, i) => validas.findIndex((x) => x.slug === c.slug) === i);
 // Con 4 frases van de a 2 (dos filas parejas); si no, de a 3. Así ninguna queda sola en una fila.
 const columnas = textuales.length === 4 ? 2 : 3;
 ---
