@@ -6,7 +6,9 @@ import { capturas } from '../content/capturas';
 import { proyectosEn } from '../content/proyectos';
 const idioma = idiomaDe(Astro.currentLocale);
 const { technicolor, ui } = textos(idioma);
+// Las cintas corren media pista y vuelven a empezar sin que se note: la mitad (5 vueltas) tiene que ser más ancha que cualquier pantalla
 const cinta = technicolor.cinta;
+const pista = Array.from({ length: 10 }, () => cinta).flat();
 
 // El grito está medido para el español ("Y A VECES / MÁS / ES MÁS."). En otro idioma las palabras son más largas
 // ("SOMETIMES", "MORE"): cada línea se achica en la misma proporción para que entre en la pantalla.
@@ -41,8 +43,8 @@ const total = String(tomas.length).padStart(2, '0');
           <span class="block">{technicolor.grito[2]}</span>
         </p>
         <div class="cintas pointer-events-none w-screen" aria-hidden="true">
-          <div class="cinta cinta-a"><div>{[...cinta, ...cinta].map((c) => <span>{c} ✺</span>)}</div></div>
-          <div class="cinta cinta-b"><div>{[...cinta, ...cinta].map((c) => <span>{c} ✦</span>)}</div></div>
+          <div class="cinta cinta-a"><div>{pista.map((c) => <span>{c} ✺</span>)}</div></div>
+          <div class="cinta cinta-b"><div>{pista.map((c) => <span>{c} ✦</span>)}</div></div>
         </div>
       </div>
     </div>
@@ -125,8 +127,9 @@ const total = String(tomas.length).padStart(2, '0');
   .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(-0.15em); }
 
   @media (prefers-reduced-motion: no-preference) {
-    .cinta-a > div { animation: corre 22s linear infinite; }
-    .cinta-b > div { animation: corre 26s linear infinite reverse; }
+    /* Misma velocidad que antes: ahora media pista son 5 vueltas, así que dura cinco veces más */
+    .cinta-a > div { animation: corre 110s linear infinite; }
+    .cinta-b > div { animation: corre 130s linear infinite reverse; }
   }
   @keyframes corre { to { transform: translateX(-50%); } }
 
