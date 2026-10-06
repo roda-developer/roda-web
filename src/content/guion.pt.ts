@@ -53,7 +53,7 @@ export const nav: typeof ES.nav = {
   proyectos: 'Projetos',
   nosotros: 'Sobre',
   precios: 'Preços',
-  atajo: 'Vamos conversar',
+  atajo: 'Vamos falar',
 };
 
 export const apertura: typeof ES.apertura = {
@@ -67,7 +67,7 @@ export const apertura: typeof ES.apertura = {
 export const actoUno: typeof ES.actoUno = {
   rotulo: ['01', 'A primeira impressão'],
   lineas: ['Alguém ouve falar de você e te procura.', 'O que encontra decide se vai te escrever.'],
-  golpe: ['Ninguém lê.', 'Todo mundo olha.'],
+  golpe: ['Não lê.', 'Olha.'],
   generica: {
     marca: 'Sua Marca',
     menu: ['Início', 'Sobre', 'Serviços', 'Contato'],

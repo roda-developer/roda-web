@@ -18,16 +18,17 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
 ---
 <header class="nav fixed inset-x-0 top-0 z-50 px-4 py-1.5 md:px-8 md:py-1.5">
   <nav aria-label={ui.principal} class="mono w-full text-[0.72rem] sm:text-xs md:text-sm">
-    <div class="relative z-50 grid grid-cols-[1fr_auto_1fr] items-center w-full">
+    <!-- Las columnas de los costados no se estiran con textos largos (otros idiomas): el logo queda centrado y nada se sale -->
+    <div class="relative z-50 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center w-full">
       <!-- Desktop Izquierda: Proyectos, Nosotros -->
-      <div class="hidden md:flex items-center justify-start gap-5 md:gap-8">
+      <div class="hidden md:flex min-w-0 items-center justify-start gap-5 md:gap-8 whitespace-nowrap">
         <a href={ruta(idioma, 'proyectos')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('proyectos')}>{nav.proyectos}</a>
         <a href={ruta(idioma, 'nosotros')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('nosotros')}>{nav.nosotros}</a>
       </div>
 
       <!-- Mobile Izquierda: Hablemos, siempre a mano (el logo sigue centrado por la grilla) -->
-      <div class="flex md:hidden items-center justify-start">
-        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+      <div class="flex md:hidden min-w-0 items-center justify-start">
+        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 min-w-0 items-center overflow-hidden whitespace-nowrap" aria-current={aqui('contacto')}>({nav.atajo})</a>
       </div>
 
       <!-- Centro: Logo Roda (en home no tiene link para que tocar el nav no te mande arriba) -->
@@ -44,7 +45,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       </div>
 
       <!-- Desktop Derecha: Precios, Hablemos y el idioma -->
-      <div class="hidden md:flex items-center justify-end gap-5 md:gap-8">
+      <div class="hidden md:flex min-w-0 items-center justify-end gap-5 md:gap-8 whitespace-nowrap">
         <a href={ruta(idioma, 'precios')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
         <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
         <button type="button" class="boton-cc hidden md:inline-flex" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
@@ -53,8 +54,8 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       </div>
 
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
-      <div class="flex md:hidden items-center justify-end gap-1">
-        <button type="button" class="boton-cc inline-flex md:hidden" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
+      <div class="flex md:hidden min-w-0 items-center justify-end gap-1 [&>*]:shrink-0">
+        <button type="button" class="boton-cc inline-flex min-w-11 justify-center md:hidden" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
           <!-- En el celu, solo la bandera: la barra queda más liviana -->
           <Bandera idioma={idioma} />
         </button>

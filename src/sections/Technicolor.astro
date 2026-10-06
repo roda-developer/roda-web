@@ -8,6 +8,20 @@ const idioma = idiomaDe(Astro.currentLocale);
 const { technicolor, ui } = textos(idioma);
 const cinta = technicolor.cinta;
 
+// El grito está medido para el español ("Y A VECES / MÁS / ES MÁS."). En otro idioma las palabras son más largas
+// ("SOMETIMES", "MORE"): cada línea se achica en la misma proporción para que entre en la pantalla.
+const ES = textos('es').technicolor;
+const letras = (s: string) => [...s.replace(/\s+/g, ' ')].length;
+const palabraMasLarga = (s: string) => Math.max(...s.split(/\s+/).map(letras));
+const k = (ref: number, val: number) => Math.min(1, ref / val).toFixed(3);
+const escala = [
+  `--k1h: ${k(letras(ES.grito[0]), letras(technicolor.grito[0]))}`,
+  `--k1v: ${k(palabraMasLarga(ES.grito[0]), palabraMasLarga(technicolor.grito[0]))}`,
+  `--k3h: ${k(letras(ES.grito[2]), letras(technicolor.grito[2]))}`,
+  `--k3v: ${k(palabraMasLarga(ES.grito[2]), palabraMasLarga(technicolor.grito[2]))}`,
+  `--km: ${k(ES.letras.join('').length, technicolor.letras.join('').length)}`,
+].join('; ');
+
 // El tráiler: una web por vez, como los cortes de un tráiler. Las cuatro con la portada horizontal más fuerte.
 const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
   const p = proyectosEn(idioma).find((x) => x.slug === slug)!;
@@ -21,7 +35,7 @@ const total = String(tomas.length).padStart(2, '0');
     <div class="sticky top-0 h-svh overflow-hidden">
       <!-- Arriba el grito, abajo las bandas: cada uno en su lugar, sin taparse -->
       <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-rosa px-4 pt-[clamp(3.5rem,8svh,4.5rem)] pb-[clamp(1.5rem,4svh,2.5rem)] text-tinta">
-        <p class="grito text-center">
+        <p class="grito text-center" style={escala}>
           <span class="block">{technicolor.grito[0]}</span>
           <span class="mas block" aria-label={ui.mas}>{technicolor.letras.map((l) => <span>{l}</span>)}</span>
           <span class="block">{technicolor.grito[2]}</span>
@@ -75,20 +89,20 @@ const total = String(tomas.length).padStart(2, '0');
     line-height: 0.82;
     letter-spacing: -0.045em;
   }
-  .grito > span:first-child { font-size: 19.6cqi; }
-  .grito > span:last-child { font-size: 24.6cqi; }
+  .grito > span:first-child { font-size: calc(19.6cqi * var(--k1h, 1)); }
+  .grito > span:last-child { font-size: calc(24.6cqi * var(--k3h, 1)); }
   .mas {
     margin: 0.04em 0 0.02em;
-    font-size: 45cqi;
+    font-size: calc(45cqi * var(--km, 1));
     line-height: 0.8;
     letter-spacing: -0.06em;
   }
   /* En pantalla vertical, "Y A / VECES" y "ES / MÁS." en dos líneas: así todo puede ser más grande */
   @media (max-aspect-ratio: 3/4) {
     .grito { white-space: normal; width: calc(100vw - 2rem); }
-    .grito > span:first-child { font-size: 30.5cqi; }
-    .grito > span:last-child { font-size: 37cqi; }
-    .mas { font-size: 46cqi; white-space: nowrap; }
+    .grito > span:first-child { font-size: calc(30.5cqi * var(--k1v, 1)); }
+    .grito > span:last-child { font-size: calc(37cqi * var(--k3v, 1)); }
+    .mas { font-size: calc(46cqi * var(--km, 1)); white-space: nowrap; }
   }
   .mas span { display: inline-block; }
   .mas span:nth-child(1) { color: var(--color-tc-rojo); transform: rotate(-6deg); }
