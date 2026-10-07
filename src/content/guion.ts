@@ -259,7 +259,7 @@ export const planes = {
     lista: [
       { nombre: 'Panel propio', detalle: 'Subís tus proyectos, productos y novedades sin depender de nadie', precio: 150 },
       { nombre: 'Turnos y reservas', detalle: 'Te reservan solos, a cualquier hora', precio: 100 },
-      { nombre: 'Otro idioma', detalle: 'Tu web también en inglés, o el que necesites', precio: 100 },
+      { nombre: 'Otro idioma', detalle: 'Tu web también en inglés, o el que necesites', precio: 80 },
     ],
   },
   /** A medida: va debajo de las carpetas. Los ejemplos ayudan a quien no sabe cómo se llama lo que necesita. PENDIENTE (Giuli/Facu): revisar que sean cosas que hacen. */
@@ -337,6 +337,10 @@ export const preciosPagina = {
     tipo: 'ars',
     etiqueta: 'Ver cuánto sale hoy en pesos',
     hoy: 'Hoy: $ {valor}',
+    /** Con la moneda prendida, el precio en pesos va grande y el de dólares queda chico debajo */
+    simbolo: '$',
+    sigla: 'ARS',
+    referencia: 'Precio fijo: US$ {valor}',
     cotizacion: 'Dólar oficial $ {valor} · {fecha}',
   },
   pedir: 'Quiero esta',

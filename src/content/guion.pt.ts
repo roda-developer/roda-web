@@ -243,7 +243,7 @@ export const planes: typeof ES.planes = {
     lista: [
       { nombre: 'Painel próprio', detalle: 'Você sobe seus projetos, produtos e novidades sem depender de ninguém', precio: 150 },
       { nombre: 'Agendamentos', detalle: 'Reservam sozinhos, a qualquer hora', precio: 100 },
-      { nombre: 'Outro idioma', detalle: 'Seu site também em inglês ou espanhol, ou no que você precisar', precio: 100 },
+      { nombre: 'Outro idioma', detalle: 'Seu site também em inglês ou espanhol, ou no que você precisar', precio: 80 },
     ],
   },
   aMedida: {
@@ -309,6 +309,9 @@ export const preciosPagina: typeof ES.preciosPagina = {
     tipo: 'brl',
     etiqueta: 'Ver quanto custa hoje em reais',
     hoy: 'Hoje: R$ {valor}',
+    simbolo: 'R$',
+    sigla: 'R$',
+    referencia: 'Preço fixo: US$ {valor}',
     cotizacion: 'US$ 1 = R$ {valor} · {fecha}',
   },
   pedir: 'Quero este',

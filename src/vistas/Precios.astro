@@ -36,7 +36,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     <section class="mt-12 px-5 md:mt-14 md:px-12" aria-labelledby="precios-planes">
       <h2 id="precios-planes" class="sr-only">{t.rotulos.planes[1]}</h2>
       {t.moneda.tipo && (
-      <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2" data-moneda data-tipo={t.moneda.tipo} data-plantilla-hoy={t.moneda.hoy} data-cotizacion-texto={t.moneda.cotizacion}>
+      <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2" data-moneda data-tipo={t.moneda.tipo} data-simbolo={t.moneda.simbolo} data-sigla={t.moneda.sigla} data-referencia={t.moneda.referencia} data-cotizacion-texto={t.moneda.cotizacion}>
         <button type="button" role="switch" aria-checked="false" class="interruptor mono" data-interruptor-pesos disabled>
           <span class="perilla" aria-hidden="true"></span>{t.moneda.etiqueta}
         </button>
@@ -68,19 +68,19 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
               </ul>
 
               <div class="cuerpo">
-                <p class="sticker"><span class="sr-only">{rellenar(t.precio, { moneda, precio: p.precio })}</span><span class="mono" aria-hidden="true">{moneda}</span><b aria-hidden="true">{p.precio}</b></p>
+                <p class="sticker" data-usd={p.precio}><span class="sr-only">{rellenar(t.precio, { moneda, precio: p.precio })}</span><span class="mono sticker-moneda" aria-hidden="true">{moneda}</span><b class="sticker-num" aria-hidden="true">{p.precio}</b></p>
                 <h3 class="carpeta-nombre">{p.nombre}</h3>
                 <p class="hoy mono" data-hoy={p.precio} hidden></p>
                 <p class="ideal">{ficha.ideal}</p>
                 <ul class="claves mono" aria-label={t.defineElPlan}>
-                  {ficha.clave.map((c) => <li>{c}</li>)}
+                  {ficha.clave.map((c) => <li>{c.split(/(US\$ \d+)/).map((parte) => (/^US\$ \d+$/.test(parte) ? <span data-usd-texto={parte.slice(4)}>{parte}</span> : parte))}</li>)}
                 </ul>
 
                 <div class="pie-carpeta">
                   <a href={`${contacto}?plan=${p.id}`} class="cta pedir">
                     {t.pedir}<span class="sr-only"> ({p.nombre})</span>
                   </a>
-                  <p class="mantenimiento mono">{rellenar(t.mantenimiento.linea, { precio: ficha.mantenimiento })}</p>
+                  <p class="mantenimiento mono">{t.mantenimiento.linea.split('US$ {precio}').map((parte, k) => (k === 0 ? parte : <><span data-usd-texto={ficha.mantenimiento}>US$ {ficha.mantenimiento}</span>{parte}</>))}</p>
                 </div>
               </div>
             </li>
@@ -130,7 +130,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
               <span class="agujero" aria-hidden="true"></span>
               <p class="etiqueta-nombre">{a.nombre}</p>
               <p class="etiqueta-detalle">{a.detalle}</p>
-              <p class="etiqueta-precio"><span class="mono">+ {moneda}</span> {a.precio}</p>
+              <p class="etiqueta-precio"><span class="mono">+ <span data-moneda-simbolo>{moneda}</span></span> <span data-usd-num={a.precio}>{a.precio}</span></p>
               <p class="hoy mono" data-hoy={a.precio} hidden></p>
             </div>
           </li>
@@ -156,7 +156,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
               {q.p}<span class="signo mono" aria-hidden="true">+</span>
             </summary>
             <div class="space-y-3 pb-6 text-tinta/70 md:text-lg">
-              {q.r.map((r) => <p class="max-w-[60ch]">{r}</p>)}
+              {q.r.map((r) => <p class="max-w-[60ch]">{r.split(/(US\$ \d+)/).map((parte) => (/^US\$ \d+$/.test(parte) ? <span data-usd-texto={parte.slice(4)}>{parte}</span> : parte))}</p>)}
             </div>
           </details>
         ))}
@@ -284,6 +284,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   }
   .sticker span { font-size: 0.62rem; letter-spacing: 0.08em; }
   .sticker b { font-weight: 500; font-size: 1.75rem; letter-spacing: -0.04em; }
+  .sticker b.largo { font-size: 1.4rem; }
   .carpeta-nombre { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(2rem, 8vw, 2.8rem); line-height: 1; letter-spacing: -0.045em; padding-right: 5.25rem; }
 
   /* Lo que define el plan, siempre a la vista */
@@ -333,7 +334,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .etiqueta-nombre { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
   .etiqueta-detalle { margin-top: 0.4rem; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); line-height: 1.35; }
   .etiqueta-precio { margin-top: auto; padding-top: 1rem; font-size: 1.6rem; font-weight: 500; letter-spacing: -0.04em; }
-  .etiqueta-precio span { font-size: 0.7rem; letter-spacing: 0.06em; color: var(--color-gris); }
+  .etiqueta-precio > .mono { font-size: 0.7rem; letter-spacing: 0.06em; color: var(--color-gris); }
   @media (prefers-reduced-motion: reduce) { .etiqueta { transition: none; } }
 
   /* ── A medida: una carpeta más, abierta y a lo ancho, con borde punteado (todavía no tiene forma: la armamos juntos) ── */
@@ -369,7 +370,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .interruptor[aria-checked='true'] .perilla { background: var(--color-tinta); }
   .interruptor[aria-checked='true'] .perilla::after { transform: translateX(1.1rem); }
   .interruptor:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: 4px; border-radius: 4px; }
-  /* El equivalente de hoy en pesos, debajo del precio en dólares */
+  /* Con la moneda local prendida: el precio fijo en dólares, chico, debajo */
   .hoy { margin-top: 0.5rem; font-size: 0.75rem; letter-spacing: 0.04em; color: var(--color-gris); }
   .hoy[hidden] { display: none; }
 
@@ -391,14 +392,17 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   }));
 
   // ── Cuánto sale hoy en moneda local ─────────────────────────────────────────────
-  // El precio real es en dólares y no cambia. El interruptor suma, debajo de cada precio, su equivalente de hoy.
+  // El precio real es en dólares y no cambia. Con el interruptor, la moneda local reemplaza a los dólares en toda la página
+  // (en los stickers abreviada: $ 462K) y el precio fijo en dólares queda chico debajo de cada plan y adicional.
   // Español: pesos con DolarApi (dólar oficial a la venta; para otro, cambiar "oficial" por "blue" o "bolsa").
   // Portugués: reales con Frankfurter v2 (cotizaciones de bancos centrales). Inglés: no hay interruptor.
   // Los textos y el tipo de moneda vienen del HTML (data-*), así el navegador no carga los guiones.
   const control = document.querySelector<HTMLElement>('[data-moneda]');
   if (control) {
     const tipo = control.dataset.tipo as 'ars' | 'brl';
-    const plantillaHoy = control.dataset.plantillaHoy ?? '';
+    const simbolo = control.dataset.simbolo ?? '';
+    const sigla = control.dataset.sigla ?? '';
+    const referencia = control.dataset.referencia ?? '';
     const plantillaCotizacion = control.dataset.cotizacionTexto ?? '';
     const idioma = document.documentElement.lang;
     const CLAVE = 'roda-moneda-' + tipo;
@@ -410,13 +414,29 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     // Redondeado para arriba: los pesos a los mil ($ 462.000), los reales a los diez (R$ 1.500)
     const redondeo = tipo === 'ars' ? 1000 : 10;
     const local = (usd: number) => Math.ceil((usd * valor) / redondeo) * redondeo;
+    // En el sticker no entra $ 462.000: desde 10.000 va en miles (462K)
+    const corto = (n: number) => (n >= 10000 ? `${Math.round(n / 1000)}K` : numero.format(n));
+    // Guarda el texto original (en dólares) la primera vez, para poder volver
+    const cambiar = (el: HTMLElement, texto: string | null) => {
+      if (el.dataset.original === undefined) el.dataset.original = el.textContent ?? '';
+      el.textContent = texto ?? el.dataset.original;
+    };
 
     const mostrar = (si: boolean) => {
       const activo = si && valor > 0;
       interruptor?.setAttribute('aria-checked', String(activo));
       if (aviso) aviso.hidden = !activo;
+      document.querySelectorAll<HTMLElement>('.sticker[data-usd]').forEach((s) => {
+        const n = local(Number(s.dataset.usd));
+        const num = s.querySelector<HTMLElement>('.sticker-num'), mon = s.querySelector<HTMLElement>('.sticker-moneda');
+        if (num) { cambiar(num, activo ? corto(n) : null); num.classList.toggle('largo', activo && corto(n).length > 4); }
+        if (mon) cambiar(mon, activo ? sigla : null);
+      });
+      document.querySelectorAll<HTMLElement>('[data-usd-num]').forEach((el) => cambiar(el, activo ? numero.format(local(Number(el.dataset.usdNum))) : null));
+      document.querySelectorAll<HTMLElement>('[data-usd-texto]').forEach((el) => cambiar(el, activo ? `${simbolo} ${numero.format(local(Number(el.dataset.usdTexto)))}` : null));
+      document.querySelectorAll<HTMLElement>('[data-moneda-simbolo]').forEach((el) => cambiar(el, activo ? simbolo : null));
       document.querySelectorAll<HTMLElement>('[data-hoy]').forEach((el) => {
-        el.textContent = activo ? plantillaHoy.replace('{valor}', numero.format(local(Number(el.dataset.hoy)))) : '';
+        el.textContent = activo ? referencia.replace('{valor}', el.dataset.hoy ?? '') : '';
         el.hidden = !activo;
       });
       try { localStorage.setItem(CLAVE, activo ? 'si' : 'no'); } catch {}

@@ -243,7 +243,7 @@ export const planes: typeof ES.planes = {
     lista: [
       { nombre: 'Your own dashboard', detalle: 'Upload your projects, products and news without depending on anyone', precio: 150 },
       { nombre: 'Bookings', detalle: 'People book on their own, at any time', precio: 100 },
-      { nombre: 'Another language', detalle: 'Your website in Spanish too, or whichever you need', precio: 100 },
+      { nombre: 'Another language', detalle: 'Your website in Spanish too, or whichever you need', precio: 80 },
     ],
   },
   aMedida: {
@@ -309,6 +309,9 @@ export const preciosPagina: typeof ES.preciosPagina = {
     tipo: '',
     etiqueta: '',
     hoy: '',
+    simbolo: '',
+    sigla: '',
+    referencia: '',
     cotizacion: '',
   },
   pedir: 'I want this one',
