@@ -28,7 +28,7 @@ const g = actoUno.generica;
           <span class="cuenta-numeros font-titulo">
             <span class="numero">3</span><span class="numero">2</span><span class="numero">1</span><span class="numero">0</span>
           </span>
-          <span class="mt-1 block max-w-[12ch] text-[clamp(0.9rem,min(2.4vw,1.8svh),1.35rem)] leading-tight tracking-[-0.02em] ml-auto text-tinta/70">{actoUno.cuenta}</span>
+          <span class="cuenta-texto mt-1 block max-w-[12ch] text-[clamp(0.9rem,min(2.4vw,1.8svh),1.35rem)] leading-tight tracking-[-0.02em] ml-auto text-tinta/70">{actoUno.cuenta}</span>
         </p>
       </div>
 
@@ -112,6 +112,11 @@ const g = actoUno.generica;
     line-height: 0.85;
     letter-spacing: -0.05em;
     font-variant-numeric: tabular-nums;
+  }
+  /* En la compu, la cuenta pesa más: el número y su texto, más grandes */
+  @media (min-width: 768px) {
+    .cuenta-numeros { font-size: clamp(4rem, min(12vw, 13svh), 9rem); }
+    .cuenta-texto { font-size: clamp(1.05rem, min(2.4vw, 2.6svh), 1.6rem); }
   }
   .numero { grid-area: 1 / 1; }
   .numero:not(:first-child) { visibility: hidden; }
