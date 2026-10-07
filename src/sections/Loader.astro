@@ -11,14 +11,15 @@ const { loader } = textos(Astro.currentLocale);
 </div>
 
 <script is:inline>
-  // El loader sale una sola vez por visita: no vuelve al recargar ni al venir de otra página de Roda.
+  // El loader sale al entrar a la web y cada vez que se recarga la página.
+  // No sale al venir de otra página de Roda (por ejemplo, de Precios al inicio): ahí frenaría cada clic.
   // 'roda:saltar-loader' lo usan los tests y las capturas.
   var tieneLoader = false;
   try {
     var nav = performance.getEntriesByType('navigation')[0];
     var recarga = nav && nav.type === 'reload';
     var deRoda = document.referrer && new URL(document.referrer).origin === location.origin;
-    if (deRoda || recarga || sessionStorage.getItem('roda:loader-visto') || sessionStorage.getItem('roda:saltar-loader')) {
+    if (sessionStorage.getItem('roda:saltar-loader') || (!recarga && (deRoda || sessionStorage.getItem('roda:loader-visto')))) {
       document.documentElement.classList.add('ya-visto');
     } else {
       tieneLoader = true;
