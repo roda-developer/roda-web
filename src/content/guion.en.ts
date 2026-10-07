@@ -39,6 +39,8 @@ export const ui: typeof ES.ui = {
   contacto: 'Contact',
   privacidad: 'Privacy',
   traducido: 'Translated from Spanish',
+  leerMas: 'Read more',
+  leerMenos: 'Read less',
   postCreditos: 'Post-credits scene',
   actoUno: 'Act one: first impressions',
   giro: 'The twist',

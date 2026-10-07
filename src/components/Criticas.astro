@@ -1,5 +1,6 @@
 ---
-/** Lo que dice la crítica: testimonios reales de clientes, citados como las críticas en un afiche de estreno. */
+/** Lo que dice la crítica: testimonios reales de clientes, citados como las críticas en un afiche de estreno.
+ *  Son textuales (no se resumen): las largas se cortan con … y se abren con "Leer más", así todas quedan de un largo parecido. */
 import type { Testimonio } from '../content/proyectos';
 import Rotulo from './Rotulo.astro';
 import { textos } from '../i18n';
@@ -11,16 +12,20 @@ interface Props {
 }
 const { laCritica, ui } = textos(Astro.currentLocale);
 const { testimonios, rotulo, titulo = laCritica.completo } = Astro.props;
+const unaSola = testimonios.length === 1;
 ---
 <section class="criticas" aria-labelledby="criticas-titulo">
   {rotulo && <Rotulo rotulo={rotulo} tipo="Parte" />}
   <h2 id="criticas-titulo" class:list={['criticas-titulo', { 'mt-8': rotulo }]} data-revelar>{titulo}</h2>
-  <ul class:list={['criticas-lista', { 'una-sola': testimonios.length === 1 }]}>
+  <ul class:list={['criticas-lista', { 'una-sola': unaSola }]}>
     {testimonios.map((c, i) => (
-      <li data-revelar={i * 3}>
+      <li data-revelar={i * 3} data-critica>
         <blockquote class="cita">
-          <p>“{c.texto}”</p>
+          <p class:list={['cita-texto', { cortable: !unaSola }]} id={`critica-${i}`}>“{c.texto}”</p>
         </blockquote>
+        {!unaSola && (
+          <button type="button" class="leer mono" aria-expanded="false" aria-controls={`critica-${i}`} data-mas={ui.leerMas} data-menos={ui.leerMenos} hidden>{ui.leerMas}</button>
+        )}
         <p class="firma mono"><span class="text-tinta">{c.nombre}</span> · {c.rol}{c.traducido && <span class="block mt-1 normal-case opacity-80">({ui.traducido})</span>}</p>
       </li>
     ))}
@@ -33,5 +38,38 @@ const { testimonios, rotulo, titulo = laCritica.completo } = Astro.props;
   @media (min-width: 1024px) { .criticas-lista:not(.una-sola) { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 3rem; } }
   .criticas-lista > li { display: grid; gap: 1.1rem; align-content: start; padding-top: 1.25rem; border-top: 1px solid var(--color-tinta); }
   .cita { margin: 0; font-size: clamp(1.25rem, 3.6vw, 1.6rem); line-height: 1.3; letter-spacing: -0.02em; font-weight: 500; max-width: 46ch; text-wrap: pretty; }
+  /* Hasta 6 renglones; el resto queda detrás de "Leer más" */
+  .cortable { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
+  .abierta .cortable { display: block; -webkit-line-clamp: unset; line-clamp: none; }
+  .leer {
+    justify-self: start; margin-top: -0.4rem; padding: 0.35rem 0; min-height: 2.75rem;
+    background: none; border: 0; cursor: pointer; color: var(--color-tinta);
+    text-decoration: underline; text-underline-offset: 4px;
+  }
+  .leer[hidden] { display: none; }
   .firma { color: var(--color-gris); }
 </style>
+
+<script>
+  // "Leer más" aparece solo en las críticas que de verdad quedaron cortadas
+  const revisar = () => {
+    document.querySelectorAll<HTMLElement>('[data-critica]').forEach((li) => {
+      const texto = li.querySelector<HTMLElement>('.cortable');
+      const boton = li.querySelector<HTMLButtonElement>('.leer');
+      if (!texto || !boton || li.classList.contains('abierta')) return;
+      boton.hidden = texto.scrollHeight <= texto.clientHeight + 2;
+    });
+  };
+  document.querySelectorAll<HTMLButtonElement>('.leer').forEach((boton) => {
+    boton.addEventListener('click', () => {
+      const li = boton.closest('[data-critica]');
+      const abierta = !li?.classList.contains('abierta');
+      li?.classList.toggle('abierta', abierta);
+      boton.setAttribute('aria-expanded', String(abierta));
+      boton.textContent = (abierta ? boton.dataset.menos : boton.dataset.mas) ?? '';
+    });
+  });
+  revisar();
+  document.fonts?.ready.then(revisar);
+  addEventListener('resize', revisar, { passive: true });
+</script>

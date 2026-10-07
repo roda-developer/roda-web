@@ -42,6 +42,9 @@ export const ui = {
   privacidad: 'Privacidad',
   /** Al lado de un testimonio que no está en su idioma original */
   traducido: 'Traducido del español',
+  /** Las críticas largas se cortan con … y se abren con este botón */
+  leerMas: 'Leer más',
+  leerMenos: 'Leer menos',
   postCreditos: 'Escena post-créditos',
   actoUno: 'Acto uno: la primera impresión',
   giro: 'El giro',
