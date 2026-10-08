@@ -256,9 +256,10 @@ const textoSecuencia = secuencia.cuadros
 
   /* ── Los créditos ─────────────────────────────────────────────── */
   .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 5rem 1.25rem; }
-  .rollo { display: grid; gap: 0.9rem; max-width: 46rem; margin: 3rem auto 0; }
-  .rollo div { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: baseline; }
-  .rollo dt { text-align: right; font-style: italic; font-size: clamp(0.95rem, 2vw, 1.15rem); }
+  .rollo { display: grid; gap: 1.6rem; max-width: 46rem; margin: 3rem auto 0; }
+  /* Cada crédito, centrado: el rol arriba y el nombre abajo */
+  .rollo div { display: grid; gap: 0.2rem; text-align: center; }
+  .rollo dt { font-style: italic; font-size: clamp(0.95rem, 2vw, 1.15rem); }
   .rollo dd { margin: 0; font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.15rem); }
   .aviso { margin-top: 3.5rem; text-align: center; font-style: italic; }
 </style>
