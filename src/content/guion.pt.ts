@@ -453,7 +453,7 @@ export const nosotros: typeof ES.nosotros = {
   aviso: 'Nenhum site foi feito com templates durante esta produção.',
   rotulo: ['Sobre nós', 'Os créditos'],
   bajada: 'Somos Giuliana e Facundo: casal e sócios. Estudamos juntos Desenvolvimento Web na UNLaM, em Buenos Aires, e desde então fazemos sites à mão, sem templates. Quando você escreve pra gente, fala com quem faz.',
-  foto: { alt: 'Giuliana e Facundo sorrindo sob um teto de luzes douradas', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
+  foto: { alt: 'Giuliana e Facundo abraçados e sorrindo, com uma árvore atrás', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
   personas: [
     { nombre: 'Giuliana Di Rocco', texto: 'Técnica em Desenvolvimento Web pela UNLaM. Hoje estuda a graduação em Inteligência Artificial.' },
     { nombre: 'Facundo Thibaut', texto: 'Está terminando o curso técnico de Desenvolvimento Web na UNLaM.' },

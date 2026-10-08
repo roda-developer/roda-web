@@ -502,7 +502,7 @@ export const nosotros = {
   aviso: 'Ninguna web fue hecha con plantillas durante esta producción.',
   rotulo: ['Nosotros', 'Los créditos'],
   bajada: 'Somos Giuliana y Facundo: pareja y socios. Estudiamos juntos la Tecnicatura en Desarrollo Web en la UNLaM, y desde ahí hacemos webs a mano, sin plantillas. Cuando nos escribís, hablás con quien la hace.',
-  foto: { alt: 'Giuliana y Facundo, sonriendo bajo un techo de luces doradas', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
+  foto: { alt: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
   personas: [
     { nombre: 'Giuliana Di Rocco', texto: 'Técnica en Desarrollo Web por la UNLaM. Hoy estudia la Licenciatura en Inteligencia Artificial.' },
     { nombre: 'Facundo Thibaut', texto: 'Está terminando la Tecnicatura en Desarrollo Web en la UNLaM.' },

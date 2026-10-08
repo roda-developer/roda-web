@@ -453,7 +453,7 @@ export const nosotros: typeof ES.nosotros = {
   aviso: 'No templates were used in the making of this production.',
   rotulo: ['About us', 'The credits'],
   bajada: 'We’re Giuliana and Facundo: partners in life and work. We studied Web Development together at UNLaM, in Buenos Aires, and since then we’ve been making websites by hand, without templates. When you write to us, you talk to the people who build it.',
-  foto: { alt: 'Giuliana and Facundo, smiling under a ceiling of golden lights', pie: ['(Still) Giuliana and Facundo', '2026'] },
+  foto: { alt: 'Giuliana and Facundo, side by side and smiling, with a tree behind them', pie: ['(Still) Giuliana and Facundo', '2026'] },
   personas: [
     { nombre: 'Giuliana Di Rocco', texto: 'Web Development graduate from UNLaM. Now studying a degree in Artificial Intelligence.' },
     { nombre: 'Facundo Thibaut', texto: 'Finishing his Web Development degree at UNLaM.' },
