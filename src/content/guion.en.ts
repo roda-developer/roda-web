@@ -439,7 +439,7 @@ export const nosotros: typeof ES.nosotros = {
       { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
     ],
   },
-  bajo: 'Partners in life and work, web developers',
+  bajo: 'Partners in life and work',
   grande: 'About us',
   creditos: [
     ['Direction', 'Giuliana Di Rocco · Facundo Thibaut'],
@@ -452,13 +452,13 @@ export const nosotros: typeof ES.nosotros = {
   ],
   aviso: 'No templates were used in the making of this production.',
   rotulo: ['About us', 'The credits'],
-  bajada: 'We’re Giuliana and Facundo: partners in life and work. We studied Web Development together at UNLaM, in Buenos Aires, and since then we’ve been making websites by hand, without templates. When you write to us, you talk to the people who build it.',
+  bajada: 'We’re Giuli and Facu. We’re a couple and we make websites together. We like every site to be different, so we design and code them from scratch. If you write to us, we’re the ones who answer.',
   foto: { alt: 'Giuliana and Facundo, side by side and smiling, with a tree behind them', pie: ['(Still) Giuliana and Facundo', '2026'] },
   personas: [
-    { nombre: 'Giuliana Di Rocco', texto: 'Web Development graduate from UNLaM. Now studying a degree in Artificial Intelligence.' },
-    { nombre: 'Facundo Thibaut', texto: 'Finishing his Web Development degree at UNLaM.' },
+    { nombre: 'Giuli', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.' },
+    { nombre: 'Facu', texto: 'I’m finishing the same degree.' },
   ],
-  juntos: 'And we’re both about to start a degree in Cyber Defense.',
+  juntos: 'And we’re both about to start cyber defense.',
   filmamos: ['Shall we', 'shoot yours?'],
   cta: 'Let’s talk',
 };

@@ -439,7 +439,7 @@ export const nosotros: typeof ES.nosotros = {
       { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
     ],
   },
-  bajo: 'Casal, sócios e desenvolvedores web',
+  bajo: 'Casal e sócios',
   grande: 'Sobre nós',
   creditos: [
     ['Direção', 'Giuliana Di Rocco · Facundo Thibaut'],
@@ -452,13 +452,13 @@ export const nosotros: typeof ES.nosotros = {
   ],
   aviso: 'Nenhum site foi feito com templates durante esta produção.',
   rotulo: ['Sobre nós', 'Os créditos'],
-  bajada: 'Somos Giuliana e Facundo: casal e sócios. Estudamos juntos Desenvolvimento Web na UNLaM, em Buenos Aires, e desde então fazemos sites à mão, sem templates. Quando você escreve pra gente, fala com quem faz.',
+  bajada: 'Somos a Giuli e o Facu. Somos um casal e fazemos sites juntos. Gostamos que cada site seja diferente, por isso desenhamos e programamos do zero. Se você escrever pra gente, quem responde somos nós.',
   foto: { alt: 'Giuliana e Facundo abraçados e sorrindo, com uma árvore atrás', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
   personas: [
-    { nombre: 'Giuliana Di Rocco', texto: 'Técnica em Desenvolvimento Web pela UNLaM. Hoje estuda a graduação em Inteligência Artificial.' },
-    { nombre: 'Facundo Thibaut', texto: 'Está terminando o curso técnico de Desenvolvimento Web na UNLaM.' },
+    { nombre: 'Giuli', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.' },
+    { nombre: 'Facu', texto: 'Estou terminando o mesmo curso.' },
   ],
-  juntos: 'E os dois estamos para começar a graduação em Ciberdefesa.',
+  juntos: 'E agora vamos começar ciberdefesa os dois.',
   filmamos: ['Vamos filmar', 'a sua?'],
   cta: 'Vamos conversar',
 };
