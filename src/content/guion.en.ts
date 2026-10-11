@@ -237,7 +237,7 @@ export const planes: typeof ES.planes = {
     { id: 'multiseccion', nombre: 'Multi-page', precio: 400, incluye: 'Up to 5 pages. Ideal if you have several services or projects to show.' },
     { id: 'tienda', nombre: 'Store', precio: 550, incluye: 'Cart, payment gateway and a dashboard for your products. Ideal if you sell products.' },
   ],
-  todas: ['Original design', 'Unlimited changes', 'Live in 1 to 2 weeks', 'Optional maintenance from US$ 20/month'],
+  todas: ['Original design', 'Unlimited changes within scope', 'Live in 1 to 4 weeks', 'Optional maintenance from US$ 20/month'],
   verTodo: 'See what each plan includes',
   adicionales: {
     rotulo: 'Add-ons',
@@ -245,11 +245,11 @@ export const planes: typeof ES.planes = {
     lista: [
       { nombre: 'Your own dashboard', detalle: 'Upload your projects, products and news without depending on anyone', nota: 'For Landing and Multi-page. The Store already includes it.', precio: 150 },
       { nombre: 'Bookings', detalle: 'People book on their own, at any time', precio: 100 },
-      { nombre: 'Another language', detalle: 'Your website in Spanish too, or whichever you need', precio: 80 },
+      { nombre: 'Another language', detalle: 'Your website in Spanish too, or whichever you need', nota: 'Price per language. Includes the website copy; a Store’s products are translated separately.', precio: 80 },
       {
         nombre: 'Automatic shipping',
         detalle: 'Customers calculate shipping with their postal code, and the label is created on its own when they pay.',
-        nota: 'For the Store. It connects with your country’s postal service or shipping platform (Correo Argentino, Andreani, Correios/Melhor Envio, etc.). Each shipment is paid by the buyer at checkout.',
+        nota: 'For the Store. It connects with your country’s postal service or shipping platform (Correo Argentino, Andreani, Correios/Melhor Envio, etc.). Each shipment is paid by the buyer at checkout. The shipping platform account is in your name and needs credit to buy the labels.',
         precio: 200,
       },
     ],
@@ -274,7 +274,8 @@ export const planes: typeof ES.planes = {
   dominio: {
     pregunta: 'What about the domain and hosting?',
     respuestas: [
-      'You buy the domain (yourbrand.com) and it stays in your name. We guide you through it.',
+      'You buy the domain (yourbrand.com) and it stays in your name. It costs around US$ 10 to US$ 15 a year. We guide you through it.',
+      'Email with your domain (you@yourbrand.com) is hired separately, on Google Workspace or Zoho, from US$ 1 to US$ 7 a month per inbox. We help you set it up.',
       'Hosting, where your website lives, is free in most cases. If your project needs more, we tell you before we start.',
       'Stores with a database and online payments use paid hosting: it’s in your name and you pay the provider directly, usually between US$ 5 and US$ 20 a month depending on traffic. We let you know before we start.',
     ],
@@ -296,7 +297,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   fichas: {
     landing: { ideal: 'Ideal if you’re starting out or launching something specific.', clave: ['1 page'], mantenimiento: 20 },
     multiseccion: { ideal: 'Ideal if you have several services or projects to show.', clave: ['Up to 5 pages', 'Extra page US$ 30'], mantenimiento: 25 },
-    tienda: { ideal: 'Ideal if you sell products.', clave: ['Cart', 'Payment gateway', 'Dashboard to manage your products'], detalle: 'In the dashboard you manage products, prices, photos, sizes or colors and stock.', mantenimiento: 35 },
+    tienda: { ideal: 'Ideal if you sell products.', clave: ['Cart', 'Payment gateway', 'Dashboard to manage your products'], detalle: 'In the dashboard you manage your products, prices, photos, sizes or colors and stock. We teach you how: we test it with sample products and you add the real ones.', mantenimiento: 35 },
   },
   mantenimiento: {
     linea: 'Optional maintenance: US$ {precio}/month',
@@ -307,10 +308,12 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ['Design', 'Original, made by hand'],
       ['Screens', 'Phone, tablet and computer'],
       ['Contact', 'WhatsApp button'],
-      ['Changes', 'Unlimited, until you love it'],
-      ['Premiere', 'In 1 to 2 weeks'],
+      ['Changes', 'Unlimited, within what we agreed'],
+      ['Premiere', 'In 1 to 2 weeks (Store, 2 to 4)'],
+      ['Warranty', '30 days of fixes after launch'],
       ['Hosting', 'Free in most cases'],
       ['Google', 'Indexing and technical SEO'],
+      ['All in your name', 'Domain, hosting and website'],
     ],
     aviso: 'No website on this bill comes with fine print.',
   },
@@ -339,8 +342,9 @@ export const preciosPagina: typeof ES.preciosPagina = {
   preguntas: [
     { p: 'Do I have to pay anything monthly?', r: ['Usually not. You pay for your website once. Hosting is free in most cases, and the domain (yourbrand.com) renews once a year, in your name.', 'The exception is stores with a database and online payments: they use paid hosting, in your name, that you pay the provider directly (usually between US$ 5 and US$ 20 a month, depending on traffic). We let you know before we start.', 'If you’d like us to keep updating your website, there’s a fully optional monthly maintenance: Landing US$ 20, Multi-page US$ 25 and Store US$ 35, with up to 4 changes a month. No commitment: cancel whenever you want.'] },
     { p: 'How do I pay?', r: ['Half when we start and the other half when we deliver your website. In US dollars, by international transfer or the method we agree on.'] },
-    { p: 'What if I don’t like how it looks?', r: ['We change it. There’s no limit on rounds of changes: we work until it’s perfect for you.'] },
-    { p: 'Do I need to have the copy and photos?', r: ['Ideally, yes: nobody tells your brand’s story better than you. If you don’t have them, we can use images from the internet and write the copy with artificial intelligence.'] },
+    { p: 'What if I don’t like how it looks?', r: ['We change it. There’s no limit on rounds of changes within what we agreed: we work until it’s perfect for you.', 'If you want to add something new (a section, a page or a feature that wasn’t planned), we quote it separately before doing it.'] },
+    { p: 'Do I need to have the copy and photos?', r: ['Ideally, yes: nobody tells your brand’s story better than you. If you don’t have them, we can use images from the internet and write the copy with artificial intelligence.', 'For a Store, product photos need to be yours: photography isn’t included.'] },
+    { p: 'Does the payment gateway charge anything?', r: ['Yes, a fee on each sale, which isn’t ours: depending on the country and payment method, it’s usually between 3% and 7%. You open the account (Stripe, Mercado Pago or another) in your name, and the money from each sale goes straight to you.'] },
     {
       p: 'Will I show up first on Google?',
       r: [

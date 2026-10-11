@@ -254,7 +254,7 @@ export const planes = {
     { id: 'multiseccion', nombre: 'Multisección', precio: 400, incluye: 'Hasta 5 páginas. Ideal si tenés varios servicios o trabajos para mostrar.' },
     { id: 'tienda', nombre: 'Tienda', precio: 550, incluye: 'Carrito, pasarela de pagos y panel para tus productos. Ideal si vendés productos.' },
   ],
-  todas: ['Diseño propio', 'Cambios sin límite', 'Online en 1 a 2 semanas', 'Mantenimiento opcional desde US$ 20/mes'],
+  todas: ['Diseño propio', 'Cambios sin límite sobre lo acordado', 'Online en 1 a 4 semanas', 'Mantenimiento opcional desde US$ 20/mes'],
   verTodo: 'Ver qué incluye cada plan',
   adicionales: {
     rotulo: 'Adicionales',
@@ -262,11 +262,11 @@ export const planes = {
     lista: [
       { nombre: 'Panel propio', detalle: 'Subís tus proyectos, productos y novedades sin depender de nadie', nota: 'Para Landing y Multisección. En Tienda ya viene incluido.', precio: 150 },
       { nombre: 'Turnos y reservas', detalle: 'Te reservan solos, a cualquier hora', precio: 100 },
-      { nombre: 'Otro idioma', detalle: 'Tu web también en inglés, o el que necesites', precio: 80 },
+      { nombre: 'Otro idioma', detalle: 'Tu web también en inglés, o el que necesites', nota: 'Precio por cada idioma. Incluye los textos de la web; los productos de una Tienda se traducen aparte.', precio: 80 },
       {
         nombre: 'Envíos automáticos',
         detalle: 'El cliente calcula el envío con su código postal y la etiqueta se genera sola cuando paga.',
-        nota: 'Para Tienda. Se integra con el correo o la plataforma de envíos de tu país (Correo Argentino, Andreani, Correios/Melhor Envio, etc.). Cada envío lo paga el comprador al finalizar la compra.',
+        nota: 'Para Tienda. Se integra con el correo o la plataforma de envíos de tu país (Correo Argentino, Andreani, Correios/Melhor Envio, etc.). Cada envío lo paga el comprador al finalizar la compra. La cuenta en la plataforma de envíos va a tu nombre y necesita saldo para comprar las etiquetas.',
         precio: 200,
       },
     ],
@@ -292,7 +292,8 @@ export const planes = {
   dominio: {
     pregunta: '¿Y el dominio y el hosting?',
     respuestas: [
-      'El dominio (tumarca.com) lo comprás vos y queda a tu nombre. Te guiamos en la compra.',
+      'El dominio (tumarca.com) lo comprás vos y queda a tu nombre. Sale aprox. US$ 10 a US$ 15 por año (un .com.ar, menos). Te guiamos en la compra.',
+      'El mail con tu dominio (vos@tumarca.com) se contrata aparte, en Google Workspace o Zoho, desde US$ 1 a US$ 7 por mes por casilla. Te ayudamos a configurarlo.',
       'El hosting, donde vive tu web, en la mayoría de los casos es gratis. Si tu proyecto necesita más, te lo decimos antes de arrancar.',
       'Las tiendas con base de datos y pagos online usan un hosting pago: va a tu nombre y lo pagás directo al proveedor, normalmente entre US$ 5 y US$ 20 por mes según el tráfico. Te lo avisamos antes de arrancar.',
     ],
@@ -319,7 +320,7 @@ export const preciosPagina = {
   fichas: {
     landing: { ideal: 'Ideal si estás arrancando o lanzás algo puntual.', clave: ['1 página'], mantenimiento: 20 },
     multiseccion: { ideal: 'Ideal si tenés varios servicios o trabajos para mostrar.', clave: ['Hasta 5 páginas', 'Página extra US$ 30'], mantenimiento: 25 },
-    tienda: { ideal: 'Ideal si vendés productos.', clave: ['Carrito', 'Pasarela de pagos', 'Panel para cargar tus productos'], detalle: 'En el panel cargás productos, precios, fotos, talles o colores y stock.', mantenimiento: 35 },
+    tienda: { ideal: 'Ideal si vendés productos.', clave: ['Carrito', 'Pasarela de pagos', 'Panel para cargar tus productos'], detalle: 'En el panel cargás tus productos, precios, fotos, talles o colores y stock. Te enseñamos a usarlo: nosotros la probamos con productos de ejemplo y los reales los cargás vos.', mantenimiento: 35 },
   },
   /** El mantenimiento: opcional, por mes, con tope de cambios. PENDIENTE (Giuli/Facu): confirmar el tope de 4 cambios. */
   mantenimiento: {
@@ -332,10 +333,12 @@ export const preciosPagina = {
       ['Diseño', 'Propio, hecho a mano'],
       ['Pantallas', 'Celu, tablet y compu'],
       ['Contacto', 'Botón a WhatsApp'],
-      ['Cambios', 'Sin límite, hasta que te encante'],
-      ['Estreno', 'En 1 a 2 semanas'],
+      ['Cambios', 'Sin límite sobre lo acordado'],
+      ['Estreno', 'En 1 a 2 semanas (Tienda, 2 a 4)'],
+      ['Garantía', '30 días de arreglos después del estreno'],
       ['Hosting', 'Gratis en la mayoría de los casos'],
       ['Google', 'Indexación y SEO técnico'],
+      ['Todo a tu nombre', 'Dominio, hosting y web'],
     ],
     aviso: 'Ninguna web de esta cartelera viene con letra chica.',
   },
@@ -370,8 +373,9 @@ export const preciosPagina = {
   preguntas: [
     { p: '¿Tengo que pagar algo por mes?', r: ['En general, no. Pagás tu web una sola vez. El hosting, en la mayoría de los casos, es gratis, y el dominio (tumarca.com) se renueva una vez por año, a tu nombre.', 'La excepción son las tiendas con base de datos y pagos online: usan un hosting pago, a tu nombre, que le pagás directo al proveedor (normalmente entre US$ 5 y US$ 20 por mes, según el tráfico). Te lo avisamos antes de arrancar.', 'Si querés que sigamos actualizando tu web, hay un mantenimiento mensual totalmente opcional: Landing US$ 20, Multisección US$ 25 y Tienda US$ 35, con hasta 4 cambios por mes. Sin permanencia: lo das de baja cuando quieras.'] },
     { p: '¿Cómo se paga?', r: ['La mitad al arrancar y la otra mitad cuando te entregamos la web. En dólares o su equivalente en pesos.'] },
-    { p: '¿Y si no me gusta cómo queda?', r: ['La cambiamos. No hay un límite de rondas de cambios: trabajamos hasta que quede perfecta para vos.'] },
-    { p: '¿Tengo que tener los textos y las fotos?', r: ['Lo ideal es que sí: nadie cuenta tu marca mejor que vos. Si no los tenés, podemos usar imágenes de internet y escribir los textos con inteligencia artificial.'] },
+    { p: '¿Y si no me gusta cómo queda?', r: ['La cambiamos. No hay un límite de rondas de cambios sobre lo que acordamos: trabajamos hasta que quede perfecta para vos.', 'Si querés sumar algo nuevo (una sección, una página o una función que no estaba), te lo presupuestamos aparte antes de hacerlo.'] },
+    { p: '¿Tengo que tener los textos y las fotos?', r: ['Lo ideal es que sí: nadie cuenta tu marca mejor que vos. Si no los tenés, podemos usar imágenes de internet y escribir los textos con inteligencia artificial.', 'En una Tienda, las fotos de los productos tienen que ser tuyas: la fotografía no está incluida.'] },
+    { p: '¿La pasarela de pagos cobra algo?', r: ['Sí, una comisión por cada venta, que no es nuestra: según el país y el medio de pago, suele estar entre el 3% y el 7%. La cuenta (Mercado Pago, Stripe, PagSeguro u otra) la abrís vos, a tu nombre, y la plata de cada venta te llega directo.'] },
     {
       p: '¿Voy a aparecer primero en Google?',
       r: [

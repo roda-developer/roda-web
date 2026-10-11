@@ -237,7 +237,7 @@ export const planes: typeof ES.planes = {
     { id: 'multiseccion', nombre: 'Multipágina', precio: 400, incluye: 'Até 5 páginas. Ideal se você tem vários serviços ou trabalhos para mostrar.' },
     { id: 'tienda', nombre: 'Loja', precio: 550, incluye: 'Carrinho, meio de pagamento e painel para seus produtos. Ideal se você vende produtos.' },
   ],
-  todas: ['Design próprio', 'Ajustes sem limite', 'No ar em 1 a 2 semanas', 'Manutenção opcional a partir de US$ 20/mês'],
+  todas: ['Design próprio', 'Ajustes sem limite sobre o combinado', 'No ar em 1 a 4 semanas', 'Manutenção opcional a partir de US$ 20/mês'],
   verTodo: 'Ver o que cada plano inclui',
   adicionales: {
     rotulo: 'Adicionais',
@@ -245,11 +245,11 @@ export const planes: typeof ES.planes = {
     lista: [
       { nombre: 'Painel próprio', detalle: 'Você sobe seus projetos, produtos e novidades sem depender de ninguém', nota: 'Para Landing e Multipágina. Na Loja já vem incluído.', precio: 150 },
       { nombre: 'Agendamentos', detalle: 'Reservam sozinhos, a qualquer hora', precio: 100 },
-      { nombre: 'Outro idioma', detalle: 'Seu site também em inglês ou espanhol, ou no que você precisar', precio: 80 },
+      { nombre: 'Outro idioma', detalle: 'Seu site também em inglês ou espanhol, ou no que você precisar', nota: 'Preço por idioma. Inclui os textos do site; os produtos de uma Loja são traduzidos à parte.', precio: 80 },
       {
         nombre: 'Envios automáticos',
         detalle: 'O cliente calcula o frete pelo CEP e a etiqueta é gerada sozinha quando ele paga.',
-        nota: 'Para a Loja. Integra com os Correios ou a plataforma de envios do seu país (Correios/Melhor Envio, Correo Argentino, Andreani etc.). O frete de cada envio é pago pelo comprador ao finalizar a compra.',
+        nota: 'Para a Loja. Integra com os Correios ou a plataforma de envios do seu país (Correios/Melhor Envio, Correo Argentino, Andreani etc.). O frete de cada envio é pago pelo comprador ao finalizar a compra. A conta na plataforma de envios fica no seu nome e precisa de saldo para comprar as etiquetas.',
         precio: 200,
       },
     ],
@@ -274,7 +274,8 @@ export const planes: typeof ES.planes = {
   dominio: {
     pregunta: 'E o domínio e a hospedagem?',
     respuestas: [
-      'Você compra o domínio (suamarca.com) e ele fica no seu nome. A gente te orienta na compra.',
+      'Você compra o domínio (suamarca.com) e ele fica no seu nome. Custa em torno de US$ 10 a US$ 15 por ano (um .com.br, menos). A gente te orienta na compra.',
+      'O e-mail com o seu domínio (voce@suamarca.com) é contratado à parte, no Google Workspace ou no Zoho, a partir de US$ 1 a US$ 7 por mês por caixa. A gente te ajuda a configurar.',
       'A hospedagem, onde o seu site mora, na maioria dos casos é grátis. Se o seu projeto precisar de mais, avisamos antes de começar.',
       'As lojas com banco de dados e pagamentos online usam uma hospedagem paga: fica no seu nome e você paga direto ao provedor, normalmente entre US$ 5 e US$ 20 por mês, conforme o tráfego. Avisamos antes de começar.',
     ],
@@ -296,7 +297,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   fichas: {
     landing: { ideal: 'Ideal se você está começando ou lançando algo pontual.', clave: ['1 página'], mantenimiento: 20 },
     multiseccion: { ideal: 'Ideal se você tem vários serviços ou trabalhos para mostrar.', clave: ['Até 5 páginas', 'Página extra US$ 30'], mantenimiento: 25 },
-    tienda: { ideal: 'Ideal se você vende produtos.', clave: ['Carrinho', 'Meio de pagamento', 'Painel para cadastrar seus produtos'], detalle: 'No painel você cadastra produtos, preços, fotos, tamanhos ou cores e estoque.', mantenimiento: 35 },
+    tienda: { ideal: 'Ideal se você vende produtos.', clave: ['Carrinho', 'Meio de pagamento', 'Painel para cadastrar seus produtos'], detalle: 'No painel você cadastra seus produtos, preços, fotos, tamanhos ou cores e estoque. A gente te ensina a usar: testamos com produtos de exemplo e os reais você cadastra.', mantenimiento: 35 },
   },
   mantenimiento: {
     linea: 'Manutenção opcional: US$ {precio}/mês',
@@ -307,10 +308,12 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ['Design', 'Próprio, feito à mão'],
       ['Telas', 'Celular, tablet e computador'],
       ['Contato', 'Botão de WhatsApp'],
-      ['Ajustes', 'Sem limite, até você amar'],
-      ['Estreia', 'Em 1 a 2 semanas'],
+      ['Ajustes', 'Sem limite sobre o combinado'],
+      ['Estreia', 'Em 1 a 2 semanas (Loja, 2 a 4)'],
+      ['Garantia', '30 dias de correções depois da estreia'],
       ['Hospedagem', 'Grátis na maioria dos casos'],
       ['Google', 'Indexação e SEO técnico'],
+      ['Tudo no seu nome', 'Domínio, hospedagem e site'],
     ],
     aviso: 'Nenhum site deste cartaz vem com letras miúdas.',
   },
@@ -339,8 +342,9 @@ export const preciosPagina: typeof ES.preciosPagina = {
   preguntas: [
     { p: 'Tenho que pagar algo por mês?', r: ['Em geral, não. Você paga o seu site uma vez só. A hospedagem, na maioria dos casos, é grátis, e o domínio (suamarca.com) se renova uma vez por ano, no seu nome.', 'A exceção são as lojas com banco de dados e pagamentos online: usam uma hospedagem paga, no seu nome, que você paga direto ao provedor (normalmente entre US$ 5 e US$ 20 por mês, conforme o tráfego). Avisamos antes de começar.', 'Se você quiser que a gente continue atualizando o seu site, existe uma manutenção mensal totalmente opcional: Landing US$ 20, Multipágina US$ 25 e Loja US$ 35, com até 4 ajustes por mês. Sem fidelidade: cancela quando quiser.'] },
     { p: 'Como é o pagamento?', r: ['Metade no início e a outra metade quando entregamos o site. Em dólares ou o equivalente em reais.'] },
-    { p: 'E se eu não gostar de como ficou?', r: ['A gente muda. Não tem limite de rodadas de ajustes: trabalhamos até ficar perfeito para você.'] },
-    { p: 'Preciso ter os textos e as fotos?', r: ['O ideal é que sim: ninguém conta a sua marca melhor do que você. Se não tiver, podemos usar imagens da internet e escrever os textos com inteligência artificial.'] },
+    { p: 'E se eu não gostar de como ficou?', r: ['A gente muda. Não tem limite de rodadas de ajustes sobre o que combinamos: trabalhamos até ficar perfeito para você.', 'Se você quiser incluir algo novo (uma seção, uma página ou uma função que não estava prevista), a gente orça à parte antes de fazer.'] },
+    { p: 'Preciso ter os textos e as fotos?', r: ['O ideal é que sim: ninguém conta a sua marca melhor do que você. Se não tiver, podemos usar imagens da internet e escrever os textos com inteligência artificial.', 'Numa Loja, as fotos dos produtos precisam ser suas: a fotografia não está incluída.'] },
+    { p: 'O meio de pagamento cobra alguma coisa?', r: ['Sim, uma taxa por venda, que não é nossa: dependendo do país e da forma de pagamento, costuma ficar entre 3% e 7%. A conta (Mercado Pago, Stripe, PagSeguro ou outra) é aberta por você, no seu nome, e o dinheiro de cada venda cai direto para você.'] },
     {
       p: 'Vou aparecer em primeiro no Google?',
       r: [
