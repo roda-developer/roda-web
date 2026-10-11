@@ -235,7 +235,7 @@ export const planes: typeof ES.planes = {
   lista: [
     { id: 'landing', nombre: 'Landing', precio: 300, incluye: 'A single page. Ideal if you’re starting out or launching something specific.' },
     { id: 'multiseccion', nombre: 'Multi-page', precio: 400, incluye: 'Up to 5 pages. Ideal if you have several services or projects to show.' },
-    { id: 'tienda', nombre: 'Store', precio: 550, incluye: 'Cart and payment gateway. Ideal if you sell products.' },
+    { id: 'tienda', nombre: 'Store', precio: 550, incluye: 'Cart, payment gateway and a dashboard for your products. Ideal if you sell products.' },
   ],
   todas: ['Original design', 'Unlimited changes', 'Live in 1 to 2 weeks', 'Optional maintenance from US$ 20/month'],
   verTodo: 'See what each plan includes',
@@ -243,9 +243,15 @@ export const planes: typeof ES.planes = {
     rotulo: 'Add-ons',
     titulo: 'Add whatever you need.',
     lista: [
-      { nombre: 'Your own dashboard', detalle: 'Upload your projects, products and news without depending on anyone', precio: 150 },
+      { nombre: 'Your own dashboard', detalle: 'Upload your projects, products and news without depending on anyone', nota: 'For Landing and Multi-page. The Store already includes it.', precio: 150 },
       { nombre: 'Bookings', detalle: 'People book on their own, at any time', precio: 100 },
       { nombre: 'Another language', detalle: 'Your website in Spanish too, or whichever you need', precio: 80 },
+      {
+        nombre: 'Automatic shipping',
+        detalle: 'Customers calculate shipping with their postal code, and the label is created on its own when they pay.',
+        nota: 'For the Store. It connects with your country’s postal service or shipping platform (Correo Argentino, Andreani, Correios/Melhor Envio, etc.). Each shipment is paid by the buyer at checkout.',
+        precio: 200,
+      },
     ],
   },
   aMedida: {
@@ -270,6 +276,7 @@ export const planes: typeof ES.planes = {
     respuestas: [
       'You buy the domain (yourbrand.com) and it stays in your name. We guide you through it.',
       'Hosting, where your website lives, is free in most cases. If your project needs more, we tell you before we start.',
+      'Stores with a database and online payments use paid hosting: it’s in your name and you pay the provider directly, usually between US$ 5 and US$ 20 a month depending on traffic. We let you know before we start.',
     ],
   },
 };
@@ -289,7 +296,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   fichas: {
     landing: { ideal: 'Ideal if you’re starting out or launching something specific.', clave: ['1 page'], mantenimiento: 20 },
     multiseccion: { ideal: 'Ideal if you have several services or projects to show.', clave: ['Up to 5 pages', 'Extra page US$ 30'], mantenimiento: 25 },
-    tienda: { ideal: 'Ideal if you sell products.', clave: ['Cart', 'Payment gateway'], mantenimiento: 35 },
+    tienda: { ideal: 'Ideal if you sell products.', clave: ['Cart', 'Payment gateway', 'Dashboard to manage your products'], detalle: 'In the dashboard you manage products, prices, photos, sizes or colors and stock.', mantenimiento: 35 },
   },
   mantenimiento: {
     linea: 'Optional maintenance: US$ {precio}/month',
@@ -330,7 +337,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     ],
   },
   preguntas: [
-    { p: 'Do I have to pay anything monthly?', r: ['No. You pay for your website once. Hosting is free in most cases, and the domain (yourbrand.com) renews once a year, in your name.', 'If you’d like us to keep updating your website, there’s a fully optional monthly maintenance: Landing US$ 20, Multi-page US$ 25 and Store US$ 35, with up to 4 changes a month. No commitment: cancel whenever you want.'] },
+    { p: 'Do I have to pay anything monthly?', r: ['Usually not. You pay for your website once. Hosting is free in most cases, and the domain (yourbrand.com) renews once a year, in your name.', 'The exception is stores with a database and online payments: they use paid hosting, in your name, that you pay the provider directly (usually between US$ 5 and US$ 20 a month, depending on traffic). We let you know before we start.', 'If you’d like us to keep updating your website, there’s a fully optional monthly maintenance: Landing US$ 20, Multi-page US$ 25 and Store US$ 35, with up to 4 changes a month. No commitment: cancel whenever you want.'] },
     { p: 'How do I pay?', r: ['Half when we start and the other half when we deliver your website. In US dollars, by international transfer or the method we agree on.'] },
     { p: 'What if I don’t like how it looks?', r: ['We change it. There’s no limit on rounds of changes: we work until it’s perfect for you.'] },
     { p: 'Do I need to have the copy and photos?', r: ['Ideally, yes: nobody tells your brand’s story better than you. If you don’t have them, we can use images from the internet and write the copy with artificial intelligence.'] },
@@ -342,7 +349,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ],
     },
     { p: 'What about the domain and hosting?', r: planes.dominio.respuestas },
-    { p: 'Can I update the website myself?', r: ['Yes, if you add Your own dashboard: you upload your projects, products and news without depending on anyone. And if you’d rather we do it, there’s the optional maintenance.'] },
+    { p: 'Can I update the website myself?', r: ['Yes. The Store already includes a dashboard: you manage products, prices and stock whenever you want. For Landing and Multi-page, add Your own dashboard and upload your projects and news without depending on anyone. And if you’d rather we do it, there’s the optional maintenance.'] },
   ],
   final: {
     titulo: 'Shall we start?',

@@ -235,7 +235,7 @@ export const planes: typeof ES.planes = {
   lista: [
     { id: 'landing', nombre: 'Landing', precio: 300, incluye: 'Uma página só. Ideal se você está começando ou lançando algo pontual.' },
     { id: 'multiseccion', nombre: 'Multipágina', precio: 400, incluye: 'Até 5 páginas. Ideal se você tem vários serviços ou trabalhos para mostrar.' },
-    { id: 'tienda', nombre: 'Loja', precio: 550, incluye: 'Carrinho e meio de pagamento. Ideal se você vende produtos.' },
+    { id: 'tienda', nombre: 'Loja', precio: 550, incluye: 'Carrinho, meio de pagamento e painel para seus produtos. Ideal se você vende produtos.' },
   ],
   todas: ['Design próprio', 'Ajustes sem limite', 'No ar em 1 a 2 semanas', 'Manutenção opcional a partir de US$ 20/mês'],
   verTodo: 'Ver o que cada plano inclui',
@@ -243,9 +243,15 @@ export const planes: typeof ES.planes = {
     rotulo: 'Adicionais',
     titulo: 'Adicione o que precisar.',
     lista: [
-      { nombre: 'Painel próprio', detalle: 'Você sobe seus projetos, produtos e novidades sem depender de ninguém', precio: 150 },
+      { nombre: 'Painel próprio', detalle: 'Você sobe seus projetos, produtos e novidades sem depender de ninguém', nota: 'Para Landing e Multipágina. Na Loja já vem incluído.', precio: 150 },
       { nombre: 'Agendamentos', detalle: 'Reservam sozinhos, a qualquer hora', precio: 100 },
       { nombre: 'Outro idioma', detalle: 'Seu site também em inglês ou espanhol, ou no que você precisar', precio: 80 },
+      {
+        nombre: 'Envios automáticos',
+        detalle: 'O cliente calcula o frete pelo CEP e a etiqueta é gerada sozinha quando ele paga.',
+        nota: 'Para a Loja. Integra com os Correios ou a plataforma de envios do seu país (Correios/Melhor Envio, Correo Argentino, Andreani etc.). O frete de cada envio é pago pelo comprador ao finalizar a compra.',
+        precio: 200,
+      },
     ],
   },
   aMedida: {
@@ -270,6 +276,7 @@ export const planes: typeof ES.planes = {
     respuestas: [
       'Você compra o domínio (suamarca.com) e ele fica no seu nome. A gente te orienta na compra.',
       'A hospedagem, onde o seu site mora, na maioria dos casos é grátis. Se o seu projeto precisar de mais, avisamos antes de começar.',
+      'As lojas com banco de dados e pagamentos online usam uma hospedagem paga: fica no seu nome e você paga direto ao provedor, normalmente entre US$ 5 e US$ 20 por mês, conforme o tráfego. Avisamos antes de começar.',
     ],
   },
 };
@@ -289,7 +296,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   fichas: {
     landing: { ideal: 'Ideal se você está começando ou lançando algo pontual.', clave: ['1 página'], mantenimiento: 20 },
     multiseccion: { ideal: 'Ideal se você tem vários serviços ou trabalhos para mostrar.', clave: ['Até 5 páginas', 'Página extra US$ 30'], mantenimiento: 25 },
-    tienda: { ideal: 'Ideal se você vende produtos.', clave: ['Carrinho', 'Meio de pagamento'], mantenimiento: 35 },
+    tienda: { ideal: 'Ideal se você vende produtos.', clave: ['Carrinho', 'Meio de pagamento', 'Painel para cadastrar seus produtos'], detalle: 'No painel você cadastra produtos, preços, fotos, tamanhos ou cores e estoque.', mantenimiento: 35 },
   },
   mantenimiento: {
     linea: 'Manutenção opcional: US$ {precio}/mês',
@@ -330,7 +337,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     ],
   },
   preguntas: [
-    { p: 'Tenho que pagar algo por mês?', r: ['Não. Você paga o seu site uma vez só. A hospedagem, na maioria dos casos, é grátis, e o domínio (suamarca.com) se renova uma vez por ano, no seu nome.', 'Se você quiser que a gente continue atualizando o seu site, existe uma manutenção mensal totalmente opcional: Landing US$ 20, Multipágina US$ 25 e Loja US$ 35, com até 4 ajustes por mês. Sem fidelidade: cancela quando quiser.'] },
+    { p: 'Tenho que pagar algo por mês?', r: ['Em geral, não. Você paga o seu site uma vez só. A hospedagem, na maioria dos casos, é grátis, e o domínio (suamarca.com) se renova uma vez por ano, no seu nome.', 'A exceção são as lojas com banco de dados e pagamentos online: usam uma hospedagem paga, no seu nome, que você paga direto ao provedor (normalmente entre US$ 5 e US$ 20 por mês, conforme o tráfego). Avisamos antes de começar.', 'Se você quiser que a gente continue atualizando o seu site, existe uma manutenção mensal totalmente opcional: Landing US$ 20, Multipágina US$ 25 e Loja US$ 35, com até 4 ajustes por mês. Sem fidelidade: cancela quando quiser.'] },
     { p: 'Como é o pagamento?', r: ['Metade no início e a outra metade quando entregamos o site. Em dólares ou o equivalente em reais.'] },
     { p: 'E se eu não gostar de como ficou?', r: ['A gente muda. Não tem limite de rodadas de ajustes: trabalhamos até ficar perfeito para você.'] },
     { p: 'Preciso ter os textos e as fotos?', r: ['O ideal é que sim: ninguém conta a sua marca melhor do que você. Se não tiver, podemos usar imagens da internet e escrever os textos com inteligência artificial.'] },
@@ -342,7 +349,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ],
     },
     { p: 'E o domínio e a hospedagem?', r: planes.dominio.respuestas },
-    { p: 'Posso atualizar o site sozinho?', r: ['Pode, se adicionar o Painel próprio: você sobe seus projetos, produtos e novidades sem depender de ninguém. E se preferir que a gente faça, tem a manutenção opcional.'] },
+    { p: 'Posso atualizar o site sozinho?', r: ['Pode. Na Loja o painel já vem incluído: você cadastra produtos, preços e estoque quando quiser. Na Landing e na Multipágina, é só adicionar o Painel próprio para subir seus projetos e novidades sem depender de ninguém. E se preferir que a gente faça, tem a manutenção opcional.'] },
   ],
   final: {
     titulo: 'Bora começar?',
