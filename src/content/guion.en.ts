@@ -307,7 +307,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     lista: [
       ['Design', 'Original, made by hand'],
       ['Screens', 'Phone, tablet and computer'],
-      ['Contact', 'WhatsApp button'],
+      ['Contact', 'WhatsApp buttons and contact form'],
       ['Changes', 'Unlimited, within what we agreed'],
       ['Premiere', 'In 1 to 2 weeks (Store, 2 to 4)'],
       ['Warranty', '30 days of fixes after launch'],

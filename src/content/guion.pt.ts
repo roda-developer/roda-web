@@ -307,7 +307,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     lista: [
       ['Design', 'Próprio, feito à mão'],
       ['Telas', 'Celular, tablet e computador'],
-      ['Contato', 'Botão de WhatsApp'],
+      ['Contato', 'Botões de WhatsApp e formulário'],
       ['Ajustes', 'Sem limite sobre o combinado'],
       ['Estreia', 'Em 1 a 2 semanas (Loja, 2 a 4)'],
       ['Garantia', '30 dias de correções depois da estreia'],

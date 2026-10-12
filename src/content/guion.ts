@@ -332,7 +332,7 @@ export const preciosPagina = {
     lista: [
       ['Diseño', 'Propio, hecho a mano'],
       ['Pantallas', 'Celu, tablet y compu'],
-      ['Contacto', 'Botón a WhatsApp'],
+      ['Contacto', 'Botones a WhatsApp y formulario'],
       ['Cambios', 'Sin límite sobre lo acordado'],
       ['Estreno', 'En 1 a 2 semanas (Tienda, 2 a 4)'],
       ['Garantía', '30 días de arreglos después del estreno'],
