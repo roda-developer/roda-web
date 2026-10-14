@@ -41,9 +41,22 @@ export interface Testimonio {
   traducido?: boolean;
 }
 
+/**
+ * Proyectos cargados desde el admin (admin.rodadevelop.com → Web): un JSON por proyecto en
+ * src/content/proyectos-admin y sus capturas en src/assets/proyectos/<slug>. El admin los sube a GitHub
+ * y Cloudflare publica solo. Llevan sus traducciones adentro y un afiche genérico (AficheGenerico).
+ */
+export interface ProyectoAdmin extends Proyecto {
+  traducciones?: Partial<Record<'en' | 'pt', Partial<Omit<Proyecto, 'slug' | 'rubro' | 'anio' | 'url'>>>>;
+  /** Color de acento del afiche */
+  color?: string;
+}
+const desdeAdmin = import.meta.glob<{ default: ProyectoAdmin }>('./proyectos-admin/*.json', { eager: true });
+export const PROYECTOS_ADMIN: ProyectoAdmin[] = Object.values(desdeAdmin).map((m) => m.default);
+
 // PENDIENTE (Giuli/Facu): revisar todos los textos, confirmar rubros y años, y sumar resultados reales.
 // Están escritos a partir de cada repo; nada de lo que dice es inventado, pero puede faltar contexto.
-export const PROYECTOS: Proyecto[] = [
+const PROYECTOS_CODIGO: Proyecto[] = [
   {
     slug: 'newave',
     creditosAfiche: 'Roda {presenta} Newave {una tienda de} suplementos deportivos {con} catálogo por categorías {y} carrito de compras {diseño y desarrollo} Facundo Thibaut',
@@ -220,11 +233,16 @@ export const PROYECTOS: Proyecto[] = [
   },
 ];
 
-/** Los proyectos en un idioma: los textos traducidos (proyectos.traducciones.ts) sobre los datos en español */
+export const PROYECTOS: Proyecto[] = [
+  ...PROYECTOS_ADMIN.filter((p) => !PROYECTOS_CODIGO.some((c) => c.slug === p.slug)).map(({ traducciones: _, color: __, ...p }) => p),
+  ...PROYECTOS_CODIGO,
+];
+
+/** Los proyectos en un idioma: los textos traducidos (proyectos.traducciones.ts o los del admin) sobre los datos en español */
 export function proyectosEn(idioma: 'es' | 'en' | 'pt'): Proyecto[] {
   if (idioma === 'es') return PROYECTOS;
   return PROYECTOS.map((p) => {
-    const t = TRADUCCIONES[idioma][p.slug];
+    const t = TRADUCCIONES[idioma][p.slug] ?? PROYECTOS_ADMIN.find((a) => a.slug === p.slug)?.traducciones?.[idioma];
     if (!t) return p;
     const testimonios = p.testimonios?.map((orig, i) => (t.testimonios?.[i] ? { ...orig, ...t.testimonios[i], traducido: true } : orig));
     return { ...p, ...t, testimonios };

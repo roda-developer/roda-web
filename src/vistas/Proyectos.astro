@@ -13,6 +13,7 @@ import AficheUnik from '../components/afiches/AficheUnik.astro';
 import AficheFidalgo from '../components/afiches/AficheFidalgo.astro';
 import AficheTmd from '../components/afiches/AficheTmd.astro';
 import AficheNewave from '../components/afiches/AficheNewave.astro';
+import AficheGenerico from '../components/afiches/AficheGenerico.astro';
 import { proyectosEn } from '../content/proyectos';
 import { RUBROS } from '../story/opciones';
 import { idiomaDe, ruta, textos } from '../i18n';
@@ -38,6 +39,7 @@ const AFICHES = {
   fidalgo: { Afiche: AficheFidalgo, quad: false },
 } as const;
 const orden = Object.keys(AFICHES);
+// Los cargados desde el admin no están en AFICHES: van primero, con el afiche genérico
 const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.indexOf(b.slug));
 ---
 <Base titulo={metas.proyectos.titulo} descripcion={metas.proyectos.descripcion}>
@@ -69,11 +71,11 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     <!-- La cartelera: el afiche es pura imagen; los datos van abajo, como en la web de un cine -->
     <ul class="cartelera mt-12 px-5 md:px-12">
       {cartelera.map((p, i) => {
-        const { Afiche, quad } = AFICHES[p.slug as keyof typeof AFICHES];
+        const { Afiche, quad } = AFICHES[p.slug as keyof typeof AFICHES] ?? { Afiche: AficheGenerico, quad: false };
         return (
           <li class:list={['funcion', quad && 'funcion-quad']} data-rubro={p.rubro} data-orden={i}>
             <a href={ruta(idioma, 'proyectos', p.slug)} class="funcion-link group" aria-label={`${p.titulo}: ${p.logline}`}>
-              <span class="afiche"><Afiche /></span>
+              <span class="afiche"><Afiche slug={p.slug} /></span>
               <span class="ficha">
                 <span class="ficha-titulo">{p.titulo}</span>
                 <span class="mono ficha-ver" aria-hidden="true">{t.verCaso} <span class="ficha-flecha">→</span></span>
