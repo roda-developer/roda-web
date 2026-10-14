@@ -140,14 +140,14 @@ export const PROYECTOS: Proyecto[] = [
     genero: 'Portfolio',
     anio: 2026,
     rol: 'Diseño y desarrollo',
-    url: 'https://eber-portfolio.vercel.app',
+    url: 'https://eber.ar',
     cliente: 'Diseñador gráfico, ilustrador y tipógrafo. Dirección de arte para la industria textil, el entretenimiento y los contenidos infantiles.',
     desafio: 'Un trabajo muy colorido y muy distinto entre sí. El portfolio tenía que ordenarlo sin apagarlo, y dejar que cada proyecto se cuente solo.',
     solucion: [
       'Un fondo neutro que deja que el color lo pongan los proyectos. Cada caso tiene su propia página, lista para mandar por link.',
-      'Tres modos para mirarlo (oscuro, claro y cremita), que se recuerdan la próxima vez que volvés.',
+      'Tres modos para mirarlo (oscuro, claro y cremita), que se recuerdan la próxima vez que volvés. Y una sección aparte, Eber Art, para su obra personal y su docencia.',
     ],
-    destacados: ['Cada caso de estudio con su propio link', 'Tres modos de color a elección del visitante', 'Imágenes que cargan al tamaño justo para cada pantalla'],
+    destacados: ['Cada caso con su propia página, lista para compartir y para que Google la encuentre', 'Tres modos de color a elección del visitante', 'Imágenes que cargan al tamaño justo para cada pantalla'],
   },
   {
     slug: 'craft',

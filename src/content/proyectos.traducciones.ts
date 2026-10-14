@@ -85,9 +85,9 @@ export const TRADUCCIONES: Record<'en' | 'pt', Record<string, TextosProyecto>> =
       desafio: 'Very colorful work, and very different from piece to piece. The portfolio had to bring order without dimming it, and let each project tell its own story.',
       solucion: [
         'A neutral background that lets the projects bring the color. Each case has its own page, ready to be shared by link.',
-        'Three ways to view it (dark, light and cream), remembered the next time you come back.',
+        'Three ways to view it (dark, light and cream), remembered the next time you come back. And a separate section, Eber Art, for his personal work and teaching.',
       ],
-      destacados: ['Each case study with its own link', 'Three color modes, chosen by the visitor', 'Images that load at just the right size for each screen'],
+      destacados: ['Each case with its own page, ready to share and for Google to find', 'Three color modes, chosen by the visitor', 'Images that load at just the right size for each screen'],
     },
     craft: {
       logline: 'Your brand has a lot to say.',
@@ -217,9 +217,9 @@ export const TRADUCCIONES: Record<'en' | 'pt', Record<string, TextosProyecto>> =
       desafio: 'Um trabalho muito colorido e muito diferente entre si. O portfólio tinha que organizar sem apagar, e deixar cada projeto se contar sozinho.',
       solucion: [
         'Um fundo neutro que deixa a cor por conta dos projetos. Cada case tem sua própria página, pronta para mandar por link.',
-        'Três modos de ver (escuro, claro e creme), que são lembrados na próxima vez que você volta.',
+        'Três modos de ver (escuro, claro e creme), que são lembrados na próxima vez que você volta. E uma seção à parte, Eber Art, para sua obra pessoal e sua docência.',
       ],
-      destacados: ['Cada case com seu próprio link', 'Três modos de cor à escolha do visitante', 'Imagens que carregam no tamanho certo para cada tela'],
+      destacados: ['Cada case com sua própria página, pronta para compartilhar e para o Google encontrar', 'Três modos de cor à escolha do visitante', 'Imagens que carregam no tamanho certo para cada tela'],
     },
     craft: {
       logline: 'Sua marca tem muito a dizer.',

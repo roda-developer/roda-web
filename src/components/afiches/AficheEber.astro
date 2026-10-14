@@ -1,12 +1,17 @@
 ---
-/** Eber: retrato en blanco y negro y la frase de su portada en letra gigante, como un afiche de cine independiente. */
+/**
+ * Eber: un mosaico con portadas de sus trabajos (el color lo ponen los proyectos) y la frase de su
+ * portada en letra gigante, como un afiche de cine independiente. Sin su retrato: el protagonista es el trabajo.
+ */
 import { Image } from 'astro:assets';
-import { capturas } from '../../content/capturas';
+import type { ImageMetadata } from 'astro';
 import { textos } from '../../i18n';
 
 const { loader, proyectosPagina } = textos(Astro.currentLocale);
 
-const foto = capturas('eber').afiche;
+// Portadas de 47 Street, Owoko, Violetta, Topa, Zpëzia y Tecnópolis (de su portfolio, en Cloudinary)
+const archivos = import.meta.glob<{ default: ImageMetadata }>('../../assets/proyectos/eber/obra-*.jpg', { eager: true });
+const obras = Object.keys(archivos).sort().map((k) => archivos[k].default);
 
 // La frase de su portada, con cada letra del color que tiene en su web (rojo, amarillo, azul, blanco)
 const r = '#f2333f', a = '#ffb000', z = '#1f7aea', b = '#ffffff';
@@ -16,8 +21,12 @@ const lineas = [
 ];
 ---
 <div class="eber" aria-hidden="true">
-  <div class="eber-retrato">
-    <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 30vw, 100vw" loading="lazy" class="eber-foto" />
+  <div class="eber-obras">
+    {obras.map((o) => (
+      <div class="eber-obra">
+        <Image src={o} alt="" widths={[240, 400]} sizes="(min-width: 768px) 11vw, 33vw" loading="lazy" />
+      </div>
+    ))}
   </div>
   <p class="eber-nombre">EBER</p>
 
@@ -29,12 +38,25 @@ const lineas = [
 
 <style>
   .eber { position: absolute; inset: 0; overflow: hidden; background: #0a0a0b; color: #fff; }
-  .eber-retrato { position: absolute; inset: 0 0 30% 0; }
-  .eber-retrato::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 62%, #0a0a0b 100%); }
-  .eber-foto { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; filter: grayscale(1) contrast(1.05); }
+
+  /* Mosaico 3 × 2 de portadas, un poco girado, que se funde en negro hacia la frase */
+  .eber-obras {
+    position: absolute; inset: 12cqi -7cqi 30% -7cqi;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2cqi; align-content: start;
+    transform: rotate(-4deg);
+  }
+  .eber-obras::after {
+    content: ''; position: absolute; inset: -12cqi;
+    background: linear-gradient(180deg, rgb(10 10 11 / 0.35) 0%, transparent 22%, transparent 45%, #0a0a0b 88%);
+  }
+  .eber-obra { aspect-ratio: 4 / 5; border-radius: 1.4cqi; overflow: hidden; background: #1a1a1c; }
+  /* Columnas desfasadas, como un muro de afiches */
+  .eber-obra:nth-child(3n + 1) { translate: 0 3cqi; }
+  .eber-obra:nth-child(3n + 3) { translate: 0 -3cqi; }
+  .eber-obra :global(img) { width: 100%; height: 100%; object-fit: cover; }
 
   .eber-nombre {
-    position: absolute; top: 4.5cqi; left: 0; right: 0; text-align: center;
+    position: absolute; top: 4.5cqi; left: 0; right: 0; text-align: center; z-index: 1;
     font-family: var(--font-titulo); font-weight: 800; font-size: max(0.7rem, 3.6cqi); letter-spacing: -0.02em;
   }
 

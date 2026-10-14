@@ -7,7 +7,7 @@ import { mkdirSync } from 'node:fs';
 const WEBS = {
   muda: 'https://mudaagcy.com',
   emme: 'https://www.emmedigital.com.ar',
-  eber: 'https://eber-portfolio.vercel.app',
+  eber: 'https://eber.ar',
   craft: 'https://craftstudio.com.ar',
   fidalgo: 'https://fidalgoselect.com',
   unik: 'https://unik-kappa.vercel.app',
@@ -24,6 +24,8 @@ const AJUSTES = {
   fidalgo: { espera: 9000 },
   // The Magical Duo arranca con un preloader ("Preparando la magia...")
   tmd: { espera: 8000 },
+  // Eber: la grilla de trabajos y uno de sus casos (Zpëzia, de los nuevos)
+  eber: { pantallas: [{ ruta: '/caso/olga' }, { ruta: '/caso/art-attack' }], espera: 9000 },
   // Newave: las categorías del home y una página de producto; en el celu, los productos del catálogo
   newave: {
     espera: 6000,
