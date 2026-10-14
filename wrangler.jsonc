@@ -1,0 +1,10 @@
+// Deploy en Cloudflare (Workers con archivos estáticos): sube lo que genera `npm run build` en dist/
+// El nombre tiene que coincidir con el del proyecto en el panel de Cloudflare
+{
+  "name": "roda-web",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
