@@ -5,8 +5,6 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
 import { MAIL, WHATSAPP } from '../content/contacto';
-// Visitas por página, sin cookies (Vercel Web Analytics: se activa en el panel de Vercel)
-import Analytics from '@vercel/analytics/astro';
 import { HTML_LANG, IDIOMAS, OG_LOCALE, equivalente, idiomaDe, textos } from '../i18n';
 
 interface Props {
@@ -92,7 +90,6 @@ const empresa = {
   </head>
   <body>
     <slot />
-    <Analytics />
     <script is:inline>
       // Lo que ya se ve al cargar no espera al JS de movimiento: aparece con un fundido en CSS (más rápido en celus lentos).
       // Lo de más abajo sigue apareciendo al scrollear, con GSAP.

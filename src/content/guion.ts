@@ -530,7 +530,7 @@ export const privacidad = {
   parrafos: [
     'Cuando completás el formulario de contacto, nos llegan los datos que escribiste: tu nombre, tu WhatsApp o mail, tu marca, tu web y tu mensaje. Si agendás una llamada, Cal.com nos pasa tu nombre, tu mail y el horario elegido.',
     '**Los usamos solo para responderte** y, si trabajamos juntos, para hacer tu web. No los vendemos, no los compartimos con nadie para publicidad y no te sumamos a ninguna lista de correo.',
-    'Para recibirlos usamos dos servicios: Web3Forms (el formulario nos llega por mail) y Cal.com (la agenda de reuniones). La web está alojada en Vercel. No usamos cookies de publicidad ni de seguimiento.',
+    'Para recibirlos usamos dos servicios: Web3Forms (el formulario nos llega por mail) y Cal.com (la agenda de reuniones). La web está alojada en Cloudflare. No usamos cookies de publicidad ni de seguimiento.',
     'Podés pedirnos ver, corregir o borrar tus datos cuando quieras escribiendo a {mail}. Es tu derecho según la Ley 25.326 de Protección de Datos Personales.',
   ],
 };

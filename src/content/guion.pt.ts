@@ -480,7 +480,7 @@ export const privacidad: typeof ES.privacidad = {
   parrafos: [
     'Quando você preenche o formulário de contato, recebemos os dados que escreveu: seu nome, seu WhatsApp ou e-mail, sua marca, seu site e sua mensagem. Se você agenda uma conversa, o Cal.com nos passa seu nome, seu e-mail e o horário escolhido.',
     '**Usamos só para responder você** e, se trabalharmos juntos, para fazer o seu site. Não vendemos, não compartilhamos com ninguém para publicidade e não colocamos você em nenhuma lista de e-mails.',
-    'Para receber esses dados usamos dois serviços: Web3Forms (o formulário chega por e-mail) e Cal.com (a agenda de reuniões). O site está hospedado na Vercel. Não usamos cookies de publicidade nem de rastreamento.',
+    'Para receber esses dados usamos dois serviços: Web3Forms (o formulário chega por e-mail) e Cal.com (a agenda de reuniões). O site está hospedado na Cloudflare. Não usamos cookies de publicidade nem de rastreamento.',
     'Você pode pedir para ver, corrigir ou apagar seus dados quando quiser, escrevendo para {mail}. É um direito seu pela Lei 25.326 de Proteção de Dados Pessoais da Argentina.',
   ],
 };
