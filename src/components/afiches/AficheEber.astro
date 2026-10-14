@@ -39,20 +39,18 @@ const lineas = [
 <style>
   .eber { position: absolute; inset: 0; overflow: hidden; background: #0a0a0b; color: #fff; }
 
-  /* Mosaico 3 × 2 de portadas, un poco girado, que se funde en negro hacia la frase */
+  /* Mosaico 3 × 2 de portadas, entero dentro del afiche, que se funde en negro hacia la frase */
   .eber-obras {
-    position: absolute; inset: 12cqi -7cqi 30% -7cqi;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2cqi; align-content: start;
-    transform: rotate(-4deg);
+    position: absolute; inset: 13cqi 6cqi 30% 6cqi;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4cqi; align-content: start;
   }
   .eber-obras::after {
-    content: ''; position: absolute; inset: -12cqi;
+    content: ''; position: absolute; inset: -3cqi -6cqi;
     background: linear-gradient(180deg, rgb(10 10 11 / 0.35) 0%, transparent 22%, transparent 45%, #0a0a0b 88%);
   }
   .eber-obra { aspect-ratio: 4 / 5; border-radius: 1.4cqi; overflow: hidden; background: #1a1a1c; }
   /* Columnas desfasadas, como un muro de afiches */
-  .eber-obra:nth-child(3n + 1) { translate: 0 3cqi; }
-  .eber-obra:nth-child(3n + 3) { translate: 0 -3cqi; }
+  .eber-obra:nth-child(3n + 2) { translate: 0 3cqi; }
   .eber-obra :global(img) { width: 100%; height: 100%; object-fit: cover; }
 
   .eber-nombre {
