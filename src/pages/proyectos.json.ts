@@ -10,7 +10,12 @@ import { PROYECTOS, PROYECTOS_ADMIN } from '../content/proyectos';
 export const GET: APIRoute = async () => {
   const lista = await Promise.all(
     PROYECTOS.map(async (p) => {
-      const portada = await getImage({ src: capturas(p.slug).portada, width: 480, format: 'webp' });
+      const fotos = capturas(p.slug);
+      const portada = await getImage({ src: fotos.portada, width: 480, format: 'webp' });
+      // El resto de las capturas, para verlas al editar desde el admin
+      const extra: Record<string, string> = {};
+      if (fotos.mobile) extra.mobile = (await getImage({ src: fotos.mobile, width: 320, format: 'webp' })).src;
+      for (const [i, img] of fotos.pantallas.entries()) extra[`pantalla-${i + 1}`] = (await getImage({ src: img, width: 480, format: 'webp' })).src;
       return {
         slug: p.slug,
         titulo: p.titulo,
@@ -20,6 +25,7 @@ export const GET: APIRoute = async () => {
         url: p.url,
         portada: portada.src,
         origen: PROYECTOS_ADMIN.some((a) => a.slug === p.slug) ? 'admin' : 'codigo',
+        capturas: extra,
       };
     }),
   );
