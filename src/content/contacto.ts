@@ -9,4 +9,4 @@ export const WEB3FORMS: string = import.meta.env.PUBLIC_WEB3FORMS_KEY || '02020b
 
 // La agenda (Cal.com): la llamada de 30 minutos. PUBLIC_AGENDA la puede cambiar.
 export const AGENDA: string = import.meta.env.PUBLIC_AGENDA || 'https://cal.com/roda-develop/30min';
-export const INSTAGRAM = 'roda.development';
+export const INSTAGRAM = 'rodadevelop';

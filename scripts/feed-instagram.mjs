@@ -16,7 +16,7 @@ const afiche = (n, acento, centro, rotulo, sello) => `
     <p class="pres">${logo()}<span>presenta</span></p>
     <div class="centro-af">${centro}</div>
     <p class="rotulo">${rotulo}</p>
-    <p class="pie"><span style="background:${acento};color:${acento === C.azul ? C.papel : C.tinta}">${sello}</span><span>roda.development</span></p>
+    <p class="pie"><span style="background:${acento};color:${acento === C.azul ? C.papel : C.tinta}">${sello}</span><span>rodadevelop</span></p>
   </div><span class="num">#${n}</span></div>`;
 const sol = (color) => `<span class="sol-a" style="background:${color}"></span>`;
 const marco = (src) => `<span class="marco" style="background-image:url(${src})"></span>`;
