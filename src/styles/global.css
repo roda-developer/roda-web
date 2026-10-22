@@ -77,6 +77,21 @@ p { text-wrap: pretty; }
 }
 }
 
+/* ── Entre páginas: View Transitions del navegador (sin router de Astro) ──
+   La página entera se funde en 250 ms; el afiche de un proyecto viaja de /proyectos a su caso,
+   y en la compu, el afiche de la cartelera viaja a su carpeta de /precios. */
+@view-transition { navigation: auto; }
+::view-transition-group(*) { animation-duration: 550ms; animation-timing-function: var(--ease-cine); }
+::view-transition-group(root) { animation-duration: 250ms; animation-timing-function: ease-out; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 250ms; animation-timing-function: ease-out; }
+/* Lo que no tiene pareja en la otra página (los otros afiches) se funde con el resto */
+::view-transition-old(*):only-child, ::view-transition-new(*):only-child { animation-duration: 250ms; animation-timing-function: ease-out; }
+.vt-afiche { view-transition-name: var(--vt); }
+@media (min-width: 1024px) { .vt-plan { view-transition-name: var(--vt); } }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
 /* Sin movimiento: las transiciones de la interfaz pasan al instante (el contenido queda igual) */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after { transition-duration: 0s !important; }

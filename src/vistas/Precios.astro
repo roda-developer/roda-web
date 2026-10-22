@@ -43,11 +43,11 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       )}
 
       <ul class="carpetas mt-12">
-        {planes.lista.map((p, i) => {
+        {planes.lista.map((p) => {
           const pestanas = t.carpetas[p.id as keyof typeof t.carpetas];
           const ficha = t.fichas[p.id as keyof typeof t.fichas];
           return (
-            <li id={p.id} class="carpeta" style={`--acento:${acento[p.id as keyof typeof acento]}`} data-revelar={i * 3}>
+            <li id={p.id} class="carpeta vt-plan" style={`--acento:${acento[p.id as keyof typeof acento]}; --vt: plan-${p.id}`}>
               <!-- Las lengüetas son etiquetas, no botones: solo dicen el tamaño de la web de un vistazo -->
               <ul class="lenguetas mono" aria-label={rellenar(t.queTrae, { plan: p.nombre })}>
                 {pestanas.map((x, j) => (

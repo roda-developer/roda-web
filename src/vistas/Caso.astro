@@ -46,8 +46,9 @@ const ficha: [string, string | number | undefined][] = [
       </div>
     </header>
 
-    <figure class="mt-14 px-5 md:mt-20 md:px-12" data-revelar>
-      <Image src={fotos.portada} alt={rellenar(t.portadaDe, { titulo: p.titulo })} widths={[640, 1200, 1800]} sizes="(min-width: 768px) calc(100vw - 6rem), calc(100vw - 2.5rem)" loading="eager" class="block w-full border border-tinta/10" />
+    <!-- Sin data-revelar: tiene que estar visible cuando llega el afiche desde /proyectos (View Transitions) -->
+    <figure class="mt-14 px-5 md:mt-20 md:px-12">
+      <Image src={fotos.portada} alt={rellenar(t.portadaDe, { titulo: p.titulo })} widths={[640, 1200, 1800]} sizes="(min-width: 768px) calc(100vw - 6rem), calc(100vw - 2.5rem)" loading="eager" class="vt-afiche block w-full border border-tinta/10" style={`--vt: afiche-${p.slug.replace(/[^a-z0-9-]/gi, '-')}`} />
     </figure>
 
     <article class="caso grid gap-16 px-5 py-24 md:px-12 md:py-32">

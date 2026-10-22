@@ -38,6 +38,8 @@ const AFICHES = {
   fidalgo: { Afiche: AficheFidalgo, quad: false },
 } as const;
 const orden = Object.keys(AFICHES);
+// El afiche y la portada del caso comparten nombre: así viaja de una página a la otra (View Transitions)
+const nombreVt = (slug: string) => `afiche-${slug.replace(/[^a-z0-9-]/gi, '-')}`;
 // Los cargados desde el admin no están en AFICHES: van primero, con el afiche genérico
 const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.indexOf(b.slug));
 ---
@@ -73,7 +75,7 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
         return (
           <li class:list={['funcion', quad && 'funcion-quad']} data-rubro={p.rubro} data-orden={i}>
             <a href={ruta(idioma, 'proyectos', p.slug)} class="funcion-link group" aria-label={`${p.titulo}: ${p.logline}`}>
-              <span class="afiche-caja"><span class="afiche"><Afiche slug={p.slug} /></span></span>
+              <span class="afiche-caja"><span class="afiche vt-afiche" style={`--vt: ${nombreVt(p.slug)}`}><Afiche slug={p.slug} /></span></span>
               <span class="ficha">
                 <span class="ficha-titulo">{p.titulo}</span>
                 <span class="mono ficha-ver" aria-hidden="true">{t.verCaso}</span>

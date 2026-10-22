@@ -51,7 +51,7 @@ const colores = {
   <ul class="tira mt-10 md:mt-20" data-revelar="4" data-lenis-prevent="true">
     {cartelera.peliculas.map((p) => (
       <li>
-        <a href={`${ruta(idioma, 'precios')}#${p.id}`} class="afiche" style={`--color:${colores[p.color]}`} aria-label={`${p.articulo} ${p.titulo}: ${p.frase} ${p.precio}`}>
+        <a href={`${ruta(idioma, 'precios')}#${p.id}`} class="afiche vt-plan" style={`--color:${colores[p.color]}; --vt: plan-${p.id}`} aria-label={`${p.articulo} ${p.titulo}: ${p.frase} ${p.precio}`}>
           <div class="interior">
           <p class="presenta" aria-hidden="true"><Marca /><span>{cartelera.presenta}</span></p>
           <div class="escena" aria-hidden="true">
