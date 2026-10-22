@@ -211,9 +211,11 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     text-transform: uppercase;
     color: color-mix(in oklab, var(--color-tinta) 72%, transparent);
     transform: translateY(0.35rem);
-    transition: transform 0.4s var(--ease-cine);
+    transition: transform 200ms var(--ease-ui);
   }
-  .carpeta:hover .lengueta:not(.activa) { transform: translateY(0.1rem); }
+  @media (hover: hover) and (pointer: fine) {
+    .carpeta:hover .lengueta:not(.activa) { transform: translateY(0.1rem); }
+  }
   .lengueta.activa { z-index: 2; background: var(--carton); color: var(--color-tinta); transform: none; }
   /* Las curvas donde la lengüeta de adelante se une con la carpeta, como una carpeta de verdad */
   .lengueta.activa::before,
@@ -244,10 +246,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     letter-spacing: 0;
   }
   /* Al pasar por la tienda, el carrito "recibe" el producto: el contador salta */
-  @media (prefers-reduced-motion: no-preference) {
-    .carpeta:hover .contador { animation: salta 0.5s var(--ease-cine); }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+    .carpeta:hover .contador { animation: salta 0.25s var(--ease-ui); }
   }
-  @keyframes salta { 40% { transform: scale(1.45); } }
+  @keyframes salta { 40% { transform: scale(1.3); } }
 
   .cuerpo {
     position: relative;
@@ -326,10 +328,12 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     /* La forma de etiqueta: la punta izquierda cortada en diagonal */
     clip-path: polygon(1.6rem 0, 100% 0, 100% 100%, 1.6rem 100%, 0 50%);
     filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.08));
-    transition: transform 0.5s var(--ease-cine);
+    transition: transform 250ms var(--ease-ui);
   }
   /* La caja (quieta) detecta el mouse; la etiqueta es la que se inclina: así no tiembla en los bordes */
-  .etiqueta-caja:hover .etiqueta { transform: rotate(-1.5deg) translateY(-3px); }
+  @media (hover: hover) and (pointer: fine) {
+    .etiqueta-caja:hover .etiqueta { transform: rotate(-1.5deg) translateY(-3px); }
+  }
   .agujero { position: absolute; left: 1.35rem; top: 50%; width: 0.7rem; height: 0.7rem; margin-top: -0.35rem; border-radius: 999px; background: var(--color-papel); border: 1px solid color-mix(in oklab, var(--color-tinta) 35%, transparent); box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.3); }
   .etiqueta-nombre { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
   .etiqueta-detalle { margin-top: 0.4rem; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); line-height: 1.35; }
@@ -357,9 +361,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     border: 1px solid color-mix(in oklab, var(--color-tinta) 22%, transparent);
     border-radius: 999px;
     text-align: left;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease, border-color 200ms ease;
   }
-  .ejemplo:hover { border-color: var(--color-tinta); }
+  .ejemplo:active { transform: scale(0.97); }
+  @media (hover: hover) and (pointer: fine) { .ejemplo:hover { border-color: var(--color-tinta); } }
   .ejemplo[aria-pressed='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
   .ejemplo[aria-pressed='true']::before {
     content: '';
@@ -375,8 +380,8 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   /* El interruptor de pesos: un switch con perilla */
   .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; }
   .interruptor:disabled { opacity: 0.4; cursor: wait; }
-  .perilla { position: relative; flex-shrink: 0; width: 2.6rem; height: 1.5rem; border-radius: 999px; background: color-mix(in oklab, var(--color-tinta) 18%, transparent); transition: background-color 0.3s; }
-  .perilla::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--color-papel); box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); transition: transform 0.3s var(--ease-cine); }
+  .perilla { position: relative; flex-shrink: 0; width: 2.6rem; height: 1.5rem; border-radius: 999px; background: color-mix(in oklab, var(--color-tinta) 18%, transparent); transition: background-color 200ms ease; }
+  .perilla::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--color-papel); box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); transition: transform 0.2s var(--ease-cine); }
   .interruptor[aria-checked='true'] .perilla { background: var(--color-tinta); }
   .interruptor[aria-checked='true'] .perilla::after { transform: translateX(1.1rem); }
   .interruptor:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: 4px; border-radius: 4px; }
@@ -384,9 +389,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .hoy { margin-top: 0.5rem; font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--color-gris); }
   .hoy[hidden] { display: none; }
 
-  .pregunta summary { list-style: none; }
+  .pregunta summary { list-style: none; transition: transform 160ms var(--ease-ui); }
+  .pregunta summary:active { transform: scale(0.97); }
   .pregunta summary::-webkit-details-marker { display: none; }
-  .signo { flex-shrink: 0; display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent); border-radius: 999px; font-size: 1.2rem; transition: transform 0.4s var(--ease-cine); }
+  .signo { flex-shrink: 0; display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent); border-radius: 999px; font-size: 1.2rem; transition: transform 200ms var(--ease-ui); }
   .pregunta[open] .signo { transform: rotate(45deg); }
   @media (prefers-reduced-motion: reduce) { .signo { transition: none; } }
 </style>

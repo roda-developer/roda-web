@@ -136,9 +136,10 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
     padding: 0 1.1rem;
     border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
     border-radius: 999px;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease, border-color 200ms ease;
   }
-  .opcion:hover span { border-color: var(--color-tinta); }
+  .opcion:active span { transform: scale(0.97); }
+  @media (hover: hover) and (pointer: fine) { .opcion:hover span { border-color: var(--color-tinta); } }
   .opcion input:checked + span { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
   .opcion input:focus-visible + span { outline: 2px solid var(--color-tinta); outline-offset: 3px; }
 
@@ -152,7 +153,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
     border-radius: 0;
     font-size: 1.15rem;
     caret-color: var(--color-tc-rosa);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: border-color 200ms ease;
     resize: vertical;
   }
   .campo::placeholder { color: color-mix(in oklab, var(--color-tinta) 62%, transparent); }
@@ -165,6 +166,11 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
   .cta:disabled { opacity: 0.5; cursor: wait; }
   .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
   .exito[hidden], [data-directo][hidden] { display: none; }
+  /* El aviso de error y el "¡Listo!" entran subiendo apenas, al aparecer */
+  @media (prefers-reduced-motion: no-preference) {
+    .falta:not([hidden]), .exito:not([hidden]) { animation: entra-aviso 250ms ease-out both; }
+  }
+  @keyframes entra-aviso { from { opacity: 0; transform: translateY(12px); } }
   .exito { scroll-margin-top: 6rem; }
 </style>
 

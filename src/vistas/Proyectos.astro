@@ -73,7 +73,7 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
         return (
           <li class:list={['funcion', quad && 'funcion-quad']} data-rubro={p.rubro} data-orden={i}>
             <a href={ruta(idioma, 'proyectos', p.slug)} class="funcion-link group" aria-label={`${p.titulo}: ${p.logline}`}>
-              <span class="afiche"><Afiche slug={p.slug} /></span>
+              <span class="afiche-caja"><span class="afiche"><Afiche slug={p.slug} /></span></span>
               <span class="ficha">
                 <span class="ficha-titulo">{p.titulo}</span>
                 <span class="mono ficha-ver" aria-hidden="true">{t.verCaso}</span>
@@ -98,8 +98,9 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     padding: 0 1rem;
     border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
     border-radius: 999px;
-    transition: background-color 0.4s, color 0.4s;
+    transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
   }
+  .chip:active { transform: scale(0.97); }
   .chip[aria-pressed='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
 
   /* ── La cartelera ─────────────────────────────────────────── */
@@ -114,10 +115,29 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     aspect-ratio: 2 / 3;
     background: var(--color-tinta);
     box-shadow: 0 24px 40px -28px rgb(0 0 0 / 0.55);
-    transition: transform 0.8s var(--ease-cine), box-shadow 0.8s var(--ease-cine);
+    transition: transform 250ms var(--ease-ui);
   }
   .funcion-quad .afiche { aspect-ratio: 4 / 5; }
-  .funcion-link:hover .afiche, .funcion-link:focus-visible .afiche { transform: translateY(-6px); box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.6); }
+  /* La sombra grande vive en la caja (quieta) y aparece con opacidad: no se anima box-shadow */
+  .afiche-caja { position: relative; display: block; isolation: isolate; }
+  .afiche-caja::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.6);
+    opacity: 0;
+    transition: opacity 250ms var(--ease-ui);
+    pointer-events: none;
+  }
+  .funcion-link:focus-visible .afiche { transform: translateY(-6px); }
+  .funcion-link:focus-visible .afiche-caja::after { opacity: 1; }
+  .funcion-link:active .afiche { transform: scale(0.97); }
+  @media (hover: hover) and (pointer: fine) {
+    .funcion-link:hover .afiche { transform: translateY(-6px); }
+    .funcion-link:hover .afiche-caja::after { opacity: 1; }
+    .funcion-link:hover:active .afiche { transform: translateY(-6px) scale(0.97); }
+  }
 
   .ficha { display: grid; grid-template-columns: 1fr auto; row-gap: 0.3rem; align-items: baseline; }
   .ficha-titulo { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1; letter-spacing: -0.04em; }
@@ -127,12 +147,13 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     /* Tres columnas: un apaisado (dos columnas) y un vertical por fila; el apaisado toma el alto del vertical */
     .cartelera { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-flow: row dense; gap: 4.5rem 1.5rem; }
     .funcion-quad { grid-column: span 2; }
+    .funcion-quad .afiche-caja { display: flex; flex: 1; min-height: 0; }
     .funcion-quad .afiche { aspect-ratio: auto; flex: 1; min-height: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .afiche { transition: none; }
-    .funcion-link:hover .afiche { transform: none; }
+    .afiche, .afiche-caja::after { transition: none; }
+    .funcion-link:hover .afiche, .funcion-link:active .afiche { transform: none; }
   }
 </style>
 

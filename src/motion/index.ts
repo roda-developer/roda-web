@@ -62,18 +62,17 @@ export const scrollA = (destino: string | HTMLElement) => {
 
 export const pausarScroll = (pausa: boolean) => (pausa ? lenis?.stop() : lenis?.start());
 
-/** Todo [data-revelar] aparece al entrar en cuadro: sube, se enfoca y se ilumina. */
+/** Todo [data-revelar] aparece al entrar en cuadro: sube y se ilumina (sin desenfoque: solo transform y opacity). */
 function revelarTodo() {
   gsap.utils.toArray<HTMLElement>('[data-revelar]').forEach((el) => {
     const retraso = Number(el.dataset.revelar || 0) * F;
     gsap.fromTo(
       el,
-      { opacity: 0, y: 28, filter: 'blur(10px)' },
+      { opacity: 0, y: 24 },
       {
         opacity: 1,
         y: 0,
-        filter: 'blur(0px)',
-        duration: 30 * F,
+        duration: 0.9,
         delay: retraso,
         ease: 'expo.out',
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },

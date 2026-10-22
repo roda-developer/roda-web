@@ -31,7 +31,7 @@ const colores = {
       <div class="flex items-center gap-2">
         <button
           type="button"
-          class="btn-tira-nav btn-prev inline-flex items-center justify-center w-11 h-11 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-95 transition-transform"
+          class="btn-tira-nav btn-prev inline-flex items-center justify-center w-11 h-11 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-[0.97] transition-transform duration-150 ease-[var(--ease-ui)]"
           aria-label={cartelera.anterior}
         >
           <!-- Flecha dibujada (no un carácter): así queda centrada exacta en el círculo -->
@@ -39,7 +39,7 @@ const colores = {
         </button>
         <button
           type="button"
-          class="btn-tira-nav btn-next inline-flex items-center justify-center w-11 h-11 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-95 transition-transform"
+          class="btn-tira-nav btn-next inline-flex items-center justify-center w-11 h-11 rounded-full border border-tinta/15 bg-papel text-tinta active:scale-[0.97] transition-transform duration-150 ease-[var(--ease-ui)]"
           aria-label={cartelera.siguiente}
         >
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
@@ -122,11 +122,29 @@ const colores = {
     background: var(--color-papel);
     border: 1px solid color-mix(in oklab, var(--color-tinta) 8%, transparent);
     box-shadow: 0 30px 50px -30px rgb(0 0 0 / 0.45);
-    transition: transform 0.6s var(--ease-cine), box-shadow 0.6s var(--ease-cine);
+    transition: transform 250ms var(--ease-ui);
   }
+  /* La sombra grande vive en el li (quieto) y aparece con opacidad: no se anima box-shadow */
+  .tira > li { position: relative; isolation: isolate; }
+  .tira > li::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.5);
+    opacity: 0;
+    transition: opacity 250ms var(--ease-ui);
+    pointer-events: none;
+  }
+  .afiche:focus-visible { transform: translateY(-6px) rotate(-0.6deg); }
+  .tira > li:has(.afiche:focus-visible)::after { opacity: 1; }
+  .afiche:active { transform: scale(0.97); }
   /* El que detecta el mouse es el li, que no se mueve: si fuera el afiche, al subir se escaparía del cursor y temblaría */
-  .tira > li:hover .afiche, .afiche:focus-visible { transform: translateY(-6px) rotate(-0.6deg); box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.5); }
-  @media (prefers-reduced-motion: reduce) { .afiche, .tira > li:hover .afiche { transition: none; transform: none; } }
+  @media (hover: hover) and (pointer: fine) {
+    .tira > li:hover .afiche { transform: translateY(-6px) rotate(-0.6deg); }
+    .tira > li:hover::after { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .afiche, .tira > li::after { transition: none; } .afiche, .tira > li:hover .afiche, .afiche:active { transform: none; } }
 
   .interior { display: flex; flex-direction: column; height: 100%; padding: 6cqi; }
   .presenta { display: flex; align-items: baseline; justify-content: center; gap: 2.4cqi; font-size: 7.4cqi; }

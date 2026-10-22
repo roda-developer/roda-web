@@ -75,7 +75,7 @@ const textoSecuencia = secuencia.cuadros
             </div>
           ))}
         </div>
-        <button type="button" class="otra-vez" data-otra-vez hidden>↺ {secuencia.otraVez}</button>
+        <button type="button" class="otra-vez" data-otra-vez hidden><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.6-3.7M3 2.5v2.8h2.8" /></svg> {secuencia.otraVez}</button>
         <p class="legal" aria-hidden="true">{secuencia.legal}</p>
         </div>
       </div>
@@ -214,6 +214,10 @@ const textoSecuencia = secuencia.cuadros
   :global(.secuencia-animada) .fondo.visible { animation: acerca 14s linear both; }
   @keyframes acerca { from { transform: scale(1.04); } to { transform: scale(1.18); } }
   .otra-vez {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
     position: absolute;
     z-index: 2;
     right: 1rem;
@@ -228,7 +232,9 @@ const textoSecuencia = secuencia.cuadros
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
-  .otra-vez:hover { background: var(--color-papel); color: var(--color-negro); }
+  .otra-vez[hidden] { display: none; }
+  .otra-vez:active { transform: scale(0.97); }
+  @media (hover: hover) and (pointer: fine) { .otra-vez:hover { background: var(--color-papel); color: var(--color-negro); } }
 
   /* ── Nosotros: la palabra gigante y la foto que se le cruza ───── */
   .sobre .mono { color: var(--color-gris); }

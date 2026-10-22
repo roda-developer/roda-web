@@ -17,6 +17,8 @@
   --font-grito: 'Bricolage Grotesque Variable', 'Arial Black', sans-serif;
 
   --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Para la interfaz (botones, menús, chips): rápida al salir y suave al llegar */
+  --ease-ui: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 :root {
@@ -75,17 +77,22 @@ p { text-wrap: pretty; }
 }
 }
 
+/* Sin movimiento: las transiciones de la interfaz pasan al instante (el contenido queda igual) */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { transition-duration: 0s !important; }
+}
+
 /* Mientras se scrollea, las tarjetas con hover no reaccionan al mouse (ver motion/index.ts) */
 html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas, html.scrolleando .carpetas { pointer-events: none; }
 
 /* Los estados iniciales ocultos solo existen con JS y con movimiento permitido */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-revelar] { opacity: 0; }
-  /* Lo que ya se ve al cargar: mismo efecto que GSAP (sube, se enfoca y se ilumina), pero en CSS */
-  .revelar-css { animation: revelar-css 1.25s cubic-bezier(0.16, 1, 0.3, 1) var(--retraso, 0s) both; }
+  /* Lo que ya se ve al cargar: mismo efecto que GSAP (sube y se ilumina), pero en CSS */
+  .revelar-css { animation: revelar-css 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--retraso, 0s) both; }
 }
 @keyframes revelar-css {
-  from { opacity: 0; transform: translateY(28px); filter: blur(10px); }
+  from { opacity: 0; transform: translateY(24px); }
 }
 
 .cta {
@@ -102,9 +109,13 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: transform 0.6s var(--ease-cine), background-color 0.6s;
+  transition: transform 160ms var(--ease-ui), background-color 200ms ease;
 }
-.cta:hover { transform: translateY(-2px); }
+.cta:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover { transform: translateY(-2px); }
+  .cta:hover:active { transform: scale(0.97); }
+}
 
 /* Mobile: pregunta, vista, control, remate. Desktop: la vista a la derecha, todo en un cuadro. */
 .deslizador {
@@ -132,14 +143,14 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   letter-spacing: -0.045em;
 }
 
-/* La elección: el punto nace chiquito, se pasa de tamaño y se pinta de rosa; una onda sale una vez. */
-.marca-eleccion .punto { background: var(--color-tinta); transform: scale(0); transition: transform 0.35s var(--ease-cine); }
+/* La elección: el punto nace a la mitad y transparente, se pasa de tamaño y se pinta de rosa; una onda sale una vez. */
+.marca-eleccion .punto { background: var(--color-tinta); opacity: 0; transform: scale(0.5); transition: transform 0.35s var(--ease-cine), opacity 0.2s ease-out; }
 .marca-eleccion .onda { border: 2px solid var(--color-tc-rosa); opacity: 0; pointer-events: none; }
-.marca-eleccion.activa .punto { background: var(--color-tc-rosa); transform: scale(1); animation: punto-nace 0.7s var(--ease-cine); }
+.marca-eleccion.activa .punto { background: var(--color-tc-rosa); opacity: 1; transform: scale(1); animation: punto-nace 0.7s var(--ease-cine); }
 .marca-eleccion.activa .onda { animation: onda 0.8s ease-out; }
 @keyframes punto-nace {
-  0% { transform: scale(0); background: var(--color-tinta); }
-  55% { transform: scale(1.35); background: var(--color-tc-rosa); }
+  0% { transform: scale(0.5); opacity: 0; background: var(--color-tinta); }
+  55% { transform: scale(1.35); opacity: 1; background: var(--color-tc-rosa); }
   100% { transform: scale(1); background: var(--color-tc-rosa); }
 }
 @keyframes onda {
@@ -168,7 +179,7 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
 }
 /* El campo del nombre: subrayado rosa, sin recuadro; al escribir la línea se engrosa */
 .campo-marca:focus-visible { outline: none; box-shadow: 0 3px 0 var(--color-tc-rosa); }
-.campo-marca { caret-color: var(--color-tc-rosa); transition: box-shadow 0.3s; }
+.campo-marca { caret-color: var(--color-tc-rosa); }
 /* Los selectores del afiche: chips para el estilo y muestras redondas para el color */
 .chip-afiche {
   min-height: 2.75rem;
@@ -179,10 +190,12 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: background-color 0.3s, color 0.3s;
+  transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
 }
+.chip-afiche:active { transform: scale(0.97); }
 .chip-afiche[aria-checked='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
-.muestra-afiche { width: 2.75rem; height: 2.75rem; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08); transition: transform 0.3s var(--ease-cine); }
+.muestra-afiche { width: 2.75rem; height: 2.75rem; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08); transition: transform 200ms var(--ease-ui); }
+.muestra-afiche:active { transform: scale(0.97); }
 .muestra-afiche[aria-checked='true'] { box-shadow: 0 0 0 3px var(--color-papel), 0 0 0 5px var(--color-tinta); transform: scale(1.05); }
 .boton-afiche {
   min-height: 3.5rem;
@@ -193,6 +206,9 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: background-color 0.3s, color 0.3s;
+  transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
 }
-.boton-afiche:hover { background: var(--color-tinta); color: var(--color-papel); }
+.boton-afiche:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .boton-afiche:hover { background: var(--color-tinta); color: var(--color-papel); }
+}
