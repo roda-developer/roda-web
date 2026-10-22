@@ -12,7 +12,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 | 6 | Legibilidad y contraste AA | hecho | Chequeo propio de contraste/tamaño (scripts/_contraste.mjs, no commiteado) limpio en es/en/pt, salvo las letras de colores de MÁS/MORE/MAIS sobre rosa (no las toqué: es el círculo de MÁS ES MÁS). Las maquetas ilustrativas (web genérica de ActoUno y la web que se arma en ActoTres, aria-hidden) mantienen su letra chica a escala. |
 | 7 | Animaciones | hecho | Revisado: hamburguesa abierta/cerrada, aviso de error de /contacto. No toqué Loader (sigue animando width en su máquina de escribir), cintas, círculo ni secuencia de /nosotros (salvo el ↺ → SVG). |
 | 8 | Contenido (precios, nosotros) | hecho | Nosotros: bajada nueva + Lo que ya hicimos (lista dinámica, 8 hoy) + Criticas + Cómo aprendimos. Precios: aMedida.aliada y .mantenimiento legible. Precios sin cambios (Otro idioma US$ 80). |
-| — | Verificación final | sin empezar | |
+| — | Verificación final | hecho | Ver sección TERMINADO. |
 
 ## Decidido por mí
 
@@ -28,9 +28,21 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 ## Mediciones
 
 - Home antes (master 5758cd1, build de preview, scrolleando hasta el final): 390×844 → 16.565 px = 19,63 pantallas; 1440×900 → 17.034 px = 18,93 pantallas.
-- Home después de los puntos 3 y 5: 390×844 → 11.773 px = 13,95 pantallas; 1440×900 → 12.832 px = 14,26 pantallas.
+- Home al final (build de preview): 390×844 → 11.648 px = 13,80 pantallas (en 13,98, pt 13,85); 1440×900 → 12.674 px = 14,08 pantallas.
 
 ## Fuera de alcance, ya roto en master
 
 - `npm test`: 13 tests unitarios fallan igual en master (afiche, copy, sinopsis): esperan textos viejos ("grita/susurra") y el test de jerga marca "SEO". No los toqué.
 - `npm run check` (tsc) da 10 errores, todos en tests/unit (afiche.test.ts y sinopsis.test.ts llaman a funciones con otra firma). Igual en master. El código de src/ compila limpio.
+
+## TERMINADO
+
+Los 8 puntos están hechos y verificados (22/10/2026).
+
+- `npm ci`: ok.
+- `npm run check`: 10 errores, todos en tests/unit (firmas viejas en afiche.test.ts y sinopsis.test.ts). Son los mismos que en master. En src/ no hay errores.
+- `npm test`: 30 pasan y 13 fallan: los mismos 13 que en master (textos viejos y "SEO" en el test de jerga).
+- `npm run build`: ok, 43 páginas.
+- Recorrido con Playwright (chromium) de /, /precios, /proyectos, /proyectos/muda, /nosotros, /contacto, /en/, /pt/, /en/pricing y /pt/projetos/eber, a 390×844 y 1440×900, scrolleando hasta el final: sin scroll horizontal y sin errores de la página. El único error de consola es dolarapi.com (/precios), que bloquea la red del sandbox.
+- View Transitions: /proyectos→caso anima afiche-<slug> (550 ms) y home→/precios anima plan-* en compu. Con reducedMotion 'reduce' no hay transición.
+- e2e (tests/e2e, con chromium en vez de channel chrome): minimal.spec.ts no carga (import.meta.glob fuera de Vite, igual en master). Del resto, 20 pasan y 24 fallan: exactamente los mismos 24 que en master (5758cd1), corridos de la misma manera.
