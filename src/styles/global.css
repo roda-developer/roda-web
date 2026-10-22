@@ -47,6 +47,10 @@ body {
   outline-offset: 4px;
 }
 
+/* Los títulos se parten parejo, sin una palabra sola en el último renglón */
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
 @layer components {
 /* Un plano: una idea por pantalla */
 .plano {
@@ -64,7 +68,7 @@ body {
 /* La voz chica: mono, mayúscula, como las notas al margen de un libro de fotos */
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   line-height: 1.5;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -94,7 +98,7 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   background: var(--color-tinta);
   color: var(--color-papel);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -172,8 +176,8 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -186,8 +190,8 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   border: 1px solid var(--color-tinta);
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: background-color 0.3s, color 0.3s;
 }

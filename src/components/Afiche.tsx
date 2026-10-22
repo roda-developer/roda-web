@@ -145,7 +145,7 @@ export default function Afiche({ cierre, rubros, contacto }: Props) {
           maxLength={60}
           autoComplete="organization"
           aria-describedby={idAyuda}
-          className="campo-marca mt-8 w-full border-b-2 border-tc-rosa bg-transparent pb-2 font-titulo text-[clamp(1.6rem,6vw,2.6rem)] tracking-[-0.03em] placeholder:text-tinta/30"
+          className="campo-marca mt-8 w-full border-b-2 border-tc-rosa bg-transparent pb-2 font-titulo text-[clamp(1.6rem,6vw,2.6rem)] tracking-[-0.03em] placeholder:text-tinta/55"
         />
         <p id={idAyuda} className="mono mt-3 text-gris">{cierre.ayuda}</p>
 

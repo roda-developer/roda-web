@@ -17,7 +17,7 @@ const { nav, ui } = textos(idioma);
 const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l), ...NOMBRE_IDIOMA[l] }));
 ---
 <header class="nav fixed inset-x-0 top-0 z-50 px-4 py-1.5 md:px-8 md:py-1.5">
-  <nav aria-label={ui.principal} class="mono w-full text-[0.72rem] sm:text-xs md:text-sm">
+  <nav aria-label={ui.principal} class="mono w-full text-[0.8125rem] md:text-sm">
     <!-- Las columnas de los costados no se estiran con textos largos (otros idiomas): el logo queda centrado y nada se sale -->
     <div class="relative z-50 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center w-full">
       <!-- Desktop Izquierda: Proyectos, Nosotros -->
@@ -77,28 +77,24 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     <!-- Menú desplegable Mobile: dentro de nav para accesibilidad y semántica -->
     <div id="menu-movil" class="menu-movil md:hidden" aria-hidden="true">
       <div class="space-y-6 pt-8">
-        <p class="mono text-[0.75rem] text-tinta/45 tracking-wider uppercase mb-8">{ui.navegacion}</p>
+        <p class="mono text-tinta/70 tracking-wider uppercase mb-8">{ui.navegacion}</p>
         <div class="flex flex-col space-y-4">
           <a href={ruta(idioma, 'proyectos')} aria-current={aqui('proyectos')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
-            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(01)</span>
             <span class="enlace-movil">{nav.proyectos}</span>
           </a>
           <a href={ruta(idioma, 'nosotros')} aria-current={aqui('nosotros')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
-            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(02)</span>
             <span class="enlace-movil">{nav.nosotros}</span>
           </a>
           <a href={ruta(idioma, 'precios')} aria-current={aqui('precios')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
-            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(03)</span>
             <span class="enlace-movil">{nav.precios}</span>
           </a>
           <a href={ruta(idioma, 'contacto')} aria-current={aqui('contacto')} class="link-movil group inline-flex min-h-11 items-baseline gap-3 text-3xl font-titulo font-bold tracking-tight">
-            <span class="mono text-sm text-tinta/40 group-hover:text-tinta transition-colors">(04)</span>
             <span class="enlace-movil">({nav.atajo})</span>
           </a>
         </div>
       </div>
 
-      <div class="border-t border-tinta/10 pt-6 flex items-center justify-between text-xs mono text-tinta/50">
+      <div class="border-t border-tinta/10 pt-6 flex items-center justify-between mono text-tinta/70">
         <span>{ui.estudio}</span>
         <span>{ui.desde}</span>
       </div>
@@ -260,7 +256,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     transform: translateY(100%); transition: transform 0.4s var(--ease-cine);
   }
   .panel-cc.abierto { transform: translateY(0); }
-  .titulo-cc { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; margin-bottom: 0.5rem; }
+  .titulo-cc { font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.5rem; }
   .opcion-cc {
     display: flex; align-items: center; gap: 0.75rem; min-height: 3rem;
     font-family: var(--font-titulo); font-size: 1.5rem; letter-spacing: -0.02em; text-transform: none;

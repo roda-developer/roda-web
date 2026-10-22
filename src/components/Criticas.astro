@@ -23,7 +23,7 @@ const unaSola = testimonios.length === 1;
         {!unaSola && (
           <button type="button" class="leer mono" aria-expanded="false" aria-controls={`critica-${i}`} data-mas={ui.leerMas} data-menos={ui.leerMenos} hidden>{ui.leerMas}</button>
         )}
-        <p class="firma mono"><span class="text-tinta">{c.nombre}</span> · {c.rol}{c.traducido && <span class="block mt-1 normal-case opacity-80">({ui.traducido})</span>}</p>
+        <p class="firma mono"><span class="text-tinta">{c.nombre}</span> · {c.rol}{c.traducido && <span class="block mt-1 normal-case">({ui.traducido})</span>}</p>
       </li>
     ))}
   </ul>

@@ -206,8 +206,8 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     margin-bottom: -1px;
     background: var(--carton-atras);
     border-radius: 0.7rem 0.7rem 0 0;
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: color-mix(in oklab, var(--color-tinta) 72%, transparent);
     transform: translateY(0.35rem);
@@ -280,7 +280,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     transform: rotate(-9deg);
     box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.45);
   }
-  .sticker span { font-size: 0.62rem; letter-spacing: 0.08em; }
+  .sticker span { font-size: 0.8125rem; letter-spacing: 0.02em; }
   .sticker b { font-weight: 500; font-size: 1.75rem; letter-spacing: -0.04em; }
   .sticker b.largo { font-size: 1.4rem; }
   .carpeta-nombre { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(2rem, 8vw, 2.8rem); line-height: 1; letter-spacing: -0.045em; padding-right: 5.25rem; }
@@ -288,12 +288,12 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   /* Lo que define el plan, siempre a la vista */
   .ideal { margin-top: 1rem; padding-right: 4rem; font-size: 1.05rem; line-height: 1.35; color: color-mix(in oklab, var(--color-tinta) 75%, transparent); }
   .claves { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-  .claves li { padding: 0.35rem 0.7rem; border-radius: 999px; background: var(--color-papel); font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .claves li { padding: 0.35rem 0.7rem; border-radius: 999px; background: var(--color-papel); font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase; }
   .detalle-plan { margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.4; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); }
 
   .pie-carpeta { display: grid; gap: 0.75rem; margin-top: auto; padding-top: 1.5rem; }
   .pedir { justify-self: start; }
-  .mantenimiento { font-size: 0.7rem; letter-spacing: 0.04em; color: var(--color-gris); }
+  .mantenimiento { font-size: 0.9375rem; line-height: 1.35; color: var(--color-tinta); }
 
   @media (prefers-reduced-motion: reduce) {
     .lengueta { transition: none; }
@@ -301,7 +301,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
 
   /* ── Todas incluyen: los créditos en rosa, como en Nosotros ── */
   .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 4.5rem 1.25rem; }
-  .creditos h2 { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .creditos h2 { font-size: 0.875rem; letter-spacing: 0.12em; text-transform: uppercase; }
   .rollo { display: grid; gap: 1.6rem; max-width: 58rem; margin: 2.5rem auto 0; text-align: center; }
   @media (min-width: 768px) { .rollo { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.25rem 2rem; } }
   /* Si sobra uno solo en la última fila, va al medio */
@@ -335,7 +335,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .etiqueta-detalle { margin-top: 0.4rem; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); line-height: 1.35; }
   .etiqueta-nota { margin-top: 0.6rem; font-size: 0.85rem; line-height: 1.4; color: var(--color-gris); }
   .etiqueta-precio { margin-top: auto; padding-top: 1rem; font-size: 1.6rem; font-weight: 500; letter-spacing: -0.04em; }
-  .etiqueta-precio > .mono { font-size: 0.7rem; letter-spacing: 0.06em; color: var(--color-gris); }
+  .etiqueta-precio > .mono { font-size: 0.8125rem; letter-spacing: 0.06em; color: var(--color-gris); }
   @media (prefers-reduced-motion: reduce) { .etiqueta { transition: none; } }
 
   /* ── A medida: una carpeta más, abierta y a lo ancho, con borde punteado (todavía no tiene forma: la armamos juntos) ── */
@@ -373,7 +373,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   }
 
   /* El interruptor de pesos: un switch con perilla */
-  .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; }
+  .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; }
   .interruptor:disabled { opacity: 0.4; cursor: wait; }
   .perilla { position: relative; flex-shrink: 0; width: 2.6rem; height: 1.5rem; border-radius: 999px; background: color-mix(in oklab, var(--color-tinta) 18%, transparent); transition: background-color 0.3s; }
   .perilla::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--color-papel); box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); transition: transform 0.3s var(--ease-cine); }
@@ -381,7 +381,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .interruptor[aria-checked='true'] .perilla::after { transform: translateX(1.1rem); }
   .interruptor:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: 4px; border-radius: 4px; }
   /* Con la moneda local prendida: el precio fijo en dólares, chico, debajo */
-  .hoy { margin-top: 0.5rem; font-size: 0.75rem; letter-spacing: 0.04em; color: var(--color-gris); }
+  .hoy { margin-top: 0.5rem; font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--color-gris); }
   .hoy[hidden] { display: none; }
 
   .pregunta summary { list-style: none; }
