@@ -73,8 +73,8 @@ function presenta(ctx: CanvasRenderingContext2D, y: number, p: Paleta, t: Textos
   const tam = 90;
   ctx.font = `500 ${tam}px ${TITULO}`;
   const anchoR = ctx.measureText('R').width;
-  const anchoDa = ctx.measureText('da').width;
-  const anillo = tam * 0.5;
+  const anchoDa = ctx.measureText('DA').width;
+  const anillo = tam * 0.7;
   const separo = tam * 0.03;
   const logo = anchoR + separo + anillo + separo + anchoDa;
 
@@ -94,7 +94,7 @@ function presenta(ctx: CanvasRenderingContext2D, y: number, p: Paleta, t: Textos
   ctx.arc(x + anillo / 2, y - anillo / 2, anillo / 2 - ctx.lineWidth / 2, 0, Math.PI * 2);
   ctx.stroke();
   x += anillo + separo;
-  ctx.fillText('da', x, y);
+  ctx.fillText('DA', x, y);
   x += anchoDa + 30;
   ctx.font = `400 33px ${MONO}`;
   espaciado(ctx, palabra, x, y, espacio);

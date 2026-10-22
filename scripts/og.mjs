@@ -12,13 +12,12 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><style>
   * { margin: 0; box-sizing: border-box; }
   body { width: 1200px; height: 630px; background: #f3f2ee; color: #121212; font-family: Inter Tight; padding: 64px 72px; display: grid; grid-template-rows: auto 1fr auto; }
   .marca { font-size: 44px; display: inline-flex; align-items: baseline; letter-spacing: -0.01em; line-height: 1; }
-  .o { display: inline-block; width: .5em; height: .5em; margin: 0 .03em; border: .075em solid currentColor; border-radius: 99px; }
+  .o { display: inline-block; width: .7em; height: .7em; margin: 0 .03em; border: .075em solid currentColor; border-radius: 99px; }
   h1 { align-self: center; font-weight: 500; font-size: 112px; line-height: .95; letter-spacing: -0.045em; }
-  em { font-style: italic; }
   .pie { display: flex; justify-content: space-between; font-family: Plex; font-size: 20px; letter-spacing: .08em; text-transform: uppercase; color: #6b6862; border-top: 1px solid rgb(18 18 18 / .15); padding-top: 20px; }
 </style></head><body>
-  <span class="marca">R<span class="o"></span>da</span>
-  <h1>Tu marca ya tiene<br>una <em>historia.</em></h1>
+  <span class="marca">R<span class="o"></span>DA</span>
+  <h1>Tu marca ya tiene<br>una historia.</h1>
   <div class="pie"><span>Webs que cuentan una historia</span><span>Giuliana y Facundo</span></div>
 </body></html>`;
 

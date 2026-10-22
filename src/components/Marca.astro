@@ -3,7 +3,7 @@ interface Props { class?: string }
 const { class: clase = '' } = Astro.props;
 ---
 <span class:list={['marca', clase]} role="img" aria-label="Roda">
-  <span aria-hidden="true">R</span><span class="marca-o" aria-hidden="true"></span><span aria-hidden="true">da</span>
+  <span aria-hidden="true">R</span><span class="marca-o" aria-hidden="true"></span><span aria-hidden="true">DA</span>
 </span>
 
 <style>
@@ -14,11 +14,11 @@ const { class: clase = '' } = Astro.props;
     letter-spacing: -0.01em;
     line-height: 1;
   }
-  /* La "o" es un lente: un anillo fino del color del texto */
+  /* La "o" es un lente: un anillo fino del color del texto, alto como las mayúsculas de R y DA */
   .marca-o {
     display: inline-block;
-    width: 0.5em;
-    height: 0.5em;
+    width: 0.7em;
+    height: 0.7em;
     margin: 0 0.03em;
     border: 0.075em solid currentColor;
     border-radius: 999px;
