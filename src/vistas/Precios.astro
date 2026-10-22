@@ -145,10 +145,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       </div>
     )}
 
-    <!-- Preguntas frecuentes: se abren de a una -->
-    <section class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="precios-preguntas">
-      <h2 id="precios-preguntas" class="text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-medium tracking-[-0.035em] [text-wrap:balance]" data-revelar>{t.rotulos.preguntas[1]}</h2>
-      <div class="mt-10 border-t border-tinta">
+    <!-- Preguntas frecuentes: se abren de a una. En compu, el título a la izquierda y la lista a la derecha (si no, media pantalla queda vacía) -->
+    <section class="mt-24 grid px-5 md:mt-32 md:px-12 lg:grid-cols-[1fr_2fr] lg:gap-16" aria-labelledby="precios-preguntas">
+      <h2 id="precios-preguntas" class="text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-medium tracking-[-0.035em] [text-wrap:balance] lg:sticky lg:top-28 lg:self-start" data-revelar>{t.rotulos.preguntas[1]}</h2>
+      <div class="mt-10 border-t border-tinta lg:mt-0">
         {t.preguntas.map((q) => (
           <details class="pregunta border-b border-tinta/15">
             <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-6 py-5 text-lg font-medium tracking-[-0.02em] md:text-2xl">

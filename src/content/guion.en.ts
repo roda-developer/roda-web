@@ -67,7 +67,7 @@ export const apertura: typeof ES.apertura = {
 
 export const actoUno: typeof ES.actoUno = {
   rotulo: ['01', 'First impressions'],
-  lineas: ['Someone hears about you and looks you up.', 'What they find decides whether they get in touch.'],
+  lineas: ['Someone hears about you and looks you up.', 'What they find decides if they write.'],
   golpe: ['They don’t read.', 'They look.'],
   generica: {
     marca: 'Your Brand',

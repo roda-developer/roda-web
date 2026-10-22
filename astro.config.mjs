@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
 import { loadEnv } from 'vite';
-import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
@@ -15,6 +14,6 @@ export default defineConfig({
   // Idiomas: español (el original, sin prefijo), inglés (/en) y portugués (/pt). Las direcciones traducidas están en src/i18n.
   i18n: { defaultLocale: 'es', locales: ['es', 'en', 'pt'], routing: { prefixDefaultLocale: false } },
   // El sitemap deja afuera la 404
-  integrations: [react(), sitemap({ filter: (pagina) => !pagina.includes('/404') })],
+  integrations: [sitemap({ filter: (pagina) => !pagina.includes('/404') })],
   vite: { plugins: [tailwindcss()] },
 });

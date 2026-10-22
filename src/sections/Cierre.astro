@@ -1,11 +1,241 @@
 ---
-import Afiche from '../components/Afiche.tsx';
+/**
+ * El final: escribís el nombre de tu marca y se arma tu afiche de estreno.
+ * Es HTML de Astro con un script chico: antes era una isla de React y cargaba React entero (más de 200 KB) solo para esto.
+ */
 import { idiomaDe, ruta, textos } from '../i18n';
+import { MAIL } from '../content/contacto';
+import { ALTO, ANCHO, COLORES, ESTILOS } from '../story/dibujarAfiche';
 const idioma = idiomaDe(Astro.currentLocale);
 const { cierre, ui, rubros } = textos(idioma);
+const contacto = ruta(idioma, 'contacto');
+// El script recibe sus textos ya en el idioma de la página (así no carga los tres guiones en el navegador)
+const datos = JSON.stringify({ cierre, rubros, contacto, mail: MAIL });
+// Lo que se ve antes de que corra el script: el afiche vacío
+const descripcionVacia = cierre.descripcion
+  .replace('{marca}', cierre.afiche.vacio)
+  .replace('{antes}', cierre.afiche.antes)
+  .replace('{genero}', '')
+  .replace('{estreno}', cierre.afiche.proximamente)
+  .replace('{soloEn}', cierre.afiche.soloEn)
+  .replace('{dominio}', cierre.afiche.dominio);
 ---
 <!-- El final: Roda presenta… tu marca, en un afiche de estreno -->
 <section id="final" class="plano !place-items-stretch" aria-label={ui.estreno}>
-  <!-- El afiche recibe sus textos ya en el idioma de la página (así no carga los tres guiones en el navegador) -->
-  <Afiche client:idle cierre={cierre} rubros={rubros} contacto={ruta(idioma, 'contacto')} />
+  <div class="afiche-final w-full" data-afiche data-textos={datos}>
+    <div class="afiche-campo">
+      <label for="afiche-marca" class="block border-t border-tinta/15 pt-8 font-titulo text-[clamp(2.4rem,9vw,5rem)] leading-[0.95] tracking-[-0.045em]">
+        {cierre.pregunta}
+      </label>
+      <input
+        id="afiche-marca"
+        type="text"
+        placeholder={cierre.placeholder}
+        maxlength={60}
+        autocomplete="organization"
+        aria-describedby="afiche-ayuda"
+        class="campo-marca mt-8 w-full border-b-2 border-tc-rosa bg-transparent pb-2 font-titulo text-[clamp(1.6rem,6vw,2.6rem)] tracking-[-0.03em] placeholder:text-tinta/55"
+        data-campo
+      />
+      <p id="afiche-ayuda" class="mt-3 text-base text-tinta/80">{cierre.ayuda}</p>
+
+      <!-- Elegí cómo es tu afiche: uno de tres estilos y uno de los colores de la web -->
+      <div class="mt-10 grid gap-6">
+        <div role="radiogroup" aria-label={cierre.estiloEtiqueta}>
+          <p class="mono text-gris" aria-hidden="true">{cierre.estiloEtiqueta}</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {ESTILOS.map((e) => (
+              <button type="button" role="radio" aria-checked={String(e === 'estreno')} class="chip-afiche" data-estilo={e}>
+                {cierre.estilos[e]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div role="radiogroup" aria-label={cierre.colorEtiqueta}>
+          <p class="mono text-gris" aria-hidden="true">{cierre.colorEtiqueta}</p>
+          <div class="mt-3 flex flex-wrap gap-3">
+            {(Object.keys(COLORES) as (keyof typeof COLORES)[]).map((c) => (
+              <button
+                type="button"
+                role="radio"
+                aria-checked={String(c === 'rosa')}
+                aria-label={cierre.colores[c]}
+                class="muestra-afiche"
+                style={`background: ${COLORES[c]}`}
+                data-color={c}
+              ></button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <canvas
+      width={ANCHO}
+      height={ALTO}
+      role="img"
+      aria-label={descripcionVacia}
+      class="afiche-lienzo w-full bg-papel shadow-[0_40px_80px_-40px_rgb(0_0_0/0.45)]"
+      data-lienzo
+    ></canvas>
+
+    <div class="afiche-acciones">
+      <div class="flex flex-wrap items-center gap-3">
+        <a class="cta" href={contacto} data-hablemos>{cierre.cta}</a>
+        <button type="button" class="boton-afiche" data-descargar>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7.5 8 11l3.5-3.5M3 13.5h10" /></svg> {cierre.descargar}
+        </button>
+        <!-- Compartir archivos existe sobre todo en el celular; donde no está, el botón no aparece -->
+        <button type="button" class="boton-afiche" data-compartir hidden>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10V2.5M5 5.5 8 2.5l3 3M3.5 8.5v4.5h9V8.5" /></svg> {cierre.compartir}
+        </button>
+      </div>
+      <p class="mt-6 text-gris">
+        {MAIL
+          ? <>{cierre.alternativa} <a class="text-tinta underline underline-offset-4" href={`mailto:${MAIL}?subject=${encodeURIComponent(cierre.mail.asuntoSinMarca)}&body=${encodeURIComponent(cierre.mail.cuerpoSinMarca)}`} data-mail>{MAIL}</a></>
+          : <a class="text-tinta underline underline-offset-4" href={contacto}>{cierre.formulario}</a>}
+      </p>
+    </div>
+  </div>
 </section>
+
+<script>
+  import { $respuestas } from '../story/store';
+  import { dominioDe, limpiarMarca, textosAfiche, type TextosCierre } from '../story/afiche';
+  import { COLORES, ESTILOS, cargarTipografias, dibujarAfiche, type Color, type Estilo } from '../story/dibujarAfiche';
+
+  const CLAVE = 'roda:marca';
+  const CLAVE_DISENO = 'roda:afiche';
+
+  interface Datos { cierre: TextosCierre; rubros: Record<string, string>; contacto: string; mail: string }
+
+  const raiz = document.querySelector<HTMLElement>('[data-afiche]');
+  if (raiz) iniciar(raiz);
+
+  function leer(clave: string): string {
+    try {
+      return sessionStorage.getItem(clave) ?? '';
+    } catch {
+      return '';
+    }
+  }
+
+  function guardar(clave: string, valor: string) {
+    try {
+      sessionStorage.setItem(clave, valor);
+    } catch {
+      /* modo privado: seguimos en memoria */
+    }
+  }
+
+  function iniciar(raiz: HTMLElement) {
+    const { cierre, rubros, contacto, mail } = JSON.parse(raiz.dataset.textos!) as Datos;
+    const campo = raiz.querySelector<HTMLInputElement>('[data-campo]')!;
+    const lienzo = raiz.querySelector<HTMLCanvasElement>('[data-lienzo]')!;
+    const hablemos = raiz.querySelector<HTMLAnchorElement>('[data-hablemos]')!;
+    const linkMail = raiz.querySelector<HTMLAnchorElement>('[data-mail]');
+    const botonesEstilo = [...raiz.querySelectorAll<HTMLButtonElement>('[data-estilo]')];
+    const botonesColor = [...raiz.querySelectorAll<HTMLButtonElement>('[data-color]')];
+    const ctx = lienzo.getContext('2d');
+
+    // La marca y el diseño de esta sesión se recuperan al cargar (el HTML estático sale vacío)
+    let estilo: Estilo = 'estreno';
+    let color: Color = 'rosa';
+    try {
+      const d = JSON.parse(leer(CLAVE_DISENO) || '{}');
+      if (ESTILOS.includes(d.estilo)) estilo = d.estilo;
+      if (d.color in COLORES) color = d.color;
+    } catch {
+      /* diseño guardado roto: queda el de siempre */
+    }
+    campo.value = leer(CLAVE);
+    let listo = false;
+    let cuadro = 0;
+
+    const marca = () => limpiarMarca(campo.value);
+
+    function pintar() {
+      const m = marca();
+      const textos = textosAfiche($respuestas.get(), cierre, rubros);
+      // Para lectores de pantalla: lo que muestra el afiche
+      lienzo.setAttribute(
+        'aria-label',
+        cierre.descripcion
+          .replace('{marca}', m || cierre.afiche.vacio)
+          .replace('{antes}', textos.antes)
+          .replace('{genero}', textos.genero ? `${cierre.afiche.genero}: ${textos.genero}. ` : '')
+          .replace('{estreno}', textos.estreno)
+          .replace('{soloEn}', cierre.afiche.soloEn)
+          .replace('{dominio}', dominioDe(m) || cierre.afiche.dominio),
+      );
+      hablemos.href = m.trim() ? `${contacto}?marca=${encodeURIComponent(m.trim())}` : contacto;
+      if (linkMail) {
+        const asunto = m ? cierre.mail.asunto.replace('{marca}', m) : cierre.mail.asuntoSinMarca;
+        const cuerpo = m ? cierre.mail.cuerpo.replace('{marca}', m) : cierre.mail.cuerpoSinMarca;
+        linkMail.href = `mailto:${mail}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+      }
+      botonesEstilo.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.estilo === estilo)));
+      botonesColor.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.color === color)));
+      if (!ctx || !listo) return;
+      cancelAnimationFrame(cuadro);
+      cuadro = requestAnimationFrame(() => dibujarAfiche(ctx, { marca: m, estilo, color, textos }));
+    }
+
+    function elegir(cambio: Partial<{ estilo: Estilo; color: Color }>) {
+      estilo = cambio.estilo ?? estilo;
+      color = cambio.color ?? color;
+      guardar(CLAVE_DISENO, JSON.stringify({ estilo, color }));
+      pintar();
+    }
+
+    campo.addEventListener('input', () => {
+      guardar(CLAVE, campo.value);
+      pintar();
+    });
+    botonesEstilo.forEach((b) => b.addEventListener('click', () => elegir({ estilo: b.dataset.estilo as Estilo })));
+    botonesColor.forEach((b) => b.addEventListener('click', () => elegir({ color: b.dataset.color as Color })));
+    // Si en /proyectos eligió rubro, el afiche lo muestra
+    $respuestas.listen(pintar);
+
+    const archivo = () =>
+      new Promise<File | null>((resolver) => {
+        const nombre = `afiche-${dominioDe(marca()).replace('.com', '') || 'roda'}.png`;
+        lienzo.toBlob((blob) => resolver(blob ? new File([blob], nombre, { type: 'image/png' }) : null), 'image/png');
+      });
+
+    raiz.querySelector('[data-descargar]')!.addEventListener('click', async () => {
+      const f = await archivo();
+      if (!f) return;
+      const url = URL.createObjectURL(f);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = f.name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+
+    const botonCompartir = raiz.querySelector<HTMLButtonElement>('[data-compartir]')!;
+    try {
+      const prueba = new File([''], 'a.png', { type: 'image/png' });
+      botonCompartir.hidden = !(typeof navigator.canShare === 'function' && navigator.canShare({ files: [prueba] }));
+    } catch {
+      botonCompartir.hidden = true;
+    }
+    botonCompartir.addEventListener('click', async () => {
+      const f = await archivo();
+      if (!f) return;
+      const m = marca();
+      try {
+        await navigator.share({ files: [f], title: m ? `${m}, una historia de Roda` : 'Roda' });
+      } catch {
+        /* canceló el menú de compartir */
+      }
+    });
+
+    pintar();
+    cargarTipografias().finally(() => {
+      listo = true;
+      pintar();
+    });
+  }
+</script>
