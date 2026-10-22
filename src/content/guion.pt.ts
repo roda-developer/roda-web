@@ -60,10 +60,9 @@ export const nav: typeof ES.nav = {
 
 export const apertura: typeof ES.apertura = {
   titulo: ['Sua marca já tem', 'uma história.'],
-  enfasis: ['uma ', 'história.'],
-  bajada: 'Falta contar onde procuram por você.',
-  queHacemos: 'Estúdio de design e desenvolvimento web · De Buenos Aires para o mundo',
-  verPrecios: 'Ver preços →',
+  queHacemos: 'Desenhamos e programamos sites sob medida para marcas, a partir de US$ 300.',
+  cta: 'Vamos falar',
+  verPrecios: 'Ver preços',
 };
 
 export const actoUno: typeof ES.actoUno = {
@@ -192,7 +191,7 @@ export const cierre: typeof ES.cierre = {
   pregunta: 'Qual é o nome da sua marca?',
   ayuda: 'Escreva e veja seu pôster de estreia.',
   placeholder: 'Sua marca',
-  cta: 'Vamos conversar',
+  cta: 'Vamos falar',
   descargar: 'Baixar pôster',
   estiloEtiqueta: 'Estilo',
   estilos: { estreno: 'Estreia', cartel: 'Cartaz', autor: 'Autor' },
@@ -358,7 +357,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   final: {
     titulo: 'Bora começar?',
     texto: 'Conte sobre a sua marca e a gente diz qual pasta combina com você.',
-    cta: 'Vamos conversar',
+    cta: 'Vamos falar',
   },
 };
 
@@ -471,7 +470,7 @@ export const nosotros: typeof ES.nosotros = {
   ],
   juntos: 'E agora vamos começar ciberdefesa os dois.',
   filmamos: ['Vamos filmar', 'a sua?'],
-  cta: 'Vamos conversar',
+  cta: 'Vamos falar',
 };
 
 export const privacidad: typeof ES.privacidad = {

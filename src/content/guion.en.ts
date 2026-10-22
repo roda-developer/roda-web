@@ -60,10 +60,9 @@ export const nav: typeof ES.nav = {
 
 export const apertura: typeof ES.apertura = {
   titulo: ['Your brand already', 'has a story.'],
-  enfasis: ['has a ', 'story.'],
-  bajada: 'Now tell it where people look for you.',
-  queHacemos: 'Web design and development studio · From Buenos Aires to the world',
-  verPrecios: 'See pricing →',
+  queHacemos: 'We design and build custom websites for brands, from US$ 300.',
+  cta: 'Let’s talk',
+  verPrecios: 'See pricing',
 };
 
 export const actoUno: typeof ES.actoUno = {

@@ -64,11 +64,10 @@ export const nav = {
 
 export const apertura = {
   titulo: ['Tu marca ya tiene', 'una historia.'],
-  /** La segunda línea del título: lo normal y lo que va en cursiva */
-  enfasis: ['una ', 'historia.'],
-  bajada: 'Falta contarla donde te buscan.',
-  queHacemos: 'Estudio de diseño y desarrollo web · De Buenos Aires al mundo',
-  verPrecios: 'Ver precios →',
+  /** Qué hacemos, dicho claro en la primera pantalla. Antes: bajada 'Falta contarla donde te buscan.' y queHacemos 'Estudio de diseño y desarrollo web · De Buenos Aires al mundo' */
+  queHacemos: 'Diseñamos y programamos webs a medida para marcas, desde US$ 300.',
+  cta: 'Hablemos',
+  verPrecios: 'Ver precios',
 };
 
 export const actoUno = {
