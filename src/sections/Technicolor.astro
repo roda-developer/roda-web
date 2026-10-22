@@ -29,7 +29,6 @@ const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
   const p = proyectosEn(idioma).find((x) => x.slug === slug)!;
   return { slug, titulo: p.titulo, genero: p.genero, anio: p.anio, img: capturas(slug).portada };
 });
-const total = String(tomas.length).padStart(2, '0');
 ---
 <section id="technicolor" aria-label={ui.technicolor}>
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
@@ -43,8 +42,8 @@ const total = String(tomas.length).padStart(2, '0');
           <span class="block">{technicolor.grito[2]}</span>
         </p>
         <div class="cintas pointer-events-none w-screen" aria-hidden="true">
-          <div class="cinta cinta-a"><div>{pista.map((c) => <span>{c} ✺</span>)}</div></div>
-          <div class="cinta cinta-b"><div>{pista.map((c) => <span>{c} ✦</span>)}</div></div>
+          <div class="cinta cinta-a"><div>{pista.map((c) => <span>{c} <svg class="signo-cinta" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1v18M1 10h18M3.6 3.6l12.8 12.8M16.4 3.6 3.6 16.4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" /></svg></span>)}</div></div>
+          <div class="cinta cinta-b"><div>{pista.map((c) => <span>{c} <svg class="signo-cinta" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0c.9 5.6 4.4 9.1 10 10-5.6.9-9.1 4.4-10 10-.9-5.6-4.4-9.1-10-10 5.6-.9 9.1-4.4 10-10Z" fill="currentColor" /></svg></span>)}</div></div>
         </div>
       </div>
     </div>
@@ -53,7 +52,7 @@ const total = String(tomas.length).padStart(2, '0');
   <!-- El tráiler: los proyectos de a uno, con cortes secos, sobre el mismo rosa del círculo (un solo color) -->
   <div class="trailer relative h-[140svh]" data-trailer>
     <div class="sala sticky top-0 h-svh overflow-hidden bg-tc-rosa text-tinta">
-      <p class="mono absolute top-20 left-5 z-20 md:top-24 md:left-12">({technicolor.firma})</p>
+      <p class="sr-only">{technicolor.firma}</p>
       {tomas.map((t, i) => (
         <a href={ruta(idioma, 'proyectos', t.slug)} class="toma" data-toma>
           <span class="toma-cuadro">
@@ -61,7 +60,7 @@ const total = String(tomas.length).padStart(2, '0');
           </span>
           <span class="toma-pie">
             <span class="toma-titulo">{t.titulo}</span>
-            <span class="mono">({String(i + 1).padStart(2, '0')} / {total}) · {t.genero} · {t.anio}</span>
+            <span class="mono">{t.genero} · {t.anio}</span>
           </span>
         </a>
       ))}
@@ -73,7 +72,7 @@ const total = String(tomas.length).padStart(2, '0');
   <div class="plano !min-h-0">
     <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
       <span class="block text-tinta/52">{technicolor.corte[0]}</span>
-      <span class="block">{technicolor.corteEnfasis[0]}<em>{technicolor.corteEnfasis[1]}</em></span>
+      <span class="block">{technicolor.corte[1]}</span>
     </p>
   </div>
 
@@ -123,6 +122,8 @@ const total = String(tomas.length).padStart(2, '0');
     margin-left: -10%;
   }
   .cinta > div { display: inline-flex; gap: 1.2em; padding-right: 1.2em; }
+  /* Los signos entre palabras, dibujados (no caracteres): mismo tamaño en todas las fuentes */
+  .signo-cinta { display: inline-block; width: 0.62em; height: 0.62em; vertical-align: 0.02em; }
   .cinta-a { background: var(--color-tc-rojo); color: var(--color-papel); transform: rotate(-3deg); }
   .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(-0.15em); }
 

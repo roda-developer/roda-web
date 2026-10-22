@@ -1,6 +1,5 @@
 ---
 import { idiomaDe, ruta, textos } from '../i18n';
-import Rotulo from '../components/Rotulo.astro';
 import Marca from '../components/Marca.astro';
 const idioma = idiomaDe(Astro.currentLocale);
 const { cartelera, planes } = textos(idioma);
@@ -17,7 +16,6 @@ const colores = {
 <section id="cartelera" class="py-16 md:py-28" aria-labelledby="cartelera-titulo">
   <div class="px-5 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
     <div>
-      <Rotulo rotulo={cartelera.rotulo} tipo="Parte" />
       <h2 id="cartelera-titulo" class="mt-10 font-titulo text-[clamp(2.6rem,9vw,6rem)] leading-[0.95] tracking-[-0.045em] [text-wrap:balance]" data-revelar>
         <span class="block text-tinta/52">{cartelera.titulo[0]}</span>
         <span class="block">{cartelera.titulo[1]}</span>
@@ -27,7 +25,7 @@ const colores = {
     <!-- Controles de navegación horizontal en mobile -->
     <div class="flex items-center justify-between sm:justify-start gap-4 lg:hidden" aria-label={cartelera.navegar}>
       <span class="mono text-[0.75rem] text-tinta/60 tracking-wider flex items-center gap-1.5">
-        <span class="inline-block w-2 h-2 rounded-full bg-tc-rosa animate-pulse"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-tc-rosa"></span>
         {cartelera.deslizar}
       </span>
       <div class="flex items-center gap-2">
@@ -67,7 +65,7 @@ const colores = {
           <p class="frase" aria-hidden="true">{p.frase}</p>
           <h3 class:list={['titulo', { 'titulo-largo': p.titulo.length > 8 }]} aria-hidden="true"><small>{p.articulo}</small>{p.titulo}</h3>
           <p class="creditos" aria-hidden="true">{p.creditos}</p>
-          <p class="pie" aria-hidden="true"><span class:list={['sello', { 'sello-claro': p.color === 'azul' }]}>{cartelera.enCartel}</span><span>{p.precio} →</span></p>
+          <p class="pie" aria-hidden="true"><span class:list={['sello', { 'sello-claro': p.color === 'azul' }]}>{cartelera.enCartel}</span><span>{p.precio}</span></p>
           </div>
         </a>
       </li>

@@ -1,6 +1,5 @@
 ---
 import { textos } from '../i18n';
-import Rotulo from '../components/Rotulo.astro';
 const { actoTres } = textos(Astro.currentLocale);
 const { obra, pasos } = actoTres;
 const total = String(pasos.length).padStart(2, '0');
@@ -10,7 +9,6 @@ const total = String(pasos.length).padStart(2, '0');
   <div class="obra relative" data-obra>
     <div class="obra-marco">
       <header class="obra-cabeza px-5 md:px-12">
-        <Rotulo rotulo={actoTres.rotulo} />
         <h2 id="acto-tres-titulo" class="mt-2.5 max-w-[20ch] font-titulo text-[clamp(1.55rem,min(7vw,4svh),2.4rem)] md:mt-6 md:text-[clamp(1.7rem,min(7.5vw,4.6svh),2.6rem)] lg:text-[clamp(2rem,min(4.4vw,6.5svh),4rem)] leading-[0.95] tracking-[-0.045em]">
           {actoTres.titulo}
         </h2>
@@ -38,7 +36,7 @@ const total = String(pasos.length).padStart(2, '0');
             <div class="barra">
               <span class="puntos"><i></i><i></i><i></i></span>
               <span class="url"><span class="url-texto" style={`--n:${obra.url.length}`}>{obra.url}</span></span>
-              <span class="en-linea mono">● {obra.enLinea}</span>
+              <span class="en-linea mono"><span class="punto-vivo" aria-hidden="true"></span> {obra.enLinea}</span>
             </div>
             <div class="lienzo">
               <!-- 1. Las notas de la primera charla -->
@@ -51,11 +49,11 @@ const total = String(pasos.length).padStart(2, '0');
               </div>
               <!-- 3. El diseño de verdad, en las mismas posiciones -->
               <div class="capa diseno">
-                <span class="p-nav"><b>{obra.marca}</b><span>≡</span></span>
+                <span class="p-nav"><b>{obra.marca}</b><span><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" /></svg></span></span>
                 <span class="p-img"></span>
                 <span class="p-tit">{obra.titular}</span>
                 <span class="p-tit-2">{obra.bajada}</span>
-                <span class="p-btn">{obra.boton} →</span>
+                <span class="p-btn">{obra.boton}</span>
               </div>
             </div>
           </div>
@@ -63,17 +61,17 @@ const total = String(pasos.length).padStart(2, '0');
           <!-- 4. Publicada: también en el celular -->
           <div class="celu">
             <div class="celu-pantalla">
-              <span class="c-nav"><b>{obra.marca}</b><span>≡</span></span>
+              <span class="c-nav"><b>{obra.marca}</b><span><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" /></svg></span></span>
               <span class="c-img"></span>
               <span class="c-tit">{obra.titular}</span>
               <span class="c-baj">{obra.bajada}</span>
-              <span class="c-btn">{obra.boton} →</span>
+              <span class="c-btn">{obra.boton}</span>
             </div>
           </div>
 
           <!-- 5. Y llegan los mensajes -->
           <div class="aviso">
-            <span class="aviso-icono">✉</span>
+            <span class="aviso-icono"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.5" /><path d="m2.5 4.5 5.5 4.5 5.5-4.5" /></svg></span>
             <span><b class="block">{obra.mensaje[0]}</b>{obra.mensaje[1]}</span>
           </div>
         </div>
@@ -141,7 +139,8 @@ const total = String(pasos.length).padStart(2, '0');
   .puntos i { width: 0.5rem; height: 0.5rem; border-radius: 99px; background: color-mix(in oklab, var(--color-tinta) 22%, transparent); }
   .url { flex: 1; min-height: 1.3rem; padding: 0.15rem 0.6rem; border-radius: 99px; background: #fff; font-family: var(--font-mono); font-size: 0.7rem; }
   .url-texto { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; }
-  .en-linea { font-size: 0.6rem; color: #0a8f4f; white-space: nowrap; }
+  .en-linea { display: inline-flex; align-items: center; gap: 0.35em; font-size: 0.6rem; color: #0a8f4f; white-space: nowrap; }
+  .punto-vivo { width: 0.6em; height: 0.6em; border-radius: 50%; background: currentColor; }
 
   /* El lienzo mide su propio ancho: todo lo de adentro escala con el mockup, no con la pantalla */
   .lienzo { position: relative; aspect-ratio: 1; container-type: inline-size; }

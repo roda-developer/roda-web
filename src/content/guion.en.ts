@@ -80,7 +80,6 @@ export const actoUno: typeof ES.actoUno = {
   notas: ['A template a thousand other brands use.', 'A stock photo.', '“Learn more”… about what?'],
   cuenta: 'seconds to decide',
   cierre: ['And they leave.', 'You didn’t lose a visit.', 'You lost a client.'],
-  cierreEnfasis: ['You lost a ', 'client.'],
 };
 
 export const actoDos: typeof ES.actoDos = {
@@ -108,7 +107,6 @@ export const technicolor: typeof ES.technicolor = {
   firma: 'Some we made',
   verTodos: 'See all our work',
   corte: ['The secret isn’t picking a style.', 'It’s knowing which one your brand needs.'],
-  corteEnfasis: ['It’s knowing which one your ', 'brand needs.'],
   webDe: '{titulo} website',
 };
 
@@ -199,7 +197,7 @@ export const cierre: typeof ES.cierre = {
   colores: { rosa: 'Pink', amarillo: 'Yellow', azul: 'Blue', rojo: 'Red', verde: 'Green' },
   compartir: 'Share',
   alternativa: 'or write to us at',
-  formulario: 'Or tell us more in the form →',
+  formulario: 'Or tell us more in the form',
   mail: {
     asunto: 'The story of {marca}',
     asuntoSinMarca: 'My story',
@@ -427,7 +425,7 @@ export const cartelera: typeof ES.cartelera = {
   anterior: 'Previous film',
   siguiente: 'Next film',
   presenta: 'presents',
-  escribinos: 'Write to us →',
+  escribinos: 'Write to us',
   enCartel: 'Now showing',
   peliculas: [
     { id: 'landing', dibujo: 'landing', articulo: 'The', titulo: 'Landing', frase: 'One page. One goal.', creditos: 'Straight to the point · One button, one message', precio: 'US$ 300', color: 'rojo' },

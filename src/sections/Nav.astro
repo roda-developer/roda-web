@@ -115,7 +115,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     {idiomas.map((i) => (
       <li>
         <a href={i.href} hreflang={i.l} lang={i.l} aria-current={i.l === idioma ? 'true' : undefined} class="opcion-cc">
-          <span class="check-cc" aria-hidden="true">✓</span><Bandera idioma={i.l} />{i.largo}
+          <svg class="check-cc" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.2 11.5 13 4.5" /></svg><Bandera idioma={i.l} />{i.largo}
         </a>
       </li>
     ))}
@@ -267,7 +267,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     color: color-mix(in oklab, var(--color-tinta) 50%, transparent); transition: color 0.25s;
   }
   .opcion-cc:hover, .opcion-cc:focus-visible, .opcion-cc[aria-current='true'] { color: var(--color-tinta); }
-  .check-cc { width: 1rem; font-size: 0.9rem; color: var(--color-tc-rosa); visibility: hidden; }
+  .check-cc { flex: none; width: 1rem; height: 1rem; color: var(--color-tc-rosa); visibility: hidden; }
   .opcion-cc[aria-current='true'] .check-cc { visibility: visible; }
   .velo-cc { position: fixed; inset: 0; z-index: 55; background: rgb(0 0 0 / 0.3); opacity: 0; transition: opacity 0.3s; }
   .velo-cc.abierto { opacity: 1; }

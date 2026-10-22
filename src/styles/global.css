@@ -101,7 +101,6 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   transition: transform 0.6s var(--ease-cine), background-color 0.6s;
 }
 .cta:hover { transform: translateY(-2px); }
-.cta::after { content: '→'; font-size: 1rem; letter-spacing: 0; }
 
 /* Mobile: pregunta, vista, control, remate. Desktop: la vista a la derecha, todo en un cuadro. */
 .deslizador {

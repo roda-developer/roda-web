@@ -17,9 +17,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
   <Nav enHome={false} actual="contacto" />
   <main class="relative z-10">
     <header class="px-5 pt-28 md:px-12 md:pt-32">
-      <p class="mono flex items-baseline justify-between gap-4 border-t border-tinta/15 pt-3">
+      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3">
         <Volver />
-        <span>{t.rotulo}</span>
       </p>
       <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
         <span class="text-tinta/52">{t.titulo[0]}</span> {t.titulo[1]}
@@ -85,8 +84,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
     <aside class="despues" aria-labelledby="despues-titulo" data-despues>
       <p id="despues-titulo" class="mono text-gris">{t.despues.titulo}</p>
       <ol class="mt-5">
-        {t.despues.pasos.map((paso, i) => (
-          <li><span class="mono text-gris">({String(i + 1).padStart(2, '0')})</span><span>{paso}</span></li>
+        {t.despues.pasos.map((paso) => (
+          <li>{paso}</li>
         ))}
       </ol>
     </aside>
@@ -108,7 +107,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
 
     <p class="mono mx-5 mt-10 mb-16 border-t border-tinta/15 pt-3 text-gris md:mx-12" data-directo>
       {t.directo}{' '}
-      <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{t.directoCta} →</a>
+      <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{t.directoCta}</a>
     </p>
   </main>
   <Pie />
@@ -121,7 +120,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
   @media (min-width: 1024px) { .contacto-cuerpo { grid-template-columns: minmax(0, 1fr) 18rem; gap: 5rem; align-items: start; } .despues { position: sticky; top: 7rem; } }
   .despues { border-top: 1px solid var(--color-tinta); padding-top: 1rem; }
   .despues[hidden] { display: none; }
-  .despues li { display: grid; grid-template-columns: 2.75rem 1fr; gap: 0.5rem; padding: 0.9rem 0; border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); line-height: 1.35; }
+  .despues li { padding: 0.9rem 0; border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); line-height: 1.35; }
   .bloque { border: 0; padding: 0; margin: 0; min-width: 0; }
   .bloque[hidden] { display: none; }
   .pregunta { display: block; margin-bottom: 1rem; font-size: clamp(1.2rem, 3.5vw, 1.5rem); font-weight: 500; letter-spacing: -0.025em; }

@@ -86,7 +86,6 @@ export const actoUno = {
   notas: ['Una plantilla que usan otras mil marcas.', 'Una foto de stock.', '“Saber más”… ¿de qué?'],
   cuenta: 'segundos para decidir',
   cierre: ['Y se va.', 'No perdiste una visita.', 'Perdiste un cliente.'],
-  cierreEnfasis: ['Perdiste un ', 'cliente.'],
 };
 
 export const actoDos = {
@@ -116,7 +115,6 @@ export const technicolor = {
   firma: 'Algunas que hicimos nosotros',
   verTodos: 'Ver todos los proyectos',
   corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu marca.'],
-  corteEnfasis: ['Es saber cuál necesita tu ', 'marca.'],
   webDe: 'Web de {titulo}',
 };
 
@@ -211,7 +209,7 @@ export const cierre = {
   colores: { rosa: 'Rosa', amarillo: 'Amarillo', azul: 'Azul', rojo: 'Rojo', verde: 'Verde' },
   compartir: 'Compartir',
   alternativa: 'o escribinos a',
-  formulario: 'O contanos más en el formulario →',
+  formulario: 'O contanos más en el formulario',
   /** El mail que se arma con el link de abajo del afiche */
   mail: {
     asunto: 'La historia de {marca}',
@@ -466,7 +464,7 @@ export const cartelera = {
   anterior: 'Ver película anterior',
   siguiente: 'Ver siguiente película',
   presenta: 'presenta',
-  escribinos: 'Escribinos →',
+  escribinos: 'Escribinos',
   enCartel: 'En cartel',
   peliculas: [
     { id: 'landing', dibujo: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'US$ 300', color: 'rojo' },

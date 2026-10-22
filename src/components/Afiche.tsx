@@ -133,11 +133,7 @@ export default function Afiche({ cierre, rubros, contacto }: Props) {
   return (
     <div className="afiche-final w-full">
       <div className="afiche-campo">
-        <p className="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3">
-          <span aria-hidden="true">({cierre.rotulo[0]})</span>
-          <span>{cierre.rotulo[1]}</span>
-        </p>
-        <label htmlFor={idCampo} className="mt-10 block font-titulo text-[clamp(2.4rem,9vw,5rem)] leading-[0.95] tracking-[-0.045em]">
+        <label htmlFor={idCampo} className="block border-t border-tinta/15 pt-8 font-titulo text-[clamp(2.4rem,9vw,5rem)] leading-[0.95] tracking-[-0.045em]">
           {cierre.pregunta}
         </label>
         <input
@@ -200,11 +196,11 @@ export default function Afiche({ cierre, rubros, contacto }: Props) {
             {cierre.cta}
           </a>
           <button type="button" onClick={descargar} className="boton-afiche">
-            ↓ {cierre.descargar}
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7.5 8 11l3.5-3.5M3 13.5h10" /></svg> {cierre.descargar}
           </button>
           {puedeCompartir && (
             <button type="button" onClick={compartir} className="boton-afiche">
-              ↗ {cierre.compartir}
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 10V2.5M5 5.5 8 2.5l3 3M3.5 8.5v4.5h9V8.5" /></svg> {cierre.compartir}
             </button>
           )}
         </div>

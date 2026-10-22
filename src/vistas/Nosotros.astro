@@ -84,7 +84,6 @@ const textoSecuencia = secuencia.cuadros
 
     <!-- Nosotros, como la página de un libro: la palabra gigante y la foto que se le cruza -->
     <section class="sobre px-5 pt-24 md:px-12 md:pt-32" aria-labelledby="sobre-titulo">
-      <p class="mono text-center">{t.bajo}</p>
       {conIntro
         ? <h2 id="sobre-titulo" class="palabra" data-revelar>{t.grande}</h2>
         : <h1 id="sobre-titulo" class="palabra" data-revelar>{t.grande}</h1>}
@@ -116,7 +115,7 @@ const textoSecuencia = secuencia.cuadros
     <!-- Escena post-créditos -->
     <section class="flex flex-col items-center gap-10 px-5 py-28 text-center md:py-40" aria-label={ui.contacto}>
       <p class="font-titulo text-[clamp(2.8rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.045em]">
-        {t.filmamos[0]}<br /><em class="text-tinta/52">{t.filmamos[1]}</em>
+        {t.filmamos[0]}<br />{t.filmamos[1]}
       </p>
       <a href={link} class="cta">{t.cta}</a>
     </section>
