@@ -7,7 +7,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 | 1 | Logo R○DA en mayúsculas | hecho | Marca.astro, dibujarAfiche.ts (presenta) y og.mjs en DA; og.png regenerada con chromium (sin commitear el cambio de canal). |
 | 2 | Primera pantalla clara | hecho | Apertura.astro reescrita: h1 + queHacemos (text-xl, tinta) + .cta Hablemos + link Ver precios. Se fue la bajada (queda comentada en guion). Entra a 2,65 s (título a 2,2 s). |
 | 3 | Home más corta | hecho | Home: 390×844 → 11.773 px = 13,95 pantallas (antes 19,63); 1440×900 → 12.832 px = 14,26 (antes 18,93). El hueco de y≈13.240 en compu era el tramo fijo de ActoTres (260svh con 1,5 de pausa al final); quedó en 145svh con 0,4 de pausa. |
-| 4 | View Transitions | sin empezar | |
+| 4 | View Transitions | hecho | Verificado con pagereveal + getAnimations: /proyectos→caso anima group(afiche-<slug>) 550 ms; home→/precios anima plan-* en compu; con reducedMotion 'reduce' no hay transición. Los demás afiches sin pareja se funden en 250 ms. |
 | 5 | Sacar recursos genéricos | hecho | Rotulo.astro borrado. Las claves rotulo del guion quedaron sin uso (no las borré para no tocar la forma). Revisado en capturas de /, /precios, caso y /contacto. |
 | 6 | Legibilidad y contraste AA | hecho | Chequeo propio de contraste/tamaño (scripts/_contraste.mjs, no commiteado) limpio en es/en/pt, salvo las letras de colores de MÁS/MORE/MAIS sobre rosa (no las toqué: es el círculo de MÁS ES MÁS). Las maquetas ilustrativas (web genérica de ActoUno y la web que se arma en ActoTres, aria-hidden) mantienen su letra chica a escala. |
 | 7 | Animaciones | hecho | Revisado: hamburguesa abierta/cerrada, aviso de error de /contacto. No toqué Loader (sigue animando width en su máquina de escribir), cintas, círculo ni secuencia de /nosotros (salvo el ↺ → SVG). |
@@ -23,6 +23,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 - Punto 5: también saqué la cursiva de "Mira.", "Y se va." y "…a veces." (títulos enteros en cursiva como recurso), los números de ActoDos y de las notas de ActoUno, los (n / total) del tráiler y del caso, y los paréntesis de los subtítulos del caso y del filtro de /proyectos. Dejé el "(Hablemos)" del menú porque es navegación. "Volver" quedó subrayado para que se lea como link sin la flecha.
 - Punto 6: las maquetas dentro de ActoUno y ActoTres son dibujos (aria-hidden) y escalan con el mockup: no las llevé a 13px. Las letras M-O-RE / M-A-IS de colores sobre rosa no llegan a 3:1, pero son parte del círculo de MÁS ES MÁS, que no había que tocar.
 - Punto 7: en el FAQ, el :active va en el summary. Las carpetas de /precios no son clickeables (solo el botón "Quiero esta", que es .cta), así que no les puse :active. La grisura de la web genérica pasó de filter a una capa con mix-blend-mode: saturation que anima opacidad. Probé un @custom-variant para hover de Tailwind, pero rompe group-hover; lo dejé en CSS común.
+- Punto 4: el caso no tiene afiche, así que el afiche de /proyectos viaja a la portada (captura) del caso. El "Siguiente proyecto" del caso no lleva nombre (está fuera de pantalla y volaría). Cartelera→/precios solo desde 1024px.
 
 ## Mediciones
 
