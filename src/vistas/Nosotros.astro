@@ -8,13 +8,18 @@ import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Marca from '../components/Marca.astro';
-import { idiomaDe, ruta, textos } from '../i18n';
+import Criticas from '../components/Criticas.astro';
+import { proyectosEn } from '../content/proyectos';
+import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import juntos from '../assets/nosotros/juntos.jpg';
 import viaje from '../assets/nosotros/viaje.jpg';
 const idioma = idiomaDe(Astro.currentLocale);
 const { nosotros: t, metas, ui } = textos(idioma);
 
 const fondos = { juntos, viaje } as const;
+// Lo que ya hicimos: las webs de /proyectos y los testimonios reales de sus clientes
+const proyectos = proyectosEn(idioma);
+const testimonios = proyectos.flatMap((p) => p.testimonios ?? []);
 
 // El video de fondo es opcional: alcanza con dejar public/nosotros/fondo.mp4 (y, si hay, fondo-vertical.mp4 para el celular).
 // Mientras no esté, la secuencia usa las fotos con un zoom lento.
@@ -93,11 +98,33 @@ const textoSecuencia = secuencia.cuadros
         </figure>
         <div class="textos" data-revelar="6">
           <p class="text-lg leading-relaxed md:text-xl">{t.bajada}</p>
-          {t.personas.map((p) => (
-            <p class="mt-5 text-lg leading-relaxed text-tinta/75 md:text-xl"><strong class="font-medium text-tinta">{p.nombre}.</strong> {p.texto}</p>
-          ))}
-          <p class="mt-5 text-lg leading-relaxed text-tinta/75 md:text-xl">{t.juntos}</p>
+          <!-- Primero lo que hicimos: las webs publicadas, cada una con su caso -->
+          <h2 class="mt-10 text-xl font-medium tracking-[-0.02em] md:text-2xl">{t.hicimos.titulo}</h2>
+          <p class="mt-3 text-lg leading-relaxed md:text-xl">{rellenar(t.hicimos.texto, { n: proyectos.length })}</p>
+          <ul class="hicimos mt-4">
+            {proyectos.map((p) => (
+              <li><a href={ruta(idioma, 'proyectos', p.slug)} class="underline underline-offset-4">{p.titulo}</a></li>
+            ))}
+          </ul>
+          <a href={ruta(idioma, 'proyectos')} class="cta mt-8">{t.hicimos.verTodos}</a>
         </div>
+      </div>
+    </section>
+
+    {testimonios.length > 0 && (
+      <div class="mt-24 px-5 md:mt-32 md:px-12">
+        <Criticas testimonios={testimonios} />
+      </div>
+    )}
+
+    <!-- La formación, después de lo que hicimos -->
+    <section class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="formacion-titulo">
+      <div class="max-w-[60ch] border-t border-tinta/15 pt-6">
+        <h2 id="formacion-titulo" class="text-xl font-medium tracking-[-0.02em] md:text-2xl" data-revelar>{t.formacion}</h2>
+        {t.personas.map((p) => (
+          <p class="mt-5 text-lg leading-relaxed md:text-xl" data-revelar><strong class="font-medium">{p.nombre}.</strong> {p.texto}</p>
+        ))}
+        <p class="mt-5 text-lg leading-relaxed md:text-xl" data-revelar>{t.juntos}</p>
       </div>
     </section>
 
@@ -235,6 +262,10 @@ const textoSecuencia = secuencia.cuadros
   .otra-vez[hidden] { display: none; }
   .otra-vez:active { transform: scale(0.97); }
   @media (hover: hover) and (pointer: fine) { .otra-vez:hover { background: var(--color-papel); color: var(--color-negro); } }
+
+  /* Las webs que hicimos: una lista corta, de a dos columnas */
+  .hicimos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem 1.5rem; font-size: 1.125rem; }
+  .hicimos a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 
   /* ── Nosotros: la palabra gigante y la foto que se le cruza ───── */
   .sobre .mono { color: var(--color-gris); }

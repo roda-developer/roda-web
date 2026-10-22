@@ -79,7 +79,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
                   <a href={`${contacto}?plan=${p.id}`} class="cta pedir">
                     {t.pedir}<span class="sr-only"> ({p.nombre})</span>
                   </a>
-                  <p class="mantenimiento mono">{t.mantenimiento.linea.split('US$ {precio}').map((parte, k) => (k === 0 ? parte : <><span data-usd-texto={ficha.mantenimiento}>US$ {ficha.mantenimiento}</span>{parte}</>))}</p>
+                  <p class="mantenimiento">{t.mantenimiento.linea.split('US$ {precio}').map((parte, k) => (k === 0 ? parte : <><span data-usd-texto={ficha.mantenimiento}>US$ {ficha.mantenimiento}</span>{parte}</>))}</p>
                 </div>
               </div>
             </li>
@@ -93,6 +93,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
           <p class="mono text-gris">{aMedida.rotulo}</p>
           <h3 class="a-medida-titulo">{aMedida.titulo}</h3>
           <p class="max-w-[52ch] text-tinta/70 md:text-lg">{aMedida.texto}</p>
+          <p class="mt-4 max-w-[52ch] text-tinta md:text-lg">{aMedida.aliada}</p>
         </div>
         <div>
           <p class="mono text-gris" id="a-medida-ejemplos">{aMedida.ejemplosTitulo}</p>

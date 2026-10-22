@@ -267,6 +267,7 @@ export const planes: typeof ES.planes = {
       'Um painel com os números do seu negócio',
     ],
     cta: 'Conte o que você precisa',
+    aliada: 'Também precisa de branding ou gestão de redes sociais? Trabalhamos com uma parceira que cuida disso e faz o orçamento à parte.',
   },
   dominio: {
     pregunta: 'E o domínio e a hospedagem?',
@@ -460,7 +461,10 @@ export const nosotros: typeof ES.nosotros = {
   ],
   aviso: 'Nenhum site foi feito com templates durante esta produção.',
   rotulo: ['Sobre nós', 'Os créditos'],
-  bajada: 'Somos a Giuli e o Facu. Somos um casal e fazemos sites juntos. Gostamos que cada site seja diferente, por isso desenhamos e programamos do zero. Se você escrever pra gente, quem responde somos nós.',
+  // Antes: bajada: 'Somos a Giuli e o Facu. Somos um casal e fazemos sites juntos. Gostamos que cada site seja diferente, por isso desenhamos e programamos do zero. Se você escrever pra gente, quem responde somos nós.',
+  bajada: 'Somos a Giuli e o Facu, casal e sócios. Desenhamos e programamos sites sob medida, do zero e sem templates. Se você escrever pra gente, quem responde somos nós.',
+  hicimos: { titulo: 'O que já fizemos', texto: 'Publicamos {n} sites para marcas reais:', verTodos: 'Ver todos os projetos' },
+  formacion: 'Como aprendemos',
   foto: { alt: 'Giuliana e Facundo abraçados e sorrindo, com uma árvore atrás', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
   personas: [
     { nombre: 'Giuli', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.' },
