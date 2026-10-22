@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ajustarNombre, dominioDe, limpiarMarca } from '../../src/story/afiche';
-import { linkWhatsApp, VACIAS } from '../../src/story/sinopsis';
+import { linkMail, VACIAS } from '../../src/story/sinopsis';
+import { cierre, rubros } from '../../src/content/guion';
 
 describe('dominioDe', () => {
   it('arma un .com sin tildes, espacios ni símbolos', () => {
@@ -50,14 +51,14 @@ describe('ajustarNombre', () => {
   });
 });
 
-describe('WhatsApp con el nombre de la marca', () => {
+describe('el mail con el nombre de la marca', () => {
   it('se presenta con la marca y suma la sinopsis si la hay', () => {
-    const texto = decodeURIComponent(linkWhatsApp({ ...VACIAS, rubro: 'moda' }, '549', 'Lupe').split('text=')[1]);
+    const texto = decodeURIComponent(linkMail({ ...VACIAS, rubro: 'moda' }, 'hola@rodadevelop.com', 'Lupe').split('body=')[1]);
     expect(texto).toBe('Hola Roda, soy de Lupe. Una marca de moda. Queremos empezar a contar nuestra historia.');
   });
 
   it('con marca y sin respuestas no deja huecos', () => {
-    const texto = decodeURIComponent(linkWhatsApp(VACIAS, '549', 'Lupe').split('text=')[1]);
+    const texto = decodeURIComponent(linkMail(VACIAS, 'hola@rodadevelop.com', 'Lupe').split('body=')[1]);
     expect(texto).toBe('Hola Roda, soy de Lupe. Queremos empezar a contar nuestra historia.');
   });
 });
@@ -66,22 +67,22 @@ import { textosAfiche } from '../../src/story/afiche';
 
 describe('textosAfiche: lo que respondiste aparece en el afiche', () => {
   it('sin respuestas, el afiche de siempre', () => {
-    expect(textosAfiche(VACIAS)).toEqual({ antes: 'Una historia que todavía no contamos', estreno: 'Próximamente', genero: null });
+    expect(textosAfiche(VACIAS, cierre, rubros)).toMatchObject({ antes: 'Una historia que todavía no contamos', estreno: 'Próximamente', genero: null });
   });
 
   it('el objetivo cambia la frase de arriba del nombre', () => {
-    expect(textosAfiche({ ...VACIAS, objetivo: 'escriba' }).antes).toBe('Una historia para que te escriban');
-    expect(textosAfiche({ ...VACIAS, objetivo: 'vea' }).antes).toBe('Una historia para que vean tu trabajo');
+    expect(textosAfiche({ ...VACIAS, objetivo: 'escriba' }, cierre, rubros).antes).toBe('Una historia para que te escriban');
+    expect(textosAfiche({ ...VACIAS, objetivo: 'vea' }, cierre, rubros).antes).toBe('Una historia para que vean tu trabajo');
   });
 
   it('si ya tiene web, es un reestreno', () => {
-    expect(textosAfiche({ ...VACIAS, situacion: 'no-representa' }).estreno).toBe('Reestreno');
-    expect(textosAfiche({ ...VACIAS, situacion: 'quiero-mas' }).estreno).toBe('Reestreno');
-    expect(textosAfiche({ ...VACIAS, situacion: 'sin-web' }).estreno).toBe('Próximamente');
+    expect(textosAfiche({ ...VACIAS, situacion: 'no-representa' }, cierre, rubros).estreno).toBe('Reestreno');
+    expect(textosAfiche({ ...VACIAS, situacion: 'quiero-mas' }, cierre, rubros).estreno).toBe('Reestreno');
+    expect(textosAfiche({ ...VACIAS, situacion: 'sin-web' }, cierre, rubros).estreno).toBe('Próximamente');
   });
 
   it('el rubro aparece como género, salvo "otro"', () => {
-    expect(textosAfiche({ ...VACIAS, rubro: 'gastronomia' }).genero).toBe('Gastronomía');
-    expect(textosAfiche({ ...VACIAS, rubro: 'otro' }).genero).toBeNull();
+    expect(textosAfiche({ ...VACIAS, rubro: 'gastronomia' }, cierre, rubros).genero).toBe('Gastronomía');
+    expect(textosAfiche({ ...VACIAS, rubro: 'otro' }, cierre, rubros).genero).toBeNull();
   });
 });

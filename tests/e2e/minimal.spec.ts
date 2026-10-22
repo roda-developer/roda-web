@@ -1,5 +1,4 @@
 import { test, expect, type Page } from '@playwright/test';
-import { PROYECTOS } from '../../src/content/proyectos';
 
 async function hidratada(page: Page) {
   await page.waitForFunction(() => document.querySelectorAll('astro-island[ssr]').length === 0);
@@ -32,22 +31,18 @@ test('el loader se va solo y deja la página en papel', async ({ page }) => {
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(243, 242, 238)');
 });
 
-test('la home cuenta la historia y manda a los proyectos, sin la cartelera', async ({ page }) => {
+test('el tráiler de MÁS ES MÁS manda a los proyectos, con las capturas en color', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#cartel')).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute('href', '/proyectos');
-  await expect(page.locator('#adelanto a[href^="/proyectos/"]')).toHaveCount(PROYECTOS.length);
-});
-
-test('en cartel tiene fondo rosa y las capturas van en color, sin filtro', async ({ page }) => {
-  await page.goto('/');
-  expect(await page.locator('#adelanto').evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 111, 216)');
-  const filtros = await page.locator('[data-tira] img').evaluateAll((imgs) => imgs.map((i) => getComputedStyle(i).filter));
+  const tomas = page.locator('[data-toma]');
+  expect(await tomas.count()).toBeGreaterThan(0);
+  const filtros = await tomas.locator('img').evaluateAll((imgs) => imgs.map((i) => getComputedStyle(i).filter));
   expect(filtros.every((f) => f === 'none')).toBe(true);
 });
 
-for (const p of PROYECTOS) {
-  test(`el caso de ${p.titulo} carga con sus capturas y su botón a la web`, async ({ page }) => {
+test('cada caso carga con sus capturas y su botón a la web', async ({ page }) => {
+  const proyectos: { slug: string; titulo: string; url: string }[] = await (await page.request.get('/proyectos.json')).json();
+  for (const p of proyectos) {
     await page.goto(`/proyectos/${p.slug}`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(p.titulo);
     await expect(page).toHaveTitle(new RegExp(p.titulo));
@@ -58,8 +53,8 @@ for (const p of PROYECTOS) {
     await expect(portada).toBeVisible();
     expect(await portada.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     await expect(page.getByRole('link', { name: /Siguiente proyecto/ })).toBeAttached();
-  });
-}
+  }
+});
 
 test('el loader sale al recargar, pero no al volver desde otra página de Roda', async ({ page }) => {
   const visible = () => page.locator('.loader').evaluate((el) => getComputedStyle(el).display !== 'none');

@@ -32,9 +32,10 @@ test('tocar durante el loader lo saltea y libera el scroll', async ({ page }) =>
 
 test('la tira de proyectos no es una región viva; se anuncia una sola línea', async ({ page }) => {
   await page.goto('/proyectos');
-  await expect(page.locator('[data-tira]')).not.toHaveAttribute('aria-live', /.*/);
-  await page.getByRole('button', { name: 'Moda' }).click();
-  await expect(page.getByRole('status').filter({ hasText: 'Mostrando primero' })).toContainText('moda');
+  await expect(page.locator('ul:has(> li[data-rubro][data-orden])')).not.toHaveAttribute('aria-live', /.*/);
+  // Los botones son solo de los rubros que tienen proyectos (hoy no hay de moda)
+  await page.getByRole('button', { name: 'Arte y diseño' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Mostrando primero' })).toContainText('arte y diseño');
 });
 
 test('los links del nav miden al menos 44 px de alto', async ({ page }) => {

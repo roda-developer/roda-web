@@ -19,9 +19,8 @@ test('sin nombre, el afiche espera con "Tu marca" y el contacto no deja huecos',
   const final = await alFinal(page);
   await expect(final.getByLabel('¿Cómo se llama tu marca?')).toBeVisible();
   await expect(final.getByRole('img', { name: /Roda presenta Tu marca/ })).toBeVisible();
-  const href = await final.getByRole('link', { name: 'Hablemos' }).getAttribute('href');
-  expect(href).toContain('https://wa.me/');
-  expect(decodeURIComponent(href!)).toContain('quiero contarles mi historia');
+  // Sin marca, Hablemos lleva al formulario tal cual
+  await expect(final.getByRole('link', { name: 'Hablemos' })).toHaveAttribute('href', '/contacto');
   await expect(final).not.toContainText(/undefined|null/);
 });
 
@@ -30,10 +29,9 @@ test('al escribir la marca se arma el afiche y viaja en el mensaje', async ({ pa
   const final = await alFinal(page);
   await final.getByLabel('¿Cómo se llama tu marca?').fill('Panadería La Esquina');
   await expect(final.getByRole('img', { name: /Roda presenta Panadería La Esquina\..*panaderialaesquina\.com/ })).toBeVisible();
+  // La marca viaja al formulario
   const href = await final.getByRole('link', { name: 'Hablemos' }).getAttribute('href');
-  expect(decodeURIComponent(href!)).toBe(
-    'https://wa.me/' + href!.split('wa.me/')[1].split('?')[0] + '?text=Hola Roda, soy de Panadería La Esquina. Una marca de moda. Queremos empezar a contar nuestra historia.',
-  );
+  expect(decodeURIComponent(href!)).toBe('/contacto?marca=Panadería La Esquina');
   // La marca se recuerda al recargar
   await page.reload();
   await hidratada(page);

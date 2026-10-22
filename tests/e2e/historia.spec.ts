@@ -2,69 +2,32 @@ import { test, expect } from '@playwright/test';
 
 test.use({ reducedMotion: 'reduce' });
 
-/** Espera a que React hidrate todas las islas (Astro saca el atributo ssr). */
-async function hidratada(page: import('@playwright/test').Page) {
-  await page.waitForFunction(() => document.querySelectorAll('astro-island[ssr]').length === 0);
-}
-
-test('la pregunta 1 queda marcada y sobrevive a una recarga', async ({ page }) => {
+test('el acto II muestra el peso real de la página', async ({ page }) => {
   await page.goto('/');
-  await hidratada(page);
-  const grupo = page.getByRole('group', { name: '¿Y vos, hoy?' });
-  const opcion = grupo.getByRole('button', { name: /no me representa/ });
-  await opcion.scrollIntoViewIfNeeded();
-  await opcion.click();
-  await expect(opcion).toHaveAttribute('aria-pressed', 'true');
-
-  await page.reload();
-  await hidratada(page);
-  await expect(
-    page.getByRole('group', { name: '¿Y vos, hoy?' }).getByRole('button', { name: /no me representa/ }),
-  ).toHaveAttribute('aria-pressed', 'true');
+  const peso = page.locator('[data-peso]');
+  await peso.scrollIntoViewIfNeeded();
+  await expect(peso).toHaveText(/\d+ KB/);
 });
 
-test('tocar de nuevo una opción la desmarca', async ({ page }) => {
-  await page.goto('/');
-  await hidratada(page);
-  const opcion = page.getByRole('group', { name: '¿Y vos, hoy?' }).getByRole('button', { name: 'No tengo web' });
-  await opcion.scrollIntoViewIfNeeded();
-  await opcion.click();
-  await opcion.click();
-  await expect(opcion).toHaveAttribute('aria-pressed', 'false');
-});
-
-test('el acto II tiene la pregunta 2 y muestra el peso real de la página', async ({ page }) => {
-  await page.goto('/');
-  await hidratada(page);
-  const grupo = page.getByRole('group', { name: '¿A dónde querés llevar a tu cliente?' });
-  await grupo.scrollIntoViewIfNeeded();
-  await grupo.getByRole('button', { name: 'Que reserve' }).click();
-  await expect(grupo.getByRole('button', { name: 'Que reserve' })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('[data-peso]')).toHaveText(/\d+ KB/);
-});
-
-test('para creativos queda una sola línea en proyectos, y no está en la home', async ({ page }) => {
+test('para creativos queda una sola línea en proyectos, que lleva al formulario, y no está en la home', async ({ page }) => {
   await page.goto('/proyectos');
   await expect(page.getByText('¿Diseñás o manejás marcas?')).toBeAttached();
-  await expect(page.getByRole('link', { name: /Trabajemos juntos/ })).toHaveAttribute('href', /wa.me/);
+  await expect(page.getByRole('link', { name: /Trabajemos juntos/ })).toHaveAttribute('href', /^\/contacto\?tipo=nose/);
   await page.goto('/');
   await expect(page.getByText('¿Diseñás o manejás marcas?')).toHaveCount(0);
 });
 
-test('en proyectos, elegir rubro trae primero lo cercano y queda para el tráiler', async ({ page }) => {
+test('en proyectos, elegir rubro trae primero lo cercano y lo anuncia', async ({ page }) => {
   await page.goto('/proyectos');
   const grupo = page.getByRole('group', { name: /¿Qué hacés\?/ });
   await grupo.getByRole('button', { name: 'Arte y diseño' }).click();
   await expect(grupo.getByRole('button', { name: 'Arte y diseño' })).toHaveAttribute('aria-pressed', 'true');
   // El primero a la vista (por orden visual) es de arte y diseño
-  const primero = await page.$$eval('[data-tira] > li', (els) =>
+  const primero = await page.$$eval('li[data-rubro][data-orden]', (els) =>
     els
       .map((e, i) => ({ orden: Number(getComputedStyle(e).order), i, rubro: (e as HTMLElement).dataset.rubro }))
       .sort((a, b) => a.orden - b.orden || a.i - b.i)[0].rubro,
   );
   expect(primero).toBe('arte');
-  await expect(page.locator('[data-tira] li[data-rubro="arte"]').getByText('Cerca de lo tuyo').first()).toBeVisible();
-  await expect(page.locator('[data-tira] li[data-rubro="moda"]').getByText('Cerca de lo tuyo')).toBeHidden();
   await expect(page.getByRole('status').filter({ hasText: 'Mostrando primero' })).toContainText('arte y diseño');
-  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('roda:respuestas')!).rubro)).toBe('arte');
 });

@@ -6,7 +6,8 @@ const textos = (v: unknown): string[] =>
 
 describe('copy sin jerga técnica', () => {
   it('ningún texto visible usa jerga', () => {
-    const prohibidas = /\b(scroll|seo|responsive|performance|astro|react|gsap|frontend|backend|framework)\b/i;
+    // "SEO" queda permitido: /precios ofrece "Indexación y SEO técnico" a propósito y aclara que eso no posiciona solo
+    const prohibidas = /\b(scroll|responsive|performance|astro|react|gsap|frontend|backend|framework)\b/i;
     const culpables = textos(guion).filter((t) => prohibidas.test(t));
     expect(culpables).toEqual([]);
   });

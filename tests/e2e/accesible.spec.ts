@@ -20,9 +20,11 @@ test('con reduced-motion todo el contenido queda visible', async ({ page }) => {
 });
 
 test('si el JavaScript no carga, el contenido aparece igual', async ({ page }) => {
+  // El seguro de Base.astro espera 20 s antes de mostrar todo (en celus lentos el JS tarda en llegar)
+  test.setTimeout(60_000);
   await page.route(/\.js$/, (r) => r.abort());
   await page.goto('/');
-  await page.waitForTimeout(4500);
+  await page.waitForTimeout(21_000);
   const ocultos = await page.$$eval('[data-revelar]', (els) =>
     els.filter((e) => Number(getComputedStyle(e).opacity) < 0.99).length,
   );
