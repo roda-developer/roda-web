@@ -33,7 +33,7 @@ const total = String(tomas.length).padStart(2, '0');
 ---
 <section id="technicolor" aria-label={ui.technicolor}>
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
-  <div class="puerta relative h-[180svh]" data-puerta>
+  <div class="puerta relative h-[150svh]" data-puerta>
     <div class="sticky top-0 h-svh overflow-hidden">
       <!-- Arriba el grito, abajo las bandas: cada uno en su lugar, sin taparse -->
       <div class="color absolute inset-0 grid grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] place-items-center overflow-hidden bg-tc-rosa px-4 pt-[clamp(3.5rem,8svh,4.5rem)] pb-[clamp(1.5rem,4svh,2.5rem)] text-tinta">
@@ -51,7 +51,7 @@ const total = String(tomas.length).padStart(2, '0');
   </div>
 
   <!-- El tráiler: los proyectos de a uno, con cortes secos, sobre el mismo rosa del círculo (un solo color) -->
-  <div class="trailer relative h-[220svh]" data-trailer>
+  <div class="trailer relative h-[140svh]" data-trailer>
     <div class="sala sticky top-0 h-svh overflow-hidden bg-tc-rosa text-tinta">
       <p class="mono absolute top-20 left-5 z-20 md:top-24 md:left-12">({technicolor.firma})</p>
       {tomas.map((t, i) => (
@@ -70,7 +70,7 @@ const total = String(tomas.length).padStart(2, '0');
   </div>
 
   <!-- Corte seco a blanco: el remate, sin ocupar una pantalla entera -->
-  <div class="plano !min-h-[65svh]">
+  <div class="plano !min-h-0">
     <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
       <span class="block text-tinta/52">{technicolor.corte[0]}</span>
       <span class="block">{technicolor.corteEnfasis[0]}<em>{technicolor.corteEnfasis[1]}</em></span>
@@ -163,8 +163,8 @@ const total = String(tomas.length).padStart(2, '0');
     const centroY = () => puerta.querySelector<HTMLElement>('.color')!.offsetHeight * 0.72;
     const seguro = () => `circle(${Math.round(centroY() * 0.94)}px at 78% 72%)`;
     const entero = () => `circle(${Math.round(Math.hypot(innerWidth, innerHeight) * 1.1)}px at 78% 72%)`;
-    // La sección mide 180svh y empieza a contar cuando asoma: llena la pantalla al 100/180 del recorrido
-    const llena = 100 / 180;
+    // La sección mide 150svh y empieza a contar cuando asoma: llena la pantalla al 100/150 del recorrido
+    const llena = 100 / 150;
     // Estado inicial fijado antes de la animación: así ninguna letra aparece entera antes de tiempo y salta
     gsap.set(q('.grito > span'), { yPercent: 60, opacity: 0 });
     gsap.set(q('.mas span'), { scale: 0.2, opacity: 0, rotate: (i: number) => [-40, 20, 50][i] });

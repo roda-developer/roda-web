@@ -3,7 +3,7 @@ import { textos } from '../i18n';
 import Rotulo from '../components/Rotulo.astro';
 const { actoDos } = textos(Astro.currentLocale);
 ---
-<section id="acto-dos" class="plano !place-items-stretch !content-center" aria-labelledby="acto-dos-titulo">
+<section id="acto-dos" class="plano !min-h-0 !place-items-stretch !content-center" aria-labelledby="acto-dos-titulo">
   <div class="w-full space-y-14 md:space-y-20">
     <Rotulo rotulo={actoDos.rotulo} />
 

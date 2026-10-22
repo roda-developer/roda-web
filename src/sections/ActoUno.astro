@@ -5,8 +5,8 @@ const { actoUno, ui } = textos(Astro.currentLocale);
 const g = actoUno.generica;
 ---
 <section id="acto-uno" aria-label={ui.actoUno}>
-  <div class="plano !place-items-stretch !content-center">
-    <div class="w-full space-y-16 md:space-y-24">
+  <div class="plano !min-h-0 !place-items-stretch !content-center">
+    <div class="w-full space-y-12 md:space-y-16">
       <Rotulo rotulo={actoUno.rotulo} />
       <div class="max-w-4xl space-y-6">
         <p class="font-titulo text-[clamp(2.4rem,10vw,6rem)] leading-[0.98] tracking-[-0.045em]" data-revelar>{actoUno.lineas[0]}</p>
@@ -20,7 +20,7 @@ const g = actoUno.generica;
   </div>
 
   <!-- Lo que suele encontrar: una web genérica, con notas pegadas encima, mientras corren tres segundos -->
-  <div class="secuencia relative h-[240svh]" data-secuencia-generica>
+  <div class="secuencia relative h-[135svh]" data-secuencia-generica>
     <div class="escenario sticky top-0 flex h-svh flex-col overflow-hidden px-5 pt-18 pb-6 md:px-12 md:pt-[clamp(4.5rem,10svh,7rem)] md:pb-[clamp(1.5rem,4svh,2.5rem)]">
       <div class="flex items-start justify-between gap-6">
         <p class="encabezado font-titulo text-[clamp(1.4rem,min(5vw,3.8svh),3rem)] leading-none tracking-[-0.04em]">{actoUno.encuentra}</p>
@@ -62,7 +62,7 @@ const g = actoUno.generica;
     </div>
   </div>
 
-  <div class="plano !min-h-[60svh] !place-items-start !content-center">
+  <div class="plano !min-h-0 !place-items-start !content-center">
     <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.045em]">
       <span class="block text-tinta/52" data-revelar>{actoUno.cierre[1]}</span>
       <span class="block" data-revelar="10">{actoUno.cierreEnfasis[0]}<em>{actoUno.cierreEnfasis[1]}</em></span>
@@ -161,6 +161,6 @@ const g = actoUno.generica;
     // Cero: vuelve atrás. La web se va de costado y queda la frase.
     tl.to(q('.escena'), { xPercent: -140, rotate: -6, autoAlpha: 0, duration: 0.7, ease: 'power2.in' }, '+=0.2')
       .to(q('.se-va'), { autoAlpha: 1, duration: 0.4 }, '-=0.15')
-      .to({}, { duration: 0.4 });
+      .to({}, { duration: 0.15 });
   }
 </script>

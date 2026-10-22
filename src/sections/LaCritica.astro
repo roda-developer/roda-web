@@ -16,7 +16,7 @@ const textuales = validas.filter((c, i) => validas.findIndex((x) => x.slug === c
 // Con 4 frases van de a 2 (dos filas parejas); si no, de a 3. Así ninguna queda sola en una fila.
 const columnas = textuales.length === 4 ? 2 : 3;
 ---
-<section id="la-critica" class="px-5 pt-20 pb-4 md:px-12 md:pt-28 md:pb-8" aria-labelledby="la-critica-titulo">
+<section id="la-critica" class="px-5 pt-14 pb-4 md:px-12 md:pt-24 md:pb-8" aria-labelledby="la-critica-titulo">
   <p id="la-critica-titulo" class="mono text-center text-gris" data-revelar>({laCritica.titulo})</p>
   <ul class="fragmentos mt-10 md:mt-14" style={`--columnas: ${columnas}`}>
     {textuales.map((c, i) => (

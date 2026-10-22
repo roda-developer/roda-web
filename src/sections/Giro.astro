@@ -3,7 +3,7 @@ import { textos } from '../i18n';
 const { giro, ui } = textos(Astro.currentLocale);
 
 ---
-<section id="giro" class="giro relative h-[120svh]" aria-label={ui.giro} data-giro>
+<section id="giro" class="giro relative h-svh" aria-label={ui.giro} data-giro>
   <div class="sticky top-0 grid h-svh place-items-center px-5">
     <figure class="text-center">
       <blockquote class="cita font-titulo text-[clamp(3rem,min(16vw,13.5svh),12rem)] leading-[0.9] tracking-[-0.045em]">
@@ -36,10 +36,10 @@ const { giro, ui } = textos(Astro.currentLocale);
       .timeline({ scrollTrigger: { trigger: giro, start: 'top 60%', end: 'bottom bottom', scrub: 0.8 } })
       .from(q('.cita'), { opacity: 0, filter: 'blur(14px)', duration: 1 })
       .from(q('.autor'), { opacity: 0, duration: 0.5 })
-      // El silencio: una pausa larga donde no pasa nada.
-      .to({}, { duration: 1.1 })
+      // El silencio: una pausa corta donde no pasa nada.
+      .to({}, { duration: 0.35 })
       .to(q('.cita, .autor'), { opacity: 0.25, duration: 0.6 })
       .to(q('.replica'), { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 }, '<')
-      .to({}, { duration: 0.6 });
+      .to({}, { duration: 0.15 });
   }
 </script>
