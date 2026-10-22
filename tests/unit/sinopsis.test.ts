@@ -53,8 +53,8 @@ describe('links de contacto', () => {
   });
 
   it('mail lleva asunto y cuerpo con la sinopsis', () => {
-    const href = linkMail({ ...VACIAS, estilo: 1 }, 'hola@roda.studio');
-    expect(href.startsWith('mailto:hola@roda.studio?subject=')).toBe(true);
+    const href = linkMail({ ...VACIAS, estilo: 1 }, 'hola@rodadevelop.com');
+    expect(href.startsWith('mailto:hola@rodadevelop.com?subject=')).toBe(true);
     expect(decodeURIComponent(href)).toContain('Una marca que grita.');
   });
 });

@@ -34,7 +34,7 @@ Capturas para revisar diseño: `node scripts/capturas.mjs` (con el preview levan
 
 ## Contenido pendiente (Giuli y Facu)
 
-- [ ] **WhatsApp y mail reales** en `src/content/contacto.ts`. Hoy son de ejemplo (`5491100000000`, `hola@roda.studio`).
+- [x] **WhatsApp y mail reales** en `src/content/contacto.ts`: mail `hola@rodadevelop.com`.
 - [ ] **Casos de estudio:** los textos son un borrador escrito a partir de cada repo. Revisar cliente, desafío, lo que hicimos y rubros, y sumar resultados reales (`resultado`) en `src/content/proyectos.ts`. No hay ningún número inventado.
 - [ ] **Unik y Eber** tienen dominio de Vercel; cuando tengan el propio, cambiar `url` (la dirección nunca se muestra escrita, solo el botón "Ver en vivo").
 - [ ] **Dominio:** revisar si `roda.studio`, `roda.com.ar` o similares están libres.
