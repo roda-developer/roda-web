@@ -11,7 +11,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 | 5 | Sacar recursos genéricos | hecho | Rotulo.astro borrado. Las claves rotulo del guion quedaron sin uso (no las borré para no tocar la forma). Revisado en capturas de /, /precios, caso y /contacto. |
 | 6 | Legibilidad y contraste AA | hecho | Chequeo propio de contraste/tamaño (scripts/_contraste.mjs, no commiteado) limpio en es/en/pt, salvo las letras de colores de MÁS/MORE/MAIS sobre rosa (no las toqué: es el círculo de MÁS ES MÁS). Las maquetas ilustrativas (web genérica de ActoUno y la web que se arma en ActoTres, aria-hidden) mantienen su letra chica a escala. |
 | 7 | Animaciones | hecho | Revisado: hamburguesa abierta/cerrada, aviso de error de /contacto. No toqué Loader (sigue animando width en su máquina de escribir), cintas, círculo ni secuencia de /nosotros (salvo el ↺ → SVG). |
-| 8 | Contenido (precios, nosotros) | sin empezar | |
+| 8 | Contenido (precios, nosotros) | hecho | Nosotros: bajada nueva + Lo que ya hicimos (lista dinámica, 8 hoy) + Criticas + Cómo aprendimos. Precios: aMedida.aliada y .mantenimiento legible. Precios sin cambios (Otro idioma US$ 80). |
 | — | Verificación final | sin empezar | |
 
 ## Decidido por mí
