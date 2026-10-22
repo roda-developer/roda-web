@@ -24,7 +24,7 @@ const colores = {
 
     <!-- Controles de navegación horizontal en mobile -->
     <div class="flex items-center justify-between sm:justify-start gap-4 lg:hidden" aria-label={cartelera.navegar}>
-      <span class="mono text-tinta/70 tracking-wider flex items-center gap-1.5">
+      <span class="flex items-center gap-1.5 text-base text-tinta">
         <span class="inline-block w-2 h-2 rounded-full bg-tc-rosa"></span>
         {cartelera.deslizar}
       </span>
@@ -74,7 +74,7 @@ const colores = {
 
   <!-- Los precios ya están en los afiches: abajo solo lo que incluyen todas y el detalle completo -->
   <div class="mt-4 flex flex-col gap-5 px-5 md:px-12 lg:flex-row lg:items-center lg:justify-between" data-revelar="6">
-    <p class="mono max-w-[65ch] text-gris">{planes.todas.join(' · ')}</p>
+    <p class="max-w-[65ch] text-base leading-relaxed text-tinta">{planes.todas.join(' · ')}</p>
     <a href={ruta(idioma, 'precios')} class="cta self-start">{planes.verTodo}</a>
   </div>
 </section>

@@ -82,9 +82,9 @@ const { loader } = textos(Astro.currentLocale);
   }
 
   .loader-presenta {
-    color: var(--color-gris);
+    color: color-mix(in oklab, var(--color-papel) 70%, transparent);
     opacity: 0;
-    animation: aparece 0.4s linear 0.05s forwards;
+    animation: aparece 0.4s var(--ease-ui) 0.05s forwards;
   }
 
   .loader-linea {

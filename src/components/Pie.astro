@@ -26,7 +26,7 @@ const [giuli, facu] = creditos.nombres;
     </dl>
     <div class="mono grid content-start gap-3">
       <p><span class="block text-gris">{ui.escribinos}</span>{MAIL
-        ? <a class="enlace-pie" href={`mailto:${MAIL}`}>{MAIL}</a>
+        ? <a class="enlace-pie mail-pie" href={`mailto:${MAIL}`}>{MAIL}</a>
         : <a class="enlace-pie" href={ruta(idioma, 'contacto')}>{ui.contacto}</a>}</p>
       <p><span class="block text-gris">{ui.seguinos}</span><a class="enlace-pie" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a></p>
       <p><span class="block text-gris">{ui.mira}</span><span class="flex flex-wrap gap-x-4"><a class="enlace-pie" href={ruta(idioma, 'proyectos')}>{nav.proyectos}</a><a class="enlace-pie" href={ruta(idioma, 'nosotros')}>{nav.nosotros}</a><a class="enlace-pie" href={ruta(idioma, 'precios')}>{nav.precios}</a><a class="enlace-pie" href={ruta(idioma, 'contacto')}>{ui.contacto}</a></span></p>
@@ -41,4 +41,6 @@ const [giuli, facu] = creditos.nombres;
 <style>
   /* Links del pie: subrayados y con 44px de alto para tocarlos cómodo con el dedo */
   .enlace-pie { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: underline; text-underline-offset: 4px; }
+  /* El mail en minúscula y en la letra de texto (más angosta que la mono): así entra en un renglón en el celu */
+  .mail-pie { font-family: var(--font-texto); font-size: 0.95rem; letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; }
 </style>
