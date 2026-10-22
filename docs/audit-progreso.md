@@ -10,7 +10,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 | 4 | View Transitions | sin empezar | |
 | 5 | Sacar recursos genéricos | hecho | Rotulo.astro borrado. Las claves rotulo del guion quedaron sin uso (no las borré para no tocar la forma). Revisado en capturas de /, /precios, caso y /contacto. |
 | 6 | Legibilidad y contraste AA | hecho | Chequeo propio de contraste/tamaño (scripts/_contraste.mjs, no commiteado) limpio en es/en/pt, salvo las letras de colores de MÁS/MORE/MAIS sobre rosa (no las toqué: es el círculo de MÁS ES MÁS). Las maquetas ilustrativas (web genérica de ActoUno y la web que se arma en ActoTres, aria-hidden) mantienen su letra chica a escala. |
-| 7 | Animaciones | sin empezar | |
+| 7 | Animaciones | hecho | Revisado: hamburguesa abierta/cerrada, aviso de error de /contacto. No toqué Loader (sigue animando width en su máquina de escribir), cintas, círculo ni secuencia de /nosotros (salvo el ↺ → SVG). |
 | 8 | Contenido (precios, nosotros) | sin empezar | |
 | — | Verificación final | sin empezar | |
 
@@ -22,6 +22,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 - Punto 3: también acorté la puerta de MÁS ES MÁS (180→150svh) recalculando `llena`: el círculo hace lo mismo, con menos scroll. No cambié la animación en sí.
 - Punto 5: también saqué la cursiva de "Mira.", "Y se va." y "…a veces." (títulos enteros en cursiva como recurso), los números de ActoDos y de las notas de ActoUno, los (n / total) del tráiler y del caso, y los paréntesis de los subtítulos del caso y del filtro de /proyectos. Dejé el "(Hablemos)" del menú porque es navegación. "Volver" quedó subrayado para que se lea como link sin la flecha.
 - Punto 6: las maquetas dentro de ActoUno y ActoTres son dibujos (aria-hidden) y escalan con el mockup: no las llevé a 13px. Las letras M-O-RE / M-A-IS de colores sobre rosa no llegan a 3:1, pero son parte del círculo de MÁS ES MÁS, que no había que tocar.
+- Punto 7: en el FAQ, el :active va en el summary. Las carpetas de /precios no son clickeables (solo el botón "Quiero esta", que es .cta), así que no les puse :active. La grisura de la web genérica pasó de filter a una capa con mix-blend-mode: saturation que anima opacidad. Probé un @custom-variant para hover de Tailwind, pero rompe group-hover; lo dejé en CSS común.
 
 ## Mediciones
 
