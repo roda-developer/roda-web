@@ -117,14 +117,13 @@ const textoSecuencia = secuencia.cuadros
       </div>
     )}
 
-    <!-- La formación, después de lo que hicimos -->
+    <!-- La formación, después de lo que hicimos. En compu, el título a la izquierda y cada uno en su columna: así no queda media pantalla vacía -->
     <section class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="formacion-titulo">
-      <div class="max-w-[60ch] border-t border-tinta/15 pt-6">
+      <div class="grid gap-5 border-t border-tinta/15 pt-6 md:grid-cols-[1fr_1fr_1fr] md:gap-10">
         <h2 id="formacion-titulo" class="text-xl font-medium tracking-[-0.02em] md:text-2xl" data-revelar>{t.formacion}</h2>
         {t.personas.map((p) => (
-          <p class="mt-5 text-lg leading-relaxed md:text-xl" data-revelar><strong class="font-medium">{p.nombre}.</strong> {p.texto}</p>
+          <p class="max-w-[42ch] text-lg leading-relaxed md:text-xl" data-revelar><strong class="font-medium">{p.nombre}.</strong> {p.texto}</p>
         ))}
-        <p class="mt-5 text-lg leading-relaxed md:text-xl" data-revelar>{t.juntos}</p>
       </div>
     </section>
 

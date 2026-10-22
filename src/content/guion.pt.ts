@@ -11,7 +11,7 @@ export const loader: typeof ES.loader = {
 
 export const metas: typeof ES.metas = {
   inicio: { titulo: 'Roda — Estúdio web', descripcion: 'Sites que contam uma história. A Roda é Giuliana e Facundo: design e desenvolvimento web sob medida, de Buenos Aires para o mundo.' },
-  precios: { titulo: 'Preços — Roda', descripcion: 'Landing US$ 300, Multipágina US$ 400, Loja US$ 550. Abra cada pasta e veja o que vem dentro.' },
+  precios: { titulo: 'Preços — Roda', descripcion: 'Landing US$ 300, Multipágina US$ 400, Loja US$ 550. Veja o que cada um inclui, sem letras miúdas.' },
   contacto: { titulo: 'Contato — Roda', descripcion: 'Conte o que você procura: uma landing, um site multipágina, uma loja online ou um sistema sob medida. Respondemos rapidinho.' },
   nosotros: { titulo: 'Sobre — Roda', descripcion: 'A Roda é Giuliana e Facundo: casal, sócios e desenvolvedores web de Buenos Aires.' },
   proyectos: { titulo: 'Projetos — Roda', descripcion: 'Sites que fizemos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select, Unik, The Magical Duo e Newave.' },
@@ -283,7 +283,7 @@ export const planes: typeof ES.planes = {
 export const preciosPagina: typeof ES.preciosPagina = {
   rotulo: 'Preços',
   titulo: ['Quanto custa', 'a sua estreia.'],
-  bajada: 'Preços à vista, sem letras miúdas. Abra cada pasta.',
+  bajada: 'Preços à vista, sem letras miúdas. Veja o que cada um inclui.',
   rotulos: {
     planes: ['01', 'Os planos'],
     extras: ['02', 'Adicionais'],
@@ -355,7 +355,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   ],
   final: {
     titulo: 'Bora começar?',
-    texto: 'Conte sobre a sua marca e a gente diz qual pasta combina com você.',
+    texto: 'Conte sobre a sua marca e a gente diz qual combina com você.',
     cta: 'Vamos falar',
   },
 };
@@ -455,7 +455,6 @@ export const nosotros: typeof ES.nosotros = {
     ['Design e desenvolvimento', 'Giuliana Di Rocco · Facundo Thibaut'],
     ['Formação', 'Técnico em Desenvolvimento Web, UNLaM'],
     ['Inteligência Artificial', 'Giuliana Di Rocco'],
-    ['Ciberdefesa', 'Os dois, em breve'],
     ['Locações', 'Aonde a próxima viagem levar'],
     ['Agradecimentos', 'A cada cliente que nos deixou contar a sua história'],
   ],
@@ -470,7 +469,6 @@ export const nosotros: typeof ES.nosotros = {
     { nombre: 'Giuli', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.' },
     { nombre: 'Facu', texto: 'Estou terminando o mesmo curso.' },
   ],
-  juntos: 'E agora vamos começar ciberdefesa os dois.',
   filmamos: ['Vamos filmar', 'a sua?'],
   cta: 'Vamos falar',
 };

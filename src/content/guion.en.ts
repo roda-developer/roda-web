@@ -11,7 +11,7 @@ export const loader: typeof ES.loader = {
 
 export const metas: typeof ES.metas = {
   inicio: { titulo: 'Roda — Web studio', descripcion: 'Websites that tell a story. Roda is Giuliana and Facundo: custom web design and development, from Buenos Aires to the world.' },
-  precios: { titulo: 'Pricing — Roda', descripcion: 'Landing page US$ 300, Multi-page site US$ 400, Online store US$ 550. Open each folder and see what’s inside.' },
+  precios: { titulo: 'Pricing — Roda', descripcion: 'Landing page US$ 300, Multi-page site US$ 400, Online store US$ 550. See what each one includes, no fine print.' },
   contacto: { titulo: 'Contact — Roda', descripcion: 'Tell us what you need: a landing page, a multi-page site, an online store or a custom system. We’ll get back to you soon.' },
   nosotros: { titulo: 'About — Roda', descripcion: 'Roda is Giuliana and Facundo: partners in life and work, web developers from Buenos Aires.' },
   proyectos: { titulo: 'Work — Roda', descripcion: 'Websites we made: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select, Unik, The Magical Duo and Newave.' },
@@ -283,7 +283,7 @@ export const planes: typeof ES.planes = {
 export const preciosPagina: typeof ES.preciosPagina = {
   rotulo: 'Pricing',
   titulo: ['What your', 'premiere costs.'],
-  bajada: 'Prices up front, no fine print. Open each folder.',
+  bajada: 'Prices up front, no fine print. See what each one includes.',
   rotulos: {
     planes: ['01', 'The plans'],
     extras: ['02', 'Add-ons'],
@@ -355,7 +355,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
   ],
   final: {
     titulo: 'Shall we start?',
-    texto: 'Tell us about your brand and we’ll tell you which folder suits you.',
+    texto: 'Tell us about your brand and we’ll tell you which one suits you.',
     cta: 'Let’s talk',
   },
 };
@@ -455,7 +455,6 @@ export const nosotros: typeof ES.nosotros = {
     ['Design and development', 'Giuliana Di Rocco · Facundo Thibaut'],
     ['Education', 'Web Development degree, UNLaM'],
     ['Artificial Intelligence', 'Giuliana Di Rocco'],
-    ['Cyber defense', 'Both of us, coming soon'],
     ['Locations', 'Wherever the next trip takes us'],
     ['Special thanks', 'To every client who let us tell their story'],
   ],
@@ -470,7 +469,6 @@ export const nosotros: typeof ES.nosotros = {
     { nombre: 'Giuli', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.' },
     { nombre: 'Facu', texto: 'I’m finishing the same degree.' },
   ],
-  juntos: 'And we’re both about to start cyber defense.',
   filmamos: ['Shall we', 'shoot yours?'],
   cta: 'Let’s talk',
 };

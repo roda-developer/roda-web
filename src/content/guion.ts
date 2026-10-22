@@ -11,7 +11,7 @@ export const loader = {
 /** Títulos y descripciones de cada página (lo que ve Google y lo que aparece al compartir el link) */
 export const metas = {
   inicio: { titulo: 'Roda — Estudio web', descripcion: 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida, de Buenos Aires al mundo.' },
-  precios: { titulo: 'Precios — Roda', descripcion: 'Landing US$ 300, Multisección US$ 400, Tienda US$ 550. Abrí cada carpeta y mirá lo que trae.' },
+  precios: { titulo: 'Precios — Roda', descripcion: 'Landing US$ 300, Multisección US$ 400, Tienda US$ 550. Mirá qué trae cada una, sin letra chica.' },
   contacto: { titulo: 'Contacto — Roda', descripcion: 'Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos enseguida.' },
   nosotros: { titulo: 'Nosotros — Roda', descripcion: 'Roda es Giuliana y Facundo: pareja, socios y desarrolladores web de Buenos Aires.' },
   proyectos: { titulo: 'Proyectos — Roda', descripcion: 'Webs que hicimos: MUDA, Emme Digital, Eber, Craft Studio, Fidalgo Select, Unik, The Magical Duo y Newave.' },
@@ -306,7 +306,7 @@ export const planes = {
 export const preciosPagina = {
   rotulo: 'Precios',
   titulo: ['Cuánto sale', 'tu estreno.'],
-  bajada: 'Precios a la vista, sin letra chica. Abrí cada carpeta.',
+  bajada: 'Precios a la vista, sin letra chica. Mirá qué trae cada una.',
   rotulos: {
     planes: ['01', 'Los planes'],
     extras: ['02', 'Sumale'],
@@ -387,7 +387,7 @@ export const preciosPagina = {
   ],
   final: {
     titulo: '¿Arrancamos?',
-    texto: 'Contanos de tu marca y te decimos qué carpeta te conviene.',
+    texto: 'Contanos de tu marca y te decimos cuál te conviene.',
     cta: 'Hablemos',
   },
 };
@@ -505,7 +505,6 @@ export const nosotros = {
     ['Diseño y desarrollo', 'Giuliana Di Rocco · Facundo Thibaut'],
     ['Formación', 'Tecnicatura en Desarrollo Web, UNLaM'],
     ['Inteligencia Artificial', 'Giuliana Di Rocco'],
-    ['Ciberdefensa', 'Los dos, próximamente'],
     ['Locaciones', 'Donde nos lleve el próximo viaje'],
     ['Agradecimientos', 'A cada cliente que nos dejó contar su historia'],
   ],
@@ -522,7 +521,6 @@ export const nosotros = {
     { nombre: 'Giuli', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.' },
     { nombre: 'Facu', texto: 'Estoy terminando la misma tecnicatura.' },
   ],
-  juntos: 'Y ahora vamos a empezar ciberdefensa los dos.',
   filmamos: ['¿Filmamos', 'la tuya?'],
   cta: 'Hablemos',
 };

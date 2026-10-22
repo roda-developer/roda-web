@@ -134,7 +134,8 @@ const ficha: [string, string | number | undefined][] = [
     .bloque { grid-template-columns: 16rem 1fr; gap: 3rem; }
     .bloque > h2 { padding-top: 0.5rem; }
   }
-  .texto-grande { max-width: 30ch; font-size: clamp(1.6rem, 4.5vw, 2.6rem); line-height: 1.12; letter-spacing: -0.03em; font-weight: 500; }
+  /* Se lee como un párrafo de revista, no como un título: más chico y con más aire */
+  .texto-grande { max-width: 38ch; font-size: clamp(1.3rem, 2.6vw, 1.9rem); line-height: 1.25; letter-spacing: -0.02em; font-weight: 500; }
   .texto { max-width: 46ch; font-size: 1.2rem; line-height: 1.5; color: color-mix(in oklab, var(--color-tinta) 78%, transparent); }
   @media (min-width: 768px) { .texto { font-size: 1.4rem; } }
   .celular { border-radius: 1.75rem; border: 6px solid var(--color-tinta); }
