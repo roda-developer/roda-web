@@ -9,7 +9,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 | 3 | Home más corta | hecho | Home: 390×844 → 11.773 px = 13,95 pantallas (antes 19,63); 1440×900 → 12.832 px = 14,26 (antes 18,93). El hueco de y≈13.240 en compu era el tramo fijo de ActoTres (260svh con 1,5 de pausa al final); quedó en 145svh con 0,4 de pausa. |
 | 4 | View Transitions | sin empezar | |
 | 5 | Sacar recursos genéricos | hecho | Rotulo.astro borrado. Las claves rotulo del guion quedaron sin uso (no las borré para no tocar la forma). Revisado en capturas de /, /precios, caso y /contacto. |
-| 6 | Legibilidad y contraste AA | sin empezar | |
+| 6 | Legibilidad y contraste AA | hecho | Chequeo propio de contraste/tamaño (scripts/_contraste.mjs, no commiteado) limpio en es/en/pt, salvo las letras de colores de MÁS/MORE/MAIS sobre rosa (no las toqué: es el círculo de MÁS ES MÁS). Las maquetas ilustrativas (web genérica de ActoUno y la web que se arma en ActoTres, aria-hidden) mantienen su letra chica a escala. |
 | 7 | Animaciones | sin empezar | |
 | 8 | Contenido (precios, nosotros) | sin empezar | |
 | — | Verificación final | sin empezar | |
@@ -21,6 +21,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 - Punto 2: texto de la primera pantalla: "Diseñamos y programamos webs a medida para marcas, desde US$ 300." (en/pt equivalentes). Saqué la bajada "Falta contarla donde te buscan." para que entren título, línea y botón en 390×844.
 - Punto 3: también acorté la puerta de MÁS ES MÁS (180→150svh) recalculando `llena`: el círculo hace lo mismo, con menos scroll. No cambié la animación en sí.
 - Punto 5: también saqué la cursiva de "Mira.", "Y se va." y "…a veces." (títulos enteros en cursiva como recurso), los números de ActoDos y de las notas de ActoUno, los (n / total) del tráiler y del caso, y los paréntesis de los subtítulos del caso y del filtro de /proyectos. Dejé el "(Hablemos)" del menú porque es navegación. "Volver" quedó subrayado para que se lea como link sin la flecha.
+- Punto 6: las maquetas dentro de ActoUno y ActoTres son dibujos (aria-hidden) y escalan con el mockup: no las llevé a 13px. Las letras M-O-RE / M-A-IS de colores sobre rosa no llegan a 3:1, pero son parte del círculo de MÁS ES MÁS, que no había que tocar.
 
 ## Mediciones
 
