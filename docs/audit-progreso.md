@@ -8,7 +8,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 | 2 | Primera pantalla clara | hecho | Apertura.astro reescrita: h1 + queHacemos (text-xl, tinta) + .cta Hablemos + link Ver precios. Se fue la bajada (queda comentada en guion). Entra a 2,65 s (título a 2,2 s). |
 | 3 | Home más corta | a medio hacer | Bajó a 14,84 (celu) / 14,80 (compu). Faltan ~0,85 pantallas para ≤14: se recupera sacando rótulos (punto 5). Re-medir con scripts de mediciones al cerrar el punto 5. Hueco de ~1.900 px en y≈13.240 (compu): era el tramo fijo de ActoTres (260svh con 1,5 de pausa al final de la timeline) más el aire hasta la crítica; quedó en 155svh. |
 | 4 | View Transitions | sin empezar | |
-| 5 | Sacar recursos genéricos | sin empezar | |
+| 5 | Sacar recursos genéricos | hecho | Rotulo.astro borrado. Las claves rotulo del guion quedaron sin uso (no las borré para no tocar la forma). Revisado en capturas de /, /precios, caso y /contacto. |
 | 6 | Legibilidad y contraste AA | sin empezar | |
 | 7 | Animaciones | sin empezar | |
 | 8 | Contenido (precios, nosotros) | sin empezar | |
@@ -20,6 +20,7 @@ Rama: `audit/cambios` (sale de master 5758cd1). No mergear ni deployar desde ac�
 - og.png: el título también pierde la cursiva en "historia" (va con el punto 5).
 - Punto 2: texto de la primera pantalla: "Diseñamos y programamos webs a medida para marcas, desde US$ 300." (en/pt equivalentes). Saqué la bajada "Falta contarla donde te buscan." para que entren título, línea y botón en 390×844.
 - Punto 3: también acorté la puerta de MÁS ES MÁS (180→150svh) recalculando `llena`: el círculo hace lo mismo, con menos scroll. No cambié la animación en sí.
+- Punto 5: también saqué la cursiva de "Mira.", "Y se va." y "…a veces." (títulos enteros en cursiva como recurso), los números de ActoDos y de las notas de ActoUno, los (n / total) del tráiler y del caso, y los paréntesis de los subtítulos del caso y del filtro de /proyectos. Dejé el "(Hablemos)" del menú porque es navegación. "Volver" quedó subrayado para que se lea como link sin la flecha.
 
 ## Mediciones
 
