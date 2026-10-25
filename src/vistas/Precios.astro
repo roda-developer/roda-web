@@ -24,8 +24,8 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3">
         <Volver />
       </p>
-      <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
-        <span class="text-tinta/52">{t.titulo[0]}</span> {t.titulo[1]}
+      <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.01em]" data-revelar>
+        <span>{t.titulo[0]}</span> {t.titulo[1]}
       </h1>
       <p class="mt-5 max-w-[34ch] text-lg leading-snug text-tinta/70 md:text-xl" data-revelar="4">{t.bajada}</p>
     </header>
@@ -465,10 +465,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
 
     const pedir: Promise<{ valor: number; fecha: string }> =
       tipo === 'ars'
-        ? fetch('https://dolarapi.com/v1/dolares/oficial')
+        ? fetch('https://dolarapi.com/v1/dolares/oficial', { signal: AbortSignal.timeout(8000) })
             .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
             .then((d: { venta: number; fechaActualizacion: string }) => ({ valor: d.venta, fecha: fechaCorta(new Date(d.fechaActualizacion), true) }))
-        : fetch('https://api.frankfurter.dev/v2/rates?base=USD&quotes=BRL')
+        : fetch('https://api.frankfurter.dev/v2/rates?base=USD&quotes=BRL', { signal: AbortSignal.timeout(8000) })
             .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
             .then(([d]: { date: string; rate: number }[]) => ({ valor: d.rate, fecha: fechaCorta(new Date(d.date + 'T12:00:00Z'), false) }));
 

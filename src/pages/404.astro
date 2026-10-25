@@ -9,13 +9,13 @@ const es = textos('es');
 const tresIdiomas = Object.fromEntries((['es', 'en', 'pt'] as const).map((l) => [l, { ...textos(l).error404, titulo404: textos(l).metas.error }]));
 ---
 <!-- La escena que se cortó en el montaje -->
-<Base titulo={es.metas.error}>
+<Base titulo={es.metas.error} indexable={false}>
   <Nav enHome={false} />
   <main class="plano">
     <div class="w-full max-w-5xl">
       <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3"><span>(404)</span><span data-e404="rotulo">{es.error404.rotulo}</span></p>
-      <h1 class="mt-12 font-titulo text-[clamp(2.8rem,11vw,7rem)] leading-[0.92] tracking-[-0.045em]">
-        <span class="block text-tinta/52" data-e404="t0">{es.error404.titulo[0]}</span>
+      <h1 class="mt-12 font-titulo text-[clamp(2.8rem,11vw,7rem)] leading-[0.92] tracking-[-0.01em]">
+        <span class="block" data-e404="t0">{es.error404.titulo[0]}</span>
         <span class="block"><span data-e404="t1">{es.error404.titulo[1]}</span><span data-e404="t2">{es.error404.titulo[2]}</span></span>
       </h1>
       <a href="/" class="cta mt-12" data-e404="cta">{es.error404.cta}</a>
@@ -37,7 +37,7 @@ const tresIdiomas = Object.fromEntries((['es', 'en', 'pt'] as const).map((l) => 
       poner('t1', t.titulo[1]);
       poner('t2', t.titulo[2]);
       poner('cta', t.cta);
-      document.querySelector<HTMLAnchorElement>('[data-e404="cta"]')?.setAttribute('href', '/' + idioma);
+      document.querySelector<HTMLAnchorElement>('[data-e404="cta"]')?.setAttribute('href', '/' + idioma + '/');
     }
   }
 </script>

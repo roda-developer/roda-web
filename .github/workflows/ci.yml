@@ -1,0 +1,22 @@
+# Antes de que algo llegue a master: que compile, que los tipos estén bien y que los tests pasen.
+# Cloudflare publica cada push a master; este chequeo avisa en GitHub si algo se rompió.
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  chequeo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build

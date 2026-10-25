@@ -1,5 +1,6 @@
 import { TRADUCCIONES } from './proyectos.traducciones';
 import type { RubroId } from '../story/opciones';
+import { validarProyectoAdmin } from './proyecto-admin';
 
 export interface Proyecto {
   /** Va en la URL: /proyectos/<slug>. Coincide con la carpeta de capturas en src/assets/proyectos. */
@@ -51,8 +52,9 @@ export interface ProyectoAdmin extends Proyecto {
   /** Color de acento del afiche */
   color?: string;
 }
-const desdeAdmin = import.meta.glob<{ default: ProyectoAdmin }>('./proyectos-admin/*.json', { eager: true });
-export const PROYECTOS_ADMIN: ProyectoAdmin[] = Object.values(desdeAdmin).map((m) => m.default);
+const desdeAdmin = import.meta.glob<{ default: unknown }>('./proyectos-admin/*.json', { eager: true });
+// Cada JSON se valida: si viene roto, el build se frena diciendo qué archivo y qué campo
+export const PROYECTOS_ADMIN: ProyectoAdmin[] = Object.entries(desdeAdmin).map(([archivo, m]) => validarProyectoAdmin(m.default, archivo));
 
 // PENDIENTE (Giuli/Facu): revisar todos los textos, confirmar rubros y años, y sumar resultados reales.
 // Están escritos a partir de cada repo; nada de lo que dice es inventado, pero puede faltar contexto.
@@ -259,3 +261,8 @@ export function proyectoSiguiente(slug: string, idioma: 'es' | 'en' | 'pt' = 'es
   const i = lista.findIndex((p) => p.slug === slug);
   return lista[(i + 1) % lista.length];
 }
+
+/** El orden en que se muestran los trabajos (el de la cartelera de /proyectos); los cargados desde el admin van primero */
+export const ORDEN_TRABAJOS = ['emme', 'muda', 'eber', 'craft', 'tmd', 'newave', 'unik', 'fidalgo'];
+export const enOrden = (proyectos: Proyecto[]) =>
+  [...proyectos].sort((a, b) => ORDEN_TRABAJOS.indexOf(a.slug) - ORDEN_TRABAJOS.indexOf(b.slug));

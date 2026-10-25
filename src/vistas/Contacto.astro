@@ -20,8 +20,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
       <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3">
         <Volver />
       </p>
-      <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.045em]" data-revelar>
-        <span class="text-tinta/52">{t.titulo[0]}</span> {t.titulo[1]}
+      <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.01em]" data-revelar>
+        <span>{t.titulo[0]}</span> {t.titulo[1]}
       </h1>
       <p class="mt-5 max-w-[40ch] text-lg leading-snug text-tinta md:text-xl" data-revelar="4">{t.bajada}</p>
     </header>
@@ -267,6 +267,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
       try {
         const r = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
+          // Si Web3Forms no contesta en 15 s, sale el aviso de error en vez de quedar en «Enviando…»
+          signal: AbortSignal.timeout(15000),
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({
             access_key: clave,

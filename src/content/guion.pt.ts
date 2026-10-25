@@ -23,6 +23,7 @@ export const metas: typeof ES.metas = {
 
 export const ui: typeof ES.ui = {
   principal: 'Principal',
+  saltar: 'Pular para o conteúdo',
   navegacion: 'Menu',
   abrirMenu: 'Abrir menu',
   cerrarMenu: 'Fechar menu',
@@ -488,4 +489,49 @@ export const error404: typeof ES.error404 = {
   rotulo: 'Cena excluída',
   titulo: ['Esta parte', 'não entrou no ', 'corte final.'],
   cta: 'Voltar ao início',
+};
+
+export const inicio: typeof ES.inicio = {
+  hero: {
+    marca: 'Roda',
+    lector: 'Roda, estúdio de design e desenvolvimento web',
+    linea: 'Criamos e programamos sites sob medida.',
+    hablemos: 'Vamos falar',
+    verTrabajos: 'Ver trabalhos',
+  },
+  estudio: {
+    titulo: 'Estúdio',
+    texto: 'Somos Giuli e Facu. Criamos e programamos cada site do zero, e quando você escreve, somos nós que respondemos.',
+    cta: 'Ver trabalhos',
+    foto: 'Giuliana e Facundo, abraçados e sorrindo, com uma árvore atrás',
+  },
+  trabajos: { titulo: 'Trabalhos', verTodos: 'Ver todos os trabalhos' },
+  gente: {
+    titulo: 'Todos os dias passa gente pelo seu site.',
+    bajada: 'A maioria segue em frente. Quase sempre pelos mesmos motivos:',
+    motivos: [
+      'Parece com todos: é um modelo que milhares de marcas usam.',
+      'Não dá para entender o que você faz nem por que escolher você.',
+      'Demora para carregar, e ninguém espera.',
+      'No celular, aparece quebrado.',
+      'Não tem um botão claro para falar com você.',
+    ],
+    remate: 'Quando o site funciona, alguém para.',
+  },
+  deCerca: {
+    titulo: '{titulo}, de perto',
+    marca: 'A marca',
+    afiche: 'O cartaz',
+    web: 'O site',
+    celu: 'No celular',
+    dijo: 'O que disseram',
+    verCaso: 'Ver o caso completo',
+  },
+  niveles: {
+    titulo: 'Como trabalhamos',
+    proceso: 'Escutamos, mostramos como vai ficar antes de fazer, fazemos e publicamos. Alterações sem limite dentro do combinado.',
+    obra: { nombre: 'Obra', precio: 'Sob consulta', texto: 'Direção de arte e site para marcas que querem algo único. Conversamos e enviamos uma proposta.' },
+    verDetalle: 'Ver o que cada um inclui',
+  },
+  final: { titulo: 'A próxima é sua?', cta: 'Vamos falar' },
 };

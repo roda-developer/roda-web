@@ -75,7 +75,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     </div>
 
     <!-- Menú desplegable Mobile: dentro de nav para accesibilidad y semántica -->
-    <div id="menu-movil" class="menu-movil md:hidden" aria-hidden="true">
+    <div id="menu-movil" class="menu-movil md:hidden" inert>
       <div class="space-y-6 pt-8">
         <p class="mono text-tinta/70 tracking-wider uppercase mb-8">{ui.navegacion}</p>
         <div class="flex flex-col space-y-4">
@@ -329,8 +329,12 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       menuMovil.classList.toggle('abierto', nuevoEstado);
       botonHamburguesa.setAttribute('aria-expanded', String(nuevoEstado));
       botonHamburguesa.setAttribute('aria-label', (nuevoEstado ? botonHamburguesa.dataset.cerrar : botonHamburguesa.dataset.abrir) ?? '');
-      menuMovil.setAttribute('aria-hidden', String(!nuevoEstado));
-      botonHamburguesa.blur();
+      // Con el menú abierto, el resto de la página no se puede tocar ni tabular; el foco entra al menú y, al cerrar, vuelve al botón
+      const focoAdentro = menuMovil.contains(document.activeElement);
+      menuMovil.inert = !nuevoEstado;
+      [...document.body.children].forEach((el) => { if (!el.contains(nav)) (el as HTMLElement).inert = nuevoEstado; });
+      if (nuevoEstado) setTimeout(() => menuMovil.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true }), 30);
+      else if (focoAdentro) botonHamburguesa.focus({ preventScroll: true });
 
       // Bloquear scroll de fondo mientras el menú está abierto
       pausarScroll(nuevoEstado);

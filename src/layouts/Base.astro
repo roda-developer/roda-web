@@ -1,20 +1,23 @@
 ---
 import '@fontsource-variable/inter-tight/wght.css';
 import '@fontsource-variable/inter-tight/wght-italic.css';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource-variable/big-shoulders-display';
 import '../styles/global.css';
-import { MAIL, WHATSAPP } from '../content/contacto';
+// La letra de todo el texto se pide antes que nada: sin esto, el navegador la descubre recién al leer el CSS
+import interTight from '@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2?url';
+import { FUNDADORES, INSTAGRAM, MAIL, VERIFICACION_GOOGLE, WHATSAPP } from '../content/contacto';
 import { HTML_LANG, IDIOMAS, OG_LOCALE, equivalente, idiomaDe, textos } from '../i18n';
 
 interface Props {
   titulo?: string;
   descripcion?: string;
+  /** false en la 404: Google no la guarda y no lleva canónica ni versiones en otros idiomas */
+  indexable?: boolean;
 }
 
 const idioma = idiomaDe(Astro.currentLocale);
-const { metas } = textos(idioma);
-const { titulo = metas.inicio.titulo, descripcion = metas.inicio.descripcion } = Astro.props;
+const { metas, ui } = textos(idioma);
+const { titulo = metas.inicio.titulo, descripcion = metas.inicio.descripcion, indexable = true } = Astro.props;
 const imagen = new URL('/og.png', Astro.site ?? Astro.url).href;
 const canonica = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 // La misma página en los otros idiomas, para que Google muestre la versión de cada país (hreflang)
@@ -33,8 +36,8 @@ const empresa = {
   // Trabajamos para cualquier país
   areaServed: 'Worldwide',
   address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
-  founder: [{ '@type': 'Person', name: 'Giuliana Di Rocco' }, { '@type': 'Person', name: 'Facundo Thibaut' }],
-  sameAs: ['https://instagram.com/rodadevelop'],
+  founder: FUNDADORES.map((name) => ({ '@type': 'Person', name })),
+  sameAs: ['https://instagram.com/' + INSTAGRAM],
   email: MAIL,
   telephone: '+' + WHATSAPP,
 };
@@ -48,10 +51,15 @@ const empresa = {
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <!-- Verificación de Google Search Console -->
-    <meta name="google-site-verification" content="3tEIVGU7KAhx047kPRdxamCFTjkJUOXC69We-PIyEgw" />
-    <link rel="canonical" href={canonica} />
-    {alternativas.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={porDefecto} />
+    <meta name="google-site-verification" content={VERIFICACION_GOOGLE} />
+    <link rel="preload" href={interTight} as="font" type="font/woff2" crossorigin />
+    {indexable ? (
+      <>
+        <link rel="canonical" href={canonica} />
+        {alternativas.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+        <link rel="alternate" hreflang="x-default" href={porDefecto} />
+      </>
+    ) : <meta name="robots" content="noindex" />}
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script type="application/ld+json" set:html={JSON.stringify(empresa)} />
     <meta property="og:title" content={titulo} />
@@ -89,6 +97,7 @@ const empresa = {
     </script>
   </head>
   <body>
+    <a href="#contenido" class="saltar">{ui.saltar}</a>
     <slot />
     <script is:inline>
       // Lo que ya se ve al cargar no espera al JS de movimiento: aparece con un fundido en CSS (más rápido en celus lentos).
@@ -103,6 +112,9 @@ const empresa = {
           }
         });
       })();
+      // El link de saltar va al primer main de la página, tenga el id que tenga
+      var principal = document.querySelector('main');
+      if (principal) { if (!principal.id) principal.id = 'contenido'; principal.tabIndex = -1; document.querySelector('.saltar').setAttribute('href', '#' + principal.id); }
       // Sin animaciones (movimiento reducido), volver atrás también recupera la altura
       if (window.__rodaVolverA && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         addEventListener('load', function () { window.scrollTo(0, window.__rodaVolverA); });

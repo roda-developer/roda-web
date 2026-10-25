@@ -24,6 +24,8 @@ export const metas = {
 /** Textos chicos de la interfaz: menú, avisos para lectores de pantalla, pie */
 export const ui = {
   principal: 'Principal',
+  /** El link escondido que aparece con Tab: salta el menú */
+  saltar: 'Ir al contenido',
   navegacion: 'Navegación',
   abrirMenu: 'Abrir menú',
   cerrarMenu: 'Cerrar menú',
@@ -542,4 +544,58 @@ export const error404 = {
   rotulo: 'Escena eliminada',
   titulo: ['Esta parte', 'no quedó en el ', 'corte final.'],
   cta: 'Volver al inicio',
+};
+
+/**
+ * La home nueva (rediseño 2026-10-25): la obra primero, texto llano y sin vocabulario de cine.
+ * Va en este orden: la O (y la sección Estudio), trabajos, la gente que pasa, un trabajo de cerca,
+ * más es más, cómo trabajamos y el final.
+ */
+export const inicio = {
+  hero: {
+    marca: 'Roda',
+    /** Lo que lee un lector de pantalla en el título (las letras grandes son el logo) */
+    lector: 'Roda, estudio de diseño y desarrollo web',
+    linea: 'Diseñamos y programamos webs a medida.',
+    hablemos: 'Hablemos',
+    verTrabajos: 'Ver trabajos',
+  },
+  estudio: {
+    titulo: 'Estudio',
+    texto: 'Somos Giuli y Facu. Diseñamos y programamos cada web desde cero, y si nos escribís, te contestamos nosotros.',
+    cta: 'Ver trabajos',
+    foto: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás',
+  },
+  trabajos: { titulo: 'Trabajos', verTodos: 'Ver todos los trabajos' },
+  /** La gente que pasa: por qué no funcionan las webs de la mayoría de los negocios. Sin números inventados. */
+  gente: {
+    titulo: 'Todos los días pasa gente por tu web.',
+    bajada: 'La mayoría sigue de largo. Casi siempre por lo mismo:',
+    // Cuando sumemos branding y redes, van acá motivos como "La marca no tiene una imagen propia"
+    motivos: [
+      'Se parece a todas: es una plantilla que usan miles de marcas.',
+      'No se entiende qué hacés ni por qué elegirte.',
+      'Tarda en cargar, y nadie espera.',
+      'En el celu se ve rota.',
+      'No hay un botón claro para escribirte.',
+    ],
+    remate: 'Cuando la web funciona, alguien se frena.',
+  },
+  deCerca: {
+    titulo: '{titulo}, de cerca',
+    marca: 'La marca',
+    afiche: 'El afiche',
+    web: 'La web',
+    celu: 'En el celu',
+    dijo: 'Lo que dijo',
+    verCaso: 'Ver el caso completo',
+  },
+  niveles: {
+    titulo: 'Cómo trabajamos',
+    proceso: 'Te escuchamos, te mostramos cómo va a quedar antes de hacerla, la hacemos y la publicamos. Cambios sin límite sobre lo acordado.',
+    // PENDIENTE (Giuli/Facu): qué incluye Obra y si lleva precio
+    obra: { nombre: 'Obra', precio: 'A consulta', texto: 'Dirección de arte y web, para marcas que quieren algo único. Lo charlamos y te pasamos una propuesta.' },
+    verDetalle: 'Ver qué incluye cada una',
+  },
+  final: { titulo: '¿La próxima es tuya?', cta: 'Hablemos' },
 };

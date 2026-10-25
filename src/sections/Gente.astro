@@ -1,0 +1,123 @@
+---
+/**
+ * La gente que pasa: por qué no funcionan las webs de la mayoría de los negocios.
+ * Los motivos se leen todos a la vez (nada depende de la animación). Abajo camina una multitud dibujada en un canvas;
+ * cuando el remate entra en pantalla, una persona se frena y se pone rosa.
+ */
+import { idiomaDe, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+const { gente } = inicio;
+---
+<section class="gente" aria-labelledby="gente-titulo" data-gente>
+  <div class="texto">
+    <h2 id="gente-titulo" class="titulo font-titulo" data-revelar>{gente.titulo}</h2>
+    <p class="bajada" data-revelar="3">{gente.bajada}</p>
+    <ul class="motivos">
+      {gente.motivos.map((m, i) => <li data-revelar={String(4 + i * 2)}>{m}</li>)}
+    </ul>
+  </div>
+  <canvas class="multitud" aria-hidden="true"></canvas>
+  <p class="remate font-titulo" data-remate>{gente.remate}</p>
+</section>
+
+<style>
+  .gente { padding: clamp(6rem, 16svh, 11rem) 0 clamp(3rem, 8svh, 6rem); }
+  .texto { padding-inline: 1.25rem; display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { .texto { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  @media (min-width: 1024px) {
+    .texto { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+    .titulo { grid-row: span 2; }
+  }
+  .titulo { font-size: clamp(2.8rem, 6.6vw, 6rem); line-height: 0.92; max-width: 14ch; }
+  .bajada { font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.4; max-width: 34ch; }
+  .motivos { display: grid; gap: 0.9rem; }
+  .motivos li { position: relative; padding-left: 1.6rem; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); line-height: 1.4; max-width: 40ch; }
+  /* Un trazo corto en vez de viñeta: la misma línea gruesa de las figuras */
+  .motivos li::before { content: ''; position: absolute; left: 0; top: 0.68em; width: 0.9rem; height: 3px; border-radius: 3px; background: var(--color-tinta); }
+  .multitud { display: block; width: 100%; height: clamp(9rem, 26svh, 15rem); margin-top: clamp(2rem, 6svh, 4rem); }
+  .remate { padding-inline: 1.25rem; margin-top: 1.5rem; font-size: clamp(2rem, 4.6vw, 4rem); line-height: 0.95; text-align: center; }
+</style>
+
+<script>
+  import { movimientoPermitido } from '../motion/index';
+
+  const seccion = document.querySelector<HTMLElement>('[data-gente]');
+  const lienzo = seccion?.querySelector<HTMLCanvasElement>('.multitud');
+  const ctx = lienzo?.getContext('2d');
+  if (seccion && lienzo && ctx) {
+    const mover = movimientoPermitido();
+    const TINTA = getComputedStyle(document.documentElement).getPropertyValue('--color-tinta').trim() || '#121212';
+    const ROSA = getComputedStyle(document.documentElement).getPropertyValue('--color-tc-rosa').trim() || '#ff6fd8';
+    let ancho = 0, alto = 0;
+    const medir = () => {
+      const d = Math.min(devicePixelRatio || 1, 2);
+      ancho = lienzo.clientWidth; alto = lienzo.clientHeight;
+      lienzo.width = ancho * d; lienzo.height = alto * d;
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+    };
+    medir();
+    addEventListener('resize', () => { medir(); if (!mover) dibujar(); });
+
+    // Cada persona: posición (0 a 1), velocidad, altura, paso y para qué lado camina. La rosa es la primera.
+    const cuantas = () => (ancho < 640 ? 9 : 18);
+    const gente = Array.from({ length: 18 }, (_, i) => ({
+      x: (i + Math.random() * 0.6) / 18, v: 0.00045 + Math.random() * 0.0005, h: 0.7 + Math.random() * 0.3,
+      f: Math.random() * 6, lado: i % 4 === 1 ? -1 : 1, rosa: i === 0,
+    }));
+    let frenada = !mover;
+
+    const persona = (p: (typeof gente)[number], x: number, piso: number) => {
+      const h = alto * 0.86 * p.h;
+      const cabeza = h * 0.1, torso = h * 0.36, pierna = h * 0.4;
+      const quieta = p.rosa && frenada && Math.abs(p.x - 0.5) < 0.004;
+      const s = quieta ? 0 : Math.sin(p.f) * 0.45;
+      const color = p.rosa && frenada ? ROSA : TINTA;
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      const cadera = piso - pierna, hombro = cadera - torso;
+      // Piernas y brazos con trazo grueso; el torso, una forma redondeada
+      ctx.lineWidth = Math.max(3, h * 0.075);
+      ctx.beginPath();
+      ctx.moveTo(x, cadera); ctx.lineTo(x + Math.sin(s) * pierna, piso);
+      ctx.moveTo(x, cadera); ctx.lineTo(x - Math.sin(s) * pierna, piso);
+      ctx.moveTo(x, hombro + torso * 0.12); ctx.lineTo(x - Math.sin(s) * torso * 0.85, hombro + torso * 0.8);
+      ctx.moveTo(x, hombro + torso * 0.12); ctx.lineTo(x + Math.sin(s) * torso * 0.85, hombro + torso * 0.8);
+      ctx.stroke();
+      ctx.lineWidth = h * 0.16;
+      ctx.beginPath(); ctx.moveTo(x, hombro + h * 0.05); ctx.lineTo(x, cadera - h * 0.03); ctx.stroke();
+      ctx.beginPath(); ctx.arc(x, hombro - cabeza * 1.15, cabeza, 0, Math.PI * 2); ctx.fill();
+    };
+
+    const dibujar = () => {
+      ctx.clearRect(0, 0, ancho, alto);
+      // La rosa se dibuja última, así queda adelante
+      gente.slice(0, cuantas()).sort((a, b) => Number(a.rosa) - Number(b.rosa)).forEach((p) => {
+        if (p.rosa && frenada) p.x += (0.5 - p.x) * (mover ? 0.05 : 1);
+        persona(p, p.x * ancho, alto - 4);
+      });
+    };
+    const avanzar = () => {
+      gente.forEach((p) => {
+        // La rosa camina hasta el centro y ahí se queda quieta
+        if (p.rosa && frenada) { if (Math.abs(p.x - 0.5) > 0.004) p.f += 0.11; return; }
+        p.x += p.v * p.lado;
+        if (p.x > 1.05) p.x = -0.05;
+        if (p.x < -0.05) p.x = 1.05;
+        p.f += 0.11;
+      });
+    };
+
+    if (!mover) {
+      dibujar();
+    } else {
+      let visible = false, cuadro = 0;
+      const bucle = () => { avanzar(); dibujar(); cuadro = visible ? requestAnimationFrame(bucle) : 0; };
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !cuadro) cuadro = requestAnimationFrame(bucle);
+      }).observe(lienzo);
+      // Cuando el remate entra en pantalla, la rosa se frena en el centro
+      new IntersectionObserver(([e]) => { frenada = e.isIntersecting; }, { rootMargin: '0px 0px -15% 0px' }).observe(seccion.querySelector('[data-remate]')!);
+    }
+  }
+</script>

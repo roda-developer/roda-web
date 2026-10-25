@@ -23,6 +23,7 @@ export const metas: typeof ES.metas = {
 
 export const ui: typeof ES.ui = {
   principal: 'Main',
+  saltar: 'Skip to content',
   navegacion: 'Menu',
   abrirMenu: 'Open menu',
   cerrarMenu: 'Close menu',
@@ -488,4 +489,49 @@ export const error404: typeof ES.error404 = {
   rotulo: 'Deleted scene',
   titulo: ['This part', 'didn’t make the ', 'final cut.'],
   cta: 'Back to home',
+};
+
+export const inicio: typeof ES.inicio = {
+  hero: {
+    marca: 'Roda',
+    lector: 'Roda, web design and development studio',
+    linea: 'We design and build custom websites.',
+    hablemos: 'Let’s talk',
+    verTrabajos: 'See our work',
+  },
+  estudio: {
+    titulo: 'Studio',
+    texto: 'We’re Giuli and Facu. We design and code every website from scratch, and when you write to us, we’re the ones who answer.',
+    cta: 'See our work',
+    foto: 'Giuliana and Facundo, hugging and smiling, with a tree behind them',
+  },
+  trabajos: { titulo: 'Work', verTodos: 'See all projects' },
+  gente: {
+    titulo: 'Every day, people pass through your website.',
+    bajada: 'Most of them keep going. Almost always for the same reasons:',
+    motivos: [
+      'It looks like all the others: a template thousands of brands use.',
+      'It’s not clear what you do or why someone should choose you.',
+      'It takes too long to load, and nobody waits.',
+      'It looks broken on a phone.',
+      'There’s no clear button to get in touch.',
+    ],
+    remate: 'When the website works, someone stops.',
+  },
+  deCerca: {
+    titulo: '{titulo}, up close',
+    marca: 'The brand',
+    afiche: 'The poster',
+    web: 'The website',
+    celu: 'On a phone',
+    dijo: 'What they said',
+    verCaso: 'See the full case',
+  },
+  niveles: {
+    titulo: 'How we work',
+    proceso: 'We listen, show you how it will look before we build it, build it and publish it. Unlimited changes within what we agreed.',
+    obra: { nombre: 'Signature', precio: 'On request', texto: 'Art direction and website for brands that want something one of a kind. We talk it through and send you a proposal.' },
+    verDetalle: 'See what each one includes',
+  },
+  final: { titulo: 'Is the next one yours?', cta: 'Let’s talk' },
 };

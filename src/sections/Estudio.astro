@@ -1,0 +1,30 @@
+---
+/** La sección Estudio suelta: va después de la Linterna (con la O, Estudio vive adentro del Portal). */
+import { Image } from 'astro:assets';
+import juntos from '../assets/nosotros/juntos.jpg';
+import { idiomaDe, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+---
+<section class="estudio-suelto" id="estudio" aria-labelledby="estudio-titulo">
+  <div class="banner" data-revelar>
+    <Image src={juntos} alt={inicio.estudio.foto} widths={[640, 1024, 1600, 2200]} sizes="100vw" loading="lazy" class="banner-img" />
+  </div>
+  <div class="texto">
+    <h2 id="estudio-titulo" class="font-titulo" data-revelar>{inicio.estudio.titulo}</h2>
+    <p data-revelar="3">{inicio.estudio.texto}</p>
+    <a href="#trabajos" class="cta" data-revelar="5">{inicio.estudio.cta}</a>
+  </div>
+</section>
+
+<style>
+  .estudio-suelto { padding: clamp(5rem, 12svh, 9rem) 0 0; }
+  .banner { aspect-ratio: 16 / 9; overflow: hidden; }
+  @media (min-width: 768px) { .banner { aspect-ratio: 21 / 9; margin-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  .banner :global(.banner-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; display: block; }
+  .texto { display: grid; gap: 1.25rem; justify-items: start; padding: 2.5rem 1.25rem 0; }
+  @media (min-width: 768px) { .texto { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  @media (min-width: 1024px) { .texto { grid-template-columns: auto 1fr auto; align-items: end; column-gap: clamp(2rem, 4vw, 4rem); } }
+  .texto h2 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
+  .texto p { max-width: 38ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
+</style>

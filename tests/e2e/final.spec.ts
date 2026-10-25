@@ -31,7 +31,7 @@ test('al escribir la marca se arma el afiche y viaja en el mensaje', async ({ pa
   await expect(final.getByRole('img', { name: /Roda presenta Panadería La Esquina\..*panaderialaesquina\.com/ })).toBeVisible();
   // La marca viaja al formulario
   const href = await final.getByRole('link', { name: 'Hablemos' }).getAttribute('href');
-  expect(decodeURIComponent(href!)).toBe('/contacto?marca=Panadería La Esquina');
+  expect(decodeURIComponent(href!)).toBe('/contacto/?marca=Panadería La Esquina');
   // La marca se recuerda al recargar
   await page.reload();
   await hidratada(page);

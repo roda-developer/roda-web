@@ -37,10 +37,13 @@ export const RUTAS = {
 } as const;
 export type Pagina = keyof typeof RUTAS;
 
-/** ruta('en', 'precios') → '/en/pricing'; ruta('es', 'proyectos', 'muda') → '/proyectos/muda' */
+/**
+ * ruta('en', 'precios') → '/en/pricing/'; ruta('es', 'proyectos', 'muda') → '/proyectos/muda/'
+ * Con la barra final, como las sirve Cloudflare: sin ella, cada link pasa por una redirección 307.
+ */
 export function ruta(idioma: Idioma, pagina: Pagina, resto = ''): string {
   const partes = [idioma === 'es' ? '' : idioma, RUTAS[pagina][idioma], resto].filter(Boolean);
-  return '/' + partes.join('/');
+  return partes.length ? '/' + partes.join('/') + '/' : '/';
 }
 
 /** La misma página en otro idioma: '/en/pricing' + 'pt' → '/pt/precos'. Si no la reconoce, va al inicio de ese idioma. */

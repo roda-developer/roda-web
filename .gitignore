@@ -7,3 +7,9 @@ playwright-report/
 shots/
 
 .env
+
+# Herramientas locales
+.wrangler/
+.taste-skill/
+.impeccable/
+dev.log

@@ -1,0 +1,118 @@
+---
+/**
+ * La primera pantalla: R○DA gigante y, en la O chica, ya se ve una imagen. Al scrollear la O crece, las letras se van
+ * y la imagen se acomoda como banner de la sección Estudio (media pantalla, nunca entera).
+ * Sin movimiento (o sin JS): el nombre arriba y la sección Estudio abajo, quietos.
+ */
+import { Image } from 'astro:assets';
+import juntos from '../assets/nosotros/juntos.jpg';
+import { idiomaDe, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+---
+<section class="portal" data-portal aria-labelledby="portal-titulo">
+  <div class="escena">
+    <div class="cabeza">
+      <h1 id="portal-titulo" class="palabra font-titulo">
+        <span class="sr-only">{inicio.hero.lector}</span>
+        <span aria-hidden="true">R</span><span class="anillo" aria-hidden="true"></span><span aria-hidden="true">DA</span>
+      </h1>
+      <p class="linea">{inicio.hero.linea}</p>
+    </div>
+    <div class="marco">
+      <Image src={juntos} alt={inicio.estudio.foto} widths={[640, 1024, 1600, 2200]} sizes="100vw" loading="eager" fetchpriority="high" class="marco-img" />
+    </div>
+    <div class="estudio" id="estudio">
+      <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
+      <p>{inicio.estudio.texto}</p>
+      <a href="#trabajos" class="cta">{inicio.estudio.cta}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Quieto (sin movimiento o sin JS): el nombre, y abajo la sección Estudio con su banner */
+  .portal { --margen: 1.25rem; padding: 6rem var(--margen) 0; }
+  @media (min-width: 768px) { .portal { --margen: clamp(1.5rem, 3.5vw, 3rem); } }
+  .escena { position: relative; }
+  .cabeza { display: grid; justify-items: center; gap: 1.5rem; padding-block: 8svh 12svh; text-align: center; }
+  .palabra { display: flex; align-items: baseline; justify-content: center; font-size: min(23vw, 40svh); line-height: 0.8; letter-spacing: 0; }
+  @media (min-width: 768px) { .palabra { font-size: min(19vw, 44svh); } }
+  /* La O es el anillo del logo: un círculo dibujado, con el hueco del tamaño de la imagen */
+  .anillo { display: inline-block; width: 0.74em; height: 0.74em; border: 0.13em solid currentColor; border-radius: 50%; margin-inline: 0.03em; }
+  .linea { max-width: 30ch; font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.35; }
+  .marco { position: relative; margin-inline: calc(var(--margen) * -1); aspect-ratio: 16 / 9; overflow: hidden; }
+  @media (min-width: 768px) { .marco { margin-inline: 0; aspect-ratio: 21 / 9; } }
+  .marco :global(.marco-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; display: block; }
+  .estudio { display: grid; gap: 1.25rem; justify-items: start; padding-block: 2.5rem 4rem; }
+  .estudio h2 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
+  .estudio p { max-width: 38ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
+  @media (min-width: 1024px) {
+    .estudio { grid-template-columns: auto 1fr auto; align-items: end; column-gap: clamp(2rem, 4vw, 4rem); }
+  }
+
+  /* Con movimiento: la escena queda fija mientras la O se abre */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .portal { height: 280svh; padding: 0; }
+    :global(.js) .escena { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+    :global(.js) .cabeza { position: absolute; inset: 0; z-index: 2; place-content: center; padding: 0 var(--margen); }
+    :global(.js) .palabra { will-change: transform; }
+    :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 12svh; height: 38svh; will-change: transform, clip-path; }
+    :global(.js) .estudio { position: absolute; z-index: 3; left: var(--margen); right: var(--margen); top: calc(12svh + 38svh + 1.5rem); padding: 0; }
+    @media (min-width: 768px) {
+      :global(.js) .marco { left: var(--margen); right: var(--margen); top: 14svh; height: 48svh; }
+      :global(.js) .estudio { top: auto; bottom: 7svh; }
+    }
+    /* Hasta que el script mide la O, la imagen y Estudio no se ven (así no aparecen de golpe en su lugar final) */
+    :global(.js) .portal:not(.listo) .marco, :global(.js) .portal:not(.listo) .estudio { visibility: hidden; }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, movimientoPermitido } from '../motion/index';
+
+  const portal = document.querySelector<HTMLElement>('[data-portal]');
+  if (portal && movimientoPermitido()) {
+    const escena = portal.querySelector<HTMLElement>('.escena')!;
+    const palabra = portal.querySelector<HTMLElement>('.palabra')!;
+    const anillo = portal.querySelector<HTMLElement>('.anillo')!;
+    const marco = portal.querySelector<HTMLElement>('.marco')!;
+
+    // Posición dentro de la escena con offset (no lo cambian los transform, así se puede medir en cualquier momento)
+    const posicion = (el: HTMLElement) => {
+      let x = 0, y = 0, n: HTMLElement | null = el;
+      while (n && n !== escena) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent as HTMLElement | null; }
+      return { x, y };
+    };
+    // Dónde arranca la imagen: achicada y recortada en círculo justo en el hueco de la O
+    let m = { x: 0, y: 0, s: 1, recorte: 'inset(0px 0px 0px 0px round 0px)' };
+    const medir = () => {
+      const a = posicion(anillo);
+      const borde = parseFloat(getComputedStyle(anillo).borderTopWidth);
+      const hueco = anillo.offsetWidth - borde * 2 - 1;
+      const cx = a.x + anillo.offsetWidth / 2, cy = a.y + anillo.offsetHeight / 2;
+      const b = { x: marco.offsetLeft, y: marco.offsetTop, w: marco.offsetWidth, h: marco.offsetHeight };
+      const lado = Math.min(b.w, b.h);
+      const mx = (b.w - lado) / 2, my = (b.h - lado) / 2;
+      m = {
+        x: cx - (b.x + b.w / 2),
+        y: cy - (b.y + b.h / 2),
+        s: hueco / lado,
+        recorte: `inset(${my}px ${mx}px ${my}px ${mx}px round ${lado / 2}px)`,
+      };
+      const p = posicion(palabra);
+      palabra.style.transformOrigin = `${cx - p.x}px ${cy - p.y}px`;
+    };
+    medir();
+    ScrollTrigger.addEventListener('refreshInit', medir);
+
+    gsap
+      .timeline({ scrollTrigger: { trigger: portal, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true } })
+      .to(portal.querySelector('.linea'), { autoAlpha: 0, duration: 0.08 }, 0.06)
+      .fromTo(marco, { x: () => m.x, y: () => m.y, scale: () => m.s, clipPath: () => m.recorte }, { x: 0, y: 0, scale: 1, clipPath: 'inset(0px 0px 0px 0px round 0px)', ease: 'power2.inOut', duration: 0.46 }, 0.1)
+      .to(palabra, { scale: 9, autoAlpha: 0, ease: 'power2.in', duration: 0.4 }, 0.1)
+      .fromTo(portal.querySelectorAll('.estudio > *'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, stagger: 0.04, duration: 0.14, ease: 'power2.out' }, 0.56)
+      .to({}, { duration: 0.22 });
+    portal.classList.add('listo');
+  }
+</script>

@@ -11,9 +11,11 @@
   --color-tc-verde: #00c46a;
   --color-tc-rosa: #ff6fd8;
 
-  --font-titulo: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+  /* Títulos: condensada de cartel, en mayúscula. El texto corrido sigue en Inter Tight */
+  --font-titulo: 'Big Shoulders Display Variable', 'Arial Narrow', sans-serif;
   --font-texto: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* Ya no hay letra mono a la vista: lo que la usaba pasa a la letra de texto */
+  --font-mono: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
   --font-grito: 'Bricolage Grotesque Variable', 'Arial Black', sans-serif;
 
   --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
@@ -51,6 +53,8 @@ body {
 
 /* Los títulos se parten parejo, sin una palabra sola en el último renglón */
 h1, h2, h3 { text-wrap: balance; }
+/* La letra de títulos es condensada y va siempre en mayúscula, gruesa */
+.font-titulo { text-transform: uppercase; font-weight: 800; }
 p { text-wrap: pretty; }
 
 @layer components {
@@ -67,13 +71,11 @@ p { text-wrap: pretty; }
   .plano { padding: clamp(4.5rem, 8svh, 8rem) clamp(1.5rem, 3.5vw, 3rem); }
 }
 
-/* La voz chica: mono, mayúscula, como las notas al margen de un libro de fotos */
+/* La voz chica: datos y notas al margen, en la letra de texto y sin mayúsculas (el nombre de la clase quedó de antes) */
 .mono {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-texto);
+  font-size: 0.9375rem;
   line-height: 1.5;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 }
 
@@ -119,11 +121,9 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   border-radius: 999px;
   background: var(--color-tinta);
   color: var(--color-papel);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-texto);
+  font-size: 1rem;
+  font-weight: 600;
   transition: transform 160ms var(--ease-ui), background-color 200ms ease;
 }
 .cta:active { transform: scale(0.97); }
@@ -201,10 +201,9 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   padding: 0 1.1rem;
   border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
   border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-texto);
+  font-size: 0.9375rem;
+  font-weight: 500;
   transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
 }
 .chip-afiche:active { transform: scale(0.97); }
@@ -221,13 +220,29 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   padding: 0 1.5rem;
   border: 1px solid var(--color-tinta);
   border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-texto);
+  font-size: 0.9375rem;
+  font-weight: 500;
   transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
 }
 .boton-afiche:active { transform: scale(0.97); }
 @media (hover: hover) and (pointer: fine) {
   .boton-afiche:hover { background: var(--color-tinta); color: var(--color-papel); }
 }
+
+/* Saltar al contenido: escondido hasta que llega el foco con Tab */
+.saltar {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top, 0px));
+  left: max(0.75rem, env(safe-area-inset-left, 0px));
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: var(--color-tinta);
+  color: var(--color-papel);
+  font-size: 0.9375rem;
+  transform: translateY(calc(-100% - 1.5rem));
+  transition: transform 200ms var(--ease-ui);
+}
+.saltar:focus-visible { transform: none; }
+main:focus { outline: none; }

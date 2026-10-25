@@ -1,0 +1,97 @@
+---
+/**
+ * Trabajos: los nombres grandes, uno abajo del otro, y al costado la foto del que está activo.
+ * Se activa al pasar el mouse, con el foco o al scrollear (el que cruza el centro). La foto entra con un barrido de abajo.
+ * Al tocar un nombre, su foto viaja a la portada del caso (View Transitions).
+ */
+import { Image } from 'astro:assets';
+import { capturas } from '../content/capturas';
+import { enOrden, proyectosEn } from '../content/proyectos';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+const lista = enOrden(proyectosEn(idioma));
+const nombreVt = (slug: string) => `afiche-${slug.replace(/[^a-z0-9-]/gi, '-')}`;
+---
+<section id="trabajos" class="trabajos" aria-labelledby="trabajos-titulo" data-trabajos>
+  <h2 id="trabajos-titulo" class="titulo font-titulo" data-revelar>{inicio.trabajos.titulo}</h2>
+  <div class="indice">
+    <ul class="nombres">
+      {lista.map((p, i) => (
+        <li>
+          <a href={ruta(idioma, 'proyectos', p.slug)} class:list={['nombre', i === 0 && 'activo']} data-slug={p.slug} data-vt={nombreVt(p.slug)}>
+            <span class="n font-titulo">{p.titulo}</span>
+            <span class="meta">{p.genero} · {p.anio}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="vista" aria-hidden="true">
+      {lista.map((p, i) => (
+        <Image src={capturas(p.slug).afiche} alt="" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 38vw, 100vw" loading="lazy" class:list={['foto', i === 0 && 'vista-activa']} data-slug={p.slug} />
+      ))}
+    </div>
+  </div>
+  <a href={ruta(idioma, 'proyectos')} class="ver-todos" data-revelar>{inicio.trabajos.verTodos}</a>
+</section>
+
+<style>
+  .trabajos { padding: clamp(5rem, 14svh, 10rem) 1.25rem 0; }
+  @media (min-width: 768px) { .trabajos { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  .titulo { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
+  .indice { display: grid; gap: 1.5rem; margin-top: 2rem; }
+  /* Celu: la foto queda fija arriba y los nombres pasan por debajo */
+  .vista { position: sticky; top: 4rem; z-index: 1; order: -1; height: 42svh; overflow: hidden; background: var(--color-papel); margin-inline: -1.25rem; }
+  @media (min-width: 1024px) {
+    .indice { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+    .vista { order: 0; top: 14svh; height: 72svh; margin: 0; }
+  }
+  .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(100% 0 0 0); transition: clip-path 560ms cubic-bezier(0.77, 0, 0.18, 1); }
+  .foto.vista-activa { clip-path: inset(0 0 0 0); }
+  .nombres { display: grid; padding-block: 2svh 10svh; }
+  .nombre { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1rem; padding-block: 0.6rem; }
+  /* Los que no están activos, más claros pero legibles (contraste de texto grande) */
+  .n { font-size: clamp(2.6rem, 7vw, 5.75rem); line-height: 0.92; color: color-mix(in oklab, var(--color-tinta) 55%, var(--color-papel)); transition: color 220ms ease-out; }
+  .nombre.activo .n, .nombre:focus-visible .n { color: var(--color-tinta); }
+  .meta { font-size: 0.9375rem; color: var(--color-gris); }
+  .ver-todos { display: inline-flex; min-height: 2.75rem; align-items: center; margin-top: 1rem; font-size: 1.125rem; text-decoration: underline; text-underline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) { .foto { transition: none; } }
+</style>
+
+<script>
+  const seccion = document.querySelector<HTMLElement>('[data-trabajos]');
+  if (seccion) {
+    const nombres = [...seccion.querySelectorAll<HTMLAnchorElement>('.nombre')];
+    const fotos = new Map([...seccion.querySelectorAll<HTMLImageElement>('.foto')].map((f) => [f.dataset.slug!, f]));
+    let arriba = 1;
+    let actual = nombres[0]?.dataset.slug;
+    const activar = (slug?: string) => {
+      if (!slug || slug === actual) return;
+      actual = slug;
+      nombres.forEach((n) => n.classList.toggle('activo', n.dataset.slug === slug));
+      // La nueva entra por encima de la anterior, que se queda debajo mientras tanto
+      const foto = fotos.get(slug);
+      if (!foto) return;
+      foto.style.zIndex = String(++arriba);
+      foto.classList.add('vista-activa');
+      fotos.forEach((f, s) => { if (s !== slug) setTimeout(() => { if (actual !== s) f.classList.remove('vista-activa'); }, 600); });
+    };
+    nombres.forEach((n) => {
+      n.addEventListener('pointerenter', (e) => { if ((e as PointerEvent).pointerType === 'mouse') activar(n.dataset.slug); });
+      n.addEventListener('focus', () => activar(n.dataset.slug));
+      // La foto de este trabajo viaja a la portada del caso
+      n.addEventListener('click', () => {
+        activar(n.dataset.slug);
+        const foto = fotos.get(n.dataset.slug!);
+        if (foto) foto.style.viewTransitionName = n.dataset.vt!;
+      });
+    });
+    // Al scrollear, el que cruza el centro de la pantalla es el activo
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => { if (e.isIntersecting) activar((e.target as HTMLElement).dataset.slug); });
+    }, { rootMargin: '-48% 0px -48% 0px' });
+    nombres.forEach((n) => observador.observe(n));
+    // Al volver atrás, que ninguna foto quede con el nombre de la transición
+    addEventListener('pageshow', () => fotos.forEach((f) => { f.style.viewTransitionName = ''; }));
+  }
+</script>
