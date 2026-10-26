@@ -90,8 +90,9 @@ const escala = [
   .cinta > div { display: inline-flex; gap: 1.2em; padding-right: 1.2em; }
   /* Los signos entre palabras, dibujados (no caracteres): mismo tamaño en todas las fuentes */
   .signo-cinta { display: inline-block; width: 0.62em; height: 0.62em; vertical-align: 0.02em; }
-  .cinta-a { background: var(--color-tc-rojo); color: var(--color-papel); transform: rotate(-3deg); }
-  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(0.35em); }
+  /* Las dos cintas van paralelas: si se cruzan, una tapa las palabras de la otra */
+  .cinta-a { background: var(--color-tc-rojo); color: var(--color-papel); transform: rotate(-2.5deg); }
+  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(-2.5deg) translateY(0.3em); }
 
   @media (prefers-reduced-motion: no-preference) {
     /* Misma velocidad que antes: ahora media pista son 5 vueltas, así que dura cinco veces más */

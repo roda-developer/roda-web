@@ -59,7 +59,7 @@ const dicho = p.testimonios?.[0];
   .titulo { padding-inline: 1.25rem; font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.92; }
   @media (min-width: 768px) { .titulo { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
   /* Celu y sin movimiento: se desliza con el dedo, de a un panel */
-  .pista { display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 1.25rem 1rem; scrollbar-width: thin; }
+  .pista { display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 1.25rem; padding: 0 1.25rem 1rem; scrollbar-width: thin; }
   .panel { flex: 0 0 auto; scroll-snap-align: start; display: grid; gap: 0.9rem; align-content: start; }
   .panel-marca { width: min(78vw, 26rem); }
   .panel-marca :global(.foto) { aspect-ratio: 4 / 5; }

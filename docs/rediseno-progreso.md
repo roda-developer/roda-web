@@ -36,7 +36,7 @@ Dirección aprobada en el tablero: https://claude.ai/artifact/LGg1JhjU4psDRChHqN
 | 4 | /proyectos y caso | hecho: el caso abre con su afiche (vertical al costado del título en compu, apaisado a lo ancho) con el mismo nombre de View Transition que /proyectos y Trabajos; la portada pasa a la galería; Siguiente proyecto entra con barrido y viaja al afiche del próximo caso; filtros de /proyectos con FLIP (450 ms); mapa de afiches compartido en components/afiches/mapa.ts. check = astro check (tsc solo no entiende .astro importados desde .ts). Quedan 11 errores viejos de astro check en Nosotros (intro desactivada) y Cierre: se arreglan en la etapa 5 |
 | 5 | Nosotros, contacto, 404 y pie | hecho: /nosotros sin la intro de cine desactivada (y sin sus errores de tipos), NOSOTROS en la letra de títulos, cierre "¿Hacemos la tuya?"; contacto "Contanos qué buscás" y mensaje que crece solo (sin manija nativa); 404 "Esta página no existe o se mudó"; descripciones para Google sin "historia"; Todas incluyen con Entrega; pie corto en páginas internas. astro check: 0 errores. Los créditos rosa de /nosotros siguen |
 | 6 | Inglés y portugués | hecho: todo lo nuevo está en los tres guiones; home, precios recorridos en /en y /pt a 390 y 1440 sin desbordes ni errores |
-| 7 | Verificación: build, npm test, npm run check, inspector de taste-skill, Playwright a 390 y 1440 (scrolleando todo), movimiento reducido, consola, scroll horizontal | pendiente |
+| 7 | Verificación | hecho (ver abajo) |
 
 ## Home nueva (etapa 2)
 
@@ -65,3 +65,20 @@ Falta:
 - `npx astro preview --port 5201` y recorrer con Playwright (chromium de Playwright; si no está, `npx playwright install chromium`) a 390×844 y 1440×900, scrolleando de a una pantalla con pausas para que corran los ScrollTrigger. Sacar capturas de cada sección, mirar consola y `scrollWidth > innerWidth`. Repetir con `reducedMotion: 'reduce'` y confirmar que no queda nada oculto.
 - Inspector de taste-skill si está disponible; si no, decirlo.
 - Anotar acá cada etapa al terminarla, con lo que quedó pendiente.
+
+## Verificación final (2026-10-25)
+
+- `npm run check` (astro check): 0 errores, 0 avisos. `npm test`: 42/42. `npm run build`: 44 páginas.
+- Recorrido con Chrome a 390×844 y 1440×900 de /, /precios, /proyectos, un caso vertical (MUDA) y uno apaisado (Emme), /nosotros, /contacto, la 404, /en/, /pt/ y /en/pricing: sin errores de consola (salvo el 404 esperado de la página de error) y sin scroll horizontal.
+- Home: 11,8 pantallas en celu y 12,7 en compu (antes 14 y 14,1). Con movimiento reducido: 9,8 y 9,2, todo visible.
+- Detector de impeccable: 0 hallazgos en sections, vistas, Pie y Criticas.
+- Inspector de taste-skill en la home: arreglado lo de cintas que se tapaban, "Hablemos" arriba de Multisección en tablet, texto pegado al borde en la tira de Emme. Quedan, a criterio: etiquetas y tipografías extra dentro de los afiches (copian las de cada cliente), pantallas casi vacías durante la apertura de la O y la pausa de "Menos es más" (son escenas), el menú del celu cerrado contado como "texto oculto" (falso positivo), sin video en la página (no hay uno propio que sirva).
+- e2e de Playwright: no se actualizaron (ya fallaban 24 antes del rediseño y varios miran secciones que ya no existen). Pendiente: rehacer 6-8 recorridos de humo.
+
+## Para Giuli
+
+- La home nueva, /precios con Obra, los casos con su afiche y las páginas internas sin vocabulario de cine están en la rama `rediseno` (GitHub). No se publicó nada.
+- Para ver: `npm run build && npm run preview` y abrir http://localhost:5201/ (y /prueba-linterna/ para comparar la primera pantalla).
+- Decidí yo: tipografía de títulos Big Shoulders Display (opción A), la frase "Diseñamos y programamos webs a medida.", Emme como trabajo de cerca, el texto de Obra, y dejar los créditos rosa de /nosotros.
+- Te falta decidir: qué incluye Obra y si lleva precio; las imágenes del hero (hoy la foto de ustedes en la O y MUDA en la Linterna); si los afiches siguen diciendo "Estreno 2026 · En todas las pantallas"; qué hacemos con el afiche con tu marca (quedó sin usar, idea: pasarlo a /contacto); si querés bocetos o una dirección descartada en "de cerca".
+- Ojo: public/nosotros/fondo.mp4 es un video personal y hoy se puede abrir desde la web publicada (rodadevelop.com/nosotros/fondo.mp4) aunque nada lo enlace. Ya no lo usa ninguna página: conviene sacarlo de public/.

@@ -49,7 +49,8 @@ const lista = [...planes.lista].reverse();
   .texto { max-width: 32ch; font-size: 1.0625rem; line-height: 1.45; color: color-mix(in oklab, var(--color-tinta) 82%, var(--color-papel)); }
   /* Obra: el bloque en tinta, con el precio en rosa (el único rosa fuera de Más es más) */
   .obra { background: var(--color-tinta); color: var(--color-papel); padding: clamp(1.5rem, 3vw, 2.5rem); margin-inline: -1.25rem; }
-  @media (min-width: 640px) { .obra { margin-inline: 0; } }
+  @media (min-width: 640px) { .obra { margin-inline: 0; grid-column: 1 / -1; } }
+  @media (min-width: 1100px) { .obra { grid-column: auto; } }
   .obra .precio { color: var(--color-tc-rosa); }
   .obra .texto { color: color-mix(in oklab, var(--color-papel) 86%, var(--color-tinta)); }
   .obra .cta { background: var(--color-papel); color: var(--color-tinta); margin-top: 0.5rem; }
