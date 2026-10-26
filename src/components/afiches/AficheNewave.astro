@@ -2,7 +2,6 @@
 /** Newave: un afiche de cine de acción. Negro, los productos flotando y su lema en letra de impacto, el último en dorado. */
 import { Image } from 'astro:assets';
 import { capturas } from '../../content/capturas';
-import Creditos from './Creditos.astro';
 
 const foto = capturas('newave').afiche;
 ---
@@ -14,7 +13,6 @@ const foto = capturas('newave').afiche;
 
   <div class="newave-pie">
     <p class="newave-titulo"><span>ENERGÍA.</span><span>FUERZA.</span><span class="newave-calado">RESULTADOS.</span></p>
-    <Creditos class="newave-creditos" slug="newave" />
   </div>
 </div>
 
@@ -38,7 +36,6 @@ const foto = capturas('newave').afiche;
   .newave-titulo span { display: block; }
   /* RESULTADOS: en dorado, como en su portada */
   .newave-calado { color: #c9a456; }
-  :global(.newave-creditos) { margin-top: 5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(255 255 255 / 0.6); --creditos-estreno: #c9a456; }
 
   /* Apaisado (en la compu ocupa dos columnas): los productos a la derecha, el lema a la izquierda, como su portada */
   .newave { container-type: size; }
@@ -48,6 +45,5 @@ const foto = capturas('newave').afiche;
     .newave-marca { left: 5cqi; right: auto; text-align: left; font-size: 2.6cqi; top: 4cqi; }
     .newave-pie { right: 45%; padding: 0 0 4cqi 5cqi; }
     .newave-titulo { font-size: 8.4cqi; }
-    :global(.newave-creditos) { margin-top: 3cqi; --creditos-tam: 1.15cqi; text-align: left; }
   }
 </style>

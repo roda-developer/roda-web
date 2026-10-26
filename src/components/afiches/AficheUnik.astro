@@ -2,7 +2,6 @@
 /** Unik: afiche gráfico, a lo Saul Bass. Un solo símbolo: el punto de "unik." se vuelve el sol amarillo de su portada. */
 import '@fontsource/montserrat/900.css';
 import '@fontsource/playfair-display/400-italic.css';
-import Creditos from './Creditos.astro';
 ---
 <div class="unik" aria-hidden="true">
   <span class="unik-luna"></span>
@@ -18,7 +17,6 @@ import Creditos from './Creditos.astro';
     <span class="unik-unica">única<svg viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M8 22 C 6 6, 92 2, 94 18 C 96 34, 12 40, 6 24 C 4 14, 40 6, 70 8" /></svg></span>,
     hagamos que el mundo la vea.
   </p>
-  <Creditos class="unik-creditos" slug="unik" />
 </div>
 
 <style>
@@ -56,14 +54,12 @@ import Creditos from './Creditos.astro';
   .unik-unica svg { position: absolute; inset: -0.3em -0.22em; width: calc(100% + 0.44em); height: calc(100% + 0.7em); overflow: visible; }
   .unik-unica path { fill: none; stroke: #f9d300; stroke-width: 2.4; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 
-  :global(.unik-creditos) { position: absolute; left: 33%; right: 33%; bottom: 4.5cqi; --creditos-tam: 1.1cqi; --creditos-color: rgb(255 255 255 / 0.7); --creditos-estreno: #f9d300; }
 
   @media (max-width: 767px) {
     .unik-centro { left: 8cqi; transform: translateY(-70%); }
     .unik-marca { font-size: 22cqi; }
     .unik-portfolio { font-size: 6.4cqi; }
     .unik-lema { left: 8cqi; right: 8cqi; bottom: 27cqi; max-width: none; text-align: left; font-size: 4.4cqi; }
-    :global(.unik-creditos) { left: 8cqi; right: 8cqi; bottom: 5cqi; --creditos-tam: 2.3cqi; }
   }
 
 </style>

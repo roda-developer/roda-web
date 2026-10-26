@@ -17,7 +17,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
   <Nav enHome={false} actual="contacto" />
   <main class="relative z-10">
     <header class="px-5 pt-28 md:px-12 md:pt-32">
-      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3">
+      <p class="mono flex items-baseline gap-4">
         <Volver />
       </p>
       <h1 class="mt-8 font-titulo [text-wrap:balance] text-[clamp(2.6rem,8vw,5.2rem)] leading-[0.92] tracking-[-0.01em]" data-revelar>
@@ -82,7 +82,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
 
     <!-- Qué pasa después: baja la ansiedad de mandar algo sin saber qué sigue -->
     <aside class="despues" aria-labelledby="despues-titulo" data-despues>
-      <p id="despues-titulo" class="mono text-tinta">{t.despues.titulo}</p>
+      <h2 id="despues-titulo" class="font-titulo">{t.despues.titulo}</h2>
       <ol class="mt-5">
         {t.despues.pasos.map((paso) => (
           <li>{paso}</li>
@@ -117,10 +117,15 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
 <style>
   .formulario { display: grid; gap: 3rem; max-width: 56rem; }
   .contacto-cuerpo { display: grid; gap: 3.5rem; }
-  @media (min-width: 1024px) { .contacto-cuerpo { grid-template-columns: minmax(0, 1fr) 18rem; gap: 5rem; align-items: start; } .despues { position: sticky; top: 7rem; } }
-  .despues { border-top: 1px solid var(--color-tinta); padding-top: 1rem; }
+  @media (min-width: 1024px) { .contacto-cuerpo { grid-template-columns: minmax(0, 1fr) 24rem; gap: 5rem; align-items: start; } .despues { position: sticky; top: 7rem; } }
+  /* Qué pasa después: un bloque de color, con los tres pasos grandes */
+  .despues { background: var(--color-tc-rosa); color: var(--color-tinta); border-radius: 6px; padding: clamp(1.5rem, 3vw, 2.25rem); }
+  .despues h2 { font-size: clamp(2.2rem, 4vw, 3rem); line-height: 0.9; text-transform: uppercase; }
+  .despues ol { counter-reset: paso; }
+  .despues li { counter-increment: paso; display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; font-size: 1.125rem; }
+  .despues li::before { content: counter(paso); font-family: var(--font-titulo); font-weight: 800; font-size: 1.6rem; line-height: 1; }
   .despues[hidden] { display: none; }
-  .despues li { padding: 0.9rem 0; border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 15%, transparent); line-height: 1.35; }
+  .despues li { padding: 0.9rem 0; line-height: 1.35; }
   .bloque { border: 0; padding: 0; margin: 0; min-width: 0; }
   .bloque[hidden] { display: none; }
   .pregunta { display: block; margin-bottom: 1rem; font-size: clamp(1.2rem, 3.5vw, 1.5rem); font-weight: 500; letter-spacing: -0.025em; }

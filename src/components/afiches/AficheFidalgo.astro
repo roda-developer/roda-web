@@ -2,7 +2,6 @@
 /** Fidalgo Select: afiche de película de acción. El auto de frente, el título en el cielo y el bloque de créditos abajo. */
 import { Image } from 'astro:assets';
 import '@fontsource/bebas-neue';
-import Creditos from './Creditos.astro';
 import { capturas } from '../../content/capturas';
 
 const foto = capturas('fidalgo').afiche;
@@ -18,7 +17,6 @@ const foto = capturas('fidalgo').afiche;
 
   <div class="fid-pie">
     <p class="fid-lema">Autos y propiedades, con trato directo.</p>
-    <Creditos class="fid-creditos" fuente="bebas" slug="fidalgo" />
   </div>
 </div>
 
@@ -48,5 +46,4 @@ const foto = capturas('fidalgo').afiche;
   .fid-lema {
     font-family: 'Bebas Neue', Impact, sans-serif; font-size: 5.4cqi; letter-spacing: 0.05em; line-height: 1; white-space: nowrap;
   }
-  :global(.fid-creditos) { margin-top: 3cqi; --creditos-tam: 2.9cqi; --creditos-color: rgb(255 255 255 / 0.62); }
 </style>

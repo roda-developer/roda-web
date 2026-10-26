@@ -3,7 +3,6 @@
 import { Image } from 'astro:assets';
 import '@fontsource/cormorant-garamond/300-italic.css';
 import { capturas } from '../../content/capturas';
-import Creditos from './Creditos.astro';
 
 const foto = capturas('muda').afiche;
 ---
@@ -17,7 +16,6 @@ const foto = capturas('muda').afiche;
   </div>
 
   <p class="muda-lema">Estética con propósito.</p>
-  <Creditos class="muda-creditos" slug="muda" />
 </div>
 
 <style>
@@ -44,5 +42,4 @@ const foto = capturas('muda').afiche;
     font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 300;
     font-size: 5.6cqi; line-height: 1.1; color: #fff;
   }
-  :global(.muda-creditos) { position: absolute; left: 9cqi; right: 9cqi; bottom: 4.5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(255 255 255 / 0.7); }
 </style>

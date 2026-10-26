@@ -8,6 +8,7 @@ import Criticas from '../components/Criticas.astro';
 import { proyectosEn, testimoniosEn } from '../content/proyectos';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import juntos from '../assets/nosotros/juntos.jpg';
+import viaje from '../assets/nosotros/viaje.jpg';
 const idioma = idiomaDe(Astro.currentLocale);
 const { nosotros: t, metas, ui } = textos(idioma);
 const link = ruta(idioma, 'contacto');
@@ -60,6 +61,8 @@ const testimonios = testimoniosEn(idioma);
 
     <!-- Los créditos, en rosa -->
     <section class="creditos mt-24 md:mt-32" aria-labelledby="creditos-titulo">
+      <Image src={viaje} alt={t.viaje.alt} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 34vw, 86vw" quality={86} loading="lazy" class="viaje" data-revelar />
+      <div class="creditos-texto">
       <h2 id="creditos-titulo" class="mono text-center">Roda</h2>
       <dl class="rollo">
         {t.creditos.map(([rol, quien]) => (
@@ -67,6 +70,7 @@ const testimonios = testimoniosEn(idioma);
         ))}
       </dl>
       <p class="aviso">{t.aviso}</p>
+      </div>
     </section>
 
     <!-- El cierre: la pregunta y el botón -->
@@ -105,7 +109,10 @@ const testimonios = testimoniosEn(idioma);
 
 
   /* ── Los créditos ─────────────────────────────────────────────── */
-  .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 5rem 1.25rem; }
+  .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 5rem 1.25rem; display: grid; gap: 3.5rem; justify-items: center; }
+  /* La foto del viaje, un poco torcida, como pegada sobre el rosa */
+  .creditos :global(.viaje) { width: min(100%, 30rem); height: auto; border-radius: 4px; transform: rotate(-2deg); }
+  @media (min-width: 1024px) { .creditos { grid-template-columns: 1fr 1fr; align-items: center; padding-inline: 3rem; } }
   .rollo { display: grid; gap: 1.6rem; max-width: 46rem; margin: 3rem auto 0; }
   /* Cada crédito, centrado: el rol arriba y el nombre abajo */
   .rollo div { display: grid; gap: 0.2rem; text-align: center; }

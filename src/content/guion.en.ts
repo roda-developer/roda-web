@@ -74,7 +74,7 @@ export const proyectosPagina: typeof ES.proyectosPagina = {
   mostrandoPrimero: 'Showing {rubro} projects first',
   ficha: { rubro: 'Industry', anio: 'Year', rol: 'What we did', genero: 'What it is' },
   secciones: { cliente: 'The client', desafio: 'The challenge', solucion: 'What we did', destacados: 'Details', resultado: 'Result' },
-  afiche: { estreno: 'Premiere 2026', pantallas: 'On every screen' },
+
 };
 
 export const rubros: typeof ES.rubros = {
@@ -359,6 +359,7 @@ export const nosotros: typeof ES.nosotros = {
   hicimos: { titulo: 'What we’ve done', texto: 'We’ve launched {n} websites for real brands:', verTodos: 'See all projects' },
   formacion: 'How we learned',
   foto: { alt: 'Giuliana and Facundo, side by side and smiling, with a tree behind them', pie: ['(Still) Giuliana and Facundo', '2026'] },
+  viaje: { alt: 'Giuliana and Facundo smiling on a boat, with the sea and a hillside town behind them' },
   personas: [
     { nombre: 'Giuli', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.' },
     { nombre: 'Facu', texto: 'I’m finishing the same degree.' },

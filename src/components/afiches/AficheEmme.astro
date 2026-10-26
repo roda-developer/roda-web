@@ -5,7 +5,6 @@ import { Image } from 'astro:assets';
 import '@fontsource/italianno';
 import { capturas } from '../../content/capturas';
 import fotoMovil from '../../assets/proyectos/emme/afiche-movil.jpg';
-import Creditos from './Creditos.astro';
 import { idiomaDe } from '../../i18n';
 import { proyectosEn } from '../../content/proyectos';
 
@@ -76,7 +75,6 @@ const ME_E = 'M 124,0 H 194 V 100 H 124 V 84 H 178 V 58 H 134 V 42 H 178 V 16 H 
   </div>
 
   <p class="emme-firma">{firma}</p>
-  <Creditos class="emme-creditos" slug="emme" />
 </div>
 
 <style>
@@ -97,8 +95,6 @@ const ME_E = 'M 124,0 H 194 V 100 H 124 V 84 H 178 V 58 H 134 V 42 H 178 V 16 H 
     color: rgb(255 255 255 / 0.85);
   }
 
-  :global(.emme-creditos) { position: absolute; z-index: 2; left: 5%; right: 5%; bottom: 3.5cqi; --creditos-tam: 1.75cqi; --creditos-color: rgb(255 255 255 / 0.78); }
-  @media (min-width: 768px) { :global(.emme-creditos) { left: 22%; right: 22%; --creditos-tam: 1.15cqi; } }
 
   .solo-compu { display: none; }
   @media (min-width: 768px) {

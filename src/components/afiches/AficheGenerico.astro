@@ -7,7 +7,6 @@ import { Image } from 'astro:assets';
 import { capturas } from '../../content/capturas';
 import { PROYECTOS_ADMIN, proyectosEn } from '../../content/proyectos';
 import { idiomaDe } from '../../i18n';
-import Creditos from './Creditos.astro';
 
 interface Props { slug: string }
 const { slug } = Astro.props;
@@ -25,7 +24,6 @@ const tam = Math.min(22, Math.max(9, 150 / Math.max(p.titulo.length, 1)));
   <div class="gen-sombra"></div>
   <div class="gen-franja"><span class="gen-titulo" style={`font-size:${tam}cqi`}>{p.titulo}</span></div>
   <p class="gen-lema">{p.logline}</p>
-  {p.creditosAfiche && <Creditos class="gen-creditos" slug={slug} />}
 </div>
 
 <style>
@@ -43,5 +41,4 @@ const tam = Math.min(22, Math.max(9, 150 / Math.max(p.titulo.length, 1)));
     position: absolute; left: 7cqi; right: 7cqi; bottom: 17%; text-align: center;
     font-family: var(--font-titulo); font-size: 4.8cqi; line-height: 1.15; letter-spacing: -0.02em;
   }
-  :global(.gen-creditos) { position: absolute; left: 9cqi; right: 9cqi; bottom: 4.5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(255 255 255 / 0.7); }
 </style>

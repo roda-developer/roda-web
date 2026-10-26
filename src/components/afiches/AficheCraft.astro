@@ -4,7 +4,6 @@ import { Image } from 'astro:assets';
 import '@fontsource-variable/instrument-sans';
 import '@fontsource/la-belle-aurore';
 import { capturas } from '../../content/capturas';
-import Creditos from './Creditos.astro';
 import wordmark from '../../assets/proyectos/craft/wordmark.svg?raw';
 
 const foto = capturas('craft').afiche;
@@ -21,7 +20,6 @@ const logo = wordmark.replace('fill="#000000"', 'fill="currentColor"').replace('
     <span class="craft-logo" set:html={logo} />
     <p class="craft-lema">we <span class="craft-shape">shape</span> communication</p>
   </div>
-  <Creditos class="craft-creditos" slug="craft" />
 </div>
 
 <style>
@@ -39,10 +37,8 @@ const logo = wordmark.replace('fill="#000000"', 'fill="currentColor"').replace('
     color: rgb(246 239 230 / 0.8);
   }
   .craft-titulo { position: absolute; left: 6cqi; bottom: 27cqi; width: 64%; }
-  :global(.craft-creditos) { position: absolute; left: 6cqi; right: 6cqi; bottom: 5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(246 239 230 / 0.75); --creditos-estreno: #f6efe6; }
   @media (min-width: 768px) {
     .craft-titulo { left: 4.5cqi; bottom: 4.5cqi; width: 38%; }
-    :global(.craft-creditos) { left: auto; right: 4.5cqi; bottom: 4.5cqi; width: 34%; --creditos-tam: 1.1cqi; }
   }
   .craft-logo { display: block; }
   .craft-logo :global(svg) { display: block; width: 100%; height: auto; }

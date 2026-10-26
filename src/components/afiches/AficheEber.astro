@@ -5,9 +5,7 @@
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { textos } from '../../i18n';
 
-const { loader, proyectosPagina } = textos(Astro.currentLocale);
 
 // Portadas de 47 Street, Owoko, Violetta, Topa, Zpëzia y Tecnópolis (de su portfolio, en Cloudinary)
 const archivos = import.meta.glob<{ default: ImageMetadata }>('../../assets/proyectos/eber/obra-*.jpg', { eager: true });
@@ -32,7 +30,6 @@ const lineas = [
 
   <div class="eber-pie">
     <p class="eber-titulo">{lineas.map((linea) => <span class="eber-renglon">{linea.map(([letra, color]) => <span style={`color:${color}`}>{letra}</span>)}</span>)}</p>
-    <p class="eber-linea"><span>{loader.presenta}</span><span>{proyectosPagina.afiche.estreno} · {proyectosPagina.afiche.pantallas}</span></p>
   </div>
 </div>
 
@@ -66,10 +63,4 @@ const lineas = [
     text-align: center;
   }
   .eber-renglon { display: block; white-space: pre; }
-  .eber-linea {
-    display: flex; justify-content: space-between; gap: 1rem; margin-top: 4.5cqi;
-    font-family: var(--font-mono); font-size: max(0.5rem, 2.1cqi); letter-spacing: 0.16em; text-transform: uppercase;
-    color: rgb(255 255 255 / 0.5);
-  }
-  @media (max-width: 767px) { .eber-linea { letter-spacing: 0.04em; } }
 </style>

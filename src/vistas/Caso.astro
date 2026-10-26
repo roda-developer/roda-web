@@ -34,7 +34,7 @@ const ficha: [string, string | number | undefined][] = [
     <!-- En compu, el afiche vertical va al costado del título; el apaisado, a lo ancho abajo -->
     <div class:list={['apertura-caso', { vertical: !quad }]}>
     <header class="px-5 pt-32 md:px-12 md:pt-40">
-      <p class="mono flex items-baseline gap-4 border-t border-tinta/15 pt-3">
+      <p class="mono flex items-baseline gap-4">
         <Volver alternativa={ruta(idioma, 'proyectos')} />
       </p>
       <h1 class="mt-12 font-titulo text-[clamp(3.6rem,17vw,14rem)] leading-[0.85] tracking-[-0.01em]" data-revelar>{p.titulo}</h1>
@@ -57,7 +57,7 @@ const ficha: [string, string | number | undefined][] = [
     </figure>
     </div>
 
-    <article class="caso grid gap-16 px-5 py-24 md:px-12 md:py-32">
+    <article class="caso trio grid gap-16 px-5 py-24 md:px-12 md:py-32">
       <section class="bloque">
         <h2 class="text-xl font-medium tracking-[-0.02em] md:text-2xl">{t.secciones.cliente}</h2>
         <p class="texto-grande" data-revelar>{p.cliente}</p>
@@ -93,9 +93,9 @@ const ficha: [string, string | number | undefined][] = [
     <article class="caso grid gap-16 px-5 py-24 md:px-12 md:py-32">
       <section class="bloque">
         <h2 class="text-xl font-medium tracking-[-0.02em] md:text-2xl">{t.secciones.destacados}</h2>
-        <ul class="divide-y divide-tinta/15 border-y border-tinta/15">
+        <ul class="detalles">
           {p.destacados.map((d) => (
-            <li class="flex gap-4 py-4 text-lg md:text-xl" data-revelar>
+            <li data-revelar>
               {d}
             </li>
           ))}
@@ -141,6 +141,18 @@ const ficha: [string, string | number | undefined][] = [
     .bloque { grid-template-columns: 16rem 1fr; gap: 3rem; }
     .bloque > h2 { padding-top: 0.5rem; }
   }
+  /* Cliente, desafío y lo que hicimos: en compu, tres columnas a lo ancho (si no, media pantalla queda vacía) */
+  @media (min-width: 1024px) {
+    .trio { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem); }
+    .trio .bloque { grid-template-columns: 1fr; gap: 1rem; }
+    .trio .texto-grande { font-size: clamp(1.3rem, 1.8vw, 1.6rem); }
+    .trio .texto { font-size: 1.2rem; }
+  }
+  /* Los detalles, uno al lado del otro, con el mismo trazo corto de la home en vez de rayas */
+  .detalles { display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { .detalles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; } }
+  .detalles li { position: relative; padding-top: 1.1rem; font-size: clamp(1.125rem, 1.5vw, 1.35rem); line-height: 1.35; }
+  .detalles li::before { content: ''; position: absolute; left: 0; top: 0; width: 0.9rem; height: 3px; border-radius: 3px; background: var(--color-tinta); }
   /* Se lee como un párrafo de revista, no como un título: más chico y con más aire */
   .texto-grande { max-width: 38ch; font-size: clamp(1.3rem, 2.6vw, 1.9rem); line-height: 1.25; letter-spacing: -0.02em; font-weight: 500; }
   .texto { max-width: 46ch; font-size: 1.2rem; line-height: 1.5; color: color-mix(in oklab, var(--color-tinta) 78%, transparent); }

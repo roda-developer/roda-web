@@ -1,23 +1,25 @@
 ---
 /**
- * El final: una fila curva de trabajos que no para de pasar (las fotos se curvan hacia vos en los bordes y se apagan)
+ * El final: una fila curva de trabajos pasados a píxeles que no para de pasar (las fotos se curvan hacia vos en los bordes y se apagan)
  * y, abajo, la pregunta grande en una sola línea y el botón. Sin caja encima de las fotos.
  * Se pausa fuera de pantalla; sin movimiento, la fila queda quieta.
  */
 import { Image } from 'astro:assets';
-import { capturas } from '../content/capturas';
 import { enOrden, proyectosEn } from '../content/proyectos';
 import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
-const trabajos = enOrden(proyectosEn(idioma));
+// Cada trabajo pasado a píxeles (scripts/pixelar-afiches.mjs): el mismo lenguaje del video de Estudio, sin capturas recortadas
+const pixeles = import.meta.glob<{ default: ImageMetadata }>('../assets/pixeles/*.png', { eager: true });
+const pixelDe = (slug: string) => pixeles[`../assets/pixeles/${slug}.png`]?.default;
+const trabajos = enOrden(proyectosEn(idioma)).filter((p) => pixelDe(p.slug));
 // Dos vueltas, así la fila nunca se queda sin fotos al pasar
 const fila = [...trabajos, ...trabajos];
 ---
 <section class="final" aria-labelledby="final-titulo" data-final>
   <div class="curva" aria-hidden="true">
     {fila.map((p) => (
-      <Image src={capturas(p.slug).afiche} alt="" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 24vw, 60vw" quality={88} loading="lazy" class="foto" />
+      <Image src={pixelDe(p.slug)!} alt="" widths={[480, 900]} sizes="(min-width: 1024px) 15rem, 40vw" quality={90} format="png" loading="lazy" class="foto" />
     ))}
   </div>
   <div class="cierre">

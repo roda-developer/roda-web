@@ -13,7 +13,9 @@ import Estudio from '../sections/Estudio.astro';
 import Galeria from '../sections/Galeria.astro';
 import Gente from '../sections/Gente.astro';
 import PorQue from '../sections/PorQue.astro';
-import Testimonios from '../sections/Testimonios.astro';
+import Criticas from '../components/Criticas.astro';
+import { testimoniosEn } from '../content/proyectos';
+import { idiomaDe } from '../i18n';
 import Niveles from '../sections/Niveles.astro';
 import Final from '../sections/Final.astro';
 import Pie from '../components/Pie.astro';
@@ -24,6 +26,7 @@ interface Props {
   indexable?: boolean;
 }
 const { hero = 'o', indexable = true } = Astro.props;
+const testimonios = testimoniosEn(idiomaDe(Astro.currentLocale));
 ---
 <Base indexable={indexable}>
   <Nav />
@@ -32,10 +35,16 @@ const { hero = 'o', indexable = true } = Astro.props;
     <Galeria />
     <Gente />
     <PorQue />
-    <Testimonios />
+    {testimonios.length > 0 && <div class="testimonios"><Criticas testimonios={testimonios} /></div>}
     <Niveles />
     <Final />
   </main>
   <Pie />
   <Motion />
 </Base>
+
+<style>
+  /* Los mismos márgenes que el resto de las secciones de la home */
+  .testimonios { padding: clamp(6rem, 16svh, 11rem) 1.25rem 0; }
+  @media (min-width: 768px) { .testimonios { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+</style>

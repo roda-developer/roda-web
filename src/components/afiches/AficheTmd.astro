@@ -6,7 +6,6 @@ import '@fontsource/playfair-display/700.css';
 import '@fontsource/playfair-display/400-italic.css';
 import { capturas } from '../../content/capturas';
 import logo from '../../assets/proyectos/tmd/logo-recorte.png';
-import Creditos from './Creditos.astro';
 
 const foto = capturas('tmd').afiche;
 ---
@@ -18,7 +17,6 @@ const foto = capturas('tmd').afiche;
 
   <div class="tmd-pie">
     <p class="tmd-frase">Tu viaje soñado,<em>a un mensaje de distancia.</em></p>
-    <Creditos class="tmd-creditos" slug="tmd" />
   </div>
 </div>
 
@@ -37,5 +35,4 @@ const foto = capturas('tmd').afiche;
   .tmd-pie { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 6cqi 5cqi; text-align: center; }
   .tmd-frase { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 7.6cqi; line-height: 1.04; letter-spacing: -0.01em; }
   .tmd-frase em { display: block; font-weight: 400; font-style: italic; }
-  :global(.tmd-creditos) { margin-top: 5cqi; --creditos-tam: 2.3cqi; --creditos-color: rgb(251 248 243 / 0.7); --creditos-estreno: #fbf8f3; }
 </style>

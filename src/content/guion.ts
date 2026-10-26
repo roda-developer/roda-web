@@ -80,7 +80,7 @@ export const proyectosPagina = {
   ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
   secciones: { cliente: 'El cliente', desafio: 'El desafío', solucion: 'Lo que hicimos', destacados: 'Detalles', resultado: 'Resultado' },
   /** Los créditos al pie de cada afiche de proyecto */
-  afiche: { estreno: 'Estreno 2026', pantallas: 'En todas las pantallas' },
+
 };
 
 /** Los rubros, como se leen en los botones (los ids están en story/opciones.ts) */
@@ -395,6 +395,7 @@ export const nosotros = {
   hicimos: { titulo: 'Lo que ya hicimos', texto: 'Publicamos {n} webs para marcas reales:', verTodos: 'Ver todos los proyectos' },
   formacion: 'Cómo aprendimos',
   foto: { alt: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
+  viaje: { alt: 'Giuliana y Facundo sonriendo en una lancha, con el mar y un pueblo con cerros detrás' },
   personas: [
     { nombre: 'Giuli', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.' },
     { nombre: 'Facu', texto: 'Estoy terminando la misma tecnicatura.' },
