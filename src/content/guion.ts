@@ -10,7 +10,7 @@ export const loader = {
 
 /** Títulos y descripciones de cada página (lo que ve Google y lo que aparece al compartir el link) */
 export const metas = {
-  inicio: { titulo: 'Roda — Estudio web', descripcion: 'Webs que cuentan una historia. Roda es Giuliana y Facundo: diseño y desarrollo web a medida, de Buenos Aires al mundo.' },
+  inicio: { titulo: 'Roda — Estudio web', descripcion: 'Roda es Giuliana y Facundo, un estudio de diseño y desarrollo web de Buenos Aires. Diseñamos y programamos cada web desde cero.' },
   precios: { titulo: 'Precios — Roda', descripcion: 'Landing US$ 300, Multisección US$ 400, Tienda US$ 550. Mirá qué trae cada una, sin letra chica.' },
   contacto: { titulo: 'Contacto — Roda', descripcion: 'Contanos qué buscás: una landing, una web multisección, una tienda online o un sistema a medida. Te respondemos enseguida.' },
   nosotros: { titulo: 'Nosotros — Roda', descripcion: 'Roda es Giuliana y Facundo: pareja, socios y desarrolladores web de Buenos Aires.' },
@@ -264,8 +264,8 @@ export const preciosPagina = {
       ['Pantallas', 'Celu, tablet y compu'],
       ['Contacto', 'Botones a WhatsApp y formulario'],
       ['Cambios', 'Sin límite sobre lo acordado'],
-      ['Estreno', 'En 1 a 2 semanas (Tienda, 2 a 4)'],
-      ['Garantía', '30 días de arreglos después del estreno'],
+      ['Entrega', 'En 1 a 2 semanas (Tienda, 2 a 4)'],
+      ['Garantía', '30 días de arreglos después de publicarla'],
       ['Hosting', 'Gratis en la mayoría de los casos'],
       ['Google', 'Indexación y SEO técnico'],
       ['Todo a tu nombre', 'Dominio, hosting y web'],
@@ -329,7 +329,7 @@ export const preciosPagina = {
  */
 export const contactoPagina = {
   rotulo: 'Contacto',
-  titulo: ['Contanos', 'tu historia.'],
+  titulo: ['Contanos', 'qué buscás.'],
   bajada: 'Son dos minutos. Con esto llegamos a la charla sabiendo qué necesitás.',
   tipos: {
     pregunta: '¿Qué estás buscando?',
@@ -388,29 +388,7 @@ export const contactoPagina = {
 /** La crítica dice: los fragmentos de los testimonios en la home, antes de la cartelera */
 export const laCritica = { titulo: 'Lo que dicen', completo: 'Lo que dicen nuestros clientes' };
 
-// PENDIENTE (Giuli/Facu): si va "Producida en Buenos Aires".
 export const nosotros = {
-  /** La secuencia de títulos: un cuadro por pantalla, sobre la foto (o el video) de fondo */
-  secuencia: {
-    otraVez: 'Ver de nuevo',
-    legal: '© 2026 Roda · Producida en Buenos Aires · Todos los derechos reservados',
-    /**
-     * Como los créditos de una película: el estudio presenta, el título (grueso, de a una palabra) y los créditos
-     * en letra liviana. Cada cosa aparece una sola vez.
-     * fondo 'negro': la placa va sobre negro, como en el cine; si no, sobre esa foto.
-     * ms: cuánto dura en pantalla. Corre sola, como un video; termina quieta en la última placa.
-     */
-    // disposicion: dónde se acomoda el texto en el cuadro (no todo al centro, como en las intros de cine)
-    cuadros: [
-      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presenta', ms: 1500 },
-      { fondo: 'juntos', tipo: 'titulo', palabras: ['Una', 'Misma', 'Mirada'], lados: ['Roda', '26'], ms: 2800 },
-      { fondo: 'juntos', tipo: 'credito', disposicion: 'lados', rol: 'Protagonizada por', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 2400 },
-      { fondo: 'viaje', tipo: 'credito', disposicion: 'esquina', rol: 'Filmada en', nombres: ['Buenos Aires'], ms: 2000 },
-      // La frase clave, como el tagline de un afiche
-      { fondo: 'viaje', tipo: 'tagline', lineas: ['Cada web que hacemos es un viaje.', 'Y nos encanta viajar.'], ms: 4200 },
-      { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
-    ],
-  },
   bajo: 'Pareja y socios',
   grande: 'Nosotros',
   creditos: [
@@ -434,7 +412,7 @@ export const nosotros = {
     { nombre: 'Giuli', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.' },
     { nombre: 'Facu', texto: 'Estoy terminando la misma tecnicatura.' },
   ],
-  filmamos: ['¿Filmamos', 'la tuya?'],
+  filmamos: ['¿Hacemos', 'la tuya?'],
   cta: 'Hablemos',
 };
 
@@ -450,10 +428,10 @@ export const privacidad = {
   ],
 };
 
-/** La 404: la escena que se cortó en el montaje */
+/** La 404 */
 export const error404 = {
-  rotulo: 'Escena eliminada',
-  titulo: ['Esta parte', 'no quedó en el ', 'corte final.'],
+  rotulo: 'Página no encontrada',
+  titulo: ['Esta página', 'no existe ', 'o se mudó.'],
   cta: 'Volver al inicio',
 };
 

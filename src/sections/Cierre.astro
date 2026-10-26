@@ -45,7 +45,7 @@ const descripcionVacia = cierre.descripcion
           <p class="mono text-gris" aria-hidden="true">{cierre.estiloEtiqueta}</p>
           <div class="mt-3 flex flex-wrap gap-2">
             {ESTILOS.map((e) => (
-              <button type="button" role="radio" aria-checked={String(e === 'estreno')} class="chip-afiche" data-estilo={e}>
+              <button type="button" role="radio" aria-checked={e === 'estreno' ? 'true' : 'false'} class="chip-afiche" data-estilo={e}>
                 {cierre.estilos[e]}
               </button>
             ))}
@@ -58,7 +58,7 @@ const descripcionVacia = cierre.descripcion
               <button
                 type="button"
                 role="radio"
-                aria-checked={String(c === 'rosa')}
+                aria-checked={c === 'rosa' ? 'true' : 'false'}
                 aria-label={cierre.colores[c]}
                 class="muestra-afiche"
                 style={`background: ${COLORES[c]}`}

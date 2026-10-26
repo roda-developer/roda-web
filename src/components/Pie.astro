@@ -1,12 +1,32 @@
 ---
-/** El pie con los créditos: quiénes somos, la ficha técnica y cómo escribirnos. */
+/** El pie: en la home, completo (quiénes somos, la ficha y cómo escribirnos); en las otras páginas, una sola franja (corto). */
 import Marca from './Marca.astro';
 import { idiomaDe, ruta, textos } from '../i18n';
 import { INSTAGRAM, MAIL } from '../content/contacto';
 const idioma = idiomaDe(Astro.currentLocale);
 const { creditos, nav, ui } = textos(idioma);
 const [giuli, facu] = creditos.nombres;
+interface Props {
+  corto?: boolean;
+}
+const { corto = false } = Astro.props;
 ---
+{corto ? (
+<footer class="pie-corto relative z-10 px-5 pt-20 pb-8 md:px-12" aria-label={ui.creditosPie}>
+  <div class="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+    <p class="text-[clamp(3rem,10vw,5rem)] leading-[0.8]"><Marca /></p>
+    <div class="mono flex flex-wrap items-center gap-x-6 gap-y-1">
+      {MAIL && <a class="enlace-pie mail-pie" href={`mailto:${MAIL}`}>{MAIL}</a>}
+      <a class="enlace-pie" href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener">@{INSTAGRAM}</a>
+      <a class="enlace-pie" href={ruta(idioma, 'proyectos')}>{nav.proyectos}</a>
+      <a class="enlace-pie" href={ruta(idioma, 'nosotros')}>{nav.nosotros}</a>
+      <a class="enlace-pie" href={ruta(idioma, 'precios')}>{nav.precios}</a>
+      <a class="enlace-pie" href={ruta(idioma, 'contacto')}>{ui.contacto}</a>
+      <span class="text-gris">© {new Date().getFullYear()}</span>
+    </div>
+  </div>
+</footer>
+) : (
 <footer class="relative z-10 px-5 pt-16 pb-6 md:px-12" aria-label={ui.creditosPie}>
   <div class="grid grid-cols-2 gap-x-6 gap-y-10 border-t border-tinta/15 pt-5 md:grid-cols-[1.4fr_1fr_1fr]">
     <div class="col-span-2 md:col-span-1">
@@ -37,6 +57,7 @@ const [giuli, facu] = creditos.nombres;
     <p class="mono pb-2 text-right text-gris">© {new Date().getFullYear()}</p>
   </div>
 </footer>
+)}
 
 <style>
   /* Links del pie: subrayados y con 44px de alto para tocarlos cómodo con el dedo */

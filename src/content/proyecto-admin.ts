@@ -37,7 +37,7 @@ const esquema = traducibles.required({ titulo: true, logline: true, genero: true
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'solo minúsculas, números y guiones'),
   rubro: z.enum(RUBROS.map((r) => r.id) as [RubroId, ...RubroId[]]),
   anio: z.number().int().min(2000).max(2100),
-  url: z.string().url(),
+  url: z.url(),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'un color como #ff2e4d').optional(),
   traducciones: z.object({ en: traducibles.optional(), pt: traducibles.optional() }).optional(),
 });

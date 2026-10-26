@@ -110,7 +110,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
       <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" class="enlace text-tinta underline underline-offset-4">{t.directoCta}</a>
     </p>
   </main>
-  <Pie />
+  <Pie corto />
   <Motion />
 </Base>
 
@@ -156,6 +156,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
     transition: border-color 200ms ease;
     resize: vertical;
   }
+  /* Sin la manija nativa: el mensaje crece solo con lo que escribís */
+  textarea.campo { resize: none; field-sizing: content; min-height: 4.5rem; }
   .campo::placeholder { color: color-mix(in oklab, var(--color-tinta) 62%, transparent); }
   .campo:focus { outline: none; border-bottom-color: var(--color-tinta); box-shadow: 0 2px 0 var(--color-tc-rosa); }
 

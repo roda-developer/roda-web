@@ -10,7 +10,7 @@ export const loader: typeof ES.loader = {
 };
 
 export const metas: typeof ES.metas = {
-  inicio: { titulo: 'Roda — Web studio', descripcion: 'Websites that tell a story. Roda is Giuliana and Facundo: custom web design and development, from Buenos Aires to the world.' },
+  inicio: { titulo: 'Roda — Web studio', descripcion: 'Roda is Giuliana and Facundo, a web design and development studio from Buenos Aires. We design and code every website from scratch.' },
   precios: { titulo: 'Pricing — Roda', descripcion: 'Landing page US$ 300, Multi-page site US$ 400, Online store US$ 550. See what each one includes, no fine print.' },
   contacto: { titulo: 'Contact — Roda', descripcion: 'Tell us what you need: a landing page, a multi-page site, an online store or a custom system. We’ll get back to you soon.' },
   nosotros: { titulo: 'About — Roda', descripcion: 'Roda is Giuliana and Facundo: partners in life and work, web developers from Buenos Aires.' },
@@ -242,7 +242,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ['Screens', 'Phone, tablet and computer'],
       ['Contact', 'WhatsApp buttons and contact form'],
       ['Changes', 'Unlimited, within what we agreed'],
-      ['Premiere', 'In 1 to 2 weeks (Store, 2 to 4)'],
+      ['Delivery', 'In 1 to 2 weeks (Store, 2 to 4)'],
       ['Warranty', '30 days of fixes after launch'],
       ['Hosting', 'Free in most cases'],
       ['Google', 'Indexing and technical SEO'],
@@ -297,7 +297,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
 
 export const contactoPagina: typeof ES.contactoPagina = {
   rotulo: 'Contact',
-  titulo: ['Tell us', 'your story.'],
+  titulo: ['Tell us', 'what you need.'],
   bajada: 'It takes two minutes. With this, we come to the call already knowing what you need.',
   tipos: {
     pregunta: 'What are you looking for?',
@@ -354,18 +354,6 @@ export const contactoPagina: typeof ES.contactoPagina = {
 export const laCritica: typeof ES.laCritica = { titulo: 'What they say', completo: 'What our clients say' };
 
 export const nosotros: typeof ES.nosotros = {
-  secuencia: {
-    otraVez: 'Watch again',
-    legal: '© 2026 Roda · Produced in Buenos Aires · All rights reserved',
-    cuadros: [
-      { fondo: 'negro', tipo: 'presenta', texto: 'Roda presents', ms: 1500 },
-      { fondo: 'juntos', tipo: 'titulo', palabras: ['One', 'Shared', 'Vision'], lados: ['Roda', '26'], ms: 2800 },
-      { fondo: 'juntos', tipo: 'credito', disposicion: 'lados', rol: 'Starring', nombres: ['Giuliana Di Rocco', 'Facundo Thibaut'], ms: 2400 },
-      { fondo: 'viaje', tipo: 'credito', disposicion: 'esquina', rol: 'Shot in', nombres: ['Buenos Aires'], ms: 2000 },
-      { fondo: 'viaje', tipo: 'tagline', lineas: ['Every website we make is a journey.', 'And we love to travel.'], ms: 4200 },
-      { fondo: 'negro', tipo: 'cierre', texto: 'Roda', ms: 0 },
-    ],
-  },
   bajo: 'Partners in life and work',
   grande: 'About us',
   creditos: [
@@ -387,7 +375,7 @@ export const nosotros: typeof ES.nosotros = {
     { nombre: 'Giuli', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.' },
     { nombre: 'Facu', texto: 'I’m finishing the same degree.' },
   ],
-  filmamos: ['Shall we', 'shoot yours?'],
+  filmamos: ['Shall we make', 'yours?'],
   cta: 'Let’s talk',
 };
 
@@ -403,8 +391,8 @@ export const privacidad: typeof ES.privacidad = {
 };
 
 export const error404: typeof ES.error404 = {
-  rotulo: 'Deleted scene',
-  titulo: ['This part', 'didn’t make the ', 'final cut.'],
+  rotulo: 'Page not found',
+  titulo: ['This page', 'doesn’t exist ', 'or it moved.'],
   cta: 'Back to home',
 };
 
