@@ -3,7 +3,7 @@
  * La sección Estudio suelta: va después de la Linterna (con la O, Estudio vive adentro del Portal).
  * El video de la compu hecha de píxeles como banner a lo ancho, y el texto abajo.
  */
-import { idiomaDe, textos } from '../i18n';
+import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
 ---
@@ -14,7 +14,7 @@ const { inicio } = textos(idioma);
   <div class="texto">
     <h2 id="estudio-titulo" class="font-titulo" data-revelar>{inicio.estudio.titulo}</h2>
     <p data-revelar="3">{inicio.estudio.texto}</p>
-    <a href="#trabajos" class="cta" data-revelar="5">{inicio.estudio.cta}</a>
+    <a href={ruta(idioma, 'proyectos')} class="cta" data-revelar="5">{inicio.estudio.cta}</a>
   </div>
 </section>
 

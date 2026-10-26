@@ -25,7 +25,7 @@ const { inicio } = textos(idioma);
     <div class="estudio" id="estudio">
       <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
       <p>{inicio.estudio.texto}</p>
-      <a href="#trabajos" class="cta">{inicio.estudio.cta}</a>
+      <a href={ruta(idioma, 'proyectos')} class="cta">{inicio.estudio.cta}</a>
     </div>
   </div>
 </section>
