@@ -269,3 +269,18 @@ export const enOrden = (proyectos: Proyecto[]) =>
 
 /** El orden de la galería de la home: primero las que mejor se ven en una captura */
 export const ORDEN_GALERIA = ['emme', 'craft', 'newave', 'unik', 'eber', 'tmd', 'fidalgo', 'muda'];
+
+/** Un testimonio con el proyecto del que habla: su web reemplaza a la foto de la persona */
+export type TestimonioDe = Testimonio & { slug: string; marca: string };
+
+/** Los testimonios de un proyecto, con su web */
+export const testimoniosDe = (p: Proyecto): TestimonioDe[] => (p.testimonios ?? []).map((t) => ({ ...t, slug: p.slug, marca: p.titulo }));
+
+const puesto = (slug: string) => (ORDEN_GALERIA.includes(slug) ? ORDEN_GALERIA.indexOf(slug) : 99);
+
+/** Todos los testimonios en un idioma, en el orden de la galería (las webs que mejor se ven primero) */
+export function testimoniosEn(idioma: 'es' | 'en' | 'pt'): TestimonioDe[] {
+  return [...proyectosEn(idioma)]
+    .sort((a, b) => puesto(a.slug) - puesto(b.slug))
+    .flatMap(testimoniosDe);
+}

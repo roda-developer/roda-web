@@ -6,7 +6,7 @@ import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Volver from '../components/Volver.astro';
 import Criticas from '../components/Criticas.astro';
-import { proyectosEn, proyectoSiguiente } from '../content/proyectos';
+import { proyectosEn, proyectoSiguiente, testimoniosDe } from '../content/proyectos';
 import { capturas } from '../content/capturas';
 import { aficheDe, nombreVt } from '../components/afiches/mapa';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
@@ -111,7 +111,7 @@ const ficha: [string, string | number | undefined][] = [
 
     {p.testimonios?.length && (
       <div class="px-5 pb-24 md:px-12 md:pb-32">
-        <Criticas testimonios={p.testimonios} />
+        <Criticas testimonios={testimoniosDe(p)} />
       </div>
     )}
 

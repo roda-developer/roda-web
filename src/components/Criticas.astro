@@ -1,75 +1,155 @@
 ---
-/** Lo que dicen los clientes: testimonios reales y textuales (no se resumen). La primera va grande; las demás, en dos columnas.
- *  Las largas se cortan con … y se abren con "Leer más", así todas quedan de un largo parecido. */
-import type { Testimonio } from '../content/proyectos';
-import { textos } from '../i18n';
+/**
+ * Lo que dicen los clientes (Nosotros, Precios y cada caso): un rollo de webs al estilo "Scroll Reel Testimonials"
+ * (21st.dev). Tres columnas de capturas corren como un rollo hasta dejar en el centro la web del cliente que habla;
+ * al lado, su testimonio completo y textual. Pasa solo, se frena al pasar el mouse o al enfocar, y responde a las flechas.
+ * Sin movimiento: cambia sin desplazarse y no pasa solo.
+ */
+import { Image } from 'astro:assets';
+import { capturas } from '../content/capturas';
+import { ORDEN_GALERIA, type TestimonioDe } from '../content/proyectos';
+import { rellenar, textos } from '../i18n';
 
 interface Props {
-  testimonios: Testimonio[];
+  testimonios: TestimonioDe[];
   titulo?: string;
 }
 const { laCritica, ui } = textos(Astro.currentLocale);
 const { testimonios, titulo = laCritica.completo } = Astro.props;
-const unaSola = testimonios.length === 1;
+const n = testimonios.length;
+// La columna del medio son las webs de quienes hablan; las de los costados, otras webs nuestras (corridas para no repetirse al lado)
+const otras = (corrimiento: number) => Array.from({ length: n }, (_, i) => ORDEN_GALERIA[(i + corrimiento) % ORDEN_GALERIA.length]);
+const columnas = [otras(3), testimonios.map((t) => t.slug), otras(6)];
+// Cada columna va tres veces seguidas: así el rollo puede dar la vuelta sin que se note
+const tira = (lista: string[]) => [...lista, ...lista, ...lista];
 ---
-<section class="criticas" aria-labelledby="criticas-titulo">
+<section class="criticas" aria-labelledby="criticas-titulo" aria-roledescription="carrusel" data-rollo data-total={n}>
   <h2 id="criticas-titulo" class="criticas-titulo" data-revelar>{titulo}</h2>
-  <ul class:list={['criticas-lista', { 'una-sola': unaSola }]}>
-    {testimonios.map((c, i) => (
-      <li class:list={[{ destacada: i === 0 && !unaSola }]} data-revelar={i * 3} data-critica>
-        <blockquote class="cita">
-          <p class:list={['cita-texto', { cortable: !unaSola }]} id={`critica-${i}`}>“{c.texto}”</p>
-        </blockquote>
-        {!unaSola && (
-          <button type="button" class="leer mono" aria-expanded="false" aria-controls={`critica-${i}`} data-mas={ui.leerMas} data-menos={ui.leerMenos} hidden>{ui.leerMas}</button>
-        )}
-        <p class="firma mono"><span class="text-tinta">{c.nombre}</span> · {c.rol}{c.traducido && <span class="block mt-1 normal-case">({ui.traducido})</span>}</p>
-      </li>
-    ))}
-  </ul>
+  <div class="cuerpo">
+    <div class="rollo" aria-hidden="true">
+      {columnas.map((lista, c) => (
+        <div class="columna" data-columna={c} style={`--n: ${n}`}>
+          {tira(lista).map((slug, i) => (
+            <div class:list={['cuadro', { activo: c === 1 && i === n }]} data-cuadro={i}>
+              <Image src={capturas(slug).portada} alt="" widths={[320, 480]} sizes="10.5rem" quality={78} loading="eager" decoding="async" />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div class="texto">
+      <ul class="lista">
+        {testimonios.map((t, i) => (
+          <li class:list={['testimonio', { visible: i === 0 }]} data-testimonio={i} aria-hidden={i === 0 ? undefined : 'true'}>
+            <blockquote class="cita">“{t.texto}”</blockquote>
+            <p class="firma"><b class="font-titulo">{t.nombre}</b><span>{t.rol}{t.traducido && ` · ${ui.traducido}`}</span></p>
+            <p class="sr-only">{rellenar(ui.webDe, { marca: t.marca })}</p>
+          </li>
+        ))}
+      </ul>
+      {n > 1 && (
+        <div class="flechas">
+          <button type="button" class="flecha" data-paso="-1" aria-label={ui.testimonioAnterior}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+          </button>
+          <button type="button" class="flecha" data-paso="1" aria-label={ui.testimonioSiguiente}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
 </section>
 
 <style>
+  .criticas { --cuadro: clamp(6.5rem, 26vw, 9.5rem); --hueco: 0.6rem; --paso: calc(var(--cuadro) * 0.68 + var(--hueco)); }
   .criticas-titulo { font-family: var(--font-titulo); font-weight: 800; text-transform: uppercase; font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; }
-  .criticas-lista { display: grid; gap: 3rem; margin-top: 2.5rem; }
-  @media (min-width: 1024px) { .criticas-lista:not(.una-sola) { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 4rem; } }
-  .criticas-lista > li { display: grid; gap: 1.1rem; align-content: start; }
-  /* La primera, a lo ancho y más grande */
-  .criticas-lista > li.destacada { grid-column: 1 / -1; }
-  .destacada .cita { font-size: clamp(1.6rem, 3.2vw, 2.4rem); line-height: 1.2; max-width: 34ch; }
-  .cita { margin: 0; font-size: clamp(1.25rem, 3.6vw, 1.6rem); line-height: 1.3; letter-spacing: -0.02em; font-weight: 500; max-width: 46ch; text-wrap: pretty; }
-  /* Hasta 6 renglones; el resto queda detrás de "Leer más" */
-  .cortable { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
-  .abierta .cortable { display: block; -webkit-line-clamp: unset; line-clamp: none; }
-  .leer {
-    justify-self: start; margin-top: -0.4rem; padding: 0.35rem 0; min-height: 2.75rem;
-    background: none; border: 0; cursor: pointer; color: var(--color-tinta);
-    text-decoration: underline; text-underline-offset: 4px;
+  .cuerpo { display: grid; gap: 2.5rem; margin-top: 2.5rem; align-items: center; }
+  @media (min-width: 1024px) { .cuerpo { grid-template-columns: auto minmax(0, 1fr); column-gap: clamp(3rem, 6vw, 6rem); } .criticas { --cuadro: 10.5rem; } }
+
+  /* El rollo: se ven tres filas; la del medio es la que habla */
+  .rollo {
+    display: flex; gap: var(--hueco); justify-self: center; overflow: hidden;
+    height: calc(var(--paso) * 3 - var(--hueco));
+    mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
   }
-  .leer[hidden] { display: none; }
-  .firma { color: var(--color-gris); }
+  .columna { display: flex; flex-direction: column; flex: none; align-self: flex-start; gap: var(--hueco); width: var(--cuadro); transform: translateY(calc(var(--paso) * (1 - var(--n)))); }
+  .cuadro { flex: none; aspect-ratio: 100 / 68; border-radius: 6px; overflow: hidden; background: #e2dfd7; opacity: 0.32; transition: opacity 400ms ease; }
+  .cuadro.activo { opacity: 1; }
+  .cuadro :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    .columna { transition: transform 700ms cubic-bezier(0.77, 0, 0.175, 1); }
+    .columna[data-columna='0'] { transition-delay: 60ms; }
+    .columna[data-columna='2'] { transition-delay: 120ms; }
+  }
+
+  /* El texto: todos en la misma celda, así el alto no salta al cambiar */
+  .texto { display: grid; gap: 2rem; }
+  .lista { display: grid; }
+  .testimonio { grid-area: 1 / 1; display: grid; gap: 1.25rem; align-content: start; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 240ms ease, transform 240ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s 240ms; }
+  .testimonio.visible { opacity: 1; visibility: visible; transform: none; transition-delay: 160ms, 160ms, 0s; }
+  .cita { margin: 0; max-width: 38ch; font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.35; letter-spacing: -0.01em; font-weight: 500; text-wrap: pretty; }
+  .firma b { display: block; font-size: 1.75rem; line-height: 1; text-transform: uppercase; }
+  .firma span { display: block; margin-top: 0.25rem; color: var(--color-gris); }
+  .flechas { display: flex; gap: 0.6rem; }
+  .flecha { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 1.5px solid var(--color-tinta); background: transparent; color: var(--color-tinta); cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, color 160ms ease; }
+  .flecha svg { width: 1.1rem; height: 1.1rem; }
+  @media (hover: hover) and (pointer: fine) { .flecha:hover { background: var(--color-tinta); color: var(--color-papel); } }
+  .flecha:active { transform: scale(0.95); }
+  .flecha:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .testimonio, .cuadro { transition: none; } }
 </style>
 
 <script>
-  // "Leer más" aparece solo en las críticas que de verdad quedaron cortadas
-  const revisar = () => {
-    document.querySelectorAll<HTMLElement>('[data-critica]').forEach((li) => {
-      const texto = li.querySelector<HTMLElement>('.cortable');
-      const boton = li.querySelector<HTMLButtonElement>('.leer');
-      if (!texto || !boton || li.classList.contains('abierta')) return;
-      boton.hidden = texto.scrollHeight <= texto.clientHeight + 2;
-    });
-  };
-  document.querySelectorAll<HTMLButtonElement>('.leer').forEach((boton) => {
-    boton.addEventListener('click', () => {
-      const li = boton.closest('[data-critica]');
-      const abierta = !li?.classList.contains('abierta');
-      li?.classList.toggle('abierta', abierta);
-      boton.setAttribute('aria-expanded', String(abierta));
-      boton.textContent = (abierta ? boton.dataset.menos : boton.dataset.mas) ?? '';
-    });
+  import { movimientoPermitido } from '../motion/index';
+
+  document.querySelectorAll<HTMLElement>('[data-rollo]').forEach((raiz) => {
+    const n = Number(raiz.dataset.total);
+    if (n < 2) return;
+    const columnas = [...raiz.querySelectorAll<HTMLElement>('[data-columna]')];
+    const textos = [...raiz.querySelectorAll<HTMLElement>('[data-testimonio]')];
+    const cuadros = [...raiz.querySelectorAll<HTMLElement>('[data-columna="1"] [data-cuadro]')];
+    // pos cuenta desde la copia del medio de la tira (n); el testimonio que se lee es pos mod n
+    let pos = n;
+
+    const mover = (sinTransicion = false) => {
+      columnas.forEach((c) => {
+        if (sinTransicion) c.style.transition = 'none';
+        c.style.setProperty('--n', String(pos));
+        if (sinTransicion) { void c.offsetHeight; c.style.transition = ''; }
+      });
+      const actual = ((pos % n) + n) % n;
+      if (sinTransicion) cuadros.forEach((q) => (q.style.transition = 'none'));
+      cuadros.forEach((q, i) => q.classList.toggle('activo', i === pos));
+      if (sinTransicion) { void raiz.offsetHeight; cuadros.forEach((q) => (q.style.transition = '')); }
+      textos.forEach((t, i) => {
+        t.classList.toggle('visible', i === actual);
+        t.setAttribute('aria-hidden', String(i !== actual));
+      });
+    };
+
+    let vuelta = 0;
+    const ir = (paso: number) => {
+      clearTimeout(vuelta);
+      // Si venía de dar la vuelta, primero se acomoda en la copia del medio
+      if (pos < n || pos >= 2 * n) { pos = pos < n ? pos + n : pos - n; mover(true); }
+      pos += paso;
+      mover();
+      // Si se fue a la primera o la tercera copia, vuelve a la del medio sin que se vea
+      if (pos < n || pos >= 2 * n) vuelta = window.setTimeout(() => { pos = pos < n ? pos + n : pos - n; mover(true); }, movimientoPermitido() ? 900 : 0);
+    };
+
+    // Pasa solo cada 7 segundos mientras está en pantalla; se frena con el mouse encima, con el foco adentro, o para siempre si tocan una flecha
+    let reloj = 0, tocado = false, visible = false, encima = false;
+    const decidir = () => {
+      clearInterval(reloj);
+      if (!tocado && visible && !encima && movimientoPermitido()) reloj = window.setInterval(() => ir(1), 7000);
+    };
+    raiz.querySelectorAll<HTMLButtonElement>('[data-paso]').forEach((b) => b.addEventListener('click', () => { tocado = true; decidir(); ir(Number(b.dataset.paso)); }));
+    raiz.addEventListener('pointerenter', () => { encima = true; decidir(); });
+    raiz.addEventListener('pointerleave', () => { encima = false; decidir(); });
+    raiz.addEventListener('focusin', () => { encima = true; decidir(); });
+    raiz.addEventListener('focusout', () => { encima = false; decidir(); });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; decidir(); }).observe(raiz);
   });
-  revisar();
-  document.fonts?.ready.then(revisar);
-  addEventListener('resize', revisar, { passive: true });
 </script>

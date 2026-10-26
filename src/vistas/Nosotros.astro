@@ -5,7 +5,7 @@ import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Criticas from '../components/Criticas.astro';
-import { proyectosEn } from '../content/proyectos';
+import { proyectosEn, testimoniosEn } from '../content/proyectos';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import juntos from '../assets/nosotros/juntos.jpg';
 const idioma = idiomaDe(Astro.currentLocale);
@@ -14,7 +14,7 @@ const link = ruta(idioma, 'contacto');
 
 // Lo que ya hicimos: las webs de /proyectos y los testimonios reales de sus clientes
 const proyectos = proyectosEn(idioma);
-const testimonios = proyectos.flatMap((p) => p.testimonios ?? []);
+const testimonios = testimoniosEn(idioma);
 
 ---
 <Base titulo={metas.nosotros.titulo} descripcion={metas.nosotros.descripcion}>

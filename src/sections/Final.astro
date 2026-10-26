@@ -1,7 +1,7 @@
 ---
 /**
  * El final: una fila curva de trabajos que no para de pasar (las fotos se curvan hacia vos en los bordes y se apagan)
- * y, abajo, la pregunta grande y el botón. Sin caja encima de las fotos.
+ * y, abajo, la pregunta grande en una sola línea y el botón. Sin caja encima de las fotos.
  * Se pausa fuera de pantalla; sin movimiento, la fila queda quieta.
  */
 import { Image } from 'astro:assets';
@@ -30,11 +30,10 @@ const fila = [...trabajos, ...trabajos];
   .final { padding-top: clamp(6rem, 16svh, 11rem); }
   .curva { position: relative; height: clamp(15rem, 34vw, 26rem); overflow: hidden; perspective: 1000px; }
   .curva :global(.foto) { position: absolute; top: 8%; left: 0; width: clamp(8.5rem, 15vw, 15rem); aspect-ratio: 3 / 4; object-fit: cover; backface-visibility: hidden; will-change: transform, opacity; }
-  .cierre { display: grid; gap: 1.5rem; justify-items: start; padding: clamp(2rem, 6svh, 4rem) 1.25rem 0; }
-  @media (min-width: 768px) {
-    .cierre { grid-template-columns: 1fr auto; align-items: end; padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
-  }
-  .cierre h2 { font-size: clamp(3.2rem, 9vw, 8rem); line-height: 0.88; max-width: 12ch; }
+  /* La pregunta en una sola línea, a lo ancho, y el botón grande abajo */
+  .cierre { display: grid; gap: clamp(1.5rem, 4svh, 2.5rem); justify-items: center; text-align: center; padding: clamp(2rem, 6svh, 4rem) 1.25rem 0; }
+  .cierre h2 { font-size: min(15.6vw, 15rem); line-height: 0.88; white-space: nowrap; }
+  .cierre .cta { min-height: 4rem; padding-inline: 2.5rem; font-size: 1.25rem; }
 </style>
 
 <script>
