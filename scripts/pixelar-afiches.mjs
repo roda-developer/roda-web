@@ -20,9 +20,10 @@ const masCercano = (r, g, b) => PALETA.reduce((mejor, [hex, [pr, pg, pb]]) => {
 
 for (const slug of fs.readdirSync(raiz)) {
   const carpeta = path.join(raiz, slug);
-  const fuente = ['afiche.jpg', 'portada.jpg'].map((f) => path.join(carpeta, f)).find((f) => fs.existsSync(f));
+  // El afiche; si no hay, la captura de celu (que ya es vertical), arriba de todo
+  const fuente = ['afiche.jpg', 'mobile.jpg'].map((f) => path.join(carpeta, f)).find((f) => fs.existsSync(f));
   if (!fuente) continue;
-  const { data } = await sharp(fuente).resize(COLS, FILAS, { fit: 'cover', position: 'centre' }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { data } = await sharp(fuente).resize(COLS, FILAS, { fit: 'cover', position: fuente.endsWith('mobile.jpg') ? 'top' : 'centre' }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   // Cada foto tiene su propio rango de luces: se estira entre sus tonos 6 % y 94 %, así una foto oscura pareja no queda toda igual
   const luces = [];
   for (let i = 0; i < data.length; i += 3) luces.push((0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255);

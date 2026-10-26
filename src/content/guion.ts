@@ -378,28 +378,24 @@ export const laCritica = { titulo: 'Lo que dicen', completo: 'Lo que dicen nuest
 export const nosotros = {
   bajo: 'Pareja y socios',
   grande: 'Nosotros',
-  creditos: [
-    ['Dirección', 'Giuliana Di Rocco · Facundo Thibaut'],
-    ['Diseño y desarrollo', 'Giuliana Di Rocco · Facundo Thibaut'],
-    ['Formación', 'Tecnicatura en Desarrollo Web, UNLaM'],
-    ['Inteligencia Artificial', 'Giuliana Di Rocco'],
-    ['Locaciones', 'Donde nos lleve el próximo viaje'],
-    ['Agradecimientos', 'A cada cliente que nos dejó contar su historia'],
-  ],
-  aviso: 'Ninguna web fue hecha con plantillas durante esta producción.',
   rotulo: ['Nosotros', 'Los créditos'],
   // Antes: bajada: 'Somos Giuli y Facu. Somos pareja y hacemos webs juntos. Nos gusta que cada web sea distinta, por eso las diseñamos y las programamos desde cero. Si nos escribís, te contestamos nosotros.',
   /** Primero lo que hicimos; la formación va más abajo */
   bajada: 'Somos Giuli y Facu, pareja y socios. Diseñamos y programamos webs a medida, desde cero y sin plantillas. Si nos escribís, te contestamos nosotros.',
   /** {n}: cuántas webs hay en /proyectos. Los nombres salen de content/proyectos.ts */
   hicimos: { titulo: 'Lo que ya hicimos', texto: 'Publicamos {n} webs para marcas reales:', verTodos: 'Ver todos los proyectos' },
-  formacion: 'Cómo aprendimos',
   foto: { alt: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
   viaje: { alt: 'Giuliana y Facundo sonriendo en una lancha, con el mar y un pueblo con cerros detrás' },
-  personas: [
-    { nombre: 'Giuli', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.' },
-    { nombre: 'Facu', texto: 'Estoy terminando la misma tecnicatura.' },
-  ],
+  /** Quiénes somos: cada panel se abre al pasar el mouse (o al tocarlo en el celu) */
+  equipo: {
+    titulo: 'Quiénes somos',
+    paneles: [
+      { nombre: 'Giuli', rol: 'Diseño, desarrollo e inteligencia artificial', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.' },
+      { nombre: 'Facu', rol: 'Diseño y desarrollo', texto: 'Estoy terminando la misma tecnicatura.' },
+      { nombre: 'Los dos', rol: 'Pareja y socios', texto: 'Hacemos cada web juntos, desde donde nos lleve el próximo viaje.' },
+    ],
+    aviso: 'Ninguna web la hicimos con plantillas.',
+  },
   filmamos: ['¿Hacemos', 'la tuya?'],
   cta: 'Hablemos',
 };

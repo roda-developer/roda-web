@@ -9,6 +9,10 @@ import { proyectosEn, testimoniosEn } from '../content/proyectos';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import juntos from '../assets/nosotros/juntos.jpg';
 import viaje from '../assets/nosotros/viaje.jpg';
+import giuli from '../assets/nosotros/giuli.jpg';
+import facu from '../assets/nosotros/facu.jpg';
+// Las fotos de cada panel (giuli y facu son recortes de la foto juntos) y dónde mirar en cada una
+const fotosEquipo = [{ src: giuli, foco: '50% 40%' }, { src: facu, foco: '50% 40%' }, { src: viaje, foco: '58% 45%' }];
 const idioma = idiomaDe(Astro.currentLocale);
 const { nosotros: t, metas, ui } = textos(idioma);
 const link = ruta(idioma, 'contacto');
@@ -49,28 +53,27 @@ const testimonios = testimoniosEn(idioma);
       </div>
     )}
 
-    <!-- La formación, después de lo que hicimos. En compu, el título a la izquierda y cada uno en su columna: así no queda media pantalla vacía -->
-    <section class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="formacion-titulo">
-      <div class="grid gap-5 border-t border-tinta/15 pt-6 md:grid-cols-[1fr_1fr_1fr] md:gap-10">
-        <h2 id="formacion-titulo" class="text-xl font-medium tracking-[-0.02em] md:text-2xl" data-revelar>{t.formacion}</h2>
-        {t.personas.map((p) => (
-          <p class="max-w-[42ch] text-lg leading-relaxed md:text-xl" data-revelar><strong class="font-medium">{p.nombre}.</strong> {p.texto}</p>
+    <!-- Quiénes somos: paneles de fotos a dos tonos (idea de "Image Accordion" y "Team Section with Duotone Portraits", 21st.dev).
+         En compu, el panel que tocás o señalás se abre y muestra su texto; en el celu van uno abajo del otro, abiertos -->
+    <section class="equipo mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="equipo-titulo">
+      <h2 id="equipo-titulo" class="equipo-titulo font-titulo" data-revelar>{t.equipo.titulo}</h2>
+      <ul class="paneles" data-paneles data-activo="0">
+        {t.equipo.paneles.map((p, i) => (
+          <li class="panel" data-panel={i} tabindex="0">
+            <div class="panel-foto">
+              <Image src={fotosEquipo[i].src} alt="" widths={[640, 1000, 1400]} sizes="(min-width: 768px) 60vw, 90vw" quality={86} loading="lazy" style={`object-position: ${fotosEquipo[i].foco}`} />
+            </div>
+            <div class="panel-pie">
+              <p class="panel-nombre font-titulo">{p.nombre}</p>
+              <div class="panel-mas">
+                <p class="panel-rol">{p.rol}</p>
+                <p class="panel-texto">{p.texto}</p>
+              </div>
+            </div>
+          </li>
         ))}
-      </div>
-    </section>
-
-    <!-- Los créditos, en rosa -->
-    <section class="creditos mt-24 md:mt-32" aria-labelledby="creditos-titulo">
-      <Image src={viaje} alt={t.viaje.alt} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 34vw, 86vw" quality={86} loading="lazy" class="viaje" data-revelar />
-      <div class="creditos-texto">
-      <h2 id="creditos-titulo" class="mono text-center">Roda</h2>
-      <dl class="rollo">
-        {t.creditos.map(([rol, quien]) => (
-          <div><dt>{rol}</dt><dd>{quien}</dd></div>
-        ))}
-      </dl>
-      <p class="aviso">{t.aviso}</p>
-      </div>
+      </ul>
+      <p class="equipo-aviso">{t.equipo.aviso}</p>
     </section>
 
     <!-- El cierre: la pregunta y el botón -->
@@ -108,15 +111,66 @@ const testimonios = testimoniosEn(idioma);
   }
 
 
-  /* ── Los créditos ─────────────────────────────────────────────── */
-  .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 5rem 1.25rem; display: grid; gap: 3.5rem; justify-items: center; }
-  /* La foto del viaje, un poco torcida, como pegada sobre el rosa */
-  .creditos :global(.viaje) { width: min(100%, 30rem); height: auto; border-radius: 4px; transform: rotate(-2deg); }
-  @media (min-width: 1024px) { .creditos { grid-template-columns: 1fr 1fr; align-items: center; padding-inline: 3rem; } }
-  .rollo { display: grid; gap: 1.6rem; max-width: 46rem; margin: 3rem auto 0; }
-  /* Cada crédito, centrado: el rol arriba y el nombre abajo */
-  .rollo div { display: grid; gap: 0.2rem; text-align: center; }
-  .rollo dt { font-style: italic; font-size: clamp(0.95rem, 2vw, 1.15rem); }
-  .rollo dd { margin: 0; font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.15rem); }
-  .aviso { margin-top: 3.5rem; text-align: center; font-style: italic; }
+  /* ── Quiénes somos ─────────────────────────────────────────────── */
+  .equipo-titulo { font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.9; }
+  .paneles { display: grid; gap: 1rem; margin-top: 2rem; }
+  .panel { position: relative; border-radius: 6px; overflow: hidden; outline: none; }
+  .panel:focus-visible { box-shadow: 0 0 0 3px var(--color-tinta); }
+  .panel-foto { position: relative; height: 22rem; background: var(--color-tinta); }
+  .panel-foto :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.08); mix-blend-mode: screen; opacity: 0.9; }
+  /* A dos tonos: la foto en grises sobre tinta, con el rosa de Roda encima */
+  .panel-foto::after { content: ''; position: absolute; inset: 0; background: var(--color-tc-rosa); mix-blend-mode: multiply; }
+  .panel-pie { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.25rem; color: var(--color-papel); background: linear-gradient(transparent, rgb(18 18 18 / 0.75)); }
+  .panel-nombre { font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 0.9; text-transform: uppercase; }
+  .panel-rol { margin-top: 0.3rem; font-size: 1rem; }
+  .panel-texto { margin-top: 0.75rem; max-width: 36ch; font-size: 1.125rem; line-height: 1.4; }
+  .equipo-aviso { margin-top: 1.5rem; font-size: 1.125rem; color: var(--color-gris); }
+
+  /* En compu: los tres paneles comparten un mismo cuadro; cada uno se ve por su franja (clip-path) y el que está activo se abre */
+  @media (min-width: 768px) {
+    .paneles { position: relative; display: block; height: clamp(26rem, 38vw, 36rem); }
+    .panel { position: absolute; inset: 0; border-radius: 0; --l: 0; --r: 0; clip-path: inset(0 calc(var(--r) * 1%) 0 calc(var(--l) * 1%) round 6px); cursor: pointer; }
+    .panel-foto { height: 100%; background: var(--color-tinta); }
+    /* La foto mide lo que mide un panel abierto (60 %) y se centra en su franja */
+    .panel-foto :global(img) { position: absolute; top: 0; left: 0; width: 60%; transform: translateX(calc((var(--l) + (100 - var(--l) - var(--r)) / 2 - 30) / 0.6 * 1%)); }
+    .panel-pie { right: auto; width: 100%; background: none; padding: 0; transform: translateX(calc(var(--l) * 1%)); }
+    .panel-pie > * { margin-left: 1.5rem; }
+    .panel-pie { padding-bottom: 1.5rem; }
+    /* El rol y el texto ocupan siempre el mismo alto, así los nombres quedan alineados */
+    .panel-mas { min-height: 7.5rem; }
+    .panel-texto, .panel-rol { opacity: 0; }
+    .panel::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(transparent 55%, rgb(18 18 18 / 0.7)); pointer-events: none; }
+    .panel-pie { z-index: 2; }
+    .panel-nombre { font-size: clamp(2rem, 3.4vw, 3.4rem); }
+    /* Las franjas: el activo ocupa 60 % y los otros dos 20 % cada uno (con 0,6 % de aire entre franjas) */
+    [data-activo='0'] [data-panel='0'] { --l: 0; --r: 40.3; }
+    [data-activo='0'] [data-panel='1'] { --l: 60.3; --r: 20.3; }
+    [data-activo='0'] [data-panel='2'] { --l: 80.3; --r: 0; }
+    [data-activo='1'] [data-panel='0'] { --l: 0; --r: 80.3; }
+    [data-activo='1'] [data-panel='1'] { --l: 20.3; --r: 20.3; }
+    [data-activo='1'] [data-panel='2'] { --l: 80.3; --r: 0; }
+    [data-activo='2'] [data-panel='0'] { --l: 0; --r: 80.3; }
+    [data-activo='2'] [data-panel='1'] { --l: 20.3; --r: 60.3; }
+    [data-activo='2'] [data-panel='2'] { --l: 40.3; --r: 0; }
+    [data-activo='0'] [data-panel='0'] :is(.panel-texto, .panel-rol),
+    [data-activo='1'] [data-panel='1'] :is(.panel-texto, .panel-rol),
+    [data-activo='2'] [data-panel='2'] :is(.panel-texto, .panel-rol) { opacity: 1; transition-delay: 220ms; }
+  }
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .panel { transition: clip-path 600ms cubic-bezier(0.77, 0, 0.175, 1); }
+    .panel-foto :global(img), .panel-pie { transition: transform 600ms cubic-bezier(0.77, 0, 0.175, 1); }
+    .panel-texto, .panel-rol { transition: opacity 240ms ease; }
+  }
 </style>
+
+<script>
+  // Se abre el panel que señalás, enfocás o tocás; el último que abriste queda abierto
+  document.querySelectorAll<HTMLElement>('[data-paneles]').forEach((lista) => {
+    const abrir = (el: HTMLElement) => { lista.dataset.activo = el.dataset.panel ?? '0'; };
+    lista.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => {
+      el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') abrir(el); });
+      el.addEventListener('focus', () => abrir(el));
+      el.addEventListener('click', () => abrir(el));
+    });
+  });
+</script>

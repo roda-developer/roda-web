@@ -263,12 +263,12 @@ export function proyectoSiguiente(slug: string, idioma: 'es' | 'en' | 'pt' = 'es
 }
 
 /** El orden en que se muestran los trabajos (el de la cartelera de /proyectos); los cargados desde el admin van primero */
-export const ORDEN_TRABAJOS = ['emme', 'muda', 'eber', 'craft', 'tmd', 'newave', 'unik', 'fidalgo'];
+export const ORDEN_TRABAJOS = ['craft', 'eber', 'emme', 'muda', 'tmd', 'newave', 'unik', 'fidalgo'];
 export const enOrden = (proyectos: Proyecto[]) =>
   [...proyectos].sort((a, b) => ORDEN_TRABAJOS.indexOf(a.slug) - ORDEN_TRABAJOS.indexOf(b.slug));
 
 /** El orden de la galería de la home: primero las que mejor se ven en una captura */
-export const ORDEN_GALERIA = ['emme', 'craft', 'newave', 'unik', 'eber', 'tmd', 'fidalgo', 'muda'];
+export const ORDEN_GALERIA = ['craft', 'eber', 'emme', 'muda', 'tmd', 'newave', 'unik', 'fidalgo'];
 
 /** Un testimonio con el proyecto del que habla: su web reemplaza a la foto de la persona */
 export type TestimonioDe = Testimonio & { slug: string; marca: string };

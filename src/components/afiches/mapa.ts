@@ -13,10 +13,10 @@ import AficheNewave from './AficheNewave.astro';
 import AficheGenerico from './AficheGenerico.astro';
 
 export const AFICHES = {
+  craft: { Afiche: AficheCraft, quad: true },
+  eber: { Afiche: AficheEber, quad: false },
   emme: { Afiche: AficheEmme, quad: true },
   muda: { Afiche: AficheMuda, quad: false },
-  eber: { Afiche: AficheEber, quad: false },
-  craft: { Afiche: AficheCraft, quad: true },
   tmd: { Afiche: AficheTmd, quad: false },
   newave: { Afiche: AficheNewave, quad: true },
   unik: { Afiche: AficheUnik, quad: true },

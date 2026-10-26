@@ -1,11 +1,11 @@
 ---
 /**
- * La primera pantalla: R○DA gigante y, en la O chica, píxeles sueltos. Al abrirse se juntan: una compu que arma una web
+ * La primera pantalla: R○DA gigante y, en la O chica, píxeles sueltos. Al abrirse, el scroll los junta: una compu que arma una web
  * y termina diciendo R○DA. Al scrollear la O crece, las letras se van y el video se acomoda como banner a lo ancho
  * de la sección Estudio (media pantalla, nunca entera).
  * Sin movimiento (o sin JS): el nombre arriba y la sección Estudio abajo, quietos, con el video en pausa (su portada).
  */
-import { idiomaDe, textos } from '../i18n';
+import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
 ---
@@ -17,9 +17,10 @@ const { inicio } = textos(idioma);
         <span aria-hidden="true">R</span><span class="anillo" aria-hidden="true"></span><span aria-hidden="true">DA</span>
       </h1>
       <p class="linea">{inicio.hero.linea}</p>
+      <a href={ruta(idioma, 'contacto')} class="cta hero-cta" data-hero-cta>{inicio.final.cta}</a>
     </div>
     <div class="marco">
-      <video class="marco-video" src="/videos/roda-escritorio.mp4?v=6" poster="/videos/roda-escritorio.jpg?v=6" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio></video>
+      <video class="marco-video" src="/videos/roda-escritorio.mp4?v=7" poster="/videos/roda-escritorio.jpg?v=7" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio></video>
     </div>
     <div class="estudio" id="estudio">
       <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
@@ -78,6 +79,7 @@ const { inicio } = textos(idioma);
     const palabra = portal.querySelector<HTMLElement>('.palabra')!;
     const anillo = portal.querySelector<HTMLElement>('.anillo')!;
     const linea = portal.querySelector<HTMLElement>('.linea')!;
+    const heroCta = portal.querySelector<HTMLElement>('[data-hero-cta]');
     const marco = portal.querySelector<HTMLElement>('.marco')!;
     const partesEstudio = [...portal.querySelectorAll<HTMLElement>('.estudio > *')];
 
@@ -101,6 +103,9 @@ const { inicio } = textos(idioma);
       palabra.style.transformOrigin = `${cx - p.x}px ${cy - p.y}px`;
     };
 
+    // Cuándo la imagen llega a su tamaño dentro de la O (después se acomoda como banner)
+    const tope = () => { const b = (1 / m.s - 1) / 8; return b <= 1 ? 0.1 + 0.4 * Math.sqrt(b) : 0.5; };
+
     // Todo sale del progreso del scroll (0 a 1): así nunca queda nada a mitad de camino al recalcular
     const tramo = (p: number, desde: number, largo: number) => Math.min(1, Math.max(0, (p - desde) / largo));
     const entraSale = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
@@ -108,6 +113,12 @@ const { inicio } = textos(idioma);
     const frena = (t: number) => 1 - (1 - t) ** 3;
     const pintar = (p: number) => {
       linea.style.opacity = String(1 - tramo(p, 0.06, 0.08));
+      // El botón se va con la frase: apenas empezás a bajar ya no hace falta (y no se puede tabular cuando no se ve)
+      if (heroCta) {
+        const c = 1 - tramo(p, 0.03, 0.07);
+        heroCta.style.opacity = String(c);
+        heroCta.style.visibility = c <= 0 ? 'hidden' : '';
+      }
       // Las letras crecen desde el centro de la O (hasta 9 veces) y se apagan
       const b = acelera(tramo(p, 0.1, 0.4));
       const k = 1 + 8 * b;
@@ -116,8 +127,7 @@ const { inicio } = textos(idioma);
       palabra.style.visibility = b >= 1 ? 'hidden' : '';
       // Primero la foto crece igual que el anillo, así nunca se sale del hueco de la O.
       // Cuando llega a su tamaño (o el anillo ya se fue), se acomoda como banner.
-      const bTope = (1 / m.s - 1) / 8;
-      const pTope = bTope <= 1 ? 0.1 + 0.4 * Math.sqrt(bTope) : 0.5;
+      const pTope = tope();
       const escalaTope = Math.min(1, m.s * 9);
       let escala: number, r: number;
       if (p < pTope) {
@@ -140,22 +150,28 @@ const { inicio } = textos(idioma);
       });
     };
 
-    // Con la O cerrada, adentro solo hay píxeles sueltos (el primer cuadro del video, quieto).
-    // Al abrirse, el video arranca y los píxeles se juntan en la escena.
-    // Corre solo mientras la escena está en pantalla (fuera, se pausa y no gasta batería).
+    // El video y el scroll: con la O cerrada, adentro solo hay píxeles sueltos (el primer cuadro, quieto).
+    // Mientras la O se abre, el scroll junta los píxeles (los primeros 40 cuadros del video avanzan con vos).
+    // Cuando ya es banner, el video sigue solo. Corre solo mientras la escena está en pantalla.
     const video = portal.querySelector<HTMLVideoElement>('[data-video-estudio]');
-    let visible = false, cerrada = true;
+    const ARMADO = 40 / 24; // segundos del video en que los píxeles se juntan
+    let visible = false, libre = false, tiempo = 0, cuadro = 0;
     const decidir = () => {
       if (!video) return;
-      if (visible && !cerrada) video.play().catch(() => {});
-      else {
-        video.pause();
-        if (cerrada && video.currentTime > 0) video.currentTime = 0;
-      }
+      if (visible && libre) video.play().catch(() => {});
+      else video.pause();
+    };
+    const buscar = () => {
+      cuadro = 0;
+      if (video && !libre && Math.abs(video.currentTime - tiempo) > 0.02) video.currentTime = tiempo;
     };
     const seguir = (p: number) => {
-      const ahora = p < 0.03;
-      if (ahora !== cerrada) { cerrada = ahora; decidir(); }
+      const fin = tope() + 0.2;
+      const ahora = p >= fin;
+      tiempo = tramo(p, 0.03, fin - 0.03) * ARMADO;
+      if (ahora !== libre) { libre = ahora; decidir(); }
+      // Una búsqueda por cuadro de pantalla, como mucho
+      if (!libre && !cuadro) cuadro = requestAnimationFrame(buscar);
     };
 
     medir();
@@ -170,8 +186,8 @@ const { inicio } = textos(idioma);
     portal.classList.add('listo');
 
     if (video) {
-      video.poster = '/videos/roda-polvo.jpg?v=6';
-      cerrada = disparador.progress < 0.03;
+      video.poster = '/videos/roda-polvo.jpg?v=7';
+      seguir(disparador.progress);
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; decidir(); }).observe(portal);
     }
   }

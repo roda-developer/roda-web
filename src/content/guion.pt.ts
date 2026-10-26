@@ -344,26 +344,21 @@ export const laCritica: typeof ES.laCritica = { titulo: 'O que dizem', completo:
 export const nosotros: typeof ES.nosotros = {
   bajo: 'Casal e sócios',
   grande: 'Sobre nós',
-  creditos: [
-    ['Direção', 'Giuliana Di Rocco · Facundo Thibaut'],
-    ['Design e desenvolvimento', 'Giuliana Di Rocco · Facundo Thibaut'],
-    ['Formação', 'Técnico em Desenvolvimento Web, UNLaM'],
-    ['Inteligência Artificial', 'Giuliana Di Rocco'],
-    ['Locações', 'Aonde a próxima viagem levar'],
-    ['Agradecimentos', 'A cada cliente que nos deixou contar a sua história'],
-  ],
-  aviso: 'Nenhum site foi feito com templates durante esta produção.',
   rotulo: ['Sobre nós', 'Os créditos'],
   // Antes: bajada: 'Somos a Giuli e o Facu. Somos um casal e fazemos sites juntos. Gostamos que cada site seja diferente, por isso desenhamos e programamos do zero. Se você escrever pra gente, quem responde somos nós.',
   bajada: 'Somos a Giuli e o Facu, casal e sócios. Desenhamos e programamos sites sob medida, do zero e sem templates. Se você escrever pra gente, quem responde somos nós.',
   hicimos: { titulo: 'O que já fizemos', texto: 'Publicamos {n} sites para marcas reais:', verTodos: 'Ver todos os projetos' },
-  formacion: 'Como aprendemos',
   foto: { alt: 'Giuliana e Facundo abraçados e sorrindo, com uma árvore atrás', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
   viaje: { alt: 'Giuliana e Facundo sorrindo num barco, com o mar e uma cidade com morros atrás' },
-  personas: [
-    { nombre: 'Giuli', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.' },
-    { nombre: 'Facu', texto: 'Estou terminando o mesmo curso.' },
-  ],
+  equipo: {
+    titulo: 'Quem somos',
+    paneles: [
+      { nombre: 'Giuli', rol: 'Design, desenvolvimento e inteligência artificial', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.' },
+      { nombre: 'Facu', rol: 'Design e desenvolvimento', texto: 'Estou terminando o mesmo curso.' },
+      { nombre: 'Nós dois', rol: 'Casal e sócios', texto: 'Fazemos cada site juntos, de onde a próxima viagem nos levar.' },
+    ],
+    aviso: 'Nenhum site nosso é feito com templates.',
+  },
   filmamos: ['Vamos fazer', 'o seu?'],
   cta: 'Vamos falar',
 };

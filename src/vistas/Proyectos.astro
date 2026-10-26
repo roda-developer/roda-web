@@ -7,15 +7,11 @@ import Volver from '../components/Volver.astro';
 import Creativos from '../components/Creativos.astro';
 import { AFICHES, aficheDe, nombreVt } from '../components/afiches/mapa';
 import { proyectosEn } from '../content/proyectos';
-import { RUBROS } from '../story/opciones';
 import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
-const { proyectosPagina: t, rubros: nombresRubro, metas } = textos(idioma);
+const { proyectosPagina: t, metas } = textos(idioma);
 const PROYECTOS = proyectosEn(idioma);
 
-// Solo los rubros que tienen algún proyecto, en el orden de la pregunta
-const rubros = RUBROS.filter((r) => PROYECTOS.some((p) => p.rubro === r.id));
-const etiqueta = (id: string) => nombresRubro[id as keyof typeof nombresRubro] ?? id;
 
 const orden = Object.keys(AFICHES);
 // Los cargados desde el admin no están en AFICHES: van primero, con el afiche genérico
@@ -34,30 +30,19 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
       <p class="mt-8 max-w-[34ch] text-xl leading-snug text-tinta/70 md:text-2xl" data-revelar="4">{t.bajada}</p>
     </header>
 
-    <!-- Filtro por rubro: es la pregunta 4 de la historia, y se guarda para el tráiler -->
-    <div class="mt-16 px-5 md:px-12" role="group" aria-labelledby="filtro-titulo">
-      <p id="filtro-titulo" class="max-w-[60ch] text-lg leading-snug"><span class="font-medium">{t.pregunta}</span> <span class="text-tinta/75">{t.ayuda}</span></p>
-      <ul class="mono mt-4 flex flex-wrap gap-2">
-        <li><button type="button" class="chip" data-rubro="" aria-pressed="true">{t.todos}</button></li>
-        {rubros.map((r) => (
-          <li><button type="button" class="chip" data-rubro={r.id} data-nombre={etiqueta(r.id).toLowerCase()} aria-pressed="false">{etiqueta(r.id)}</button></li>
-        ))}
-      </ul>
-      <p role="status" class="sr-only" data-estado data-plantilla={t.mostrandoPrimero}></p>
-    </div>
 
     <!-- La cartelera: el afiche es pura imagen; los datos van abajo, como en la web de un cine -->
-    <ul class="cartelera mt-12 px-5 md:px-12">
-      {cartelera.map((p, i) => {
+    <ul class="cartelera mt-16 px-5 md:px-12">
+      {cartelera.map((p) => {
         const { Afiche, quad } = aficheDe(p.slug);
         return (
-          <li class:list={['funcion', quad && 'funcion-quad']} data-rubro={p.rubro} data-orden={i}>
+          <li class:list={['funcion', quad && 'funcion-quad']}>
             <a href={ruta(idioma, 'proyectos', p.slug)} class="funcion-link group" aria-label={`${p.titulo}: ${p.logline}`}>
               <span class="afiche-caja"><span class="afiche vt-afiche" style={`--vt: ${nombreVt(p.slug)}`}><Afiche slug={p.slug} /></span></span>
               <span class="ficha">
                 <span class="ficha-titulo">{p.titulo}</span>
                 <span class="mono ficha-ver" aria-hidden="true">{t.verCaso}</span>
-                <span class="mono text-gris">{p.genero} · {p.anio}<span class="tira-cerca text-tinta" hidden> · {t.cerca}</span></span>
+                <span class="mono text-gris">{p.genero} · {p.anio}</span>
               </span>
             </a>
           </li>
@@ -73,16 +58,6 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
 </Base>
 
 <style>
-  .chip {
-    min-height: 2.75rem;
-    padding: 0 1rem;
-    border: 1px solid color-mix(in oklab, var(--color-tinta) 25%, transparent);
-    border-radius: 999px;
-    transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease;
-  }
-  .chip:active { transform: scale(0.97); }
-  .chip[aria-pressed='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
-
   /* ── La cartelera ─────────────────────────────────────────── */
   .cartelera { display: grid; gap: 3rem; }
   .funcion-link { display: flex; flex-direction: column; gap: 1rem; height: 100%; }
@@ -136,48 +111,3 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     .funcion-link:hover .afiche, .funcion-link:active .afiche { transform: none; }
   }
 </style>
-
-<script>
-  import { $respuestas, responder } from '../story/store';
-  import { type RubroId } from '../story/opciones';
-
-  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
-  const estado = document.querySelector<HTMLElement>('[data-estado]');
-
-  /** Lo del rubro elegido va primero; el resto conserva su orden. */
-  function aplicar(rubro: RubroId | null, animar = false) {
-    chips.forEach((c) => c.setAttribute('aria-pressed', String((c.dataset.rubro || null) === rubro)));
-    const afiches = [...document.querySelectorAll<HTMLElement>('[data-rubro][data-orden]')];
-    // Dónde estaba cada afiche antes del cambio, para que viaje a su lugar nuevo en vez de saltar
-    const antes = new Map(afiches.map((el) => [el, el.getBoundingClientRect()]));
-    afiches.forEach((el) => {
-      const cerca = rubro !== null && el.dataset.rubro === rubro;
-      el.style.order = String(cerca ? -1 : 0);
-      el.querySelector<HTMLElement>('.tira-cerca')?.toggleAttribute('hidden', !cerca);
-    });
-    if (animar && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      afiches.forEach((el) => {
-        const a = antes.get(el)!, b = el.getBoundingClientRect();
-        const dx = a.left - b.left, dy = a.top - b.top;
-        if (dx || dy) el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 450, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
-      });
-    }
-    if (estado) {
-      // El aviso para lectores de pantalla, en el idioma de la página (la plantilla viene del HTML)
-      const label = chips.find((c) => c.dataset.rubro === rubro)?.dataset.nombre;
-      estado.textContent = rubro && label ? (estado.dataset.plantilla ?? '').replace('{rubro}', label) : '';
-    }
-  }
-
-  chips.forEach((c) =>
-    c.addEventListener('click', () => {
-      const rubro = (c.dataset.rubro || null) as RubroId | null;
-      responder('rubro', rubro);
-      aplicar(rubro, true);
-    }),
-  );
-
-  // Si ya respondió el rubro en esta visita, arrancamos con eso
-  const guardado = $respuestas.get().rubro;
-  if (guardado && chips.some((c) => c.dataset.rubro === guardado)) aplicar(guardado);
-</script>
