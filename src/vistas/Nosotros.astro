@@ -12,6 +12,9 @@ import giuliPix from '../assets/nosotros/giuli-pix.png';
 import facuPix from '../assets/nosotros/facu-pix.png';
 // Los retratos en píxeles (scripts/pixelar-retratos.mjs), en el orden de t.equipo.personas
 const retratos = [giuliPix, facuPix];
+// Los puntitos rosas de cada retrato: celdas de la grilla de 100 × 100 elegidas al azar (siempre las mismas en cada build)
+const azar = (a: number, b: number) => { let h = (a * 374761393 + b * 668265263) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+const puntos = (semilla: number) => Array.from({ length: 70 }, (_, k) => ({ x: Math.floor(azar(k, semilla) * 100), y: Math.floor(azar(semilla, k + 7) * 100) }));
 const idioma = idiomaDe(Astro.currentLocale);
 const { nosotros: t, metas, ui } = textos(idioma);
 const link = ruta(idioma, 'contacto');
@@ -58,7 +61,12 @@ const testimonios = testimoniosEn(idioma);
       <ul class="retratos">
         {t.equipo.personas.map((p, i) => (
           <li class="retrato" data-revelar={String(i * 3)}>
-            <Image src={retratos[i]} alt={p.alt} widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" format="png" loading="lazy" class="retrato-foto" />
+            <div class="retrato-caja" data-retrato>
+              <Image src={retratos[i]} alt={p.alt} widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" format="png" loading="lazy" class="retrato-foto" />
+              <div class="puntos" aria-hidden="true">
+                {puntos(i + 3).map((q) => <span style={`left: ${q.x}%; top: ${q.y}%`} />)}
+              </div>
+            </div>
             <p class="retrato-nombre font-titulo">{p.nombre}</p>
             <p class="retrato-rol">{p.rol}</p>
             <p class="retrato-texto">{p.texto}</p>
@@ -115,10 +123,34 @@ const testimonios = testimoniosEn(idioma);
     .retratos { margin-top: 0; }
     .equipo-aviso { grid-column: 2; }
   }
-  .retrato :global(.retrato-foto) { width: 100%; height: auto; aspect-ratio: 1; border-radius: 6px; }
-  @media (max-width: 767px) { .retrato :global(.retrato-foto) { max-width: 26rem; } }
+  .retrato-caja { position: relative; border-radius: 6px; overflow: hidden; }
+  @media (max-width: 767px) { .retrato-caja { max-width: 26rem; } }
+  .retrato :global(.retrato-foto) { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+  /* Los puntitos rosas: cada uno ocupa una celda de la grilla del retrato; al pasar el mouse saltan a otra */
+  .puntos { position: absolute; inset: 0; pointer-events: none; }
+  .puntos span { position: absolute; width: 1%; height: 1%; transform: translate(calc(var(--dx, 0) * 100%), calc(var(--dy, 0) * 100%)); }
+  .puntos span::after { content: ''; position: absolute; inset: 10%; background: var(--color-tc-rosa); }
+  @media (prefers-reduced-motion: no-preference) {
+    .puntos span { transition: transform 520ms cubic-bezier(0.77, 0, 0.175, 1); transition-delay: var(--demora, 0ms); }
+  }
   .retrato-nombre { margin-top: 1.25rem; font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 0.9; text-transform: uppercase; }
   .retrato-rol { margin-top: 0.4rem; font-weight: 600; font-size: 1.0625rem; }
   .retrato-texto { margin-top: 0.5rem; max-width: 40ch; font-size: 1.125rem; line-height: 1.45; }
   .equipo-aviso { margin-top: 2.5rem; font-size: 1.125rem; color: var(--color-gris); }
 </style>
+
+<script>
+  // Al pasar el mouse (o tocar) un retrato, sus puntitos rosas saltan a otras celdas, cada uno a su tiempo
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-retrato]').forEach((caja) => {
+    if (quieto) return;
+    const puntos = [...caja.querySelectorAll<HTMLElement>('.puntos span')];
+    const mezclar = () => puntos.forEach((p) => {
+      p.style.setProperty('--dx', String(Math.round((Math.random() - 0.5) * 24)));
+      p.style.setProperty('--dy', String(Math.round((Math.random() - 0.5) * 24)));
+      p.style.setProperty('--demora', `${Math.round(Math.random() * 160)}ms`);
+    });
+    caja.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') mezclar(); });
+    caja.addEventListener('click', mezclar);
+  });
+</script>

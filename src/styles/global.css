@@ -245,3 +245,23 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
 }
 .saltar:focus-visible { transform: none; }
 main:focus { outline: none; }
+
+/* ── El cursor de Roda (src/motion/cursor.ts): solo con mouse ─────────── */
+html.con-cursor, html.con-cursor * { cursor: none !important; }
+html.con-cursor :is(input:not([type="radio"]):not([type="checkbox"]), textarea, [contenteditable="true"]) { cursor: text !important; }
+.cursor-roda {
+  position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
+  /* En modo diferencia: blanco sobre papel se ve tinta, y sobre una foto oscura se ve claro */
+  mix-blend-mode: difference; opacity: 0; transition: opacity 200ms ease;
+}
+.cursor-roda.visible { opacity: 1; }
+.cursor-roda.escribiendo { opacity: 0; }
+.cursor-pixel, .cursor-anillo { position: absolute; display: block; transition: transform 220ms var(--ease-ui), opacity 160ms ease; }
+.cursor-pixel { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: #fff; }
+/* La O del logo: el anillo con el mismo grosor relativo que la O de R○DA */
+.cursor-anillo { width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 8px solid #fff; border-radius: 50%; opacity: 0; transform: scale(0.5); }
+.cursor-roda.sobre .cursor-pixel { opacity: 0; transform: scale(0.4); }
+.cursor-roda.sobre .cursor-anillo { opacity: 1; transform: scale(1); }
+.cursor-roda.apretado .cursor-pixel { transform: scale(0.7); }
+.cursor-roda.sobre.apretado .cursor-anillo { transform: scale(0.82); }
+@media (prefers-reduced-motion: reduce) { .cursor-pixel, .cursor-anillo { transition: opacity 120ms ease; } }

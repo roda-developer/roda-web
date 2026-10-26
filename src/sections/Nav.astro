@@ -337,6 +337,10 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
 
 <script>
   import { cambiarSonido, iniciarSonidos, sonar, sonidoPrendido } from '../motion/sonido';
+  import { iniciarCursor } from '../motion/cursor';
+
+  // El cursor propio (solo con mouse)
+  iniciarCursor();
 
   // ── Sonidos: arrancan prendidos; el parlante los apaga o los prende ──
   iniciarSonidos();
