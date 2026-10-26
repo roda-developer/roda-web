@@ -424,15 +424,6 @@ export const inicio: typeof ES.inicio = {
     ],
     remate: 'When the website works, someone stops.',
   },
-  deCerca: {
-    titulo: '{titulo}, up close',
-    marca: 'The brand',
-    afiche: 'The poster',
-    web: 'The website',
-    celu: 'On a phone',
-    dijo: 'What they said',
-    verCaso: 'See the full case',
-  },
   niveles: {
     titulo: 'How we work',
     proceso: 'We listen, show you how it will look before we build it, build it and publish it. Unlimited changes within what we agreed.',

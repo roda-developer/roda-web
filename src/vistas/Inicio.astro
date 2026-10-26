@@ -1,7 +1,7 @@
 ---
 /**
- * La home: la obra primero. La O (que se abre a Estudio), los trabajos, por qué no funcionan la mayoría de las webs,
- * un trabajo de cerca, más es más, cómo trabajamos y el final.
+ * La home: la O (que se abre a Estudio), la galería de trabajos, por qué no funcionan la mayoría de las webs,
+ * más es más, cómo trabajamos y el final.
  * hero: 'o' (la principal) o 'linterna' (la segunda opción, se ve en /prueba-linterna para comparar).
  */
 import Base from '../layouts/Base.astro';
@@ -10,9 +10,8 @@ import Nav from '../sections/Nav.astro';
 import Portal from '../sections/Portal.astro';
 import Linterna from '../sections/Linterna.astro';
 import Estudio from '../sections/Estudio.astro';
-import Trabajos from '../sections/Trabajos.astro';
+import Galeria from '../sections/Galeria.astro';
 import Gente from '../sections/Gente.astro';
-import DeCerca from '../sections/DeCerca.astro';
 import Giro from '../sections/Giro.astro';
 import Technicolor from '../sections/Technicolor.astro';
 import Niveles from '../sections/Niveles.astro';
@@ -30,9 +29,8 @@ const { hero = 'o', indexable = true } = Astro.props;
   <Nav />
   <main id="contenido" class="relative z-10">
     {hero === 'linterna' ? <><Linterna /><Estudio /></> : <Portal />}
-    <Trabajos />
+    <Galeria />
     <Gente />
-    <DeCerca />
     <Giro />
     <Technicolor />
     <Niveles />

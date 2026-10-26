@@ -437,7 +437,7 @@ export const error404 = {
 
 /**
  * La home nueva (rediseño 2026-10-25): la obra primero, texto llano y sin vocabulario de cine.
- * Va en este orden: la O (y la sección Estudio), trabajos, la gente que pasa, un trabajo de cerca,
+ * Va en este orden: la O (y la sección Estudio), la galería de trabajos, la gente que pasa,
  * más es más, cómo trabajamos y el final.
  */
 export const inicio = {
@@ -471,15 +471,6 @@ export const inicio = {
       'No hay un botón claro para escribirte.',
     ],
     remate: 'Cuando la web funciona, alguien se frena.',
-  },
-  deCerca: {
-    titulo: '{titulo}, de cerca',
-    marca: 'La marca',
-    afiche: 'El afiche',
-    web: 'La web',
-    celu: 'En el celu',
-    dijo: 'Lo que dijo',
-    verCaso: 'Ver el caso completo',
   },
   niveles: {
     titulo: 'Cómo trabajamos',

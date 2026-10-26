@@ -424,15 +424,6 @@ export const inicio: typeof ES.inicio = {
     ],
     remate: 'Quando o site funciona, alguém para.',
   },
-  deCerca: {
-    titulo: '{titulo}, de perto',
-    marca: 'A marca',
-    afiche: 'O cartaz',
-    web: 'O site',
-    celu: 'No celular',
-    dijo: 'O que disseram',
-    verCaso: 'Ver o caso completo',
-  },
   niveles: {
     titulo: 'Como trabalhamos',
     proceso: 'Escutamos, mostramos como vai ficar antes de fazer, fazemos e publicamos. Alterações sem limite dentro do combinado.',

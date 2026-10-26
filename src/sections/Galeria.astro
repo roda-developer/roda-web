@@ -1,0 +1,146 @@
+---
+/**
+ * Trabajos en la home: una fila de webs al estilo coverflow, pero al revés (idea de "Coverflow Carousel", 21st.dev).
+ * La del centro de frente; las de los costados abren su borde de afuera hacia vos. Pasa sola, se arrastra,
+ * responde a las flechas y el nombre de abajo acompaña. Es una sección corta: el detalle está en /proyectos.
+ * Al tocar la del centro, su captura viaja a la portada del caso (View Transitions).
+ */
+import { Image } from 'astro:assets';
+import { capturas } from '../content/capturas';
+import { ORDEN_GALERIA, proyectosEn } from '../content/proyectos';
+import { nombreVt } from '../components/afiches/mapa';
+import { idiomaDe, rellenar, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio, proyectosPagina } = textos(idioma);
+// Primero las que mejor se ven; las que no están en la lista (por ejemplo, cargadas desde el admin) van al final
+const lista = [...proyectosEn(idioma)].sort((a, b) => {
+  const pa = ORDEN_GALERIA.indexOf(a.slug), pb = ORDEN_GALERIA.indexOf(b.slug);
+  return (pa < 0 ? 99 : pa) - (pb < 0 ? 99 : pb);
+});
+---
+<section id="trabajos" class="galeria" aria-labelledby="galeria-titulo" data-galeria>
+  <div class="cabeza">
+    <h2 id="galeria-titulo" class="font-titulo" data-revelar>{inicio.trabajos.titulo}</h2>
+    <a href={ruta(idioma, 'proyectos')} class="ver-todos" data-revelar="3">{inicio.trabajos.verTodos}</a>
+  </div>
+  <div class="escenario" tabindex="0" aria-roledescription="carrusel" aria-label={inicio.trabajos.titulo}>
+    <ul class="rack">
+      {lista.map((p) => (
+        <li class="tarjeta" data-slug={p.slug} data-nombre={p.titulo} data-genero={p.genero} data-vt={nombreVt(p.slug)}>
+          <a href={ruta(idioma, 'proyectos', p.slug)} tabindex="-1" draggable="false">
+            <Image src={capturas(p.slug).portada} alt={rellenar(proyectosPagina.portadaDe, { titulo: p.titulo })} widths={[640, 1000, 1400]} sizes="(min-width: 1024px) 34vw, 78vw" quality={86} loading="lazy" draggable="false" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="pie" aria-live="polite"><b class="font-titulo" data-pie-nombre></b><span data-pie-genero></span></p>
+  </div>
+</section>
+
+<style>
+  .galeria { padding-top: clamp(5rem, 14svh, 10rem); }
+  .cabeza { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .cabeza { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  .cabeza h2 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
+  .ver-todos { display: inline-flex; min-height: 2.75rem; align-items: center; font-size: 1.125rem; text-decoration: underline; text-underline-offset: 4px; }
+  .escenario { position: relative; height: clamp(22rem, 46vw, 36rem); margin-top: 1.5rem; overflow: hidden; perspective: 1200px; cursor: grab; touch-action: pan-y; user-select: none; outline: none; }
+  .escenario:focus-visible { box-shadow: inset 0 0 0 2px var(--color-tinta); }
+  .rack { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .tarjeta { --ancho: clamp(15rem, 34vw, 32rem); position: absolute; left: 50%; top: 42%; width: var(--ancho); aspect-ratio: 16 / 10; margin: calc(var(--ancho) * -0.3125) 0 0 calc(var(--ancho) * -0.5); will-change: transform, opacity; }
+  @media (max-width: 767px) { .tarjeta { --ancho: 76vw; } .escenario { height: calc(47.5vw + 9rem); } }
+  .tarjeta a { display: block; width: 100%; height: 100%; background: #fff; box-shadow: 0 18px 40px -20px rgb(18 17 16 / 0.45); }
+  .tarjeta :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; pointer-events: none; }
+  .pie { position: absolute; left: 0; right: 0; bottom: 1.5rem; display: grid; gap: 0.2rem; justify-items: center; text-align: center; }
+  .pie b { font-size: clamp(1.9rem, 3.4vw, 2.8rem); line-height: 1; }
+  .pie span { font-size: 1rem; color: var(--color-gris); }
+</style>
+
+<script>
+  import { movimientoPermitido } from '../motion/index';
+
+  const seccion = document.querySelector<HTMLElement>('[data-galeria]');
+  const escenario = seccion?.querySelector<HTMLElement>('.escenario');
+  if (seccion && escenario) {
+    const tarjetas = [...seccion.querySelectorAll<HTMLElement>('.tarjeta')];
+    const nombre = seccion.querySelector<HTMLElement>("[data-pie-nombre]")!;
+    const genero = seccion.querySelector<HTMLElement>("[data-pie-genero]")!;
+    const n = tarjetas.length;
+    const mover = movimientoPermitido();
+    let centro = 0, destino = 0, visible = false, cuadro = 0, ultimoNombre = -1;
+    // La distancia más corta en una ronda: la fila no tiene punta, después de la última vuelve la primera
+    const ronda = (d: number) => ((((d + n / 2) % n) + n) % n) - n / 2;
+    const pintar = () => {
+      const paso = tarjetas[0].offsetWidth * 0.66;
+      tarjetas.forEach((t, i) => {
+        const d = ronda(i - centro);
+        const g = Math.max(-1, Math.min(1, d));
+        // Al revés del coverflow de siempre: el borde de afuera viene hacia adelante
+        t.style.transform = `translateX(${d * paso}px) translateZ(${-Math.abs(g) * 40}px) rotateY(${-g * 44}deg)`;
+        t.style.zIndex = String(100 - Math.round(Math.abs(d) * 10));
+        t.style.opacity = String(Math.max(0, 1 - Math.max(0, Math.abs(d) - 2) * 0.9));
+        t.querySelector('a')!.tabIndex = Math.abs(d) < 0.5 ? 0 : -1;
+      });
+      const k = ((Math.round(centro) % n) + n) % n;
+      if (k !== ultimoNombre) { ultimoNombre = k; nombre.textContent = tarjetas[k].dataset.nombre ?? ''; genero.textContent = tarjetas[k].dataset.genero ?? ''; }
+    };
+    const bucle = () => {
+      centro += (destino - centro) * (mover ? 0.12 : 1);
+      if (Math.abs(destino - centro) < 0.001) centro = destino;
+      pintar();
+      cuadro = visible && (centro !== destino || arrastrando) ? requestAnimationFrame(bucle) : 0;
+    };
+    const animar = () => { if (!cuadro) cuadro = requestAnimationFrame(bucle); };
+    const ir = (k: number) => { destino = k; animar(); };
+
+    // Pasa sola cada 3 s mientras está en pantalla y nadie la está usando
+    let pausa = false;
+    const auto = mover ? window.setInterval(() => { if (visible && !pausa && !arrastrando) ir(Math.round(destino) + 1); }, 3000) : 0;
+    escenario.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') pausa = true; });
+    escenario.addEventListener('pointerleave', () => { pausa = false; });
+    escenario.addEventListener('focusin', () => { pausa = true; });
+    escenario.addEventListener('focusout', () => { pausa = false; });
+    escenario.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); ir(Math.round(destino) + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); ir(Math.round(destino) - 1); }
+    });
+
+    // Arrastre con inercia; un toque sin arrastrar en la del centro abre el caso, en una del costado la trae al centro
+    let arrastrando = false, x0 = 0, ultimoX = 0, vel = 0, t0 = 0, movido = 0;
+    escenario.addEventListener('pointerdown', (e) => { arrastrando = true; movido = 0; x0 = ultimoX = e.clientX; t0 = performance.now(); vel = 0; escenario.setPointerCapture(e.pointerId); escenario.style.cursor = 'grabbing'; animar(); });
+    escenario.addEventListener('pointermove', (e) => {
+      if (!arrastrando) return;
+      const dx = e.clientX - ultimoX, ahora = performance.now();
+      vel = dx / Math.max(1, ahora - t0); t0 = ahora; ultimoX = e.clientX; movido += Math.abs(dx);
+      destino -= dx / (tarjetas[0].offsetWidth * 0.66);
+    });
+    const soltar = (e: PointerEvent) => {
+      if (!arrastrando) return;
+      arrastrando = false; escenario.style.cursor = '';
+      if (movido < 6) {
+        const tarjeta = (document.elementsFromPoint(e.clientX, e.clientY).find((el) => el.classList?.contains('tarjeta')) as HTMLElement | undefined);
+        if (tarjeta) {
+          const i = tarjetas.indexOf(tarjeta);
+          if (Math.abs(ronda(i - centro)) < 0.5) {
+            const img = tarjeta.querySelector('img');
+            if (img) img.style.viewTransitionName = tarjeta.dataset.vt ?? '';
+            location.href = tarjeta.querySelector('a')!.href;
+            return;
+          }
+          ir(Math.round(destino) + Math.round(ronda(i - centro)));
+          return;
+        }
+      }
+      ir(Math.round(destino - vel * 2.5));
+    };
+    escenario.addEventListener('pointerup', soltar);
+    escenario.addEventListener('pointercancel', () => { arrastrando = false; escenario.style.cursor = ''; ir(Math.round(destino)); });
+    // Los links no navegan solos: el toque lo decide arriba (así un arrastre nunca abre un caso sin querer)
+    tarjetas.forEach((t) => t.querySelector('a')!.addEventListener('click', (e) => { if (e.detail !== 0) e.preventDefault(); }));
+
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) animar(); }).observe(escenario);
+    addEventListener('resize', () => animar());
+    addEventListener('pageshow', () => tarjetas.forEach((t) => { const img = t.querySelector('img'); if (img) img.style.viewTransitionName = ''; }));
+    pintar();
+    void auto;
+  }
+</script>
