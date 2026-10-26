@@ -1,42 +1,42 @@
 # Roda — web del estudio
 
-Una web que funciona como una película: el visitante scrollea, responde (si quiere) cuatro preguntas y al final ve **el tráiler de su propia web**, con un botón a WhatsApp que ya lleva su brief.
+La web de Roda, el estudio de diseño y desarrollo web de Giuli y Facu. La obra va primero: la home abre con R○DA y, al scrollear, se entra por la O a la sección Estudio; después vienen los trabajos, un caso de cerca, cómo trabajamos y los precios.
 
-Spec: `docs/superpowers/specs/2026-09-30-roda-minimal-design.md` (dirección visual actual; reemplaza a `2026-09-30-roda-web-design.md`) · Plan: `docs/superpowers/plans/2026-09-30-roda-web.md`
+Estado del rediseño y decisiones: `docs/rediseno-progreso.md`.
 
 ## Cómo correrla
 
 ```bash
 npm install
 npm run dev        # http://localhost:5200
-npm run build && npm run preview   # http://localhost:5201 (lo que usan los tests)
+npm run build && npm run preview   # http://localhost:5201
+npm run check      # astro check (tipos de .astro y .ts)
 npm test           # unitarios (vitest)
-npm run e2e        # recorridos completos (Playwright, con el Chrome instalado)
+npm run e2e        # recorridos con Playwright
 ```
 
-Capturas para revisar diseño: `node scripts/capturas.mjs` (con el preview levantado) → `shots/`.
-`SOLO=m` o `SOLO=d` para una sola vista, `ESTILO=1` para ver la página en tono "grita", `--reducido` para simular movimiento reducido. `node scripts/hoja.mjs m` arma una hoja de contactos.
+En GitHub, cada push a `master` y cada pull request corren `check`, `test` y `build` (`.github/workflows/ci.yml`).
+Cloudflare publica `master` solo (Worker `roda-web`, `wrangler.jsonc` + `public/_headers`).
 
 ## Dónde está cada cosa
 
 | Qué | Dónde |
 |---|---|
-| Todos los textos | `src/content/guion.ts` |
-| Proyectos y sus casos de estudio | `src/content/proyectos.ts` → `/proyectos` y `/proyectos/<slug>` |
-| Capturas de los proyectos | `src/assets/proyectos/<slug>/` — se rehacen con `node scripts/capturar-proyectos.mjs [slug]` |
-| WhatsApp y mail | `src/content/contacto.ts` |
-| Las secciones, en orden | `src/pages/index.astro` → `src/sections/*` |
-| Preguntas, sinopsis y links | `src/story/*` |
-| Movimiento (Lenis + GSAP), timecode, tono | `src/motion/*` |
-| Colores, tipografías y el sistema de tono | `src/styles/global.css` |
+| Todos los textos, en tres idiomas | `src/content/guion.ts` (español), `guion.en.ts`, `guion.pt.ts` (misma forma: si falta una clave, `npm run check` avisa) |
+| Configuración: mail, WhatsApp, Instagram, agenda, Web3Forms, Search Console | `src/content/contacto.ts` (el dominio está en `astro.config.mjs`, `SITE_URL`) |
+| Las páginas | `src/pages/*` (solo eligen el idioma) → `src/vistas/*` |
+| Las secciones de la home | `src/vistas/Inicio.astro` → `src/sections/*` |
+| Proyectos y sus casos | `src/content/proyectos.ts` → `/proyectos` y `/proyectos/<slug>` |
+| Afiches de cada proyecto | `src/components/afiches/` (`mapa.ts` dice cuál va con cada proyecto) |
+| Capturas de los proyectos | `src/assets/proyectos/<slug>/` (se rehacen con `node scripts/capturar-proyectos.mjs [slug]`) |
+| Movimiento (Lenis + GSAP) | `src/motion/index.ts` |
+| Colores y tipografías | `src/styles/global.css` (`@theme`) |
 
-**La web que se reescribe:** el deslizador escribe `data-tono="susurra|grita"` y `--intensidad` en `<html>`. El fondo es papel (salvo "En cartel", siempre en rosa) y las capturas de proyectos van siempre en color; con "grita", cualquier elemento con `adapta-titulo`, `var(--acento)`, `solo-grita` o `solo-susurra` se enciende solo.
+## Sumar un proyecto
 
-## Contenido pendiente (Giuli y Facu)
+- **Desde el admin** (admin.rodadevelop.com → Web): sube un JSON a `src/content/proyectos-admin/` y las capturas a `src/assets/proyectos/<slug>/`. Cada JSON se valida al compilar (`src/content/proyecto-admin.ts`): si falta un campo, el build se frena y dice cuál. Lleva el afiche genérico.
+- **A mano:** sumarlo a `PROYECTOS_CODIGO` en `src/content/proyectos.ts` (y sus traducciones en `proyectos.traducciones.ts`), las capturas en `src/assets/proyectos/<slug>/` y, si tiene afiche propio, el componente en `src/components/afiches/` y su entrada en `mapa.ts`.
 
-- [x] **WhatsApp y mail reales** en `src/content/contacto.ts`: mail `hola@rodadevelop.com`.
-- [ ] **Casos de estudio:** los textos son un borrador escrito a partir de cada repo. Revisar cliente, desafío, lo que hicimos y rubros, y sumar resultados reales (`resultado`) en `src/content/proyectos.ts`. No hay ningún número inventado.
-- [ ] **Unik y Eber** tienen dominio de Vercel; cuando tengan el propio, cambiar `url` (la dirección nunca se muestra escrita, solo el botón "Ver en vivo").
-- [ ] **Dominio:** revisar si `roda.studio`, `roda.com.ar` o similares están libres.
-- [ ] **Referencias visuales:** si quieren ajustar las tipografías (Inter Tight / IBM Plex Mono / Bricolage Grotesque para el grito), se cambian en `@theme`, en `global.css`.
-- [ ] **Imagen para compartir** (og:image) para cuando se pase el link por WhatsApp o Instagram.
+## Para comparar
+
+- `/prueba-linterna`: la home con la Linterna como primera pantalla (fuera del sitemap y de Google).
