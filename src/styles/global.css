@@ -16,7 +16,6 @@
   --font-texto: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
   /* Ya no hay letra mono a la vista: lo que la usaba pasa a la letra de texto */
   --font-mono: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
-  --font-grito: 'Bricolage Grotesque Variable', 'Arial Black', sans-serif;
 
   --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
   /* Para la interfaz (botones, menús, chips): rápida al salir y suave al llegar */

@@ -1,7 +1,7 @@
 ---
 /**
  * La home: la O (que se abre a Estudio), la galería de trabajos, por qué no funcionan la mayoría de las webs,
- * más es más, cómo trabajamos y el final.
+ * por qué Roda, cómo trabajamos y el final.
  * hero: 'o' (la principal) o 'linterna' (la segunda opción, se ve en /prueba-linterna para comparar).
  */
 import Base from '../layouts/Base.astro';
@@ -12,8 +12,7 @@ import Linterna from '../sections/Linterna.astro';
 import Estudio from '../sections/Estudio.astro';
 import Galeria from '../sections/Galeria.astro';
 import Gente from '../sections/Gente.astro';
-import Giro from '../sections/Giro.astro';
-import Technicolor from '../sections/Technicolor.astro';
+import PorQue from '../sections/PorQue.astro';
 import Niveles from '../sections/Niveles.astro';
 import Final from '../sections/Final.astro';
 import Pie from '../components/Pie.astro';
@@ -31,8 +30,7 @@ const { hero = 'o', indexable = true } = Astro.props;
     {hero === 'linterna' ? <><Linterna /><Estudio /></> : <Portal />}
     <Galeria />
     <Gente />
-    <Giro />
-    <Technicolor />
+    <PorQue />
     <Niveles />
     <Final />
   </main>

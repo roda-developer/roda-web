@@ -1,0 +1,35 @@
+---
+/**
+ * Por qué Roda: cinco razones, todas cosas que ya cumplimos (están detalladas en /precios).
+ * En compu, el título queda fijo a la izquierda mientras las razones pasan a la derecha; en celu, una abajo de la otra.
+ */
+import { idiomaDe, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+const { porQue } = inicio;
+---
+<section class="por-que" aria-labelledby="por-que-titulo">
+  <h2 id="por-que-titulo" class="titulo font-titulo" data-revelar>{porQue.titulo}</h2>
+  <ul class="razones">
+    {porQue.razones.map((r, i) => (
+      <li class="razon" data-revelar={String(i * 2)}>
+        <h3 class="font-titulo">{r.nombre}</h3>
+        <p>{r.texto}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .por-que { display: grid; gap: 2.5rem; padding: clamp(6rem, 16svh, 11rem) 1.25rem 0; }
+  @media (min-width: 768px) { .por-que { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  @media (min-width: 1024px) {
+    .por-que { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); column-gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+    .titulo { position: sticky; top: 18svh; }
+  }
+  .titulo { font-size: clamp(3.2rem, 9vw, 7.5rem); line-height: 0.88; }
+  .razones { display: grid; gap: clamp(2.5rem, 7svh, 4.5rem); }
+  .razon { display: grid; gap: 0.6rem; }
+  .razon h3 { font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 0.92; }
+  .razon p { max-width: 40ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
+</style>

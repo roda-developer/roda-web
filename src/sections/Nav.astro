@@ -423,17 +423,6 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
     let acumuladoBajar = 0;
     let acumuladoSubir = 0;
 
-    // Secciones donde no debe aparecer el nav al scrollear para arriba:
-    // "#technicolor" incluye "Y a veces más es más" y la explosión de proyectos
-    const enSeccionOculta = () => {
-      const tc = document.getElementById('technicolor');
-      if (tc) {
-        const r = tc.getBoundingClientRect();
-        // Si Technicolor está cubriendo la parte superior del viewport
-        return r.top <= 120 && r.bottom >= 40;
-      }
-      return false;
-    };
 
     const revisar = () => {
       pendiente = false;
@@ -449,16 +438,10 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       // Al despegarse de arriba se activa el velo transparente sutil
       nav.classList.toggle('con-fondo', y > 20);
 
-      const ocultaPorSeccion = enSeccionOculta();
 
       if (nav.classList.contains('menu-abierto')) {
         // Con el menú abierto nunca se esconde
         nav.classList.remove('escondida');
-        acumuladoBajar = 0;
-        acumuladoSubir = 0;
-      } else if (ocultaPorSeccion) {
-        // En las secciones de Technicolor nunca debe aparecer ni en PC ni en móvil
-        nav.classList.add('escondida');
         acumuladoBajar = 0;
         acumuladoSubir = 0;
       } else if (y <= 20) {

@@ -42,9 +42,6 @@ export const ui: typeof ES.ui = {
   traducido: 'Traduzido do espanhol',
   leerMas: 'Ler mais',
   leerMenos: 'Ler menos',
-  giro: 'A virada',
-  technicolor: 'Technicolor: às vezes mais é mais',
-  mas: 'mais',
   estreno: 'Sua estreia',
 };
 
@@ -53,18 +50,6 @@ export const nav: typeof ES.nav = {
   nosotros: 'Sobre',
   precios: 'Preços',
   atajo: 'Vamos falar',
-};
-
-export const giro: typeof ES.giro = {
-  cita: 'Menos é mais.',
-  autor: 'Ludwig Mies van der Rohe',
-  replica: '…às vezes.',
-};
-
-export const technicolor: typeof ES.technicolor = {
-  grito: ['E às vezes', 'mais', 'é mais.'],
-  letras: ['M', 'AI', 'S'],
-  cinta: ['Mais cor', 'Mais barulho', 'Mais você', 'Mais vontade', 'Mais marca'],
 };
 
 export const proyectosPagina: typeof ES.proyectosPagina = {
@@ -423,6 +408,16 @@ export const inicio: typeof ES.inicio = {
       'Não tem um botão claro para falar com você.',
     ],
     remate: 'Quando o site funciona, alguém para.',
+  },
+  porQue: {
+    titulo: 'Por que a Roda',
+    razones: [
+      { nombre: 'Design próprio', texto: 'Criamos cada site do zero para a sua marca. Sem templates.' },
+      { nombre: 'Você fala com a gente', texto: 'Da primeira mensagem à entrega, quem atende são Giuli e Facu, sem intermediários.' },
+      { nombre: 'Ajustes até você gostar', texto: 'Alterações sem limite dentro do combinado, até ficar do jeito que você quer.' },
+      { nombre: 'Preços à vista', texto: 'Você sabe quanto custa antes de começar. Sem letras miúdas.' },
+      { nombre: 'Tudo no seu nome', texto: 'O domínio, a hospedagem e o site ficam no seu nome.' },
+    ],
   },
   niveles: {
     titulo: 'Como trabalhamos',

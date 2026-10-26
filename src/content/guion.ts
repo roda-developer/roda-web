@@ -47,9 +47,6 @@ export const ui = {
   /** Las críticas largas se cortan con … y se abren con este botón */
   leerMas: 'Leer más',
   leerMenos: 'Leer menos',
-  giro: 'El giro',
-  technicolor: 'Technicolor: a veces más es más',
-  mas: 'más',
   estreno: 'Tu estreno',
 };
 
@@ -58,19 +55,6 @@ export const nav = {
   nosotros: 'Nosotros',
   precios: 'Precios',
   atajo: 'Hablemos',
-};
-
-export const giro = {
-  cita: 'Menos es más.',
-  autor: 'Ludwig Mies van der Rohe',
-  replica: '…a veces.',
-};
-
-export const technicolor = {
-  grito: ['Y a veces', 'más', 'es más.'],
-  /** Las tres letras del "MÁS" grande, cada una con su color */
-  letras: ['M', 'Á', 'S'],
-  cinta: ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'],
 };
 
 export const proyectosPagina = {
@@ -471,6 +455,17 @@ export const inicio = {
       'No hay un botón claro para escribirte.',
     ],
     remate: 'Cuando la web funciona, alguien se frena.',
+  },
+  /** Por qué Roda: solo cosas que ya cumplimos (están en /precios). Sin promesas ni números inventados. */
+  porQue: {
+    titulo: 'Por qué Roda',
+    razones: [
+      { nombre: 'Diseño propio', texto: 'Cada web la diseñamos desde cero para tu marca. No usamos plantillas.' },
+      { nombre: 'Hablás con nosotros', texto: 'Del primer mensaje a la entrega te atendemos Giuli y Facu, sin intermediarios.' },
+      { nombre: 'Cambios hasta que te guste', texto: 'Ajustamos sin límite sobre lo que acordamos, hasta que quede como la querés.' },
+      { nombre: 'Precios a la vista', texto: 'Sabés cuánto sale antes de arrancar. Sin letra chica.' },
+      { nombre: 'Todo a tu nombre', texto: 'El dominio, el hosting y la web quedan a tu nombre.' },
+    ],
   },
   niveles: {
     titulo: 'Cómo trabajamos',

@@ -42,9 +42,6 @@ export const ui: typeof ES.ui = {
   traducido: 'Translated from Spanish',
   leerMas: 'Read more',
   leerMenos: 'Read less',
-  giro: 'The twist',
-  technicolor: 'Technicolor: sometimes more is more',
-  mas: 'more',
   estreno: 'Your premiere',
 };
 
@@ -53,18 +50,6 @@ export const nav: typeof ES.nav = {
   nosotros: 'About',
   precios: 'Pricing',
   atajo: 'Let’s talk',
-};
-
-export const giro: typeof ES.giro = {
-  cita: 'Less is more.',
-  autor: 'Ludwig Mies van der Rohe',
-  replica: '…sometimes.',
-};
-
-export const technicolor: typeof ES.technicolor = {
-  grito: ['And sometimes', 'more', 'is more.'],
-  letras: ['M', 'O', 'RE'],
-  cinta: ['More color', 'More noise', 'More you', 'More nerve', 'More brand'],
 };
 
 export const proyectosPagina: typeof ES.proyectosPagina = {
@@ -423,6 +408,16 @@ export const inicio: typeof ES.inicio = {
       'There’s no clear button to get in touch.',
     ],
     remate: 'When the website works, someone stops.',
+  },
+  porQue: {
+    titulo: 'Why Roda',
+    razones: [
+      { nombre: 'Our own design', texto: 'We design every website from scratch for your brand. No templates.' },
+      { nombre: 'You talk to us', texto: 'From the first message to launch, it’s Giuli and Facu on the other side. No middlemen.' },
+      { nombre: 'Changes until you love it', texto: 'Unlimited adjustments within what we agreed, until it looks the way you want.' },
+      { nombre: 'Prices up front', texto: 'You know what it costs before we start. No fine print.' },
+      { nombre: 'Everything in your name', texto: 'The domain, the hosting and the website stay in your name.' },
+    ],
   },
   niveles: {
     titulo: 'How we work',
