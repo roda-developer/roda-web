@@ -6,12 +6,12 @@
  */
 import { Image } from 'astro:assets';
 import { capturas } from '../content/capturas';
+import { nombreVt } from '../components/afiches/mapa';
 import { enOrden, proyectosEn } from '../content/proyectos';
 import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
 const lista = enOrden(proyectosEn(idioma));
-const nombreVt = (slug: string) => `afiche-${slug.replace(/[^a-z0-9-]/gi, '-')}`;
 ---
 <section id="trabajos" class="trabajos" aria-labelledby="trabajos-titulo" data-trabajos>
   <h2 id="trabajos-titulo" class="titulo font-titulo" data-revelar>{inicio.trabajos.titulo}</h2>

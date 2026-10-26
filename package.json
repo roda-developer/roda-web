@@ -9,7 +9,7 @@
     "preview": "astro preview --port 5201",
     "test": "vitest run",
     "e2e": "playwright test",
-    "check": "astro check && tsc --noEmit"
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

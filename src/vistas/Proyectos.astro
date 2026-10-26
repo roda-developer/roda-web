@@ -5,15 +5,7 @@ import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Volver from '../components/Volver.astro';
 import Creativos from '../components/Creativos.astro';
-import AficheEmme from '../components/afiches/AficheEmme.astro';
-import AficheMuda from '../components/afiches/AficheMuda.astro';
-import AficheEber from '../components/afiches/AficheEber.astro';
-import AficheCraft from '../components/afiches/AficheCraft.astro';
-import AficheUnik from '../components/afiches/AficheUnik.astro';
-import AficheFidalgo from '../components/afiches/AficheFidalgo.astro';
-import AficheTmd from '../components/afiches/AficheTmd.astro';
-import AficheNewave from '../components/afiches/AficheNewave.astro';
-import AficheGenerico from '../components/afiches/AficheGenerico.astro';
+import { AFICHES, aficheDe, nombreVt } from '../components/afiches/mapa';
 import { proyectosEn } from '../content/proyectos';
 import { RUBROS } from '../story/opciones';
 import { idiomaDe, ruta, textos } from '../i18n';
@@ -25,21 +17,7 @@ const PROYECTOS = proyectosEn(idioma);
 const rubros = RUBROS.filter((r) => PROYECTOS.some((p) => p.rubro === r.id));
 const etiqueta = (id: string) => nombresRubro[id as keyof typeof nombresRubro] ?? id;
 
-// La cartelera: cada proyecto con su afiche. Los apaisados (quad) ocupan dos columnas y se alternan con los verticales,
-// así cada fila de la compu es un apaisado + un vertical.
-const AFICHES = {
-  emme: { Afiche: AficheEmme, quad: true },
-  muda: { Afiche: AficheMuda, quad: false },
-  eber: { Afiche: AficheEber, quad: false },
-  craft: { Afiche: AficheCraft, quad: true },
-  tmd: { Afiche: AficheTmd, quad: false },
-  newave: { Afiche: AficheNewave, quad: true },
-  unik: { Afiche: AficheUnik, quad: true },
-  fidalgo: { Afiche: AficheFidalgo, quad: false },
-} as const;
 const orden = Object.keys(AFICHES);
-// El afiche y la portada del caso comparten nombre: así viaja de una página a la otra (View Transitions)
-const nombreVt = (slug: string) => `afiche-${slug.replace(/[^a-z0-9-]/gi, '-')}`;
 // Los cargados desde el admin no están en AFICHES: van primero, con el afiche genérico
 const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.indexOf(b.slug));
 ---
@@ -71,7 +49,7 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     <!-- La cartelera: el afiche es pura imagen; los datos van abajo, como en la web de un cine -->
     <ul class="cartelera mt-12 px-5 md:px-12">
       {cartelera.map((p, i) => {
-        const { Afiche, quad } = AFICHES[p.slug as keyof typeof AFICHES] ?? { Afiche: AficheGenerico, quad: false };
+        const { Afiche, quad } = aficheDe(p.slug);
         return (
           <li class:list={['funcion', quad && 'funcion-quad']} data-rubro={p.rubro} data-orden={i}>
             <a href={ruta(idioma, 'proyectos', p.slug)} class="funcion-link group" aria-label={`${p.titulo}: ${p.logline}`}>
@@ -142,7 +120,7 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
   }
 
   .ficha { display: grid; grid-template-columns: 1fr auto; row-gap: 0.3rem; align-items: baseline; }
-  .ficha-titulo { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1; letter-spacing: -0.04em; }
+  .ficha-titulo { font-family: var(--font-titulo); font-weight: 800; text-transform: uppercase; font-size: clamp(1.7rem, 2.6vw, 2.3rem); line-height: 0.95; }
   .ficha-ver { grid-row: span 2; align-self: start; padding-top: 0.35rem; white-space: nowrap; }
 
   @media (min-width: 768px) {
@@ -167,13 +145,23 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
   const estado = document.querySelector<HTMLElement>('[data-estado]');
 
   /** Lo del rubro elegido va primero; el resto conserva su orden. */
-  function aplicar(rubro: RubroId | null) {
+  function aplicar(rubro: RubroId | null, animar = false) {
     chips.forEach((c) => c.setAttribute('aria-pressed', String((c.dataset.rubro || null) === rubro)));
-    document.querySelectorAll<HTMLElement>('[data-rubro][data-orden]').forEach((el) => {
+    const afiches = [...document.querySelectorAll<HTMLElement>('[data-rubro][data-orden]')];
+    // Dónde estaba cada afiche antes del cambio, para que viaje a su lugar nuevo en vez de saltar
+    const antes = new Map(afiches.map((el) => [el, el.getBoundingClientRect()]));
+    afiches.forEach((el) => {
       const cerca = rubro !== null && el.dataset.rubro === rubro;
       el.style.order = String(cerca ? -1 : 0);
       el.querySelector<HTMLElement>('.tira-cerca')?.toggleAttribute('hidden', !cerca);
     });
+    if (animar && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      afiches.forEach((el) => {
+        const a = antes.get(el)!, b = el.getBoundingClientRect();
+        const dx = a.left - b.left, dy = a.top - b.top;
+        if (dx || dy) el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 450, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+      });
+    }
     if (estado) {
       // El aviso para lectores de pantalla, en el idioma de la página (la plantilla viene del HTML)
       const label = chips.find((c) => c.dataset.rubro === rubro)?.dataset.nombre;
@@ -185,7 +173,7 @@ const cartelera = [...PROYECTOS].sort((a, b) => orden.indexOf(a.slug) - orden.in
     c.addEventListener('click', () => {
       const rubro = (c.dataset.rubro || null) as RubroId | null;
       responder('rubro', rubro);
-      aplicar(rubro);
+      aplicar(rubro, true);
     }),
   );
 
