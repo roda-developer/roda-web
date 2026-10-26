@@ -60,7 +60,9 @@ const { inicio } = textos(idioma);
     :global(.js) .palabra { will-change: transform; }
     /* El banner a lo ancho: en celu de borde a borde, en compu con margen; el texto abajo */
     :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 13svh; height: 42svh; will-change: transform, clip-path; }
-    :global(.js) .estudio { position: absolute; z-index: 3; left: var(--margen); right: var(--margen); top: calc(13svh + 42svh + 1.5rem); padding: 0; }
+    /* El bloque no toma toques (mientras no se ve taparía el botón del hero); sus partes sí, cuando aparecen */
+    :global(.js) .estudio { position: absolute; z-index: 3; left: var(--margen); right: var(--margen); top: calc(13svh + 42svh + 1.5rem); padding: 0; pointer-events: none; }
+    :global(.js) .estudio > * { pointer-events: auto; }
     @media (min-width: 768px) {
       :global(.js) .marco { left: var(--margen); right: var(--margen); top: 13svh; height: 54svh; }
       :global(.js) .estudio { top: auto; bottom: 6svh; }

@@ -44,6 +44,7 @@ export const ui: typeof ES.ui = {
   leerMenos: 'Ler menos',
   testimonioAnterior: 'Depoimento anterior',
   testimonioSiguiente: 'Próximo depoimento',
+  sonido: 'Som do site',
   webDe: 'Site de {marca}',
   estreno: 'Sua estreia',
 };
@@ -349,13 +350,11 @@ export const nosotros: typeof ES.nosotros = {
   bajada: 'Somos a Giuli e o Facu, casal e sócios. Desenhamos e programamos sites sob medida, do zero e sem templates. Se você escrever pra gente, quem responde somos nós.',
   hicimos: { titulo: 'O que já fizemos', texto: 'Publicamos {n} sites para marcas reais:', verTodos: 'Ver todos os projetos' },
   foto: { alt: 'Giuliana e Facundo abraçados e sorrindo, com uma árvore atrás', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
-  viaje: { alt: 'Giuliana e Facundo sorrindo num barco, com o mar e uma cidade com morros atrás' },
   equipo: {
     titulo: 'Quem somos',
-    paneles: [
-      { nombre: 'Giuli', rol: 'Design, desenvolvimento e inteligência artificial', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.' },
-      { nombre: 'Facu', rol: 'Design e desenvolvimento', texto: 'Estou terminando o mesmo curso.' },
-      { nombre: 'Nós dois', rol: 'Casal e sócios', texto: 'Fazemos cada site juntos, de onde a próxima viagem nos levar.' },
+    personas: [
+      { nombre: 'Giuli', rol: 'Design, desenvolvimento e inteligência artificial', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.', alt: 'Retrato da Giuli feito de quadradinhos, sorrindo' },
+      { nombre: 'Facu', rol: 'Design e desenvolvimento', texto: 'Estou terminando o mesmo curso.', alt: 'Retrato do Facu feito de quadradinhos, sorrindo' },
     ],
     aviso: 'Nenhum site nosso é feito com templates.',
   },

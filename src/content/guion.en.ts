@@ -44,6 +44,7 @@ export const ui: typeof ES.ui = {
   leerMenos: 'Read less',
   testimonioAnterior: 'Previous testimonial',
   testimonioSiguiente: 'Next testimonial',
+  sonido: 'Website sound',
   webDe: '{marca} website',
   estreno: 'Your premiere',
 };
@@ -349,13 +350,11 @@ export const nosotros: typeof ES.nosotros = {
   bajada: 'We’re Giuli and Facu, partners in life and work. We design and code custom websites, from scratch and without templates. If you write to us, we’re the ones who answer.',
   hicimos: { titulo: 'What we’ve done', texto: 'We’ve launched {n} websites for real brands:', verTodos: 'See all projects' },
   foto: { alt: 'Giuliana and Facundo, side by side and smiling, with a tree behind them', pie: ['(Still) Giuliana and Facundo', '2026'] },
-  viaje: { alt: 'Giuliana and Facundo smiling on a boat, with the sea and a hillside town behind them' },
   equipo: {
     titulo: 'Who we are',
-    paneles: [
-      { nombre: 'Giuli', rol: 'Design, development and artificial intelligence', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.' },
-      { nombre: 'Facu', rol: 'Design and development', texto: 'I’m finishing the same degree.' },
-      { nombre: 'Both of us', rol: 'Couple and partners', texto: 'We make every website together, from wherever the next trip takes us.' },
+    personas: [
+      { nombre: 'Giuli', rol: 'Design, development and artificial intelligence', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.', alt: 'Portrait of Giuli made of small squares, smiling' },
+      { nombre: 'Facu', rol: 'Design and development', texto: 'I’m finishing the same degree.', alt: 'Portrait of Facu made of small squares, smiling' },
     ],
     aviso: 'We never use templates.',
   },

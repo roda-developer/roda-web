@@ -49,6 +49,7 @@ export const ui = {
   leerMenos: 'Leer menos',
   testimonioAnterior: 'Testimonio anterior',
   testimonioSiguiente: 'Testimonio siguiente',
+  sonido: 'Sonido de la web',
   webDe: 'Web de {marca}',
   estreno: 'Tu estreno',
 };
@@ -385,14 +386,11 @@ export const nosotros = {
   /** {n}: cuántas webs hay en /proyectos. Los nombres salen de content/proyectos.ts */
   hicimos: { titulo: 'Lo que ya hicimos', texto: 'Publicamos {n} webs para marcas reales:', verTodos: 'Ver todos los proyectos' },
   foto: { alt: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
-  viaje: { alt: 'Giuliana y Facundo sonriendo en una lancha, con el mar y un pueblo con cerros detrás' },
-  /** Quiénes somos: cada panel se abre al pasar el mouse (o al tocarlo en el celu) */
   equipo: {
     titulo: 'Quiénes somos',
-    paneles: [
-      { nombre: 'Giuli', rol: 'Diseño, desarrollo e inteligencia artificial', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.' },
-      { nombre: 'Facu', rol: 'Diseño y desarrollo', texto: 'Estoy terminando la misma tecnicatura.' },
-      { nombre: 'Los dos', rol: 'Pareja y socios', texto: 'Hacemos cada web juntos, desde donde nos lleve el próximo viaje.' },
+    personas: [
+      { nombre: 'Giuli', rol: 'Diseño, desarrollo e inteligencia artificial', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.', alt: 'Retrato de Giuli hecho de cuadraditos, sonriendo' },
+      { nombre: 'Facu', rol: 'Diseño y desarrollo', texto: 'Estoy terminando la misma tecnicatura.', alt: 'Retrato de Facu hecho de cuadraditos, sonriendo' },
     ],
     aviso: 'Ninguna web la hicimos con plantillas.',
   },

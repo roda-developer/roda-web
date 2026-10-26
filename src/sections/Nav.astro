@@ -48,6 +48,13 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       <div class="hidden md:flex min-w-0 items-center justify-end gap-5 md:gap-8 whitespace-nowrap">
         <a href={ruta(idioma, 'precios')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
         <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+        <button type="button" class="boton-sonido hidden md:inline-flex" aria-pressed="true" aria-label={ui.sonido} data-sonido-boton data-sonido-propio>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" fill="currentColor" stroke="none" />
+            <path class="ondas" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+            <path class="tachado" d="M15.5 9.5l5 5M20.5 9.5l-5 5" />
+          </svg>
+        </button>
         <button type="button" class="boton-cc hidden md:inline-flex" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
           <Bandera idioma={idioma} /><span>{NOMBRE_IDIOMA[idioma].corto}</span>
         </button>
@@ -55,6 +62,13 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
 
       <!-- Mobile Derecha: Botón Hamburguesa asimétrico (una raya más larga, otra más corta) -->
       <div class="flex md:hidden min-w-0 items-center justify-end gap-1 [&>*]:shrink-0">
+        <button type="button" class="boton-sonido inline-flex md:hidden" aria-pressed="true" aria-label={ui.sonido} data-sonido-boton data-sonido-propio>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" fill="currentColor" stroke="none" />
+            <path class="ondas" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+            <path class="tachado" d="M15.5 9.5l5 5M20.5 9.5l-5 5" />
+          </svg>
+        </button>
         <button type="button" class="boton-cc inline-flex min-w-11 justify-center md:hidden" aria-expanded="false" aria-controls="subtitulos" aria-label={rellenar(ui.cambiarIdioma, { idioma: NOMBRE_IDIOMA[idioma].largo })}>
           <!-- En el celu, solo la bandera: la barra queda más liviana -->
           <Bandera idioma={idioma} />
@@ -256,6 +270,14 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
   }
   .boton-cc:active { transform: scale(0.97); }
   .boton-cc[aria-expanded='true'] { opacity: 1; }
+  /* El parlante: con ondas cuando suena, tachado cuando está apagado */
+  .boton-sonido { min-width: 2.75rem; min-height: 2.75rem; align-items: center; justify-content: center; color: inherit; transition: transform 160ms var(--ease-ui), opacity 160ms ease; }
+  .boton-sonido svg { width: 1.25rem; height: 1.25rem; }
+  .boton-sonido:active { transform: scale(0.94); }
+  .boton-sonido .tachado { display: none; }
+  .boton-sonido[aria-pressed='false'] { opacity: 0.6; }
+  .boton-sonido[aria-pressed='false'] .ondas { display: none; }
+  .boton-sonido[aria-pressed='false'] .tachado { display: inline; }
   @media (hover: hover) and (pointer: fine) { .boton-cc:hover { opacity: 1; } }
 
   /* El panel: una tarjeta de papel, como el menú de un reproductor */
@@ -314,6 +336,20 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
 </style>
 
 <script>
+  import { cambiarSonido, iniciarSonidos, sonar, sonidoPrendido } from '../motion/sonido';
+
+  // ── Sonidos: arrancan prendidos; el parlante los apaga o los prende ──
+  iniciarSonidos();
+  const botonesSonido = [...document.querySelectorAll<HTMLButtonElement>('[data-sonido-boton]')];
+  const pintarSonido = () => botonesSonido.forEach((b) => b.setAttribute('aria-pressed', String(sonidoPrendido())));
+  pintarSonido();
+  botonesSonido.forEach((b) => b.addEventListener('click', () => {
+    const prender = !sonidoPrendido();
+    cambiarSonido(prender);
+    pintarSonido();
+    if (prender) sonar('prende');
+  }));
+
   import { pausarScroll } from '../motion/index';
 
   // Control del menú hamburguesa en mobile
