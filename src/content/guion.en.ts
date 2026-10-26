@@ -217,7 +217,7 @@ export const planes: typeof ES.planes = {
 
 export const preciosPagina: typeof ES.preciosPagina = {
   rotulo: 'Pricing',
-  titulo: ['What your', 'premiere costs.'],
+  titulo: ['What your', 'website costs.'],
   bajada: 'Prices up front, no fine print. See what each one includes.',
   rotulos: {
     planes: ['01', 'The plans'],
@@ -248,7 +248,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ['Google', 'Indexing and technical SEO'],
       ['All in your name', 'Domain, hosting and website'],
     ],
-    aviso: 'No website on this bill comes with fine print.',
+    aviso: 'No fine print.',
   },
   moneda: {
     tipo: '',
@@ -351,7 +351,7 @@ export const contactoPagina: typeof ES.contactoPagina = {
   },
 };
 
-export const laCritica: typeof ES.laCritica = { titulo: 'The critics say', completo: 'What the critics say' };
+export const laCritica: typeof ES.laCritica = { titulo: 'What they say', completo: 'What our clients say' };
 
 export const nosotros: typeof ES.nosotros = {
   secuencia: {

@@ -236,7 +236,7 @@ export const planes = {
  */
 export const preciosPagina = {
   rotulo: 'Precios',
-  titulo: ['Cuánto sale', 'tu estreno.'],
+  titulo: ['Cuánto sale', 'tu web.'],
   bajada: 'Precios a la vista, sin letra chica. Mirá qué trae cada una.',
   rotulos: {
     planes: ['01', 'Los planes'],
@@ -256,7 +256,7 @@ export const preciosPagina = {
   mantenimiento: {
     linea: 'Mantenimiento opcional: US$ {precio}/mes',
   },
-  /** "Todas incluyen", como los créditos de una película */
+  /** Lo que traen todas las webs */
   creditos: {
     titulo: 'Todas incluyen',
     lista: [
@@ -270,7 +270,7 @@ export const preciosPagina = {
       ['Google', 'Indexación y SEO técnico'],
       ['Todo a tu nombre', 'Dominio, hosting y web'],
     ],
-    aviso: 'Ninguna web de esta cartelera viene con letra chica.',
+    aviso: 'Sin letra chica.',
   },
   /**
    * El precio real es en dólares; el interruptor muestra cuánto sale hoy en moneda local.
@@ -386,7 +386,7 @@ export const contactoPagina = {
 };
 
 /** La crítica dice: los fragmentos de los testimonios en la home, antes de la cartelera */
-export const laCritica = { titulo: 'La crítica dice', completo: 'Lo que dice la crítica' };
+export const laCritica = { titulo: 'Lo que dicen', completo: 'Lo que dicen nuestros clientes' };
 
 // PENDIENTE (Giuli/Facu): si va "Producida en Buenos Aires".
 export const nosotros = {

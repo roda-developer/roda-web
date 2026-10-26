@@ -8,7 +8,8 @@ import Criticas from '../components/Criticas.astro';
 import { proyectosEn } from '../content/proyectos';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
-const { planes, preciosPagina: t, metas } = textos(idioma);
+const { planes, preciosPagina: t, metas, inicio } = textos(idioma);
+const { obra } = inicio.niveles;
 const contacto = ruta(idioma, 'contacto');
 
 const { moneda, adicionales, aMedida } = planes;
@@ -41,6 +42,14 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
         <p class="mono text-gris" data-cotizacion aria-live="polite" hidden></p>
       </div>
       )}
+
+      <!-- Obra va primero: dirección de arte + web, a consulta. Es la que define el estudio -->
+      <article id="obra" class="obra mt-10" data-revelar>
+        <h3 class="obra-nombre font-titulo">{obra.nombre}</h3>
+        <p class="obra-precio">{obra.precio}</p>
+        <p class="obra-texto">{obra.texto}</p>
+        <a href={contacto} class="cta obra-cta">{inicio.final.cta}<span class="sr-only"> ({obra.nombre})</span></a>
+      </article>
 
       <ul class="carpetas mt-12">
         {planes.lista.map((p) => {
@@ -107,9 +116,9 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       </div>
     </section>
 
-    <!-- Todas incluyen: como los créditos de una película, en el rosa de la web -->
+    <!-- Todas incluyen: lo que trae cualquiera de las webs, en un paso de tono del papel -->
     <section class="creditos mt-24 md:mt-32" aria-labelledby="precios-creditos">
-      <h2 id="precios-creditos" class="mono text-center">{t.creditos.titulo}</h2>
+      <h2 id="precios-creditos" class="font-titulo text-center">{t.creditos.titulo}</h2>
       <dl class="rollo">
         {t.creditos.lista.map(([rol, quien]) => (
           <div class="credito"><dt>{rol}</dt><dd>{quien}</dd></div>
@@ -118,21 +127,20 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       <p class="aviso">{t.creditos.aviso}</p>
     </section>
 
-    <!-- Sumale: los adicionales como etiquetas de precio -->
+    <!-- Sumale: los adicionales como los renglones de una lista de precios (nombre, puntos, precio) -->
     <section id="adicionales" class="mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="precios-extras">
-      <h2 id="precios-extras" class="sr-only">{t.rotulos.extras[1]}</h2>
-      <h3 class="text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-medium tracking-[-0.035em]" data-revelar>{adicionales.titulo}</h3>
-      <ul class="etiquetas mt-10">
+      <h2 id="precios-extras" class="adicionales-titulo font-titulo" data-revelar>{adicionales.titulo}</h2>
+      <ul class="renglones mt-10">
         {adicionales.lista.map((a, i) => (
-          <li class="etiqueta-caja" data-revelar={i * 2}>
-            <div class="etiqueta">
-              <span class="agujero" aria-hidden="true"></span>
-              <p class="etiqueta-nombre">{a.nombre}</p>
-              <p class="etiqueta-detalle">{a.detalle}</p>
-              {'nota' in a && a.nota && <p class="etiqueta-nota">{a.nota}</p>}
-              <p class="etiqueta-precio"><span class="mono">+ <span data-moneda-simbolo>{moneda}</span></span> <span data-usd-num={a.precio}>{a.precio}</span></p>
-              <p class="hoy mono" data-hoy={a.precio} hidden></p>
-            </div>
+          <li class="renglon" data-revelar={i * 2}>
+            <p class="renglon-linea">
+              <span class="renglon-nombre">{a.nombre}</span>
+              <span class="puntos" aria-hidden="true"></span>
+              <span class="renglon-precio">+ <span data-moneda-simbolo>{moneda}</span> <span data-usd-num={a.precio}>{a.precio}</span></span>
+            </p>
+            <p class="renglon-detalle">{a.detalle}</p>
+            {'nota' in a && a.nota && <p class="renglon-nota">{a.nota}</p>}
+            <p class="hoy mono" data-hoy={a.precio} hidden></p>
           </li>
         ))}
       </ul>
@@ -147,12 +155,12 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
 
     <!-- Preguntas frecuentes: se abren de a una. En compu, el título a la izquierda y la lista a la derecha (si no, media pantalla queda vacía) -->
     <section class="mt-24 grid px-5 md:mt-32 md:px-12 lg:grid-cols-[1fr_2fr] lg:gap-16" aria-labelledby="precios-preguntas">
-      <h2 id="precios-preguntas" class="text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-medium tracking-[-0.035em] [text-wrap:balance] lg:sticky lg:top-28 lg:self-start" data-revelar>{t.rotulos.preguntas[1]}</h2>
+      <h2 id="precios-preguntas" class="font-titulo text-[clamp(2.4rem,6vw,4rem)] leading-[0.9] [text-wrap:balance] lg:sticky lg:top-28 lg:self-start" data-revelar>{t.rotulos.preguntas[1]}</h2>
       <div class="mt-10 border-t border-tinta lg:mt-0">
         {t.preguntas.map((q) => (
           <details class="pregunta border-b border-tinta/15">
             <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-6 py-5 text-lg font-medium tracking-[-0.02em] md:text-2xl">
-              {q.p}<span class="signo mono" aria-hidden="true">+</span>
+              {q.p}<span class="signo" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span>
             </summary>
             <div class="space-y-3 pb-6 text-tinta/70 md:text-lg">
               {q.r.map((r) => <p class="max-w-[60ch]">{r.split(/(US\$ \d+)/).map((parte) => (/^US\$ \d+$/.test(parte) ? <span data-usd-texto={parte.slice(4)}>{parte}</span> : parte))}</p>)}
@@ -165,7 +173,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     <!-- El cierre: una pregunta y el botón -->
     <section class="mt-24 px-5 pb-16 md:mt-32 md:px-12" aria-labelledby="precios-final">
       <div class="border-t border-tinta pt-10">
-        <h2 id="precios-final" class="font-titulo text-[clamp(3rem,13vw,9rem)] leading-[0.9] tracking-[-0.055em]" data-revelar>{t.final.titulo}</h2>
+        <h2 id="precios-final" class="font-titulo text-[clamp(3rem,13vw,9rem)] leading-[0.9] tracking-[-0.01em]" data-revelar>{t.final.titulo}</h2>
         <p class="mt-6 max-w-[34ch] text-xl text-tinta/70 md:text-2xl" data-revelar="4">{t.final.texto}</p>
         <a href={contacto} class="cta mt-10" data-revelar="6">{t.final.cta}</a>
       </div>
@@ -207,9 +215,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     margin-bottom: -1px;
     background: var(--carton-atras);
     border-radius: 0.7rem 0.7rem 0 0;
-    font-size: 0.8125rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
     color: color-mix(in oklab, var(--color-tinta) 72%, transparent);
     transform: translateY(0.35rem);
     transition: transform 200ms var(--ease-ui);
@@ -286,12 +292,20 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .sticker span { font-size: 0.8125rem; letter-spacing: 0.02em; }
   .sticker b { font-weight: 500; font-size: 1.75rem; letter-spacing: -0.04em; }
   .sticker b.largo { font-size: 1.4rem; }
-  .carpeta-nombre { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(2rem, 8vw, 2.8rem); line-height: 1; letter-spacing: -0.045em; padding-right: 5.25rem; }
+  .carpeta-nombre { font-family: var(--font-titulo); font-weight: 800; text-transform: uppercase; font-size: clamp(2.4rem, 8vw, 3.2rem); line-height: 0.95; padding-right: 5.25rem; }
+
+  /* ── Obra: el nivel de autor, en tinta y a lo ancho, antes de las carpetas ── */
+  .obra { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.75rem, 4vw, 3rem); background: var(--color-tinta); color: var(--color-papel); scroll-margin-top: 7rem; }
+  @media (min-width: 1024px) { .obra { grid-template-columns: auto auto 1fr auto; align-items: end; column-gap: clamp(1.5rem, 3vw, 3rem); } }
+  .obra-nombre { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.85; }
+  .obra-precio { font-size: clamp(1.4rem, 2.2vw, 1.8rem); font-weight: 600; color: var(--color-tc-rosa); }
+  .obra-texto { max-width: 40ch; font-size: 1.0625rem; line-height: 1.45; color: color-mix(in oklab, var(--color-papel) 86%, var(--color-tinta)); }
+  .obra-cta { background: var(--color-papel); color: var(--color-tinta); }
 
   /* Lo que define el plan, siempre a la vista */
   .ideal { margin-top: 1rem; padding-right: 4rem; font-size: 1.05rem; line-height: 1.35; color: color-mix(in oklab, var(--color-tinta) 75%, transparent); }
   .claves { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-  .claves li { padding: 0.35rem 0.7rem; border-radius: 999px; background: var(--color-papel); font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .claves li { padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--color-papel); font-size: 0.875rem; }
   .detalle-plan { margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.4; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); }
 
   .pie-carpeta { display: grid; gap: 0.75rem; margin-top: auto; padding-top: 1.5rem; }
@@ -302,9 +316,9 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     .lengueta { transition: none; }
   }
 
-  /* ── Todas incluyen: los créditos en rosa, como en Nosotros ── */
-  .creditos { background: var(--color-tc-rosa); color: var(--color-tinta); padding: 4.5rem 1.25rem; }
-  .creditos h2 { font-size: 0.875rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  /* ── Todas incluyen: un paso de tono del papel (el rosa queda para Más es más y Nosotros) ── */
+  .creditos { background: color-mix(in oklab, var(--color-papel) 82%, #cfc8ba); color: var(--color-tinta); padding: 4.5rem 1.25rem; }
+  .creditos h2 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; }
   .rollo { display: grid; gap: 1.6rem; max-width: 58rem; margin: 2.5rem auto 0; text-align: center; }
   @media (min-width: 768px) { .rollo { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.25rem 2rem; } }
   /* Si sobra uno solo en la última fila, va al medio */
@@ -313,35 +327,18 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .credito dd { margin-top: 0.25rem; font-weight: 600; font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.25; }
   .aviso { margin-top: 3rem; text-align: center; font-style: italic; }
 
-  /* ── Sumale: los adicionales como etiquetas de precio colgadas ── */
+  /* ── Sumale: renglones de una lista de precios ── */
   #adicionales { scroll-margin-top: 6rem; }
-  .etiquetas { display: grid; gap: 1rem; }
-  @media (min-width: 768px) { .etiquetas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
-  @media (min-width: 1280px) { .etiquetas { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .etiqueta-caja { display: flex; }
-  .etiqueta {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1.4rem 1.4rem 1.4rem 3.2rem;
-    background: color-mix(in oklab, var(--color-papel) 80%, #d8cfbd);
-    /* La forma de etiqueta: la punta izquierda cortada en diagonal */
-    clip-path: polygon(1.6rem 0, 100% 0, 100% 100%, 1.6rem 100%, 0 50%);
-    filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.08));
-    transition: transform 250ms var(--ease-ui);
-  }
-  /* La caja (quieta) detecta el mouse; la etiqueta es la que se inclina: así no tiembla en los bordes */
-  @media (hover: hover) and (pointer: fine) {
-    .etiqueta-caja:hover .etiqueta { transform: rotate(-1.5deg) translateY(-3px); }
-  }
-  .agujero { position: absolute; left: 1.35rem; top: 50%; width: 0.7rem; height: 0.7rem; margin-top: -0.35rem; border-radius: 999px; background: var(--color-papel); border: 1px solid color-mix(in oklab, var(--color-tinta) 35%, transparent); box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.3); }
-  .etiqueta-nombre { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
-  .etiqueta-detalle { margin-top: 0.4rem; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); line-height: 1.35; }
-  .etiqueta-nota { margin-top: 0.6rem; font-size: 0.85rem; line-height: 1.4; color: var(--color-gris); }
-  .etiqueta-precio { margin-top: auto; padding-top: 1rem; font-size: 1.6rem; font-weight: 500; letter-spacing: -0.04em; }
-  .etiqueta-precio > .mono { font-size: 0.8125rem; letter-spacing: 0.06em; color: var(--color-gris); }
-  @media (prefers-reduced-motion: reduce) { .etiqueta { transition: none; } }
+  .adicionales-titulo { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; }
+  .renglones { display: grid; gap: 2rem; max-width: 64rem; }
+  @media (min-width: 1024px) { .renglones { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 4rem; } }
+  .renglon { display: grid; gap: 0.4rem; align-content: start; }
+  .renglon-linea { display: flex; align-items: baseline; gap: 0.6rem; font-size: clamp(1.25rem, 2vw, 1.5rem); font-weight: 600; }
+  /* Los puntos entre el nombre y el precio, como en una carta */
+  .puntos { flex: 1; min-width: 1.5rem; height: 0.2em; background: radial-gradient(circle, currentColor 1.2px, transparent 1.6px) 0 50% / 0.5em 100% repeat-x; opacity: 0.45; }
+  .renglon-precio { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .renglon-detalle { max-width: 46ch; line-height: 1.4; color: color-mix(in oklab, var(--color-tinta) 78%, var(--color-papel)); }
+  .renglon-nota { max-width: 52ch; font-size: 0.9375rem; line-height: 1.45; color: var(--color-gris); }
 
   /* ── A medida: una carpeta más, abierta y a lo ancho, con borde punteado (todavía no tiene forma: la armamos juntos) ── */
   .a-medida {
@@ -354,7 +351,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   }
   @media (min-width: 1024px) { .a-medida { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 3rem; padding: 2.25rem 2.5rem; } }
   .a-medida-cabeza { display: grid; gap: 0.75rem; align-content: start; }
-  .a-medida-titulo { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1; letter-spacing: -0.045em; }
+  .a-medida-titulo { font-family: var(--font-titulo); font-weight: 800; text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 0.95; }
   .ejemplos { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .ejemplo {
     min-height: 2.75rem;
@@ -379,7 +376,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   }
 
   /* El interruptor de pesos: un switch con perilla */
-  .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; }
+  .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.9375rem; cursor: pointer; }
   .interruptor:disabled { opacity: 0.4; cursor: wait; }
   .perilla { position: relative; flex-shrink: 0; width: 2.6rem; height: 1.5rem; border-radius: 999px; background: color-mix(in oklab, var(--color-tinta) 18%, transparent); transition: background-color 200ms ease; }
   .perilla::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--color-papel); box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); transition: transform 0.2s var(--ease-cine); }

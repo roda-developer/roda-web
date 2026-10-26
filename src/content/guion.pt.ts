@@ -217,7 +217,7 @@ export const planes: typeof ES.planes = {
 
 export const preciosPagina: typeof ES.preciosPagina = {
   rotulo: 'Preços',
-  titulo: ['Quanto custa', 'a sua estreia.'],
+  titulo: ['Quanto custa', 'o seu site.'],
   bajada: 'Preços à vista, sem letras miúdas. Veja o que cada um inclui.',
   rotulos: {
     planes: ['01', 'Os planos'],
@@ -248,7 +248,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
       ['Google', 'Indexação e SEO técnico'],
       ['Tudo no seu nome', 'Domínio, hospedagem e site'],
     ],
-    aviso: 'Nenhum site deste cartaz vem com letras miúdas.',
+    aviso: 'Sem letras miúdas.',
   },
   moneda: {
     tipo: 'brl',
@@ -351,7 +351,7 @@ export const contactoPagina: typeof ES.contactoPagina = {
   },
 };
 
-export const laCritica: typeof ES.laCritica = { titulo: 'A crítica diz', completo: 'O que diz a crítica' };
+export const laCritica: typeof ES.laCritica = { titulo: 'O que dizem', completo: 'O que dizem nossos clientes' };
 
 export const nosotros: typeof ES.nosotros = {
   secuencia: {
