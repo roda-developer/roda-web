@@ -1,11 +1,10 @@
 ---
 /**
- * La primera pantalla: R○DA gigante y, en la O chica, ya se ve una imagen. Al scrollear la O crece, las letras se van
- * y la imagen se acomoda como banner de la sección Estudio (media pantalla, nunca entera).
- * Sin movimiento (o sin JS): el nombre arriba y la sección Estudio abajo, quietos.
+ * La primera pantalla: R○DA gigante y, en la O chica, ya se ve el video: una compu hecha de píxeles que arma una web
+ * y termina diciendo R○DA. Al scrollear la O crece, las letras se van y el video se acomoda como banner a lo ancho
+ * de la sección Estudio (media pantalla, nunca entera).
+ * Sin movimiento (o sin JS): el nombre arriba y la sección Estudio abajo, quietos, con el video en pausa (su portada).
  */
-import { Image } from 'astro:assets';
-import juntos from '../assets/nosotros/juntos.jpg';
 import { idiomaDe, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
@@ -20,7 +19,7 @@ const { inicio } = textos(idioma);
       <p class="linea">{inicio.hero.linea}</p>
     </div>
     <div class="marco">
-      <Image src={juntos} alt={inicio.estudio.foto} widths={[640, 1024, 1600, 2200]} sizes="100vw" loading="eager" fetchpriority="high" class="marco-img" />
+      <video class="marco-video" src="/videos/roda-compu.mp4" poster="/videos/roda-compu.jpg" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio></video>
     </div>
     <div class="estudio" id="estudio">
       <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
@@ -41,9 +40,10 @@ const { inicio } = textos(idioma);
   /* La O es el anillo del logo: un círculo dibujado, con el hueco del tamaño de la imagen */
   .anillo { display: inline-block; width: 0.74em; height: 0.74em; border: 0.13em solid currentColor; border-radius: 50%; margin-inline: 0.03em; }
   .linea { max-width: 30ch; font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.35; }
-  .marco { position: relative; margin-inline: calc(var(--margen) * -1); aspect-ratio: 16 / 9; overflow: hidden; }
-  @media (min-width: 768px) { .marco { margin-inline: 0; aspect-ratio: 21 / 9; } }
-  .marco :global(.marco-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; display: block; }
+  /* El video es un banner a lo ancho (7:3), sobre negro */
+  .marco { position: relative; margin-inline: calc(var(--margen) * -1); aspect-ratio: 7 / 3; overflow: hidden; background: #0b0a0a; }
+  @media (min-width: 768px) { .marco { margin-inline: 0; } }
+  .marco-video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .estudio { display: grid; gap: 1.25rem; justify-items: start; padding-block: 2.5rem 4rem; }
   .estudio h2 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
   .estudio p { max-width: 38ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
@@ -57,11 +57,12 @@ const { inicio } = textos(idioma);
     :global(.js) .escena { position: sticky; top: 0; height: 100svh; overflow: hidden; }
     :global(.js) .cabeza { position: absolute; inset: 0; z-index: 2; place-content: center; padding: 0 var(--margen); }
     :global(.js) .palabra { will-change: transform; }
-    :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 12svh; height: 38svh; will-change: transform, clip-path; }
-    :global(.js) .estudio { position: absolute; z-index: 3; left: var(--margen); right: var(--margen); top: calc(12svh + 38svh + 1.5rem); padding: 0; }
+    /* El banner a lo ancho: en celu de borde a borde, en compu con margen; el texto abajo */
+    :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 12svh; height: 34svh; will-change: transform, clip-path; }
+    :global(.js) .estudio { position: absolute; z-index: 3; left: var(--margen); right: var(--margen); top: calc(12svh + 34svh + 1.5rem); padding: 0; }
     @media (min-width: 768px) {
-      :global(.js) .marco { left: var(--margen); right: var(--margen); top: 14svh; height: 48svh; }
-      :global(.js) .estudio { top: auto; bottom: 7svh; }
+      :global(.js) .marco { left: var(--margen); right: var(--margen); top: 13svh; height: 54svh; }
+      :global(.js) .estudio { top: auto; bottom: 6svh; }
     }
     /* Hasta que el script mide la O, la imagen y Estudio no se ven (así no aparecen de golpe en su lugar final) */
     :global(.js) .portal:not(.listo) .marco, :global(.js) .portal:not(.listo) .estudio { visibility: hidden; }
@@ -149,5 +150,14 @@ const { inicio } = textos(idioma);
     });
     pintar(disparador.progress);
     portal.classList.add('listo');
+
+    // El video corre solo mientras la escena está en pantalla (fuera, se pausa y no gasta batería)
+    const video = portal.querySelector<HTMLVideoElement>('[data-video-estudio]');
+    if (video) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      }).observe(portal);
+    }
   }
 </script>

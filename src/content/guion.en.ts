@@ -409,6 +409,7 @@ export const inicio: typeof ES.inicio = {
     texto: 'We’re Giuli and Facu. We design and code every website from scratch, and when you write to us, we’re the ones who answer.',
     cta: 'See our work',
     foto: 'Giuliana and Facundo, hugging and smiling, with a tree behind them',
+    video: 'A computer made of pixels builds a website and ends up spelling Roda',
   },
   trabajos: { titulo: 'Work', verTodos: 'See all projects' },
   gente: {

@@ -1,14 +1,15 @@
 ---
-/** La sección Estudio suelta: va después de la Linterna (con la O, Estudio vive adentro del Portal). */
-import { Image } from 'astro:assets';
-import juntos from '../assets/nosotros/juntos.jpg';
+/**
+ * La sección Estudio suelta: va después de la Linterna (con la O, Estudio vive adentro del Portal).
+ * El video de la compu hecha de píxeles como banner a lo ancho, y el texto abajo.
+ */
 import { idiomaDe, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
 ---
-<section class="estudio-suelto" id="estudio" aria-labelledby="estudio-titulo">
-  <div class="banner" data-revelar>
-    <Image src={juntos} alt={inicio.estudio.foto} widths={[640, 1024, 1600, 2200]} sizes="100vw" loading="lazy" class="banner-img" />
+<section class="estudio-suelto" id="estudio" aria-labelledby="estudio-titulo" data-estudio-suelto>
+  <div class="cuadro" data-revelar>
+    <video src="/videos/roda-compu.mp4" poster="/videos/roda-compu.jpg" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video}></video>
   </div>
   <div class="texto">
     <h2 id="estudio-titulo" class="font-titulo" data-revelar>{inicio.estudio.titulo}</h2>
@@ -18,13 +19,26 @@ const { inicio } = textos(idioma);
 </section>
 
 <style>
-  .estudio-suelto { padding: clamp(5rem, 12svh, 9rem) 0 0; }
-  .banner { aspect-ratio: 16 / 9; overflow: hidden; }
-  @media (min-width: 768px) { .banner { aspect-ratio: 21 / 9; margin-inline: clamp(1.5rem, 3.5vw, 3rem); } }
-  .banner :global(.banner-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; display: block; }
-  .texto { display: grid; gap: 1.25rem; justify-items: start; padding: 2.5rem 1.25rem 0; }
-  @media (min-width: 768px) { .texto { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  .estudio-suelto { display: grid; gap: 2rem; padding: clamp(5rem, 12svh, 9rem) 1.25rem 0; }
+  @media (min-width: 768px) { .estudio-suelto { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  .cuadro { aspect-ratio: 7 / 3; margin-inline: -1.25rem; overflow: hidden; background: #0b0a0a; }
+  @media (min-width: 768px) { .cuadro { margin-inline: 0; } }
   @media (min-width: 1024px) { .texto { grid-template-columns: auto 1fr auto; align-items: end; column-gap: clamp(2rem, 4vw, 4rem); } }
+  .cuadro video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .texto { display: grid; gap: 1.25rem; justify-items: start; }
   .texto h2 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
   .texto p { max-width: 38ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
 </style>
+
+<script>
+  import { movimientoPermitido } from '../motion/index';
+
+  // El video corre solo en pantalla y con movimiento permitido; si no, queda su portada
+  const video = document.querySelector<HTMLVideoElement>('[data-estudio-suelto] video');
+  if (video && movimientoPermitido()) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    }).observe(video);
+  }
+</script>

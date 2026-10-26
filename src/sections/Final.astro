@@ -17,7 +17,7 @@ const fila = [...trabajos, ...trabajos];
 <section class="final" aria-labelledby="final-titulo" data-final>
   <div class="curva" aria-hidden="true">
     {fila.map((p) => (
-      <Image src={capturas(p.slug).afiche} alt="" widths={[300, 600]} sizes="(min-width: 1024px) 15vw, 34vw" loading="lazy" class="foto" />
+      <Image src={capturas(p.slug).afiche} alt="" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 24vw, 60vw" quality={88} loading="lazy" class="foto" />
     ))}
   </div>
   <div class="cierre">

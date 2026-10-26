@@ -454,6 +454,8 @@ export const inicio = {
     texto: 'Somos Giuli y Facu. Diseñamos y programamos cada web desde cero, y si nos escribís, te contestamos nosotros.',
     cta: 'Ver trabajos',
     foto: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás',
+    /** Para lectores de pantalla: lo que pasa en el video del banner */
+    video: 'Una compu hecha de píxeles arma una web y termina diciendo Roda',
   },
   trabajos: { titulo: 'Trabajos', verTodos: 'Ver todos los trabajos' },
   /** La gente que pasa: por qué no funcionan las webs de la mayoría de los negocios. Sin números inventados. */
