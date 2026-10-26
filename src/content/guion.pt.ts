@@ -409,7 +409,7 @@ export const inicio: typeof ES.inicio = {
     texto: 'Somos Giuli e Facu. Criamos e programamos cada site do zero, e quando você escreve, somos nós que respondemos.',
     cta: 'Ver trabalhos',
     foto: 'Giuliana e Facundo, abraçados e sorrindo, com uma árvore atrás',
-    video: 'Um computador feito de pixels monta um site e termina escrevendo Roda',
+    video: 'Uma pessoa feita de pixels trabalha na mesa, monta um site e termina escrevendo Roda',
   },
   trabajos: { titulo: 'Trabalhos', verTodos: 'Ver todos os trabalhos' },
   gente: {

@@ -455,7 +455,7 @@ export const inicio = {
     cta: 'Ver trabajos',
     foto: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás',
     /** Para lectores de pantalla: lo que pasa en el video del banner */
-    video: 'Una compu hecha de píxeles arma una web y termina diciendo Roda',
+    video: 'Una persona hecha de píxeles trabaja en su escritorio: arma una web y termina diciendo Roda',
   },
   trabajos: { titulo: 'Trabajos', verTodos: 'Ver todos los trabajos' },
   /** La gente que pasa: por qué no funcionan las webs de la mayoría de los negocios. Sin números inventados. */
