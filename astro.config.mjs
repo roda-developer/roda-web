@@ -14,6 +14,6 @@ export default defineConfig({
   // Idiomas: español (el original, sin prefijo), inglés (/en) y portugués (/pt). Las direcciones traducidas están en src/i18n.
   i18n: { defaultLocale: 'es', locales: ['es', 'en', 'pt'], routing: { prefixDefaultLocale: false } },
   // El sitemap deja afuera la 404
-  integrations: [sitemap({ filter: (pagina) => !pagina.includes('/404') })],
+  integrations: [sitemap({ filter: (pagina) => !pagina.includes('/404') && !pagina.includes('/prueba-') })],
   vite: { plugins: [tailwindcss()] },
 });

@@ -47,13 +47,9 @@ export const ui = {
   /** Las críticas largas se cortan con … y se abren con este botón */
   leerMas: 'Leer más',
   leerMenos: 'Leer menos',
-  postCreditos: 'Escena post-créditos',
-  actoUno: 'Acto uno: la primera impresión',
   giro: 'El giro',
   technicolor: 'Technicolor: a veces más es más',
   mas: 'más',
-  acto: 'Acto',
-  parte: 'Parte',
   estreno: 'Tu estreno',
 };
 
@@ -62,44 +58,6 @@ export const nav = {
   nosotros: 'Nosotros',
   precios: 'Precios',
   atajo: 'Hablemos',
-};
-
-export const apertura = {
-  titulo: ['Tu marca ya tiene', 'una historia.'],
-  /** Qué hacemos, dicho claro en la primera pantalla. Antes: bajada 'Falta contarla donde te buscan.' y queHacemos 'Estudio de diseño y desarrollo web · De Buenos Aires al mundo' */
-  queHacemos: 'Diseñamos y programamos webs a medida para marcas, desde US$ 300.',
-  cta: 'Hablemos',
-  verPrecios: 'Ver precios',
-};
-
-export const actoUno = {
-  rotulo: ['01', 'La primera impresión'],
-  lineas: ['Alguien escucha hablar de vos y te busca.', 'Lo que encuentra decide si te escribe.'],
-  golpe: ['No lee.', 'Mira.'],
-  generica: {
-    marca: 'Tu Marca',
-    menu: ['Inicio', 'Nosotros', 'Servicios', 'Contacto'],
-    titulo: 'Bienvenidos a nuestro sitio web',
-    texto: 'Somos una empresa líder comprometida con la excelencia y la calidad en cada uno de nuestros servicios.',
-    boton: 'Saber más',
-  },
-  encuentra: 'Lo que suele encontrar:',
-  /** Las notas que se pegan sobre la web genérica, de arriba hacia abajo */
-  notas: ['Una plantilla que usan otras mil marcas.', 'Una foto de stock.', '“Saber más”… ¿de qué?'],
-  cuenta: 'segundos para decidir',
-  cierre: ['Y se va.', 'No perdiste una visita.', 'Perdiste un cliente.'],
-};
-
-export const actoDos = {
-  rotulo: ['02', 'Lo que hace una buena web'],
-  titulo: 'Una buena web hace tres cosas.',
-  planos: [
-    { titulo: 'Se entiende al instante.', texto: 'Qué hacés y por qué vos, antes de que tenga que buscar nada.' },
-    { titulo: 'Carga antes de que parpadees.', texto: 'Con cada segundo de espera, alguien se va.' },
-    { titulo: 'Te lleva a un solo lugar.', texto: 'La web que pide todo no consigue nada.' },
-  ],
-  pesa: 'Esta página pesa',
-  poco: 'poco',
 };
 
 export const giro = {
@@ -113,35 +71,6 @@ export const technicolor = {
   /** Las tres letras del "MÁS" grande, cada una con su color */
   letras: ['M', 'Á', 'S'],
   cinta: ['Más color', 'Más ruido', 'Más vos', 'Más ganas', 'Más marca'],
-  /** Lo que se lee sobre el tráiler de proyectos: son trabajos nuestros */
-  firma: 'Algunas que hicimos nosotros',
-  verTodos: 'Ver todos los proyectos',
-  corte: ['El secreto no es elegir un estilo.', 'Es saber cuál necesita tu marca.'],
-  webDe: 'Web de {titulo}',
-};
-
-export const actoTres = {
-  rotulo: ['03', 'Cómo trabajamos'],
-  titulo: 'De la idea a tu web, en cinco pasos.',
-  /** Lo que se lee al costado mientras la web se arma sola. cine: el guiño, en chiquito */
-  pasos: [
-    { nombre: 'Te escuchamos.', cine: 'Guion', texto: 'Tu marca, a quién le hablás y qué querés que pase cuando alguien llega.' },
-    { nombre: 'Te mostramos cómo va a quedar.', cine: 'Storyboard', texto: 'Ves cada pantalla antes de que exista.' },
-    { nombre: 'La construimos.', cine: 'Rodaje', texto: 'A medida, sin plantillas. Rápida y liviana.' },
-    { nombre: 'La publicamos.', cine: 'Estreno', texto: 'Sale al mundo, lista para que te encuentren.' },
-    { nombre: 'Y te acompañamos.', cine: 'Y después', texto: 'La cuidamos y la hacemos crecer. Y empiezan a llegar los mensajes.' },
-  ],
-  /** La web que se arma sola */
-  obra: {
-    notas: ['Marca: la tuya', 'Le habla a: quienes buscan lo que hacés', 'Objetivo: que te escriban'],
-    marca: 'Tu marca',
-    titular: 'Lo que hacés, dicho en una línea.',
-    bajada: 'Y por qué elegirte a vos.',
-    boton: 'Escribinos',
-    url: 'tumarca.com',
-    enLinea: 'En línea',
-    mensaje: ['Nuevo mensaje', '¡Hola! Vi tu web y quiero consultarte…'],
-  },
 };
 
 export const proyectosPagina = {
@@ -458,24 +387,6 @@ export const contactoPagina = {
 
 /** La crítica dice: los fragmentos de los testimonios en la home, antes de la cartelera */
 export const laCritica = { titulo: 'La crítica dice', completo: 'Lo que dice la crítica' };
-
-/** La cartelera: cada plan es una película (los mismos tres de /precios). Cada afiche lleva a su carpeta. dibujo: qué escena lleva. */
-export const cartelera = {
-  rotulo: ['04', 'Lo que hacemos'],
-  titulo: ['En cartelera.', 'Tres webs, tres géneros.'],
-  deslizar: 'Deslizá para ver más',
-  navegar: 'Navegar cartelera',
-  anterior: 'Ver película anterior',
-  siguiente: 'Ver siguiente película',
-  presenta: 'presenta',
-  escribinos: 'Escribinos',
-  enCartel: 'En cartel',
-  peliculas: [
-    { id: 'landing', dibujo: 'landing', articulo: 'La', titulo: 'Landing', frase: 'Una página. Un solo objetivo.', creditos: 'Directa al grano · Un botón, un mensaje', precio: 'US$ 300', color: 'rojo' },
-    { id: 'multiseccion', dibujo: 'portfolio', articulo: 'La', titulo: 'Multisección', frase: 'Tu trabajo, en pantalla grande.', creditos: 'Hasta 5 páginas · Para contarlo todo', precio: 'US$ 400', color: 'rosa' },
-    { id: 'tienda', dibujo: 'tienda', articulo: 'La', titulo: 'Tienda', frase: 'Vende mientras dormís.', creditos: 'Con tus productos · Y pagos en línea', precio: 'US$ 550', color: 'amarillo' },
-  ],
-};
 
 // PENDIENTE (Giuli/Facu): si va "Producida en Buenos Aires".
 export const nosotros = {

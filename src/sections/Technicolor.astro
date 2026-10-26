@@ -1,9 +1,6 @@
 ---
 import '@fontsource-variable/bricolage-grotesque';
-import { Image } from 'astro:assets';
-import { idiomaDe, rellenar, ruta, textos } from '../i18n';
-import { capturas } from '../content/capturas';
-import { proyectosEn } from '../content/proyectos';
+import { idiomaDe, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { technicolor, ui } = textos(idioma);
 // Las cintas corren media pista y vuelven a empezar sin que se note: la mitad (5 vueltas) tiene que ser más ancha que cualquier pantalla
@@ -24,11 +21,6 @@ const escala = [
   `--km: ${k(ES.letras.join('').length, technicolor.letras.join('').length)}`,
 ].join('; ');
 
-// El tráiler: una web por vez, como los cortes de un tráiler. Las cuatro con la portada horizontal más fuerte.
-const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
-  const p = proyectosEn(idioma).find((x) => x.slug === slug)!;
-  return { slug, titulo: p.titulo, genero: p.genero, anio: p.anio, img: capturas(slug).portada };
-});
 ---
 <section id="technicolor" aria-label={ui.technicolor}>
   <!-- La puerta: el color se abre en un círculo, como Dorothy saliendo del sepia -->
@@ -47,33 +39,6 @@ const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- El tráiler: los proyectos de a uno, con cortes secos, sobre el mismo rosa del círculo (un solo color) -->
-  <div class="trailer relative h-[125svh]" data-trailer>
-    <div class="sala sticky top-0 h-svh overflow-hidden bg-tc-rosa text-tinta">
-      <p class="sr-only">{technicolor.firma}</p>
-      {tomas.map((t, i) => (
-        <a href={ruta(idioma, 'proyectos', t.slug)} class="toma" data-toma>
-          <span class="toma-cuadro">
-            <Image src={t.img} alt={rellenar(technicolor.webDe, { titulo: t.titulo })} widths={[640, 1200, 1800]} sizes="(min-width: 1024px) 60vw, 90vw" loading="lazy" class="toma-img" />
-          </span>
-          <span class="toma-pie">
-            <span class="toma-titulo">{t.titulo}</span>
-            <span class="mono">{t.genero} · {t.anio}</span>
-          </span>
-        </a>
-      ))}
-      <a href={ruta(idioma, 'proyectos')} class="ver-todos cta absolute bottom-[5svh] left-5 z-20 md:left-12">{technicolor.verTodos}</a>
-    </div>
-  </div>
-
-  <!-- Corte seco a blanco: el remate, sin ocupar una pantalla entera -->
-  <div class="plano !min-h-0">
-    <p class="max-w-5xl font-titulo text-[clamp(2.4rem,10vw,7rem)] leading-[0.98] tracking-[-0.01em] [text-wrap:balance]">
-      <span class="block text-tinta/52">{technicolor.corte[0]}</span>
-      <span class="block">{technicolor.corte[1]}</span>
-    </p>
   </div>
 
 </section>
@@ -105,7 +70,8 @@ const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
     .grito > span:last-child { font-size: calc(37cqi * var(--k3v, 1)); }
     .mas { font-size: calc(46cqi * var(--km, 1)); white-space: nowrap; }
   }
-  .mas span { display: inline-block; }
+  /* Contorno de tinta: sobre el rosa, las letras de colores solas no se leían bien */
+  .mas span { display: inline-block; -webkit-text-stroke: 0.035em var(--color-tinta); paint-order: stroke fill; }
   .mas span:nth-child(1) { color: var(--color-tc-rojo); transform: rotate(-6deg); }
   .mas span:nth-child(2) { color: var(--color-tc-azul); transform: translateY(-0.06em); }
   .mas span:nth-child(3) { color: var(--color-tc-amarillo); transform: rotate(7deg); }
@@ -125,7 +91,7 @@ const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
   /* Los signos entre palabras, dibujados (no caracteres): mismo tamaño en todas las fuentes */
   .signo-cinta { display: inline-block; width: 0.62em; height: 0.62em; vertical-align: 0.02em; }
   .cinta-a { background: var(--color-tc-rojo); color: var(--color-papel); transform: rotate(-3deg); }
-  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(-0.15em); }
+  .cinta-b { background: var(--color-tc-azul); color: var(--color-tc-amarillo); transform: rotate(2deg) translateY(0.35em); }
 
   @media (prefers-reduced-motion: no-preference) {
     /* Misma velocidad que antes: ahora media pista son 5 vueltas, así que dura cinco veces más */
@@ -134,21 +100,9 @@ const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
   }
   @keyframes corre { to { transform: translateX(-50%); } }
 
-  /* El tráiler: cada toma ocupa la pantalla; la captura derecha, en un marco de papel, y el nombre grande abajo */
-  .toma { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 1.25rem; padding: 7.5rem 1.25rem 8rem; }
-  .toma-cuadro { display: block; width: min(90vw, calc((100svh - 19rem) * 1.6)); padding: 0.4rem; overflow: hidden; background: var(--color-papel); box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.55); }
-  @media (min-width: 1024px) { .toma-cuadro { width: min(60vw, calc((100svh - 17rem) * 1.6)); padding: 0.5rem; } }
-  .toma-cuadro :global(.toma-img) { display: block; width: 100%; height: auto; }
-  .toma-pie { display: grid; justify-items: center; gap: 0.45rem; text-align: center; }
-  .toma-titulo { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(2.2rem, 8vw, 4.5rem); line-height: 1; letter-spacing: -0.045em; }
-
   @media (prefers-reduced-motion: reduce) {
     .puerta { height: auto; }
     .puerta > div { position: relative; height: 100svh; }
-    .trailer { height: auto; }
-    .sala { position: relative; height: auto; padding: 8rem 1.25rem 3rem; display: grid; gap: 3.5rem; }
-    .toma { position: relative; inset: auto; padding: 0; }
-    .ver-todos { position: relative; bottom: auto; left: auto; justify-self: start; }
   }
 </style>
 
@@ -179,21 +133,4 @@ const tomas = ['emme', 'unik', 'muda', 'craft'].map((slug) => {
       .to({}, { duration: 1 - (llena + 0.35) > 0 ? 1 - (llena + 0.35) : 0.05 });
   }
 
-  const trailer = document.querySelector<HTMLElement>('[data-trailer]');
-  if (trailer && movimientoPermitido()) {
-    const q = gsap.utils.selector(trailer);
-    const tomas = q('[data-toma]');
-    gsap.set(tomas.slice(1), { autoAlpha: 0 });
-    const tl = gsap.timeline({
-      defaults: { ease: 'none' },
-      scrollTrigger: { trigger: trailer, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
-    });
-    const tramo = 1 / tomas.length;
-    tomas.forEach((toma, i) => {
-      // Cada plano se acerca apenas mientras dura, como una cámara que empuja
-      tl.fromTo(toma.querySelector('.toma-img'), { scale: 1.06 }, { scale: 1, duration: tramo }, i * tramo);
-      // Corte seco al siguiente
-      if (i > 0) tl.set(tomas[i - 1], { autoAlpha: 0 }, i * tramo).set(toma, { autoAlpha: 1 }, i * tramo);
-    });
-  }
 </script>

@@ -1,0 +1,79 @@
+---
+/**
+ * El final: una fila curva de trabajos que no para de pasar (las fotos se curvan hacia vos en los bordes y se apagan)
+ * y, abajo, la pregunta grande y el botón. Sin caja encima de las fotos.
+ * Se pausa fuera de pantalla; sin movimiento, la fila queda quieta.
+ */
+import { Image } from 'astro:assets';
+import { capturas } from '../content/capturas';
+import { enOrden, proyectosEn } from '../content/proyectos';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+const trabajos = enOrden(proyectosEn(idioma));
+// Dos vueltas, así la fila nunca se queda sin fotos al pasar
+const fila = [...trabajos, ...trabajos];
+---
+<section class="final" aria-labelledby="final-titulo" data-final>
+  <div class="curva" aria-hidden="true">
+    {fila.map((p) => (
+      <Image src={capturas(p.slug).afiche} alt="" widths={[300, 600]} sizes="(min-width: 1024px) 15vw, 34vw" loading="lazy" class="foto" />
+    ))}
+  </div>
+  <div class="cierre">
+    <h2 id="final-titulo" class="font-titulo" data-revelar>{inicio.final.titulo}</h2>
+    <a href={ruta(idioma, 'contacto')} class="cta" data-revelar="3">{inicio.final.cta}</a>
+  </div>
+</section>
+
+<style>
+  .final { padding-top: clamp(6rem, 16svh, 11rem); }
+  .curva { position: relative; height: clamp(15rem, 34vw, 26rem); overflow: hidden; perspective: 1000px; }
+  .curva :global(.foto) { position: absolute; top: 8%; left: 0; width: clamp(8.5rem, 15vw, 15rem); aspect-ratio: 3 / 4; object-fit: cover; backface-visibility: hidden; will-change: transform, opacity; }
+  .cierre { display: grid; gap: 1.5rem; justify-items: start; padding: clamp(2rem, 6svh, 4rem) 1.25rem 0; }
+  @media (min-width: 768px) {
+    .cierre { grid-template-columns: 1fr auto; align-items: end; padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+  }
+  .cierre h2 { font-size: clamp(3.2rem, 9vw, 8rem); line-height: 0.88; max-width: 12ch; }
+</style>
+
+<script>
+  import { movimientoPermitido } from '../motion/index';
+
+  const seccion = document.querySelector<HTMLElement>('[data-final]');
+  const curva = seccion?.querySelector<HTMLElement>('.curva');
+  if (seccion && curva) {
+    const fotos = [...curva.querySelectorAll<HTMLElement>('.foto')];
+    const mover = movimientoPermitido();
+    let corrimiento = 0;
+    // Cada foto se ubica en la fila y gira según qué tan lejos está del centro
+    const ubicar = () => {
+      const ancho = curva.clientWidth;
+      const paso = (fotos[0]?.offsetWidth ?? 200) * 1.1;
+      const total = paso * fotos.length;
+      fotos.forEach((f, i) => {
+        const x = (((i * paso - corrimiento) % total) + total) % total - paso;
+        const d = (x + paso / 2 - ancho / 2) / (ancho / 2);
+        const giro = Math.max(-1, Math.min(1, d));
+        f.style.transform = `translate3d(${x}px, 0, ${Math.abs(giro) * 110}px) rotateY(${-giro * 38}deg)`;
+        f.style.opacity = String(Math.max(0, 1 - Math.max(0, Math.abs(d) - 0.72) * 3.2));
+      });
+    };
+    ubicar();
+    addEventListener('resize', ubicar);
+    if (mover) {
+      let visible = false, cuadro = 0, antes = 0;
+      const bucle = (ahora: number) => {
+        // La misma velocidad en cualquier pantalla: 40 px por segundo
+        corrimiento += antes ? ((ahora - antes) / 1000) * 40 : 0;
+        antes = ahora;
+        ubicar();
+        cuadro = visible ? requestAnimationFrame(bucle) : 0;
+      };
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !cuadro) { antes = 0; cuadro = requestAnimationFrame(bucle); }
+      }).observe(curva);
+    }
+  }
+</script>

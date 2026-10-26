@@ -31,7 +31,7 @@ Dirección aprobada en el tablero: https://claude.ai/artifact/LGg1JhjU4psDRChHqN
 | 0b | CI (.github/workflows/ci.yml), `check` = astro check + tsc, .gitignore | hecho |
 | 0c | Peso de /proyectos en celu (1,45 MB: revisar widths/sizes de los afiches, imagen agrandada 432→515 px), README nuevo | pendiente |
 | 1 | Base visual: tipografía de títulos, `.mono` y `.cta` sin mono ni mayúsculas, sin títulos en dos tonos en contacto/precios/404 | hecho |
-| 2 | Home nueva | en curso (ver abajo) |
+| 2 | Home nueva | hecho (2026-10-25): Portal, Trabajos, Gente, DeCerca, Giro+Technicolor recortado, Niveles, Final; /prueba-linterna para comparar; secciones viejas y claves borradas. Verificada a 390 y 1440: sin errores ni scroll horizontal; home 11,8 pantallas en celu y 12,7 en compu (antes ~14). La animación de la O se pinta según el progreso del scroll (sin tweens), así no se desfasa al recalcular |
 | 3 | /precios: nivel Obra primero (carpeta negra, "A consulta", botón a /contacto), título sin "tu estreno", rótulos 01/02/03 fuera, adicionales como renglones ("Panel propio ........ + US$ 150"), testimonios sin columnas iguales | pendiente |
 | 4 | /proyectos y caso: el caso abre con su afiche (mismo view-transition-name que la foto de Trabajos y el afiche de /proyectos), "Siguiente proyecto" con barrido horizontal (clip-path, ~500 ms), filtros de /proyectos que se reacomodan sin saltos | pendiente |
 | 5 | Nosotros, contacto, 404 y pie: menos cine en los textos (sacar "tu historia", "estreno", "escena eliminada", "Filmamos la tuya"), pie corto en páginas internas (prop `corto` en Pie: una línea con mail, IG y links) | pendiente |

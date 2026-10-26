@@ -1,0 +1,57 @@
+---
+/**
+ * Cómo trabajamos y los cuatro niveles. Obra va primero y distinta (en tinta): es la que define el estudio.
+ * Los otros tres son los planes de /precios, con su precio a la vista. Sin tarjetas: columnas separadas por espacio.
+ */
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio, planes } = textos(idioma);
+const { niveles } = inicio;
+// De la más completa a la más simple, después de Obra
+const lista = [...planes.lista].reverse();
+---
+<section class="niveles" aria-labelledby="niveles-titulo">
+  <div class="cabeza">
+    <h2 id="niveles-titulo" class="titulo font-titulo" data-revelar>{niveles.titulo}</h2>
+    <p class="proceso" data-revelar="3">{niveles.proceso}</p>
+  </div>
+  <div class="fila">
+    <article class="nivel obra" data-revelar="2">
+      <h3 class="font-titulo">{niveles.obra.nombre}</h3>
+      <p class="precio">{niveles.obra.precio}</p>
+      <p class="texto">{niveles.obra.texto}</p>
+      <a href={ruta(idioma, 'contacto')} class="cta">{inicio.final.cta}</a>
+    </article>
+    {lista.map((p, i) => (
+      <article class="nivel" data-revelar={String(4 + i * 2)}>
+        <h3 class="font-titulo">{p.nombre}</h3>
+        <p class="precio">{planes.moneda} {p.precio}</p>
+        <p class="texto">{p.incluye}</p>
+        <a href={`${ruta(idioma, 'precios')}#${p.id}`} class="enlace">{niveles.verDetalle}</a>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .niveles { padding: clamp(6rem, 16svh, 11rem) 1.25rem 0; }
+  @media (min-width: 768px) { .niveles { padding-inline: clamp(1.5rem, 3.5vw, 3rem); } }
+  .cabeza { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .cabeza { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: clamp(2rem, 5vw, 5rem); } }
+  .titulo { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
+  .proceso { max-width: 44ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
+  .fila { display: grid; gap: 3rem; margin-top: clamp(3rem, 8svh, 5rem); }
+  @media (min-width: 640px) { .fila { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
+  @media (min-width: 1100px) { .fila { grid-template-columns: 1.35fr repeat(3, minmax(0, 1fr)); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: start; } }
+  .nivel { display: grid; gap: 0.9rem; align-content: start; justify-items: start; }
+  .nivel h3 { font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 0.9; }
+  .precio { font-size: clamp(1.5rem, 2.2vw, 1.9rem); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .texto { max-width: 32ch; font-size: 1.0625rem; line-height: 1.45; color: color-mix(in oklab, var(--color-tinta) 82%, var(--color-papel)); }
+  /* Obra: el bloque en tinta, con el precio en rosa (el único rosa fuera de Más es más) */
+  .obra { background: var(--color-tinta); color: var(--color-papel); padding: clamp(1.5rem, 3vw, 2.5rem); margin-inline: -1.25rem; }
+  @media (min-width: 640px) { .obra { margin-inline: 0; } }
+  .obra .precio { color: var(--color-tc-rosa); }
+  .obra .texto { color: color-mix(in oklab, var(--color-papel) 86%, var(--color-tinta)); }
+  .obra .cta { background: var(--color-papel); color: var(--color-tinta); margin-top: 0.5rem; }
+  .enlace { display: inline-flex; min-height: 2.75rem; align-items: center; text-decoration: underline; text-underline-offset: 4px; }
+</style>

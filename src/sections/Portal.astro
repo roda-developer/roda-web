@@ -69,14 +69,16 @@ const { inicio } = textos(idioma);
 </style>
 
 <script>
-  import { gsap, ScrollTrigger, movimientoPermitido } from '../motion/index';
+  import { ScrollTrigger, movimientoPermitido } from '../motion/index';
 
   const portal = document.querySelector<HTMLElement>('[data-portal]');
   if (portal && movimientoPermitido()) {
     const escena = portal.querySelector<HTMLElement>('.escena')!;
     const palabra = portal.querySelector<HTMLElement>('.palabra')!;
     const anillo = portal.querySelector<HTMLElement>('.anillo')!;
+    const linea = portal.querySelector<HTMLElement>('.linea')!;
     const marco = portal.querySelector<HTMLElement>('.marco')!;
+    const partesEstudio = [...portal.querySelectorAll<HTMLElement>('.estudio > *')];
 
     // Posición dentro de la escena con offset (no lo cambian los transform, así se puede medir en cualquier momento)
     const posicion = (el: HTMLElement) => {
@@ -85,7 +87,7 @@ const { inicio } = textos(idioma);
       return { x, y };
     };
     // Dónde arranca la imagen: achicada y recortada en círculo justo en el hueco de la O
-    let m = { x: 0, y: 0, s: 1, recorte: 'inset(0px 0px 0px 0px round 0px)' };
+    let m = { x: 0, y: 0, s: 1, mx: 0, my: 0, radio: 0 };
     const medir = () => {
       const a = posicion(anillo);
       const borde = parseFloat(getComputedStyle(anillo).borderTopWidth);
@@ -93,26 +95,59 @@ const { inicio } = textos(idioma);
       const cx = a.x + anillo.offsetWidth / 2, cy = a.y + anillo.offsetHeight / 2;
       const b = { x: marco.offsetLeft, y: marco.offsetTop, w: marco.offsetWidth, h: marco.offsetHeight };
       const lado = Math.min(b.w, b.h);
-      const mx = (b.w - lado) / 2, my = (b.h - lado) / 2;
-      m = {
-        x: cx - (b.x + b.w / 2),
-        y: cy - (b.y + b.h / 2),
-        s: hueco / lado,
-        recorte: `inset(${my}px ${mx}px ${my}px ${mx}px round ${lado / 2}px)`,
-      };
+      m = { x: cx - (b.x + b.w / 2), y: cy - (b.y + b.h / 2), s: hueco / lado, mx: (b.w - lado) / 2, my: (b.h - lado) / 2, radio: lado / 2 };
       const p = posicion(palabra);
       palabra.style.transformOrigin = `${cx - p.x}px ${cy - p.y}px`;
     };
-    medir();
-    ScrollTrigger.addEventListener('refreshInit', medir);
 
-    gsap
-      .timeline({ scrollTrigger: { trigger: portal, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true } })
-      .to(portal.querySelector('.linea'), { autoAlpha: 0, duration: 0.08 }, 0.06)
-      .fromTo(marco, { x: () => m.x, y: () => m.y, scale: () => m.s, clipPath: () => m.recorte }, { x: 0, y: 0, scale: 1, clipPath: 'inset(0px 0px 0px 0px round 0px)', ease: 'power2.inOut', duration: 0.46 }, 0.1)
-      .to(palabra, { scale: 9, autoAlpha: 0, ease: 'power2.in', duration: 0.4 }, 0.1)
-      .fromTo(portal.querySelectorAll('.estudio > *'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, stagger: 0.04, duration: 0.14, ease: 'power2.out' }, 0.56)
-      .to({}, { duration: 0.22 });
+    // Todo sale del progreso del scroll (0 a 1): así nunca queda nada a mitad de camino al recalcular
+    const tramo = (p: number, desde: number, largo: number) => Math.min(1, Math.max(0, (p - desde) / largo));
+    const entraSale = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+    const acelera = (t: number) => t * t;
+    const frena = (t: number) => 1 - (1 - t) ** 3;
+    const pintar = (p: number) => {
+      linea.style.opacity = String(1 - tramo(p, 0.06, 0.08));
+      // Las letras crecen desde el centro de la O (hasta 9 veces) y se apagan
+      const b = acelera(tramo(p, 0.1, 0.4));
+      const k = 1 + 8 * b;
+      palabra.style.transform = `scale(${k})`;
+      palabra.style.opacity = String(1 - b);
+      palabra.style.visibility = b >= 1 ? 'hidden' : '';
+      // Primero la foto crece igual que el anillo, así nunca se sale del hueco de la O.
+      // Cuando llega a su tamaño (o el anillo ya se fue), se acomoda como banner.
+      const bTope = (1 / m.s - 1) / 8;
+      const pTope = bTope <= 1 ? 0.1 + 0.4 * Math.sqrt(bTope) : 0.5;
+      const escalaTope = Math.min(1, m.s * 9);
+      let escala: number, r: number;
+      if (p < pTope) {
+        escala = Math.min(1, m.s * k);
+        r = 1;
+      } else {
+        const a = entraSale(tramo(p, pTope, 0.2));
+        escala = escalaTope + (1 - escalaTope) * a;
+        r = 1 - a;
+      }
+      marco.style.transform = `translate(${m.x * r}px, ${m.y * r}px) scale(${escala})`;
+      marco.style.clipPath = `inset(${m.my * r}px ${m.mx * r}px ${m.my * r}px ${m.mx * r}px round ${m.radio * r}px)`;
+      const inicioEstudio = Math.max(0.56, pTope + 0.16);
+      partesEstudio.forEach((el, i) => {
+        const c = frena(tramo(p, inicioEstudio + i * 0.04, 0.14));
+        el.style.opacity = String(c);
+        el.style.transform = `translateY(${24 * (1 - c)}px)`;
+        // Mientras no se ve, no se puede tocar ni tabular
+        el.style.visibility = c <= 0 ? 'hidden' : '';
+      });
+    };
+
+    medir();
+    const disparador = ScrollTrigger.create({
+      trigger: portal,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => pintar(self.progress),
+      onRefresh: (self) => { medir(); pintar(self.progress); },
+    });
+    pintar(disparador.progress);
     portal.classList.add('listo');
   }
 </script>

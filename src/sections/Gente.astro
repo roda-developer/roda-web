@@ -60,7 +60,8 @@ const { gente } = inicio;
     addEventListener('resize', () => { medir(); if (!mover) dibujar(); });
 
     // Cada persona: posición (0 a 1), velocidad, altura, paso y para qué lado camina. La rosa es la primera.
-    const cuantas = () => (ancho < 640 ? 9 : 18);
+    // En el celu, menos gente y más chica: si no, se amontona
+    const cuantas = () => (ancho < 640 ? 6 : 18);
     const gente = Array.from({ length: 18 }, (_, i) => ({
       x: (i + Math.random() * 0.6) / 18, v: 0.00045 + Math.random() * 0.0005, h: 0.7 + Math.random() * 0.3,
       f: Math.random() * 6, lado: i % 4 === 1 ? -1 : 1, rosa: i === 0,
@@ -68,7 +69,7 @@ const { gente } = inicio;
     let frenada = !mover;
 
     const persona = (p: (typeof gente)[number], x: number, piso: number) => {
-      const h = alto * 0.86 * p.h;
+      const h = alto * (ancho < 640 ? 0.7 : 0.86) * p.h;
       const cabeza = h * 0.1, torso = h * 0.36, pierna = h * 0.4;
       const quieta = p.rosa && frenada && Math.abs(p.x - 0.5) < 0.004;
       const s = quieta ? 0 : Math.sin(p.f) * 0.45;

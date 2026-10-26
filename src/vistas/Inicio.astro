@@ -1,44 +1,43 @@
 ---
+/**
+ * La home: la obra primero. La O (que se abre a Estudio), los trabajos, por qué no funcionan la mayoría de las webs,
+ * un trabajo de cerca, más es más, cómo trabajamos y el final.
+ * hero: 'o' (la principal) o 'linterna' (la segunda opción, se ve en /prueba-linterna para comparar).
+ */
 import Base from '../layouts/Base.astro';
-import Timecode from '../components/Timecode.astro';
 import Motion from '../components/Motion.astro';
-import Loader from '../sections/Loader.astro';
 import Nav from '../sections/Nav.astro';
-import Apertura from '../sections/Apertura.astro';
-import ActoUno from '../sections/ActoUno.astro';
-import ActoDos from '../sections/ActoDos.astro';
+import Portal from '../sections/Portal.astro';
+import Linterna from '../sections/Linterna.astro';
+import Estudio from '../sections/Estudio.astro';
+import Trabajos from '../sections/Trabajos.astro';
+import Gente from '../sections/Gente.astro';
+import DeCerca from '../sections/DeCerca.astro';
 import Giro from '../sections/Giro.astro';
 import Technicolor from '../sections/Technicolor.astro';
-import ActoTres from '../sections/ActoTres.astro';
-import LaCritica from '../sections/LaCritica.astro';
-import Cartelera from '../sections/Cartelera.astro';
-import Cierre from '../sections/Cierre.astro';
+import Niveles from '../sections/Niveles.astro';
+import Final from '../sections/Final.astro';
 import Pie from '../components/Pie.astro';
-import { textos } from '../i18n';
-const { cierre, ui } = textos(Astro.currentLocale);
 
+interface Props {
+  hero?: 'o' | 'linterna';
+  /** false en las páginas de prueba: Google no las guarda */
+  indexable?: boolean;
+}
+const { hero = 'o', indexable = true } = Astro.props;
 ---
-<Base>
-  <Loader />
+<Base indexable={indexable}>
   <Nav />
-  <main id="pelicula" class="relative z-10 min-h-svh">
-    <Apertura />
-    <ActoUno />
-    <ActoDos />
+  <main id="contenido" class="relative z-10">
+    {hero === 'linterna' ? <><Linterna /><Estudio /></> : <Portal />}
+    <Trabajos />
+    <Gente />
+    <DeCerca />
     <Giro />
     <Technicolor />
-    <ActoTres />
-    <LaCritica />
-    <Cartelera />
-    <Cierre />
+    <Niveles />
+    <Final />
   </main>
   <Pie />
-  <!-- Escena post-créditos: para quienes se quedan hasta el final -->
-  <aside class="relative z-10 grid place-items-center px-5 pt-12 pb-20 md:min-h-[35svh] md:pt-0 md:pb-16" aria-label={ui.postCreditos}>
-    <p class="max-w-[28ch] text-center text-2xl leading-snug text-tinta/70 italic md:text-3xl" data-revelar="18">
-      {cierre.postCreditos}
-    </p>
-  </aside>
-  <Timecode />
   <Motion />
 </Base>

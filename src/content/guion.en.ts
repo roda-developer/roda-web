@@ -42,13 +42,9 @@ export const ui: typeof ES.ui = {
   traducido: 'Translated from Spanish',
   leerMas: 'Read more',
   leerMenos: 'Read less',
-  postCreditos: 'Post-credits scene',
-  actoUno: 'Act one: first impressions',
   giro: 'The twist',
   technicolor: 'Technicolor: sometimes more is more',
   mas: 'more',
-  acto: 'Act',
-  parte: 'Part',
   estreno: 'Your premiere',
 };
 
@@ -57,42 +53,6 @@ export const nav: typeof ES.nav = {
   nosotros: 'About',
   precios: 'Pricing',
   atajo: 'Let’s talk',
-};
-
-export const apertura: typeof ES.apertura = {
-  titulo: ['Your brand already', 'has a story.'],
-  queHacemos: 'We design and build custom websites for brands, from US$ 300.',
-  cta: 'Let’s talk',
-  verPrecios: 'See pricing',
-};
-
-export const actoUno: typeof ES.actoUno = {
-  rotulo: ['01', 'First impressions'],
-  lineas: ['Someone hears about you and looks you up.', 'What they find decides if they write.'],
-  golpe: ['They don’t read.', 'They look.'],
-  generica: {
-    marca: 'Your Brand',
-    menu: ['Home', 'About', 'Services', 'Contact'],
-    titulo: 'Welcome to our website',
-    texto: 'We are a leading company committed to excellence and quality in every one of our services.',
-    boton: 'Learn more',
-  },
-  encuentra: 'What they usually find:',
-  notas: ['A template a thousand other brands use.', 'A stock photo.', '“Learn more”… about what?'],
-  cuenta: 'seconds to decide',
-  cierre: ['And they leave.', 'You didn’t lose a visit.', 'You lost a client.'],
-};
-
-export const actoDos: typeof ES.actoDos = {
-  rotulo: ['02', 'What a good website does'],
-  titulo: 'A good website does three things.',
-  planos: [
-    { titulo: 'It makes sense instantly.', texto: 'What you do and why you, before anyone has to look for it.' },
-    { titulo: 'It loads before you blink.', texto: 'With every second of waiting, someone leaves.' },
-    { titulo: 'It leads to one place.', texto: 'A website that asks for everything gets nothing.' },
-  ],
-  pesa: 'This page weighs',
-  poco: 'very little',
 };
 
 export const giro: typeof ES.giro = {
@@ -105,32 +65,6 @@ export const technicolor: typeof ES.technicolor = {
   grito: ['And sometimes', 'more', 'is more.'],
   letras: ['M', 'O', 'RE'],
   cinta: ['More color', 'More noise', 'More you', 'More nerve', 'More brand'],
-  firma: 'Some we made',
-  verTodos: 'See all our work',
-  corte: ['The secret isn’t picking a style.', 'It’s knowing which one your brand needs.'],
-  webDe: '{titulo} website',
-};
-
-export const actoTres: typeof ES.actoTres = {
-  rotulo: ['03', 'How we work'],
-  titulo: 'From idea to website, in five steps.',
-  pasos: [
-    { nombre: 'We listen.', cine: 'Script', texto: 'Your brand, who you’re talking to and what you want to happen when someone arrives.' },
-    { nombre: 'We show you how it’ll look.', cine: 'Storyboard', texto: 'You see every screen before it exists.' },
-    { nombre: 'We build it.', cine: 'Shooting', texto: 'Custom-made, no templates. Fast and light.' },
-    { nombre: 'We launch it.', cine: 'Premiere', texto: 'It goes out into the world, ready to be found.' },
-    { nombre: 'And we stay with you.', cine: 'And after', texto: 'We look after it and help it grow. And the messages start coming in.' },
-  ],
-  obra: {
-    notas: ['Brand: yours', 'Talks to: people looking for what you do', 'Goal: get them to write'],
-    marca: 'Your brand',
-    titular: 'What you do, in one line.',
-    bajada: 'And why they should choose you.',
-    boton: 'Write to us',
-    url: 'yourbrand.com',
-    enLinea: 'Live',
-    mensaje: ['New message', 'Hi! I saw your website and I’d like to ask…'],
-  },
 };
 
 export const proyectosPagina: typeof ES.proyectosPagina = {
@@ -418,23 +352,6 @@ export const contactoPagina: typeof ES.contactoPagina = {
 };
 
 export const laCritica: typeof ES.laCritica = { titulo: 'The critics say', completo: 'What the critics say' };
-
-export const cartelera: typeof ES.cartelera = {
-  rotulo: ['04', 'What we do'],
-  titulo: ['Now showing.', 'Three websites, three genres.'],
-  deslizar: 'Swipe to see more',
-  navegar: 'Browse the bill',
-  anterior: 'Previous film',
-  siguiente: 'Next film',
-  presenta: 'presents',
-  escribinos: 'Write to us',
-  enCartel: 'Now showing',
-  peliculas: [
-    { id: 'landing', dibujo: 'landing', articulo: 'The', titulo: 'Landing', frase: 'One page. One goal.', creditos: 'Straight to the point · One button, one message', precio: 'US$ 300', color: 'rojo' },
-    { id: 'multiseccion', dibujo: 'portfolio', articulo: 'The', titulo: 'Multi-page', frase: 'Your work, on the big screen.', creditos: 'Up to 5 pages · To tell it all', precio: 'US$ 400', color: 'rosa' },
-    { id: 'tienda', dibujo: 'tienda', articulo: 'The', titulo: 'Store', frase: 'It sells while you sleep.', creditos: 'Starring your products · And online payments', precio: 'US$ 550', color: 'amarillo' },
-  ],
-};
 
 export const nosotros: typeof ES.nosotros = {
   secuencia: {
