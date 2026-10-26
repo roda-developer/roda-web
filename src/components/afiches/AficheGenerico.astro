@@ -21,7 +21,7 @@ const foto = fotos.mobile ?? fotos.afiche;
 const tam = Math.min(22, Math.max(9, 150 / Math.max(p.titulo.length, 1)));
 ---
 <div class="gen" aria-hidden="true" style={`--acento:${color}`}>
-  <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 30vw, 100vw" loading="lazy" class="gen-foto" />
+  <Image src={foto} alt="" widths={[500, 900]} sizes="(min-width: 768px) 36vw, 100vw" loading="lazy" class="gen-foto" />
   <div class="gen-sombra"></div>
   <div class="gen-franja"><span class="gen-titulo" style={`font-size:${tam}cqi`}>{p.titulo}</span></div>
   <p class="gen-lema">{p.logline}</p>
