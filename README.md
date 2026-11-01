@@ -36,7 +36,3 @@ Cloudflare publica `master` solo (Worker `roda-web`, `wrangler.jsonc` + `public/
 
 - **Desde el admin** (admin.rodadevelop.com → Web): sube un JSON a `src/content/proyectos-admin/` y las capturas a `src/assets/proyectos/<slug>/`. Cada JSON se valida al compilar (`src/content/proyecto-admin.ts`): si falta un campo, el build se frena y dice cuál. Lleva el afiche genérico.
 - **A mano:** sumarlo a `PROYECTOS_CODIGO` en `src/content/proyectos.ts` (y sus traducciones en `proyectos.traducciones.ts`), las capturas en `src/assets/proyectos/<slug>/` y, si tiene afiche propio, el componente en `src/components/afiches/` y su entrada en `mapa.ts`.
-
-## Para comparar
-
-- `/prueba-linterna`: la home con la Linterna como primera pantalla (fuera del sitemap y de Google).

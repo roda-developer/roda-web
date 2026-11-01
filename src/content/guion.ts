@@ -81,7 +81,7 @@ export const proyectosPagina = {
   celularDe: '{titulo} en el celular',
   mostrandoPrimero: 'Mostrando primero proyectos de {rubro}',
   ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
-  secciones: { cliente: 'El cliente', desafio: 'Qué necesitaba', solucion: 'Qué hicimos', destacados: 'Detalles', deCerca: 'De cerca', resultado: 'Resultado' },
+  secciones: { cliente: 'El cliente', desafio: 'Qué necesitaba', solucion: 'Qué hicimos', destacados: 'Detalles', deCerca: 'Su marca', resultado: 'Resultado' },
   /** Los créditos al pie de cada afiche de proyecto */
 
 };

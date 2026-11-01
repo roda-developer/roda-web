@@ -2,14 +2,11 @@
 /**
  * La home: la O (que se abre a Estudio), la galería de trabajos, lo que dicen los clientes, cómo trabajamos,
  * probá una (tres webs reales funcionando, para el que todavía duda) y el final.
- * hero: 'o' (la principal) o 'linterna' (la segunda opción, se ve en /prueba-linterna para comparar).
  */
 import Base from '../layouts/Base.astro';
 import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Portal from '../sections/Portal.astro';
-import Linterna from '../sections/Linterna.astro';
-import Estudio from '../sections/Estudio.astro';
 import Galeria from '../sections/Galeria.astro';
 import Probar from '../sections/Probar.astro';
 import Criticas from '../components/Criticas.astro';
@@ -19,18 +16,12 @@ import Niveles from '../sections/Niveles.astro';
 import Final from '../sections/Final.astro';
 import Pie from '../components/Pie.astro';
 
-interface Props {
-  hero?: 'o' | 'linterna';
-  /** false en las páginas de prueba: Google no las guarda */
-  indexable?: boolean;
-}
-const { hero = 'o', indexable = true } = Astro.props;
 const testimonios = testimoniosEn(idiomaDe(Astro.currentLocale));
 ---
-<Base indexable={indexable}>
+<Base>
   <Nav />
   <main id="contenido" class="relative z-10">
-    {hero === 'linterna' ? <><Linterna /><Estudio /></> : <Portal />}
+    <Portal />
     <Galeria />
     {testimonios.length > 0 && <div class="testimonios"><Criticas testimonios={testimonios} /></div>}
     <Niveles />

@@ -75,7 +75,7 @@ export const proyectosPagina: typeof ES.proyectosPagina = {
   celularDe: '{titulo} no celular',
   mostrandoPrimero: 'Mostrando primeiro projetos de {rubro}',
   ficha: { rubro: 'Ramo', anio: 'Ano', rol: 'O que fizemos', genero: 'O que é' },
-  secciones: { cliente: 'O cliente', desafio: 'O que precisava', solucion: 'O que fizemos', destacados: 'Detalhes', deCerca: 'De perto', resultado: 'Resultado' },
+  secciones: { cliente: 'O cliente', desafio: 'O que precisava', solucion: 'O que fizemos', destacados: 'Detalhes', deCerca: 'A marca', resultado: 'Resultado' },
 
 };
 

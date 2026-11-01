@@ -188,8 +188,6 @@ const paraElNavegador = { falta: t.falta, faltan: t.faltan, enviando: t.enviando
 </style>
 
 <script>
-  import { scrollA } from '../motion/index';
-
   // Los textos vienen del HTML, en el idioma de la página
   const t = JSON.parse(document.getElementById('textos-contacto')?.textContent ?? '{}');
   const rellenar = (plantilla: string, valores: Record<string, string>) => plantilla.replace(/\{(\w+)\}/g, (_: string, k: string) => valores[k] ?? '');
@@ -254,7 +252,7 @@ const paraElNavegador = { falta: t.falta, faltan: t.faltan, enviando: t.enviando
         // La página lleva a lo primero que falta y deja ese aviso a la vista, con aire arriba para el menú
         primero?.focus({ preventScroll: true });
         const lugar = !tipo ? form.querySelector<HTMLElement>('[data-grupo-tipo]') : primero?.parentElement;
-        if (lugar) scrollA(lugar);
+        lugar?.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
         return;
       }
       if (falta) falta.hidden = true;

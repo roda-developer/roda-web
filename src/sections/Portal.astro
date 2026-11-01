@@ -36,7 +36,10 @@ const { inicio } = textos(idioma);
       </h1>
     </div>
     <div class="marco">
-      <video class="marco-video" src="/videos/roda-escritorio.mp4?v=7" poster="/videos/roda-escritorio.jpg?v=7" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio></video>
+      <video class="marco-video" poster="/videos/roda-escritorio.jpg?v=7" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio>
+        <source src="/videos/roda-escritorio-celu.mp4?v=1" type="video/mp4" media="(max-width: 767px)" />
+        <source src="/videos/roda-escritorio.mp4?v=7" type="video/mp4" />
+      </video>
     </div>
     <div class="estudio" id="estudio">
       <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
@@ -117,6 +120,8 @@ const { inicio } = textos(idioma);
       :global(.js) .datos { top: calc(5.5rem + env(safe-area-inset-top, 0px)); }
     }
     :global(.js [data-logo-nav]) { opacity: 0; }
+    /* En el hero, el botón ya dice Hablemos: el del menú aparece al bajar */
+    :global(.js [data-atajo-nav]) { opacity: 0; visibility: hidden; }
     /* El banner a lo ancho: en celu de borde a borde, en compu con margen; el texto abajo */
     :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 13svh; height: 42svh; will-change: transform, clip-path; }
     :global(.js) .marco-video { will-change: transform; }
@@ -168,6 +173,7 @@ const { inicio } = textos(idioma);
     const base = portal.querySelector<HTMLElement>('[data-base]')!;
     const letraD = portal.querySelector<HTMLElement>('[data-letra-d]')!;
     const logoNav = document.querySelector<HTMLElement>('[data-logo-nav]');
+    const atajos = document.querySelectorAll<HTMLElement>('[data-atajo-nav]');
     const marco = portal.querySelector<HTMLElement>('.marco')!;
     const video = portal.querySelector<HTMLVideoElement>('[data-video-estudio]');
     const partesEstudio = [...portal.querySelectorAll<HTMLElement>('.estudio > *')];
@@ -237,6 +243,8 @@ const { inicio } = textos(idioma);
       palabra.style.opacity = String(1 - b);
       palabra.style.visibility = b >= 1 ? 'hidden' : '';
       if (logoNav) logoNav.style.opacity = String(tramo(p, 0.08, 0.12));
+      const atajoVisible = tramo(p, 0.08, 0.12);
+      atajos.forEach((a) => { a.style.opacity = String(atajoVisible); a.style.visibility = atajoVisible > 0 ? 'visible' : 'hidden'; });
       // Primero la foto crece igual que el anillo, así nunca se sale del hueco de la O.
       // Cuando llega a su tamaño (o el anillo ya se fue), se acomoda como banner.
       const pTope = tope();

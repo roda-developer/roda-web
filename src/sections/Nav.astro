@@ -27,7 +27,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
 
       <!-- Mobile Izquierda: Hablemos, siempre a mano (el logo sigue centrado por la grilla) -->
       <div class="flex md:hidden min-w-0 items-center justify-start">
-        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 min-w-0 items-center overflow-hidden whitespace-nowrap" aria-current={aqui('contacto')}>({nav.atajo})</a>
+        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 min-w-0 items-center overflow-hidden whitespace-nowrap" aria-current={aqui('contacto')} data-atajo-nav>({nav.atajo})</a>
       </div>
 
       <!-- Centro: Logo Roda (en home no tiene link para que tocar el nav no te mande arriba) -->
@@ -46,7 +46,7 @@ const idiomas = IDIOMAS.map((l) => ({ l, href: equivalente(Astro.url.pathname, l
       <!-- Desktop Derecha: Precios, Hablemos y el idioma -->
       <div class="hidden md:flex min-w-0 items-center justify-end gap-5 md:gap-8 whitespace-nowrap">
         <a href={ruta(idioma, 'precios')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('precios')}>{nav.precios}</a>
-        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')}>({nav.atajo})</a>
+        <a href={ruta(idioma, 'contacto')} class="enlace inline-flex min-h-11 items-center" aria-current={aqui('contacto')} data-atajo-nav>({nav.atajo})</a>
         <button type="button" class="boton-sonido hidden md:inline-flex" aria-pressed="true" aria-label={ui.sonido} data-sonido-boton data-sonido-propio>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" fill="currentColor" stroke="none" />

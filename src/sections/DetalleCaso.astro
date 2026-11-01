@@ -1,8 +1,8 @@
 ---
 /**
- * El estudio de caso, después del hero: texto, pantallas, celulares y detalles de cerca, sobre papel.
- * Todo sale de una sola grilla: mismos márgenes, misma separación entre piezas y entre bloques.
- * Las imágenes no se recortan: las cajas tienen la proporción de cada pieza.
+ * El estudio de caso, después del hero, como una presentación: láminas con la web entera, nunca recortada,
+ * y la hoja de su marca (colores y tipografías medidos en su web).
+ * Una sola grilla: mismos márgenes, misma separación entre láminas y entre bloques.
  */
 import { Image } from 'astro:assets';
 import type { Proyecto } from '../content/proyectos';
@@ -27,37 +27,51 @@ const frase = p.testimonios?.[0];
     <div class="texto-cuerpo" data-revelar="2"><p>{p.desafio}</p></div>
   </section>
 
-  <Image src={detalle.pantallas[0]} alt={rellenar(t.pantallaDe, { titulo: p.titulo, n: 2 })} widths={[800, 1400, 2000, 2400]} sizes="100vw" quality={88} loading="lazy" class="pieza" data-revelar />
+  <div class="lamina lamina-grande" data-revelar>
+    <Image src={detalle.pantalla} alt={rellenar(t.pantallaDe, { titulo: p.titulo, n: 2 })} widths={[640, 1000, 1400, 1800]} sizes="(min-width: 900px) 64vw, 100vw" quality={88} loading="lazy" class="pantalla" />
+  </div>
 
-  <div class="celulares" data-revelar>
+  <div class="lamina celulares" data-revelar>
     {detalle.celulares.map((c, i) => (
-      <Image src={c} alt={i === 0 ? rellenar(t.celularDe, { titulo: p.titulo }) : ''} widths={[390, 780]} sizes="(min-width: 768px) 28vw, 40vw" quality={88} loading="lazy" class:list={['celular', { 'solo-compu': i === 2 }]} />
+      <Image src={c} alt={i === 0 ? rellenar(t.celularDe, { titulo: p.titulo }) : ''} widths={[390, 780]} sizes="(min-width: 768px) 14rem, 40vw" quality={88} loading="lazy" class:list={['celular', { 'solo-compu': i === 2 }]} />
     ))}
   </div>
 
   <section class="texto-bloque">
     <h2 class="etiqueta font-titulo" data-revelar>{t.secciones.solucion}</h2>
-    <div class="texto-cuerpo" data-revelar="2">{p.solucion.map((s) => <p>{s}</p>)}</div>
+    <div class="texto-cuerpo" data-revelar="2">
+      {p.solucion.map((s) => <p>{s}</p>)}
+      <ul class="puntos">{p.destacados.map((d) => <li>{d}</li>)}</ul>
+    </div>
   </section>
 
-  <Image src={detalle.pantallas[1]} alt={rellenar(t.pantallaDe, { titulo: p.titulo, n: 3 })} widths={[800, 1400, 2000, 2400]} sizes="100vw" quality={88} loading="lazy" class="pieza" data-revelar />
+  <div class="par">
+    {detalle.par.map((pz, i) => (
+      <div class="lamina" data-revelar>
+        {pz.tipo === 'foto'
+          ? <Image src={pz.src} alt={rellenar(t.pantallaDe, { titulo: p.titulo, n: 3 + i })} widths={[640, 1000, 1400]} sizes="(min-width: 768px) 38vw, 100vw" quality={88} loading="lazy" class="pantalla" />
+          : <video src={pz.src} poster={pz.poster} muted loop playsinline preload="none" width="1120" height="700" aria-hidden="true" class="pantalla" data-cerca-video></video>}
+      </div>
+    ))}
+  </div>
 
-  <section class="cerca" aria-labelledby="cerca-titulo">
-    <h2 id="cerca-titulo" class="etiqueta font-titulo" data-revelar>{t.secciones.deCerca}</h2>
-    <figure class="cerca-ancha" data-revelar>
-      <Image src={detalle.ancha} alt="" widths={[800, 1400, 2400]} sizes="100vw" quality={88} loading="lazy" class="pieza" />
-    </figure>
-    {detalle.par.map((pz) => {
-      const texto = pz.destacado === undefined ? undefined : p.destacados[pz.destacado];
-      return (
-        <figure data-revelar>
-          {pz.tipo === 'foto'
-            ? <Image src={pz.src} alt="" widths={[640, 1000, 1600]} sizes="(min-width: 768px) 50vw, 100vw" quality={88} loading="lazy" class="pieza" />
-            : <video src={pz.src} poster={pz.poster} muted loop playsinline preload="none" width="1120" height="700" aria-hidden="true" class="pieza" data-cerca-video></video>}
-          {texto && <figcaption>{texto}</figcaption>}
-        </figure>
-      );
-    })}
+  <section class="marca-hoja" aria-labelledby="marca-titulo">
+    <h2 id="marca-titulo" class="etiqueta font-titulo" data-revelar>{t.secciones.deCerca}</h2>
+    <div class="marca-cuerpo" data-revelar>
+      <ul class="colores">
+        {detalle.marca.colores.map((c) => (
+          <li><span class="color" style={`background: ${c}`}></span><span class="hex">{c}</span></li>
+        ))}
+      </ul>
+      <div class="fuentes">
+        {detalle.marca.fuentes.map((f) => (
+          <figure>
+            <Image src={f.muestra} alt="" widths={[420, 840]} sizes="(min-width: 900px) 18vw, 44vw" quality={90} loading="lazy" />
+            <figcaption>{f.nombre}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
   </section>
 
   {frase && (
@@ -69,43 +83,64 @@ const frase = p.testimonios?.[0];
 </div>
 
 <style>
-  /* Una sola regla para todo: los mismos márgenes y dos separaciones (entre piezas y entre bloques) */
-  .estudio { --margen: 1.25rem; --pieza: 1rem; --bloque: clamp(4rem, 10svh, 7rem); display: grid; gap: var(--bloque); padding: var(--bloque) var(--margen) clamp(5rem, 12svh, 8rem); }
+  /* Una sola regla para todo: los mismos márgenes y dos separaciones (entre láminas y entre bloques) */
+  .estudio { --margen: 1.25rem; --pieza: 1rem; --bloque: clamp(4rem, 10svh, 7rem); --panel: #e8e6e0; display: grid; gap: var(--bloque); padding: var(--bloque) var(--margen) clamp(5rem, 12svh, 8rem); }
   @media (min-width: 768px) { .estudio { --margen: clamp(1.5rem, 3.5vw, 3rem); --pieza: 1.5rem; } }
-  .estudio :global(.pieza) { display: block; width: 100%; height: auto; }
 
   /* Título a la izquierda, texto a la derecha, siempre en las mismas columnas */
   .texto-bloque { display: grid; gap: 1rem; }
   .etiqueta { font-size: clamp(2.4rem, 4vw, 3.5rem); line-height: 0.92; }
   .texto-cuerpo { display: grid; gap: 1rem; max-width: 40rem; }
   .texto-cuerpo p { font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.32; font-weight: 500; letter-spacing: -0.01em; }
+  .puntos { display: grid; gap: 0.35rem; margin-top: 0.75rem; font-size: 1.0625rem; line-height: 1.4; }
   @media (min-width: 900px) {
     .texto-bloque { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--pieza); align-items: start; }
     .etiqueta { grid-column: 1 / span 5; }
     .texto-cuerpo { grid-column: 6 / span 7; }
-    /* Cliente y desafío van juntos: menos aire entre ellos */
+    /* Cliente y lo que necesitaba van juntos: menos aire entre ellos */
     .texto-bloque + .texto-bloque { margin-top: calc(var(--bloque) * -0.45); }
   }
 
-  /* Los celulares: sobre un paso de tono, todos iguales */
-  .celulares { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--pieza); padding: clamp(1.5rem, 5vw, 5rem); background: #e8e6e0; }
-  .celulares :global(.celular) { display: block; width: 100%; height: auto; border: 5px solid var(--color-tinta); border-radius: 1.5rem; }
+  /* La lámina: un panel de tono con la pieza entera apoyada en el medio, con aire alrededor */
+  .lamina { display: grid; place-items: center; padding: clamp(1.25rem, 4vw, 4rem); background: var(--panel); }
+  .lamina :global(.pantalla) { display: block; width: 100%; height: auto; border-radius: 0.375rem; }
+  .lamina-grande { padding-block: clamp(1.5rem, 6vw, 6rem); }
+  .lamina-grande :global(.pantalla) { max-width: min(100%, 60rem); }
+  @media (min-width: 900px) { .lamina-grande :global(.pantalla) { width: 68%; } }
+
+  /* Los celulares: chicos y todos iguales */
+  .celulares { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--pieza); align-items: start; justify-items: center; padding-block: clamp(2rem, 6vw, 6rem); }
+  .celulares :global(.celular) { display: block; width: 100%; max-width: 14rem; height: auto; border: 5px solid var(--color-tinta); border-radius: 1.5rem; }
   .celulares :global(.solo-compu) { display: none; }
   @media (min-width: 768px) {
-    .celulares { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 5vw, 5rem); }
+    .celulares { grid-template-columns: repeat(3, auto); justify-content: center; gap: clamp(2rem, 5vw, 5rem); }
+    .celulares :global(.celular) { width: clamp(9rem, 15vw, 14rem); }
     .celulares :global(.solo-compu) { display: block; }
   }
 
-  /* De cerca: una franja a lo ancho y un par, con el texto siempre abajo y del mismo tamaño */
-  .cerca { display: grid; gap: var(--pieza); }
-  .cerca .etiqueta { margin-bottom: 1rem; }
-  .cerca figure { margin: 0; }
-  .cerca figcaption { max-width: 38ch; margin-top: 0.75rem; margin-bottom: 1.5rem; font-size: 1.0625rem; line-height: 1.4; }
-  .cerca-ancha { margin-bottom: 0.25rem !important; }
-  @media (min-width: 768px) {
-    .cerca { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .cerca .etiqueta, .cerca-ancha { grid-column: 1 / -1; }
+  .par { display: grid; gap: var(--pieza); }
+  @media (min-width: 768px) { .par { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  /* La hoja de la marca: sus colores y sus letras, medidos en su web */
+  .marca-hoja { display: grid; gap: 1.5rem; }
+  .marca-cuerpo { display: grid; gap: var(--pieza); }
+  .colores { display: flex; }
+  .colores li { flex: 1 1 0; min-width: 0; }
+  /* Los colores claros se distinguen del papel con un borde apenas visible */
+  .color { display: block; height: clamp(7rem, 20vw, 16rem); box-shadow: inset 0 0 0 1px rgb(18 18 18 / 0.1); }
+  .hex { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .fuentes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--pieza); }
+  .fuentes figure { margin: 0; }
+  .fuentes :global(img) { display: block; width: 100%; height: auto; }
+  .fuentes figcaption { margin-top: 0.6rem; font-size: 0.875rem; }
+  @media (min-width: 900px) {
+    .marca-cuerpo { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
+    .colores { grid-column: 1 / span 7; }
+    .fuentes { grid-column: 8 / span 5; }
+    /* El alto de los colores acompaña al de las letras */
+    .color { height: calc((100vw - 2 * var(--margen)) * 5 / 12 / 2 * 300 / 420 - 0.5rem); }
   }
+  @media (max-width: 480px) { .hex { font-size: 0.75rem; } }
 
   /* La frase del cliente, una sola */
   .frase { display: grid; gap: 1.25rem; }

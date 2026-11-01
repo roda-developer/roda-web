@@ -111,3 +111,12 @@ Falta:
 - Píxeles: `node scripts/pixelar-afiches.mjs --mockups` → `src/assets/pixeles-mockups/`. En Trabajos aparecen solo mientras la fila se mueve.
 - Las escenas son generadas (Canva). Se usan sin recortar: las cajas tienen su proporción, 1136 x 1408.
 - Pendiente: alguna imagen en /precios.
+
+## Estudio de caso (2026-11-01)
+
+- src/sections/DetalleCaso.astro + src/content/detalle.ts: láminas con la web entera, sin recortes; hoja de marca con colores y tipografías medidos en cada web.
+- Las capturas se sacan con espera a que cargue lo visible. Fidalgo: las fotos con /render/image/ de Supabase dan 403 (FeatureNotEnabled); en las capturas se pidieron por su dirección original y solo se usan tramos con fotos completas. No se tocó su web.
+- Limpieza: fuera Cierre, Linterna, Estudio, prueba-linterna, store, dibujarAfiche y nanostores. e2e: humo.spec.ts reescrito con recorridos reales.
+- Video del hero: versión de celu (780 px, 2,2 MB).
+- Pendiente: menos tamaños de letra, guía de marca, imagen en /precios.
+
