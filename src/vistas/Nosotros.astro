@@ -5,65 +5,66 @@ import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import { proyectosEn } from '../content/proyectos';
+import { capturas } from '../content/capturas';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import juntos from '../assets/nosotros/juntos.jpg';
-import giuliPix from '../assets/nosotros/giuli-pix.png';
-import facuPix from '../assets/nosotros/facu-pix.png';
-import giuli from '../assets/nosotros/giuli.jpg';
-import facu from '../assets/nosotros/facu.jpg';
-// Los retratos en píxeles (scripts/pixelar-retratos.mjs) y, debajo, el mismo recorte de la foto: la O lo descubre.
-// En el orden de t.equipo.personas
-const retratos = [{ pix: giuliPix, foto: giuli }, { pix: facuPix, foto: facu }];
 const idioma = idiomaDe(Astro.currentLocale);
-const { nosotros: t, metas, ui } = textos(idioma);
+const { nosotros: t, metas, ui, inicio } = textos(idioma);
 const link = ruta(idioma, 'contacto');
+const [giuli, facu] = t.equipo.personas;
 
-// Lo que ya hicimos: las webs de /proyectos
+// Cuatro trabajos que se vean bien distintos entre sí; el resto está en /proyectos
 const proyectos = proyectosEn(idioma);
-
+const elegidos = ['emme', 'craft', 'eber', 'newave'].flatMap((slug) => proyectos.filter((p) => p.slug === slug));
 ---
 <Base titulo={metas.nosotros.titulo} descripcion={metas.nosotros.descripcion}>
   <Nav enHome={false} actual="nosotros" />
   <main class="relative z-10">
-    <!-- Nosotros, como la página de un libro: la palabra gigante y la foto que se le cruza -->
-    <section class="sobre px-5 pt-24 md:px-12 md:pt-32" aria-labelledby="sobre-titulo">
+    <!-- La apertura, como la de la home: el texto arriba y la palabra de borde a borde, apoyada abajo -->
+    <section class="apertura" aria-labelledby="sobre-titulo">
+      <p class="bajada" data-revelar="2">{t.bajada}</p>
       <h1 id="sobre-titulo" class="palabra font-titulo" data-revelar>{t.grande}</h1>
-      <div class="cuerpo">
-        <figure class="foto" data-revelar="4">
-          <Image src={juntos} alt={t.foto.alt} widths={[640, 1080, 1600]} sizes="(min-width: 768px) 40vw, 80vw" quality={90} />
-        </figure>
-        <div class="textos" data-revelar="6">
-          <p class="text-lg leading-relaxed md:text-xl">{t.bajada}</p>
-          <!-- Primero lo que hicimos: las webs publicadas, cada una con su caso -->
-          <h2 class="mt-10 text-xl font-medium tracking-[-0.02em] md:text-2xl">{t.hicimos.titulo}</h2>
-          <p class="mt-3 text-lg leading-relaxed md:text-xl">{rellenar(t.hicimos.texto, { n: proyectos.length })}</p>
-          <ul class="hicimos mt-4">
-            {proyectos.map((p) => (
-              <li><a href={ruta(idioma, 'proyectos', p.slug)} class="underline underline-offset-4">{p.titulo}</a></li>
-            ))}
-          </ul>
-          <a href={ruta(idioma, 'proyectos')} class="cta mt-8">{t.hicimos.verTodos}</a>
-        </div>
+    </section>
+
+    <!-- La foto se abre desde un círculo al bajar, como la O de la home. Cada nombre, del lado donde está en la foto -->
+    <section class="pareja" data-pareja aria-label={t.equipo.titulo}>
+      <div class="persona persona-izq" data-revelar>
+        <p class="nombre font-titulo">{facu.nombre}</p>
+        <p class="rol">{facu.rol}</p>
+      </div>
+      <figure class="foto">
+        <Image src={juntos} alt={t.foto.alt} widths={[640, 1080, 1600]} sizes="(min-width: 900px) 40vw, 100vw" quality={90} loading="eager" data-foto-o />
+      </figure>
+      <div class="persona persona-der" data-revelar>
+        <p class="nombre font-titulo">{giuli.nombre}</p>
+        <p class="rol">{giuli.rol}</p>
       </div>
     </section>
 
-    <!-- Quiénes somos: Giuli y Facu en píxeles; la O (al pasar el mouse o tocar) descubre la foto -->
-    <section class="equipo mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="equipo-titulo">
-      <h2 id="equipo-titulo" class="equipo-titulo font-titulo" data-revelar>{t.equipo.titulo}</h2>
-      <ul class="retratos">
-        {t.equipo.personas.map((p, i) => (
-          <li class="retrato" data-revelar={String(i * 3)}>
-            <div class="retrato-caja" data-retrato data-sin-cursor>
-              <Image src={retratos[i].pix} alt={p.alt} widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" format="png" loading="lazy" class="retrato-foto" />
-              <Image src={retratos[i].foto} alt="" widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" quality={82} loading="lazy" class="retrato-nitida" aria-hidden="true" />
-              <span class="retrato-o" aria-hidden="true"></span>
-            </div>
-            <p class="retrato-nombre font-titulo">{p.nombre}</p>
-            <p class="retrato-rol">{p.rol}</p>
-            <p class="retrato-texto">{p.texto}</p>
-          </li>
-        ))}
+    <section class="bloque" aria-labelledby="proceso-titulo">
+      <h2 id="proceso-titulo" class="etiqueta font-titulo" data-revelar>{t.proceso}</h2>
+      <p class="parrafo" data-revelar="2">{inicio.niveles.proceso}</p>
+    </section>
+
+    <section class="hechas" aria-labelledby="hechas-titulo">
+      <div class="bloque bloque-sin-aire">
+        <h2 id="hechas-titulo" class="etiqueta font-titulo" data-revelar>{t.hicimos.titulo}</h2>
+        <p class="parrafo" data-revelar="2">{rellenar(t.hicimos.texto, { n: proyectos.length }).replace(/:$/, '.')}</p>
+      </div>
+      <ul class="hechas-fila">
+        {elegidos.map((p) => {
+          const { mockup } = capturas(p.slug);
+          return mockup && (
+            <li data-revelar>
+              <a href={ruta(idioma, 'proyectos', p.slug)} class="hecha">
+                <Image src={mockup} alt="" widths={[320, 480, 800]} sizes="(min-width: 768px) 24vw, 45vw" quality={84} loading="lazy" />
+                <span>{p.titulo}</span>
+              </a>
+            </li>
+          );
+        })}
       </ul>
+      <a href={ruta(idioma, 'proyectos')} class="ver-todos" data-revelar>{t.hicimos.verTodos}</a>
     </section>
 
     <!-- El cierre: la pregunta y el botón -->
@@ -79,79 +80,69 @@ const proyectos = proyectosEn(idioma);
 </Base>
 
 <style>
-  /* Las webs que hicimos: una lista corta, de a dos columnas */
-  .hicimos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem 1.5rem; font-size: 1.125rem; }
-  .hicimos a { display: inline-flex; align-items: center; min-height: 2.75rem; }
-
-  /* ── Nosotros: la palabra gigante y la foto que se le cruza ───── */
-  .sobre .mono { color: var(--color-gris); }
-  .palabra {
-    margin-top: 1rem;
-    font-size: 27vw;
-    line-height: 0.8;
-    text-align: center;
-  }
-  /* En celu la foto va abajo de la palabra (si se le cruza, parece un error); en compu se le cruza */
-  .cuerpo { display: grid; gap: 2.5rem; margin-top: 1.5rem; }
-  .foto { position: relative; z-index: 1; width: 78%; margin: 0; }
-  .foto :global(img) { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 35%; }
+  /* La apertura: en compu ocupa casi toda la pantalla; la palabra entra justa de borde a borde */
+  .apertura { display: flex; flex-direction: column; justify-content: flex-end; gap: clamp(1.5rem, 4svh, 2.5rem); min-height: 62svh; padding: 6.5rem 1.25rem 0; overflow: hidden; }
+  .bajada { max-width: 34ch; font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.32; font-weight: 500; letter-spacing: -0.01em; }
+  /* NOSOTROS mide 3,235 veces su tamaño de letra: así llena justo el ancho entre márgenes */
+  .palabra { font-size: calc((100vw - 2.5rem) / 3.235); font-weight: 800; line-height: 0.8; white-space: nowrap; }
   @media (min-width: 768px) {
-    .cuerpo { grid-template-columns: 0.9fr 1fr; gap: 4rem; align-items: end; padding-inline: 2vw; margin-top: -9vw; }
-    .foto { width: 100%; }
-    .textos { max-width: 38ch; }
+    .apertura { min-height: calc(100svh - 2rem); padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+    .palabra { font-size: calc((100vw - 2 * clamp(1.5rem, 3.5vw, 3rem)) / 3.235); }
   }
 
+  /* La foto entera, con un nombre a cada lado */
+  .pareja { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; padding: clamp(3rem, 8svh, 5rem) 1.25rem 0; }
+  .foto { grid-column: 1 / -1; grid-row: 1; margin: 0; }
+  .foto :global(img) { display: block; width: 100%; height: auto; }
+  .nombre { font-size: clamp(3rem, 7.5vw, 7rem); line-height: 0.88; }
+  .rol { margin-top: 0.5rem; max-width: 22ch; font-size: 1.0625rem; line-height: 1.35; }
+  @media (min-width: 900px) {
+    .pareja { grid-template-columns: minmax(0, 1fr) min(40vw, calc((100svh - 4rem) * 2240 / 3382)) minmax(0, 1fr); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: center; padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+    .foto { grid-column: 2; }
+    .persona-der { grid-column: 3; grid-row: 1; }
+    .persona-izq { grid-column: 1; grid-row: 1; text-align: right; justify-self: end; }
+    .persona-izq .rol { margin-left: auto; }
+  }
 
-  /* ── Quiénes somos ─────────────────────────────────────────────── */
-  .equipo-titulo { font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.9; }
-  .retratos { display: grid; gap: 3rem; margin-top: 2.5rem; }
-  /* Los dos perfiles del mismo ancho, con un espacio parejo entre ellos */
-  @media (min-width: 768px) { .retratos { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem); } }
-  /* En compu, el título a la izquierda y los perfiles en el resto del ancho: así no queda un costado vacío */
-  @media (min-width: 1024px) {
-    .equipo { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 2fr); column-gap: clamp(2rem, 4vw, 4rem); align-items: start; }
-    .equipo-titulo { position: sticky; top: 7rem; max-width: 6ch; }
-    .retratos { margin-top: 0; }
+  /* Los bloques de texto: la misma grilla que los proyectos */
+  .bloque { display: grid; gap: 1rem; padding: clamp(5rem, 12svh, 8rem) 1.25rem 0; }
+  .bloque-sin-aire { padding: 0; }
+  .etiqueta { font-size: clamp(2.4rem, 4vw, 3.5rem); line-height: 0.92; }
+  .parrafo { max-width: 40rem; font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.32; font-weight: 500; letter-spacing: -0.01em; }
+  @media (min-width: 900px) {
+    .bloque { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; align-items: start; padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+    .bloque-sin-aire { padding-inline: 0; }
+    .etiqueta { grid-column: 1 / span 5; }
+    .parrafo { grid-column: 6 / span 7; }
   }
-  .retrato-caja { position: relative; overflow: hidden; touch-action: manipulation; }
-  @media (max-width: 767px) { .retrato-caja { max-width: 26rem; } }
-  .retrato :global(.retrato-foto) { display: block; width: 100%; height: auto; aspect-ratio: 1; }
-  /* La foto, debajo de los píxeles: la O la descubre donde está el mouse (o donde tocaste). --x, --y y --rad los pone el script, en px */
-  .retrato :global(.retrato-nitida) {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    clip-path: circle(0px at var(--x, 0px) var(--y, 0px)); transition: clip-path 300ms var(--ease-ui);
+
+  /* Lo que ya hicimos: cuatro mockups, enteros */
+  .hechas { display: grid; gap: 2rem; justify-items: start; padding: clamp(5rem, 12svh, 8rem) 1.25rem 0; }
+  .hechas > .bloque { width: 100%; }
+  .hechas-fila { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1rem; width: 100%; }
+  .hecha { display: grid; gap: 0.6rem; font-size: 1.0625rem; font-weight: 500; }
+  .hecha :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 1136 / 1408; transition: transform 250ms var(--ease-ui); }
+  .hecha:active :global(img) { transform: scale(0.98); }
+  @media (hover: hover) and (pointer: fine) { .hecha:hover :global(img) { transform: translateY(-6px); } }
+  .ver-todos { display: inline-flex; min-height: 2.75rem; align-items: center; font-size: 1.0625rem; text-decoration: underline; text-underline-offset: 4px; }
+  @media (min-width: 900px) {
+    .hechas { padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+    .hechas-fila { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 1.5rem; }
   }
-  .retrato-caja.abierto :global(.retrato-nitida) { clip-path: circle(var(--rad, 0px) at var(--x, 0px) var(--y, 0px)); }
-  /* El anillo de la O del logo, en papel, alrededor del hueco */
-  .retrato-o {
-    --b: calc(var(--rad, 0px) * 0.5);
-    position: absolute; left: 0; top: 0; width: calc(2 * (var(--rad, 0px) + var(--b))); aspect-ratio: 1;
-    border: var(--b) solid var(--color-papel); border-radius: 50%; pointer-events: none; opacity: 0;
-    transform: translate(calc(var(--x, 0px) - var(--rad, 0px) - var(--b)), calc(var(--y, 0px) - var(--rad, 0px) - var(--b))) scale(0.7);
-    transition: transform 300ms var(--ease-ui), opacity 200ms ease-out;
-  }
-  .retrato-caja.abierto .retrato-o { opacity: 1; transform: translate(calc(var(--x, 0px) - var(--rad, 0px) - var(--b)), calc(var(--y, 0px) - var(--rad, 0px) - var(--b))); }
-  .retrato-nombre { margin-top: 1.25rem; font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 0.9; text-transform: uppercase; }
-  .retrato-rol { margin-top: 0.4rem; font-weight: 600; font-size: 1.0625rem; }
-  .retrato-texto { margin-top: 0.5rem; max-width: 40ch; font-size: 1.125rem; line-height: 1.45; }
+  @media (prefers-reduced-motion: reduce) { .hecha :global(img) { transition: none; } }
 </style>
 
 <script>
-  // La O que descubre la foto: con mouse sigue al puntero mientras estás encima; tocando, se abre donde tocaste y se cierra al volver a tocar
-  document.querySelectorAll<HTMLElement>('[data-retrato]').forEach((caja) => {
-    const ubicar = (e: PointerEvent | MouseEvent) => {
-      const b = caja.getBoundingClientRect();
-      caja.style.setProperty('--x', `${e.clientX - b.left}px`);
-      caja.style.setProperty('--y', `${e.clientY - b.top}px`);
-      caja.style.setProperty('--rad', `${b.width * 0.2}px`);
-    };
-    caja.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; ubicar(e); caja.classList.add('abierto'); });
-    caja.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') ubicar(e); });
-    caja.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') caja.classList.remove('abierto'); });
-    caja.addEventListener('pointerup', (e) => {
-      if (e.pointerType === 'mouse') return;
-      if (!caja.classList.contains('abierto')) ubicar(e);
-      caja.classList.toggle('abierto');
+  import { gsap, movimientoPermitido } from '../motion/index';
+
+  // La foto se abre desde un círculo a medida que bajás. Sin movimiento o sin JS, se ve entera
+  const seccion = document.querySelector<HTMLElement>('[data-pareja]');
+  const foto = seccion?.querySelector<HTMLElement>('[data-foto-o]');
+  if (seccion && foto && movimientoPermitido()) {
+    gsap.fromTo(foto, { clipPath: 'circle(16% at 50% 45%)' }, {
+      clipPath: 'circle(75% at 50% 45%)',
+      ease: 'none',
+      scrollTrigger: { trigger: seccion, start: 'top 85%', end: 'top 15%', scrub: 0.5 },
     });
-  });
+  }
 </script>

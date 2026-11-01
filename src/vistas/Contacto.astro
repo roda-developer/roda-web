@@ -125,8 +125,8 @@ const paraElNavegador = { falta: t.falta, faltan: t.faltan, enviando: t.enviando
   .despues { padding-top: 0.25rem; }
   .despues h2 { font-size: clamp(2.2rem, 4vw, 3rem); line-height: 0.9; text-transform: uppercase; }
   .despues ol { counter-reset: paso; }
-  .despues li { counter-increment: paso; display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; font-size: 1.125rem; }
-  .despues li::before { content: counter(paso); font-family: var(--font-titulo); font-weight: 800; font-size: 1.6rem; line-height: 1; }
+  .despues li { counter-increment: paso; display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; font-size: 1.0625rem; }
+  .despues li::before { content: counter(paso); font-family: var(--font-titulo); font-weight: 800; font-size: 1.5rem; line-height: 1; }
   .despues[hidden] { display: none; }
   .despues li { padding: 0.9rem 0; line-height: 1.35; }
   .bloque { border: 0; padding: 0; margin: 0; min-width: 0; }
@@ -159,7 +159,7 @@ const paraElNavegador = { falta: t.falta, faltan: t.faltan, enviando: t.enviando
     border: 0;
     border-bottom: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent);
     border-radius: 0;
-    font-size: 1.15rem;
+    font-size: 1.0625rem;
     caret-color: var(--color-tc-rosa);
     transition: border-color 200ms ease;
     resize: vertical;
@@ -171,7 +171,7 @@ const paraElNavegador = { falta: t.falta, faltan: t.faltan, enviando: t.enviando
 
   /* Rojo más oscuro que el de la marca: el aviso tiene que leerse sobre el papel (contraste AA) */
   .falta { margin-bottom: 1rem; color: #c8102e; }
-  .falta-campo { margin-top: 0.5rem; font-size: 0.9375rem; color: #c8102e; }
+  .falta-campo { margin-top: 0.5rem; font-size: 0.875rem; color: #c8102e; }
   .falta-campo[hidden] { display: none; }
   .campo[aria-invalid='true'] { border-bottom-color: #c8102e; }
   .cta { cursor: pointer; border: 0; }

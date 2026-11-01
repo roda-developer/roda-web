@@ -265,6 +265,7 @@ export const preciosPagina = {
     cotizacion: 'Dólar oficial $ {valor} · {fecha}',
   },
   pedir: 'Quiero esta',
+  ejemplo: 'Por ejemplo, {titulo}',
   preguntas: [
     { p: '¿Tengo que pagar algo por mes?', r: ['En general, no. Pagás tu web una sola vez. El hosting, en la mayoría de los casos, es gratis, y el dominio (tumarca.com) se renueva una vez por año, a tu nombre.', 'La excepción son las tiendas con base de datos y pagos online: usan un hosting pago, a tu nombre, que le pagás directo al proveedor (normalmente entre US$ 5 y US$ 20 por mes, según el tráfico). Te lo avisamos antes de arrancar.', 'Si querés que sigamos actualizando tu web, hay un mantenimiento mensual totalmente opcional: Landing US$ 20, Multisección US$ 25 y Tienda US$ 35, con hasta 4 cambios por mes. Sin permanencia: lo das de baja cuando quieras.'] },
     { p: '¿Cómo se paga?', r: ['La mitad al arrancar y la otra mitad cuando te entregamos la web. En dólares o su equivalente en pesos.'] },
@@ -357,18 +358,17 @@ export const laCritica = { titulo: 'Lo que dicen', completo: 'Lo que dicen nuest
 export const nosotros = {
   bajo: 'Pareja y socios',
   grande: 'Nosotros',
+  proceso: 'Cómo trabajamos',
   rotulo: ['Nosotros', 'Los créditos'],
-  // Antes: bajada: 'Somos Giuli y Facu. Somos pareja y hacemos webs juntos. Nos gusta que cada web sea distinta, por eso las diseñamos y las programamos desde cero. Si nos escribís, te contestamos nosotros.',
-  /** Primero lo que hicimos; la formación va más abajo */
-  bajada: 'Somos Giuli y Facu, pareja y socios. Diseñamos y programamos webs a medida, desde cero y sin plantillas. Si nos escribís, te contestamos nosotros.',
+  bajada: 'Somos Giuli y Facu. Somos pareja y hacemos webs juntos. Nos gusta que cada web sea distinta, por eso las diseñamos y las programamos desde cero. Si nos escribís, te contestamos nosotros.',
   /** {n}: cuántas webs hay en /proyectos. Los nombres salen de content/proyectos.ts */
   hicimos: { titulo: 'Lo que ya hicimos', texto: 'Publicamos {n} webs para marcas reales:', verTodos: 'Ver todos los proyectos' },
   foto: { alt: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás', pie: ['(Fotograma) Giuliana y Facundo', '2026'] },
   equipo: {
     titulo: 'Quiénes somos',
     personas: [
-      { nombre: 'Giuli', rol: 'Diseño, desarrollo e inteligencia artificial', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.', alt: 'Retrato de Giuli hecho de cuadraditos, sonriendo' },
-      { nombre: 'Facu', rol: 'Diseño y desarrollo', texto: 'Estoy terminando la misma tecnicatura.', alt: 'Retrato de Facu hecho de cuadraditos, sonriendo' },
+      { nombre: 'Giuli', rol: 'Diseño, desarrollo e inteligencia artificial', alt: 'Retrato de Giuli hecho de cuadraditos, sonriendo' },
+      { nombre: 'Facu', rol: 'Diseño y desarrollo', alt: 'Retrato de Facu hecho de cuadraditos, sonriendo' },
     ],
   },
   filmamos: ['¿Hacemos', 'la tuya?'],
@@ -435,7 +435,7 @@ export const inicio = {
       { nombre: 'Mitad y mitad', texto: 'La mitad al arrancar y la otra cuando te la entregamos.' },
       { nombre: 'Todo a tu nombre', texto: 'El dominio, el hosting y la web son tuyos.' },
     ],
-    titulo: 'Cómo trabajamos',
+    titulo: 'Cuánto sale tu web',
     proceso: 'Te escuchamos, te mostramos cómo va a quedar antes de hacerla, la hacemos y la publicamos. Cambios sin límite sobre lo acordado.',
     verDetalle: 'Ver qué incluye cada una',
   },

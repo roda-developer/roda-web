@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import { capturas } from '../content/capturas';
+import { proyectosEn } from '../content/proyectos';
 import Base from '../layouts/Base.astro';
 import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
@@ -10,6 +13,9 @@ const { planes, preciosPagina: t, metas } = textos(idioma);
 const contacto = ruta(idioma, 'contacto');
 
 const { moneda, adicionales, aMedida } = planes;
+// Una web real de cada plan, para que se vea qué estás comprando
+const EJEMPLOS: Record<string, string> = { landing: 'eber', multiseccion: 'craft', tienda: 'newave', 'a-medida': 'fidalgo' };
+const ejemploDe = (plan: string) => { const slug = EJEMPLOS[plan]; const mockup = slug ? capturas(slug).mockup : null; const titulo = proyectosEn(idiomaDe(Astro.currentLocale)).find((x) => x.slug === slug)?.titulo; return mockup && titulo ? { mockup, titulo } : null; };
 ---
 <Base titulo={metas.precios.titulo} descripcion={metas.precios.descripcion}>
   <Nav enHome={false} actual="precios" />
@@ -43,7 +49,10 @@ const { moneda, adicionales, aMedida } = planes;
           const ficha = t.fichas[p.id as keyof typeof t.fichas];
           return (
             <li id={p.id} class="fila vt-plan" style={`--vt: plan-${p.id}`} data-revelar>
-              <h3 class="fila-nombre font-titulo">{p.nombre}</h3>
+              <div class="fila-cabeza">
+                <h3 class="fila-nombre font-titulo">{p.nombre}</h3>
+                {ejemploDe(p.id) && <figure class="ejemplo"><Image src={ejemploDe(p.id)!.mockup} alt="" widths={[320, 480]} sizes="11rem" quality={84} loading="lazy" /><figcaption>{rellenar(t.ejemplo, { titulo: ejemploDe(p.id)!.titulo })}</figcaption></figure>}
+              </div>
               <div class="fila-info">
                 <p class="ideal">{ficha.ideal}</p>
                 <p class="claves">{ficha.clave.map((c, k) => <>{k > 0 && <span aria-hidden="true"> · </span>}{c.split(/(US\$ \d+)/).map((parte) => (/^US\$ \d+$/.test(parte) ? <span data-usd-texto={parte.slice(4)}>{parte}</span> : parte))}</>)}</p>
@@ -61,7 +70,10 @@ const { moneda, adicionales, aMedida } = planes;
           );
         })}
         <li id="a-medida" class="fila medida" data-revelar>
-          <h3 class="fila-nombre font-titulo">{aMedida.rotulo}</h3>
+          <div class="fila-cabeza">
+            <h3 class="fila-nombre font-titulo">{aMedida.rotulo}</h3>
+            {ejemploDe('a-medida') && <figure class="ejemplo"><Image src={ejemploDe('a-medida')!.mockup} alt="" widths={[320, 480]} sizes="11rem" quality={84} loading="lazy" /><figcaption>{rellenar(t.ejemplo, { titulo: ejemploDe('a-medida')!.titulo })}</figcaption></figure>}
+          </div>
           <div class="fila-info">
             <p class="ideal">{aMedida.titulo}</p>
             <p class="claves">{aMedida.texto}</p>
@@ -146,6 +158,9 @@ const { moneda, adicionales, aMedida } = planes;
   .fila:nth-child(odd) { background: color-mix(in oklab, var(--color-papel) 88%, #cfc8ba); }
   @media (min-width: 768px) { .fila { padding-inline: 3rem; } }
   .fila-nombre { font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 0.86; }
+  .ejemplo { width: min(44vw, 11rem); margin: 1rem 0 0; }
+  .ejemplo :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 1136 / 1408; }
+  .ejemplo figcaption { margin-top: 0.5rem; font-size: 0.875rem; }
   .fila-info { grid-column: 1 / -1; display: grid; gap: 0.75rem; max-width: 44rem; }
   .fila-precio { grid-row: 1; grid-column: 2; text-align: right; font-family: var(--font-titulo); font-weight: 800; font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 0.86; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .precio-moneda { margin-right: 0.15em; font-size: 0.36em; vertical-align: 0.95em; }
@@ -157,9 +172,9 @@ const { moneda, adicionales, aMedida } = planes;
   }
   .ideal { font-size: clamp(1.125rem, 1.5vw, 1.3rem); line-height: 1.4; font-weight: 600; }
   .claves { font-size: 1.0625rem; line-height: 1.45; }
-  .detalle-plan { font-size: 0.9375rem; line-height: 1.45; color: color-mix(in oklab, var(--color-tinta) 75%, var(--color-papel)); }
+  .detalle-plan { font-size: 0.875rem; line-height: 1.45; color: color-mix(in oklab, var(--color-tinta) 75%, var(--color-papel)); }
   .fila-accion { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 0.75rem; }
-  .mantenimiento { font-size: 0.9375rem; line-height: 1.35; }
+  .mantenimiento { font-size: 0.875rem; line-height: 1.35; }
 
   /* ── A medida: en tinta, con el precio en rosa ── */
   .fila.medida { background: var(--color-tinta); color: var(--color-papel); }
@@ -174,7 +189,7 @@ const { moneda, adicionales, aMedida } = planes;
   @media (min-width: 768px) { .rollo { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.25rem 2rem; } }
   /* Si sobra uno solo en la última fila, va al medio */
   @media (min-width: 768px) { .credito:last-child:nth-child(3n + 1) { grid-column: 2; } }
-  .credito dt { font-style: italic; font-size: 0.95rem; opacity: 0.75; }
+  .credito dt { font-style: italic; font-size: 0.875rem; opacity: 0.75; }
   .credito dd { margin-top: 0.25rem; font-weight: 600; font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.25; }
   .aviso { margin-top: 3rem; text-align: center; font-style: italic; }
 
@@ -189,10 +204,10 @@ const { moneda, adicionales, aMedida } = planes;
   .puntos { flex: 1; min-width: 1.5rem; height: 0.2em; background: radial-gradient(circle, currentColor 1.2px, transparent 1.6px) 0 50% / 0.5em 100% repeat-x; opacity: 0.45; }
   .renglon-precio { white-space: nowrap; font-variant-numeric: tabular-nums; }
   .renglon-detalle { max-width: 46ch; line-height: 1.4; color: color-mix(in oklab, var(--color-tinta) 78%, var(--color-papel)); }
-  .renglon-nota { max-width: 52ch; font-size: 0.9375rem; line-height: 1.45; color: var(--color-gris); }
+  .renglon-nota { max-width: 52ch; font-size: 0.875rem; line-height: 1.45; color: var(--color-gris); }
 
   /* El interruptor de pesos: un switch con perilla */
-  .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.9375rem; cursor: pointer; }
+  .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.875rem; cursor: pointer; }
   .interruptor:disabled { opacity: 0.4; cursor: wait; }
   .perilla { position: relative; flex-shrink: 0; width: 2.6rem; height: 1.5rem; border-radius: 999px; background: color-mix(in oklab, var(--color-tinta) 18%, transparent); transition: background-color 200ms ease; }
   .perilla::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--color-papel); box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); transition: transform 0.2s var(--ease-cine); }
@@ -206,7 +221,7 @@ const { moneda, adicionales, aMedida } = planes;
   .pregunta summary { list-style: none; transition: transform 160ms var(--ease-ui); }
   .pregunta summary:active { transform: scale(0.97); }
   .pregunta summary::-webkit-details-marker { display: none; }
-  .signo { flex-shrink: 0; display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent); border-radius: 999px; font-size: 1.2rem; transition: transform 200ms var(--ease-ui); }
+  .signo { flex-shrink: 0; display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border: 1px solid color-mix(in oklab, var(--color-tinta) 30%, transparent); border-radius: 999px; font-size: 1.25rem; transition: transform 200ms var(--ease-ui); }
   .pregunta[open] .signo { transform: rotate(45deg); }
   @media (prefers-reduced-motion: reduce) { .signo { transition: none; } }
 </style>

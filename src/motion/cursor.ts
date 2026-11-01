@@ -47,6 +47,8 @@ export const iniciarCursor = () => {
   }, { passive: true });
   addEventListener('pointerdown', () => cursor.classList.add('apretado'), { passive: true });
   addEventListener('pointerup', () => cursor.classList.remove('apretado'), { passive: true });
+  // Al scrollear, lo que estaba debajo cambió: deja de ser el anillo hasta el próximo movimiento
+  addEventListener('scroll', () => cursor.classList.remove('sobre'), { passive: true });
   // Si el mouse sale de la ventana, el cursor se va con él
   document.addEventListener('pointerleave', () => cursor.classList.remove('visible'));
   document.addEventListener('pointerenter', () => { if (visto) cursor.classList.add('visible'); });

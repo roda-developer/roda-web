@@ -15,13 +15,12 @@ import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 
 // La ruta (src/pages/…/[slug].astro) pasa el slug; los textos salen del idioma de la dirección
 const idioma = idiomaDe(Astro.currentLocale);
-const { proyectosPagina: t, rubros, metas } = textos(idioma);
+const { proyectosPagina: t, metas } = textos(idioma);
 const lista = proyectosEn(idioma);
 const p = lista.find((x) => x.slug === Astro.props.slug)!;
 const fotos = capturas(p.slug);
 const siguiente = proyectoSiguiente(p.slug, idioma);
 const fotosSiguiente = capturas(siguiente.slug);
-const rubro = rubros[p.rubro];
 const detalle = detalleDe(p.slug);
 const { Afiche, quad: aficheApaisado } = aficheDe(p.slug);
 const { mockup } = capturas(p.slug);
@@ -29,7 +28,6 @@ const { mockup } = capturas(p.slug);
 const quad = mockup ? false : aficheApaisado;
 const ficha: [string, string | number | undefined][] = [
   [t.ficha.genero, p.genero],
-  [t.ficha.rubro, rubro],
   [t.ficha.rol, p.rol],
   [t.ficha.anio, p.anio],
 ];
@@ -47,7 +45,7 @@ const ficha: [string, string | number | undefined][] = [
       <p class="mt-6 max-w-[24ch] text-2xl leading-tight text-tinta/70 italic md:text-4xl" data-revelar="4">{p.logline}</p>
 
       <div class="mt-14 grid gap-8 border-t border-tinta/15 pt-4 md:grid-cols-[1fr_auto] md:items-start">
-        <dl class="mono grid grid-cols-2 gap-x-6 gap-y-4 md:grid-cols-4">
+        <dl class="mono grid grid-cols-2 gap-x-6 gap-y-4 md:grid-cols-3">
           {ficha.map(([k, v]) => (
             <div><dt class="text-gris">{k}</dt><dd>{v}</dd></div>
           ))}
@@ -159,7 +157,7 @@ const ficha: [string, string | number | undefined][] = [
     .trio { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem); }
     .trio .bloque { grid-template-columns: 1fr; gap: 1rem; }
     .trio .texto-grande { font-size: clamp(1.3rem, 1.8vw, 1.6rem); }
-    .trio .texto { font-size: 1.2rem; }
+    .trio .texto { font-size: 1.25rem; }
   }
   /* Los detalles, uno al lado del otro, con el mismo trazo corto de la home en vez de rayas */
   .detalles { display: grid; gap: 1.5rem; }
@@ -168,8 +166,8 @@ const ficha: [string, string | number | undefined][] = [
   .detalles li::before { content: ''; position: absolute; left: 0; top: 0; width: 0.9rem; height: 3px; border-radius: 3px; background: var(--color-tinta); }
   /* Se lee como un párrafo de revista, no como un título: más chico y con más aire */
   .texto-grande { max-width: 38ch; font-size: clamp(1.3rem, 2.6vw, 1.9rem); line-height: 1.25; letter-spacing: -0.02em; font-weight: 500; }
-  .texto { max-width: 46ch; font-size: 1.2rem; line-height: 1.5; color: color-mix(in oklab, var(--color-tinta) 78%, transparent); }
-  @media (min-width: 768px) { .texto { font-size: 1.4rem; } }
+  .texto { max-width: 46ch; font-size: 1.25rem; line-height: 1.5; color: color-mix(in oklab, var(--color-tinta) 78%, transparent); }
+  @media (min-width: 768px) { .texto { font-size: 1.5rem; } }
   .celular { border-radius: 1.75rem; border: 6px solid var(--color-tinta); }
   /* El afiche del caso: vertical o apaisado, como en /proyectos */
   .afiche-caso { position: relative; display: block; container-type: inline-size; overflow: hidden; aspect-ratio: 2 / 3; max-width: min(100%, 34rem); background: var(--color-tinta); }

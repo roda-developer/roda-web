@@ -239,6 +239,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     cotizacion: 'US$ 1 = R$ {valor} · {fecha}',
   },
   pedir: 'Quero este',
+  ejemplo: 'Por exemplo, {titulo}',
   preguntas: [
     { p: 'Tenho que pagar algo por mês?', r: ['Em geral, não. Você paga o seu site uma vez só. A hospedagem, na maioria dos casos, é grátis, e o domínio (suamarca.com) se renova uma vez por ano, no seu nome.', 'A exceção são as lojas com banco de dados e pagamentos online: usam uma hospedagem paga, no seu nome, que você paga direto ao provedor (normalmente entre US$ 5 e US$ 20 por mês, conforme o tráfego). Avisamos antes de começar.', 'Se você quiser que a gente continue atualizando o seu site, existe uma manutenção mensal totalmente opcional: Landing US$ 20, Multipágina US$ 25 e Loja US$ 35, com até 4 ajustes por mês. Sem fidelidade: cancela quando quiser.'] },
     { p: 'Como é o pagamento?', r: ['Metade no início e a outra metade quando entregamos o site. Em dólares ou o equivalente em reais.'] },
@@ -324,16 +325,16 @@ export const laCritica: typeof ES.laCritica = { titulo: 'O que dizem', completo:
 export const nosotros: typeof ES.nosotros = {
   bajo: 'Casal e sócios',
   grande: 'Sobre nós',
+  proceso: 'Como trabalhamos',
   rotulo: ['Sobre nós', 'Os créditos'],
-  // Antes: bajada: 'Somos a Giuli e o Facu. Somos um casal e fazemos sites juntos. Gostamos que cada site seja diferente, por isso desenhamos e programamos do zero. Se você escrever pra gente, quem responde somos nós.',
-  bajada: 'Somos a Giuli e o Facu, casal e sócios. Desenhamos e programamos sites sob medida, do zero e sem templates. Se você escrever pra gente, quem responde somos nós.',
+  bajada: 'Somos Giuli e Facu. Somos um casal e fazemos sites juntos. Gostamos que cada site seja diferente, por isso desenhamos e programamos do zero. Se você escrever, quem responde somos nós.',
   hicimos: { titulo: 'O que já fizemos', texto: 'Publicamos {n} sites para marcas reais:', verTodos: 'Ver todos os projetos' },
   foto: { alt: 'Giuliana e Facundo abraçados e sorrindo, com uma árvore atrás', pie: ['(Fotograma) Giuliana e Facundo', '2026'] },
   equipo: {
     titulo: 'Quem somos',
     personas: [
-      { nombre: 'Giuli', rol: 'Design, desenvolvimento e inteligência artificial', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.', alt: 'Retrato da Giuli feito de quadradinhos, sorrindo' },
-      { nombre: 'Facu', rol: 'Design e desenvolvimento', texto: 'Estou terminando o mesmo curso.', alt: 'Retrato do Facu feito de quadradinhos, sorrindo' },
+      { nombre: 'Giuli', rol: 'Design, desenvolvimento e inteligência artificial', alt: 'Retrato da Giuli feito de quadradinhos, sorrindo' },
+      { nombre: 'Facu', rol: 'Design e desenvolvimento', alt: 'Retrato do Facu feito de quadradinhos, sorrindo' },
     ],
   },
   filmamos: ['Vamos fazer', 'o seu?'],
@@ -389,7 +390,7 @@ export const inicio: typeof ES.inicio = {
       { nombre: 'Metade e metade', texto: 'Metade no começo e o resto na entrega.' },
       { nombre: 'Tudo no seu nome', texto: 'O domínio, a hospedagem e o site são seus.' },
     ],
-    titulo: 'Como trabalhamos',
+    titulo: 'Quanto custa o seu site',
     proceso: 'Escutamos, mostramos como vai ficar antes de fazer, fazemos e publicamos. Alterações sem limite dentro do combinado.',
     verDetalle: 'Ver o que cada um inclui',
   },

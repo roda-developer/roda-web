@@ -239,6 +239,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     cotizacion: '',
   },
   pedir: 'I want this one',
+  ejemplo: 'For example, {titulo}',
   preguntas: [
     { p: 'Do I have to pay anything monthly?', r: ['Usually not. You pay for your website once. Hosting is free in most cases, and the domain (yourbrand.com) renews once a year, in your name.', 'The exception is stores with a database and online payments: they use paid hosting, in your name, that you pay the provider directly (usually between US$ 5 and US$ 20 a month, depending on traffic). We let you know before we start.', 'If you’d like us to keep updating your website, there’s a fully optional monthly maintenance: Landing US$ 20, Multi-page US$ 25 and Store US$ 35, with up to 4 changes a month. No commitment: cancel whenever you want.'] },
     { p: 'How do I pay?', r: ['Half when we start and the other half when we deliver your website. In US dollars, by international transfer or the method we agree on.'] },
@@ -324,16 +325,17 @@ export const laCritica: typeof ES.laCritica = { titulo: 'What they say', complet
 export const nosotros: typeof ES.nosotros = {
   bajo: 'Partners in life and work',
   grande: 'About us',
+  proceso: 'How we work',
   rotulo: ['About us', 'The credits'],
-  // Before: bajada: 'We’re Giuli and Facu. We’re a couple and we make websites together. We like every site to be different, so we design and code them from scratch. If you write to us, we’re the ones who answer.',
+  // Before: bajada: 'We’re Giuli and Facu. We’re a couple and we make websites together. We like every website to be different, so we design and build them from scratch. If you write to us, we’re the ones who answer.',
   bajada: 'We’re Giuli and Facu, partners in life and work. We design and code custom websites, from scratch and without templates. If you write to us, we’re the ones who answer.',
   hicimos: { titulo: 'What we’ve done', texto: 'We’ve launched {n} websites for real brands:', verTodos: 'See all projects' },
   foto: { alt: 'Giuliana and Facundo, side by side and smiling, with a tree behind them', pie: ['(Still) Giuliana and Facundo', '2026'] },
   equipo: {
     titulo: 'Who we are',
     personas: [
-      { nombre: 'Giuli', rol: 'Design, development and artificial intelligence', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.', alt: 'Portrait of Giuli made of small squares, smiling' },
-      { nombre: 'Facu', rol: 'Design and development', texto: 'I’m finishing the same degree.', alt: 'Portrait of Facu made of small squares, smiling' },
+      { nombre: 'Giuli', rol: 'Design, development and artificial intelligence', alt: 'Portrait of Giuli made of small squares, smiling' },
+      { nombre: 'Facu', rol: 'Design and development', alt: 'Portrait of Facu made of small squares, smiling' },
     ],
   },
   filmamos: ['Shall we make', 'yours?'],
@@ -389,7 +391,7 @@ export const inicio: typeof ES.inicio = {
       { nombre: 'Half and half', texto: 'Half when we start and the rest when we deliver.' },
       { nombre: 'Everything in your name', texto: 'The domain, the hosting and the website are yours.' },
     ],
-    titulo: 'How we work',
+    titulo: 'What your website costs',
     proceso: 'We listen, show you how it will look before we build it, build it and publish it. Unlimited changes within what we agreed.',
     verDetalle: 'See what each one includes',
   },

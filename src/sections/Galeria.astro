@@ -49,7 +49,7 @@ const lista = [...proyectosEn(idioma)].filter((p) => pixelDe(p.slug)).sort((a, b
   /* El título entero y centrado, arriba de la fila (nada lo tapa) */
   .titulo { text-align: center; font-size: clamp(4.5rem, 18vw, 12rem); line-height: 0.8; padding-inline: 1rem; }
   .todos { display: flex; justify-content: center; margin-top: 0.5rem; }
-  .ver-todos { display: inline-flex; min-height: 2.75rem; align-items: center; font-size: 1.125rem; text-decoration: underline; text-underline-offset: 4px; }
+  .ver-todos { display: inline-flex; min-height: 2.75rem; align-items: center; font-size: 1.0625rem; text-decoration: underline; text-underline-offset: 4px; }
   /* Las tarjetas tienen la proporción de los mockups (así no se cortan); el escenario deja lugar abajo para el nombre */
   .escenario { --ancho: clamp(13rem, 21vw, 19rem); position: relative; height: calc(var(--ancho) * 1408 / 1136 + 8rem); margin-top: clamp(1.5rem, 4svh, 2.5rem); overflow: hidden; perspective: 1200px; cursor: grab; touch-action: pan-y; user-select: none; outline: none; }
   @media (max-width: 767px) { .escenario { --ancho: 62vw; } }
@@ -60,9 +60,9 @@ const lista = [...proyectosEn(idioma)].filter((p) => pixelDe(p.slug)).sort((a, b
   .tarjeta :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
   .tarjeta :global(.nitida) { opacity: 0; }
   .tarjeta :global(.nitida.arriba) { object-position: top; }
-  .pie { font-size: 1rem; position: absolute; left: 0; right: 0; bottom: 1.25rem; display: grid; gap: 0.2rem; justify-items: center; text-align: center; }
+  .pie { font-size: 1.0625rem; position: absolute; left: 0; right: 0; bottom: 1.25rem; display: grid; gap: 0.2rem; justify-items: center; text-align: center; }
   .pie b { font-size: clamp(1.9rem, 3.4vw, 2.8rem); line-height: 1; }
-  .pie span { font-size: 1rem; color: var(--color-gris); }
+  .pie span { font-size: 1.0625rem; color: var(--color-gris); }
 </style>
 
 <script>
