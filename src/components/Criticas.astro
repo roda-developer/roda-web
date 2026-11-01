@@ -1,14 +1,13 @@
 ---
 /**
- * Lo que dicen los clientes (Nosotros, Precios y cada caso): un rollo de webs al estilo "Scroll Reel Testimonials"
- * (21st.dev). Tres columnas de capturas corren como un rollo hasta dejar en el centro la web del cliente que habla;
- * al lado, su testimonio completo y textual. Pasa solo, se frena al pasar el mouse o al enfocar, y responde a las flechas.
- * Sin movimiento: cambia sin desplazarse y no pasa solo.
+ * Lo que dicen los clientes: el mockup entero y chico de la web, y al lado la frase corta y grande del cliente, sobre el papel.
+ * Se cambia tocando el nombre de la marca. Las frases son textuales. Pasa solo y se frena al pasar el mouse, al enfocar o para siempre al elegir una marca.
+ * Sin movimiento: cambia de una y no pasa solo. Sin JS: se ve el primero. Sin mockup: la portada de su web.
  */
 import { Image } from 'astro:assets';
 import { capturas } from '../content/capturas';
-import { ORDEN_GALERIA, type TestimonioDe } from '../content/proyectos';
-import { rellenar, textos } from '../i18n';
+import type { TestimonioDe } from '../content/proyectos';
+import { textos } from '../i18n';
 
 interface Props {
   testimonios: TestimonioDe[];
@@ -17,96 +16,81 @@ interface Props {
 const { laCritica, ui } = textos(Astro.currentLocale);
 const { testimonios, titulo = laCritica.completo } = Astro.props;
 const n = testimonios.length;
-// La columna del medio son las webs de quienes hablan; las de los costados, otras webs nuestras que no hablan,
-// intercaladas para que ninguna se repita al lado ni arriba de otra
-const hablan = new Set(testimonios.map((t) => t.slug));
-const resto = ORDEN_GALERIA.filter((s) => !hablan.has(s));
-const pool = resto.length >= 2 ? resto : ORDEN_GALERIA;
-const otras = (c: number) => Array.from({ length: 3 * n }, (_, k) => pool[(2 * k + c) % pool.length]);
-// Son 9 lugares a la vista y 8 webs: una columna muestra la portada y la otra una pantalla de más abajo, y si dos
-// testimonios seguidos son de la misma web, el segundo también usa otra pantalla. Así no se ve dos veces la misma imagen.
-const foto = (slug: string, otra: boolean) => { const c = capturas(slug); return otra ? (c.pantallas[0] ?? c.portada) : c.portada; };
-// La del medio va tres veces seguidas: así el rollo puede dar la vuelta sin que se note.
-// Con un solo testimonio no gira, y arriba y abajo van otras webs en vez de la misma repetida.
-const medio = testimonios.map((t) => t.slug);
-const tiraMedio = n === 1 ? [pool[6 % pool.length], medio[0], pool[0]] : [...medio, ...medio, ...medio];
-const columnas = [otras(0), tiraMedio, otras(1)];
+const fotoDe = (slug: string) => { const c = capturas(slug); return c.mockup ?? c.portada; };
+// En un caso con varios comentarios de la misma marca, el selector usa el nombre de cada persona
+const marcasDistintas = new Set(testimonios.map((t) => t.marca)).size === n;
 ---
-<section class="criticas" aria-labelledby="criticas-titulo" aria-roledescription="carrusel" data-rollo data-total={n}>
-  <h2 id="criticas-titulo" class="criticas-titulo" data-revelar>{titulo}</h2>
+<section class="criticas" aria-labelledby="criticas-titulo" data-rollo data-total={n} data-revelar>
+  <div class="fotos pila" aria-hidden="true">
+    {testimonios.map((t, i) => (
+      <Image src={fotoDe(t.slug)} alt="" widths={[240, 480, 720]} sizes="(min-width: 768px) 18vw, 42vw" quality={84} loading="lazy" class:list={['foto', { activo: i === 0 }]} data-pieza={i} />
+    ))}
+  </div>
   <div class="cuerpo">
-    <div class="rollo" aria-hidden="true">
-      {columnas.map((lista, c) => (
-        <div class="columna" data-columna={c} style={`--n: ${n}`}>
-          {lista.map((slug, i) => (
-            <div class:list={['cuadro', { activo: c === 1 && i === n }]} data-cuadro={i}>
-              <Image src={foto(slug, c === 2 || (c === 1 && (lista[i - 1] === slug || !hablan.has(slug))))} alt="" widths={[320, 480]} sizes="10.5rem" quality={78} loading="eager" decoding="async" />
-            </div>
+    <h2 id="criticas-titulo" class="criticas-titulo font-titulo">{titulo}</h2>
+    <div class="texto">
+      <div class="pila">
+        {testimonios.map((t, i) => (
+          <blockquote class:list={['cita font-titulo', { activo: i === 0 }]} data-pieza={i} aria-hidden={i === 0 ? undefined : 'true'}>“{t.destacado ?? t.texto}”</blockquote>
+        ))}
+      </div>
+      <div class="pie">
+        <div class="pila">
+          {testimonios.map((t, i) => (
+            <p class:list={['firma', { activo: i === 0 }]} data-pieza={i} aria-hidden={i === 0 ? undefined : 'true'}><b>{t.nombre}</b><span class="sr-only"> {t.marca}</span>{t.traducido && <span class="nota"> · {ui.traducido}</span>}</p>
           ))}
         </div>
-      ))}
-    </div>
-    <div class="texto">
-      <ul class="lista">
-        {testimonios.map((t, i) => (
-          <li class:list={['testimonio', { visible: i === 0 }]} data-testimonio={i} aria-hidden={i === 0 ? undefined : 'true'}>
-            <blockquote class="cita">“{t.texto}”</blockquote>
-            <p class="firma"><b class="font-titulo">{t.nombre}</b><span>{t.rol}{t.traducido && ` · ${ui.traducido}`}</span></p>
-            <p class="sr-only">{rellenar(ui.webDe, { marca: t.marca })}</p>
-          </li>
-        ))}
-      </ul>
-      {n > 1 && (
-        <div class="flechas">
-          <button type="button" class="flecha" data-paso="-1" aria-label={ui.testimonioAnterior}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
-          </button>
-          <button type="button" class="flecha" data-paso="1" aria-label={ui.testimonioSiguiente}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
-          </button>
-        </div>
-      )}
+        {n > 1 && (
+          <div class="marcas">
+            {testimonios.map((t, i) => (
+              <button type="button" class="marca" data-ir={i} aria-pressed={i === 0 ? 'true' : 'false'}>{marcasDistintas ? t.marca : t.nombre}</button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .criticas { --cuadro: clamp(6.5rem, 26vw, 9.5rem); --hueco: 0.6rem; --paso: calc(var(--cuadro) * 0.68 + var(--hueco)); }
-  .criticas-titulo { font-family: var(--font-titulo); font-weight: 500; text-transform: uppercase; font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; }
-  .cuerpo { display: grid; gap: 2.5rem; margin-top: 2.5rem; align-items: center; }
-  @media (min-width: 1024px) { .cuerpo { grid-template-columns: auto minmax(0, 1fr); column-gap: clamp(3rem, 6vw, 6rem); } .criticas { --cuadro: 10.5rem; } }
+  .criticas { display: grid; gap: 1.25rem; }
+  .criticas-titulo { font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1; }
 
-  /* El rollo: se ven tres filas; la del medio es la que habla */
-  .rollo {
-    display: flex; gap: var(--hueco); justify-self: center; overflow: hidden;
-    height: calc(var(--paso) * 3 - var(--hueco));
-    mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
-  }
-  .columna { display: flex; flex-direction: column; flex: none; align-self: flex-start; gap: var(--hueco); width: var(--cuadro); transform: translateY(calc(var(--paso) * (1 - var(--n)))); }
-  .cuadro { flex: none; aspect-ratio: 100 / 68; border-radius: 6px; overflow: hidden; background: #e2dfd7; opacity: 0.32; transition: opacity 400ms ease; }
-  .cuadro.activo { opacity: 1; }
-  .cuadro :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-  @media (prefers-reduced-motion: no-preference) {
-    .columna { transition: transform 700ms cubic-bezier(0.77, 0, 0.175, 1); }
-    .columna[data-columna='0'] { transition-delay: 60ms; }
-    .columna[data-columna='2'] { transition-delay: 120ms; }
+  /* El mockup entero, sin recortar */
+  .fotos { width: 42vw; max-width: 15rem; }
+  .fotos :global(.foto) { display: block; width: 100%; height: auto; aspect-ratio: 1136 / 1408; object-fit: cover; }
+
+  .cuerpo { display: grid; gap: 1.25rem; align-content: space-between; min-width: 0; }
+  @media (min-width: 768px) {
+    .criticas { grid-template-columns: clamp(12rem, 18vw, 15rem) minmax(0, 1fr); column-gap: clamp(2rem, 4vw, 4rem); }
+    .fotos { width: 100%; max-width: none; }
   }
 
-  /* El texto: todos en la misma celda, así el alto no salta al cambiar */
-  .texto { display: grid; gap: 2rem; }
-  .lista { display: grid; }
-  .testimonio { grid-area: 1 / 1; display: grid; gap: 1.25rem; align-content: start; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 240ms ease, transform 240ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s 240ms; }
-  .testimonio.visible { opacity: 1; visibility: visible; transform: none; transition-delay: 160ms, 160ms, 0s; }
-  .cita { margin: 0; max-width: 38ch; font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.35; letter-spacing: -0.01em; font-weight: 500; text-wrap: pretty; }
-  .firma b { display: block; font-size: 1.75rem; line-height: 1; text-transform: uppercase; }
-  .firma span { display: block; margin-top: 0.25rem; color: var(--color-gris); }
-  .flechas { display: flex; gap: 0.6rem; }
-  .flecha { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 1.5px solid var(--color-tinta); background: transparent; color: var(--color-tinta); cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, color 160ms ease; }
-  .flecha svg { width: 1.1rem; height: 1.1rem; }
-  @media (hover: hover) and (pointer: fine) { .flecha:hover { background: var(--color-tinta); color: var(--color-papel); } }
-  .flecha:active { transform: scale(0.95); }
-  .flecha:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: 3px; }
-  @media (prefers-reduced-motion: reduce) { .testimonio, .cuadro { transition: none; } }
+  /* Todo lo que cambia va en la misma celda, así el alto no salta */
+  .pila { display: grid; }
+  .pila > :global(*) { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 110ms ease, transform 110ms var(--ease-ui), visibility 0s 110ms; }
+  .pila > :global(.activo) { opacity: 1; visibility: visible; transform: none; transition: opacity 180ms ease 110ms, transform 240ms var(--ease-ui) 110ms, visibility 0s; }
+
+  .cita { margin: 0; font-size: clamp(2.5rem, 4.6vw, 4.25rem); line-height: 0.97; text-wrap: balance; }
+  .pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 2rem; margin-top: 0.75rem; }
+  .firma { font-size: 1.0625rem; line-height: 1.35; }
+  .firma b { font-weight: 600; }
+  .firma .nota { color: #55524c; }
+
+  /* El selector: los nombres de las marcas, como los links de texto de la web */
+  .marcas { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin-inline: -0.25rem; }
+  .marca { position: relative; min-height: 2.75rem; padding-inline: 0.25rem; background: none; border: 0; font: inherit; font-size: 1.0625rem; color: #55524c; cursor: pointer; transition: color 160ms ease; }
+  .marca::after { content: ''; position: absolute; left: 0.25rem; right: 0.25rem; bottom: 0.6rem; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--ease-ui); }
+  .marca[aria-pressed='true'] { color: var(--color-tinta); }
+  .marca[aria-pressed='true']::after { transform: none; }
+  @media (hover: hover) and (pointer: fine) { .marca:hover { color: var(--color-tinta); } }
+  .marca:active { opacity: 0.7; }
+  .marca:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pila > :global(*), .pila > :global(.activo), .marca, .marca::after { transition: none; }
+    .pila > :global(*) { transform: none; }
+  }
 </style>
 
 <script>
@@ -115,46 +99,27 @@ const columnas = [otras(0), tiraMedio, otras(1)];
   document.querySelectorAll<HTMLElement>('[data-rollo]').forEach((raiz) => {
     const n = Number(raiz.dataset.total);
     if (n < 2) return;
-    const columnas = [...raiz.querySelectorAll<HTMLElement>('[data-columna]')];
-    const textos = [...raiz.querySelectorAll<HTMLElement>('[data-testimonio]')];
-    const cuadros = [...raiz.querySelectorAll<HTMLElement>('[data-columna="1"] [data-cuadro]')];
-    // pos cuenta desde la copia del medio de la tira (n); el testimonio que se lee es pos mod n
-    let pos = n;
+    const piezas = [...raiz.querySelectorAll<HTMLElement>('[data-pieza]')];
+    const marcas = [...raiz.querySelectorAll<HTMLButtonElement>('[data-ir]')];
+    let actual = 0;
 
-    const mover = (sinTransicion = false) => {
-      columnas.forEach((c) => {
-        if (sinTransicion) c.style.transition = 'none';
-        c.style.setProperty('--n', String(pos));
-        if (sinTransicion) { void c.offsetHeight; c.style.transition = ''; }
+    const ir = (i: number) => {
+      actual = (i + n) % n;
+      piezas.forEach((p) => {
+        const activa = Number(p.dataset.pieza) === actual;
+        p.classList.toggle('activo', activa);
+        if (!p.classList.contains('foto')) p.setAttribute('aria-hidden', String(!activa));
       });
-      const actual = ((pos % n) + n) % n;
-      if (sinTransicion) cuadros.forEach((q) => (q.style.transition = 'none'));
-      cuadros.forEach((q, i) => q.classList.toggle('activo', i === pos));
-      if (sinTransicion) { void raiz.offsetHeight; cuadros.forEach((q) => (q.style.transition = '')); }
-      textos.forEach((t, i) => {
-        t.classList.toggle('visible', i === actual);
-        t.setAttribute('aria-hidden', String(i !== actual));
-      });
+      marcas.forEach((m, k) => m.setAttribute('aria-pressed', String(k === actual)));
     };
 
-    let vuelta = 0;
-    const ir = (paso: number) => {
-      clearTimeout(vuelta);
-      // Si venía de dar la vuelta, primero se acomoda en la copia del medio
-      if (pos < n || pos >= 2 * n) { pos = pos < n ? pos + n : pos - n; mover(true); }
-      pos += paso;
-      mover();
-      // Si se fue a la primera o la tercera copia, vuelve a la del medio sin que se vea
-      if (pos < n || pos >= 2 * n) vuelta = window.setTimeout(() => { pos = pos < n ? pos + n : pos - n; mover(true); }, movimientoPermitido() ? 900 : 0);
-    };
-
-    // Pasa solo cada 7 segundos mientras está en pantalla; se frena con el mouse encima, con el foco adentro, o para siempre si tocan una flecha
+    // Pasa solo cada 7 segundos mientras está en pantalla; se frena con el mouse encima, con el foco adentro, o para siempre si eligen una marca
     let reloj = 0, tocado = false, visible = false, encima = false;
     const decidir = () => {
       clearInterval(reloj);
-      if (!tocado && visible && !encima && movimientoPermitido()) reloj = window.setInterval(() => ir(1), 7000);
+      if (!tocado && visible && !encima && movimientoPermitido()) reloj = window.setInterval(() => ir(actual + 1), 7000);
     };
-    raiz.querySelectorAll<HTMLButtonElement>('[data-paso]').forEach((b) => b.addEventListener('click', () => { tocado = true; decidir(); ir(Number(b.dataset.paso)); }));
+    marcas.forEach((m, k) => m.addEventListener('click', () => { tocado = true; decidir(); ir(k); }));
     raiz.addEventListener('pointerenter', () => { encima = true; decidir(); });
     raiz.addEventListener('pointerleave', () => { encima = false; decidir(); });
     raiz.addEventListener('focusin', () => { encima = true; decidir(); });

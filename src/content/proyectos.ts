@@ -256,9 +256,9 @@ export const testimoniosDe = (p: Proyecto): TestimonioDe[] => (p.testimonios ?? 
 
 const puesto = (slug: string) => (ORDEN_GALERIA.includes(slug) ? ORDEN_GALERIA.indexOf(slug) : 99);
 
-/** Todos los testimonios en un idioma, en el orden de la galería (las webs que mejor se ven primero) */
+/** Un testimonio por marca en un idioma, en el orden de la galería (las webs que mejor se ven primero) */
 export function testimoniosEn(idioma: 'es' | 'en' | 'pt'): TestimonioDe[] {
   return [...proyectosEn(idioma)]
     .sort((a, b) => puesto(a.slug) - puesto(b.slug))
-    .flatMap(testimoniosDe);
+    .flatMap((p) => testimoniosDe(p).slice(0, 1));
 }

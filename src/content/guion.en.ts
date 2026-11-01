@@ -42,8 +42,6 @@ export const ui: typeof ES.ui = {
   traducido: 'Translated from Spanish',
   leerMas: 'Read more',
   leerMenos: 'Read less',
-  testimonioAnterior: 'Previous testimonial',
-  testimonioSiguiente: 'Next testimonial',
   sonido: 'Website sound',
   webDe: '{marca} website',
   estreno: 'Your premiere',

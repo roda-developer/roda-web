@@ -47,8 +47,6 @@ export const ui = {
   /** Las críticas largas se cortan con … y se abren con este botón */
   leerMas: 'Leer más',
   leerMenos: 'Leer menos',
-  testimonioAnterior: 'Testimonio anterior',
-  testimonioSiguiente: 'Testimonio siguiente',
   sonido: 'Sonido de la web',
   webDe: 'Web de {marca}',
   estreno: 'Tu estreno',
