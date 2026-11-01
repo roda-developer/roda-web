@@ -288,6 +288,7 @@ export const contactoPagina: typeof ES.contactoPagina = {
     sistema: { titulo: 'Para mandar um orçamento, vamos conversar 30 minutos.', texto: 'Escolha o horário que for melhor para você e entendemos bem o que você precisa.' },
   },
   falta: 'Conte o que você procura, seu nome e como te responder.',
+  faltan: { tipo: 'Escolha uma opção.', nombre: 'Falta seu nome.', contacto: 'Falta como te responder.' },
   enviarMail: 'Enviar',
   enviando: 'Enviando…',
   avisoMail: 'Chega na hora pra gente. Respondemos por WhatsApp ou e-mail, como você preferir.',

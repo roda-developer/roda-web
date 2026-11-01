@@ -23,6 +23,9 @@ const hablan = new Set(testimonios.map((t) => t.slug));
 const resto = ORDEN_GALERIA.filter((s) => !hablan.has(s));
 const pool = resto.length >= 2 ? resto : ORDEN_GALERIA;
 const otras = (c: number) => Array.from({ length: 3 * n }, (_, k) => pool[(2 * k + c) % pool.length]);
+// Son 9 lugares a la vista y 8 webs: una columna muestra la portada y la otra una pantalla de más abajo, y si dos
+// testimonios seguidos son de la misma web, el segundo también usa otra pantalla. Así no se ve dos veces la misma imagen.
+const foto = (slug: string, otra: boolean) => { const c = capturas(slug); return otra ? (c.pantallas[0] ?? c.portada) : c.portada; };
 // La del medio va tres veces seguidas: así el rollo puede dar la vuelta sin que se note.
 // Con un solo testimonio no gira, y arriba y abajo van otras webs en vez de la misma repetida.
 const medio = testimonios.map((t) => t.slug);
@@ -37,7 +40,7 @@ const columnas = [otras(0), tiraMedio, otras(1)];
         <div class="columna" data-columna={c} style={`--n: ${n}`}>
           {lista.map((slug, i) => (
             <div class:list={['cuadro', { activo: c === 1 && i === n }]} data-cuadro={i}>
-              <Image src={capturas(slug).portada} alt="" widths={[320, 480]} sizes="10.5rem" quality={78} loading="eager" decoding="async" />
+              <Image src={foto(slug, c === 2 || (c === 1 && (lista[i - 1] === slug || !hablan.has(slug))))} alt="" widths={[320, 480]} sizes="10.5rem" quality={78} loading="eager" decoding="async" />
             </div>
           ))}
         </div>

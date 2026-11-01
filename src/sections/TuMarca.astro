@@ -2,16 +2,14 @@
 /**
  * Escribí tu marca: para el que todavía duda. Escribe el nombre de su marca y, a medida que escribe, los píxeles
  * que tapan la portada se van y aparece su nombre armado como el inicio de una web. Al lado, cuatro cosas que ya
- * cumplimos y una frase textual de un cliente. El botón lleva la marca escrita al formulario de contacto.
+ * cumplimos. El botón lleva la marca escrita al formulario de contacto.
  * Sin movimiento: los píxeles se van de una. Sin JS: la portada se ve con "Tu marca" y el botón va a /contacto.
  */
-import { testimoniosEn } from '../content/proyectos';
 import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio } = textos(idioma);
 const t = inicio.tuMarca;
 const contacto = ruta(idioma, 'contacto');
-const cita = testimoniosEn(idioma)[0];
 ---
 <section class="tu-marca" aria-labelledby="tu-marca-titulo" data-tu-marca data-contacto={contacto}>
   <div class="lado">
@@ -30,7 +28,6 @@ const cita = testimoniosEn(idioma)[0];
     </dl>
     <div class="accion" data-revelar="8">
       <a href={contacto} class="cta" data-ir>{t.cta}</a>
-      {cita && <p class="cita">“{cita.destacado}” <span>{cita.nombre}, {cita.marca}</span></p>}
     </div>
   </div>
 
@@ -80,8 +77,6 @@ const cita = testimoniosEn(idioma)[0];
   .datos dd { margin-top: 0.35rem; font-size: 1rem; line-height: 1.45; color: #c9c5bd; }
   .accion { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2rem; }
   .accion .cta { background: var(--color-papel); color: var(--color-tinta); }
-  .cita { max-width: 22rem; font-size: 0.9375rem; line-height: 1.45; color: #c9c5bd; }
-  .cita span { white-space: nowrap; }
 
   .portada-caja { display: grid; gap: 0.9rem; }
   .portada {

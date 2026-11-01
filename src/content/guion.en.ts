@@ -288,6 +288,7 @@ export const contactoPagina: typeof ES.contactoPagina = {
     sistema: { titulo: 'To send you a quote, let’s talk for 30 minutes.', texto: 'Pick a time that suits you and we’ll get a clear picture of what you need.' },
   },
   falta: 'Tell us what you’re looking for, your name and how to reach you.',
+  faltan: { tipo: 'Choose one option.', nombre: 'Your name is missing.', contacto: 'We need a way to reach you.' },
   enviarMail: 'Send',
   enviando: 'Sending…',
   avisoMail: 'It reaches us right away. We’ll reply on WhatsApp or by email, whichever you prefer.',

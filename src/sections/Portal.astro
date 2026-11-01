@@ -59,6 +59,9 @@ const { inicio } = textos(idioma);
   .frase { max-width: 24ch; font-size: clamp(1.25rem, 1.7vw, 1.625rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; }
   .ficha { font-size: 0.9375rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
   .ficha b { font-weight: 600; }
+  /* Cuando la ficha y el botón no entran en una línea (lo mide el script, depende del ancho y del idioma):
+     el botón pasa abajo de la frase y la ficha sigue arriba de la D */
+  .datos.apilada { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; justify-content: flex-start; gap: 1rem; }
   @media (max-width: 767px) {
     .datos { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 1.1rem; }
     .frase { max-width: 13ch; font-size: 1.9375rem; line-height: 1.04; letter-spacing: -0.025em; }
@@ -189,12 +192,18 @@ const { inicio } = textos(idioma);
       palabra.style.bottom = '0px';
       palabra.style.bottom = `${posicion(base).y - alto}px`;
       ficha.style.left = '';
+      datos.classList.remove('apilada');
       if (innerWidth < 768) { datos.style.top = ''; return; }
       const techo = posicion(palabra).y + (palabra.querySelector<HTMLElement>('.pieza-letra')?.offsetTop ?? 0);
-      datos.style.top = `${Math.max(88, techo - Math.max(20, alto * 0.035) - datos.offsetHeight)}px`;
       // El trazo de la D empieza 0,043 em después de su caja (medido sobre la letra en pantalla)
       const tinta = parseFloat(getComputedStyle(palabra).fontSize) * 0.0427 - 0.5;
-      ficha.style.left = `${posicion(letraD).x + tinta - posicion(datos).x}px`;
+      const ubicar = () => {
+        datos.style.top = `${Math.max(88, techo - Math.max(20, alto * 0.035) - datos.offsetHeight)}px`;
+        ficha.style.left = `${posicion(letraD).x + tinta - posicion(datos).x}px`;
+      };
+      ubicar();
+      const boton = datos.querySelector<HTMLElement>('[data-hero-cta]')!;
+      if (ficha.offsetLeft + ficha.offsetWidth + 24 > boton.offsetLeft) { datos.classList.add('apilada'); ubicar(); }
     };
 
     // Dónde arranca la imagen: achicada y recortada en círculo justo en el hueco de la O

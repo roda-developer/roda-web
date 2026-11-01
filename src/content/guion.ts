@@ -319,6 +319,7 @@ export const contactoPagina = {
     sistema: { titulo: 'Para pasarte un presupuesto, charlemos 30 minutos.', texto: 'Elegí el horario que te quede cómodo y entendemos bien lo que necesitás.' },
   },
   falta: 'Contanos qué buscás, tu nombre y cómo responderte.',
+  faltan: { tipo: 'Elegí una opción.', nombre: 'Falta tu nombre.', contacto: 'Falta cómo responderte.' },
   enviarMail: 'Enviar',
   enviando: 'Enviando…',
   avisoMail: 'Nos llega al toque. Te respondemos por WhatsApp o mail, como prefieras.',

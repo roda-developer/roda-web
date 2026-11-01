@@ -96,3 +96,11 @@ Falta:
 - Testimonios: sin webs repetidas pegadas. Sin sombras en reposo en afiches. Caso vertical con menos hueco.
 - Verificado: check 0 errores, 42 tests, build ok, 390 y 1440 sin errores ni scroll horizontal, movimiento reducido con todo visible, detector de impeccable 0.
 - Pendiente: bajar la cantidad de tamaños de letra (hoy ~20 por página); confirmar la frase del cierre; qué incluye Obra.
+
+## Arreglos de la auditoría 2026-11-01
+
+- Imagen al compartir (`public/og.png`, `scripts/og.mjs`): el hero nuevo en lugar de "Tu marca ya tiene una historia". Los que ya la tienen guardada (WhatsApp, Facebook) pueden tardar en ver la nueva.
+- Formulario: cada dato que falta avisa al lado del campo y la página lleva hasta ahí; el aviso se va al completarlo. Faltan datos: `faltan` en los tres guiones.
+- Hero: cuando la ficha y el botón no entran en una línea (depende del ancho y del idioma), el botón pasa abajo de la frase. Lo mide el script.
+- Testimonios: sin imágenes repetidas a la vista (son 9 lugares y 8 webs: los costados usan otra pantalla de la web). Sin la cita repetida en "Escribí tu marca".
+- Pendiente de decisión: reemplazar "Escribí tu marca" por "Probá una" (webs reales en iframe, prototipo aparte; al pasarlo hay que sumar frame-src en `public/_headers`).

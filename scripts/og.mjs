@@ -7,18 +7,16 @@ import { resolve } from 'node:path';
 const fuente = (f) => 'data:font/woff2;base64,' + readFileSync(resolve('node_modules', f)).toString('base64');
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
   @font-face { font-family: Inter Tight; src: url(${fuente('@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2')}); font-weight: 100 900; }
-  @font-face { font-family: Inter Tight; font-style: italic; src: url(${fuente('@fontsource-variable/inter-tight/files/inter-tight-latin-wght-italic.woff2')}); font-weight: 100 900; }
-  @font-face { font-family: Plex; src: url(${fuente('@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2')}); }
+  @font-face { font-family: Big Shoulders; src: url(${fuente('@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2')}); font-weight: 100 900; }
   * { margin: 0; box-sizing: border-box; }
-  body { width: 1200px; height: 630px; background: #f3f2ee; color: #121212; font-family: Inter Tight; padding: 64px 72px; display: grid; grid-template-rows: auto 1fr auto; }
-  .marca { font-size: 44px; display: inline-flex; align-items: baseline; letter-spacing: -0.01em; line-height: 1; }
-  .o { display: inline-block; width: .7em; height: .7em; margin: 0 .03em; border: .075em solid currentColor; border-radius: 99px; }
-  h1 { align-self: center; font-weight: 500; font-size: 112px; line-height: .95; letter-spacing: -0.045em; }
-  .pie { display: flex; justify-content: space-between; font-family: Plex; font-size: 20px; letter-spacing: .08em; text-transform: uppercase; color: #6b6862; border-top: 1px solid rgb(18 18 18 / .15); padding-top: 20px; }
+  body { position: relative; width: 1200px; height: 630px; overflow: hidden; background: #f3f2ee; color: #121212; font-family: Inter Tight; }
+  .frase { position: absolute; left: 48px; top: 44px; font-size: 46px; font-weight: 500; line-height: 1.08; letter-spacing: -0.02em; }
+  /* R○DA de borde a borde y apoyada abajo, como la primera pantalla de la web */
+  .palabra { position: absolute; left: 40px; right: 40px; bottom: 0; display: flex; justify-content: space-between; align-items: baseline; font-family: Big Shoulders; font-weight: 800; font-size: 500px; line-height: 0.74; }
+  .o { display: inline-block; width: 0.74em; height: 0.74em; border: 0.13em solid currentColor; border-radius: 50%; }
 </style></head><body>
-  <span class="marca">R<span class="o"></span>DA</span>
-  <h1>Tu marca ya tiene<br>una historia.</h1>
-  <div class="pie"><span>Webs que cuentan una historia</span><span>Giuliana y Facundo</span></div>
+  <p class="frase">Diseñamos y programamos<br>webs a medida.</p>
+  <div class="palabra"><span>R</span><span class="o"></span><span>D</span><span>A</span></div>
 </body></html>`;
 
 const browser = await chromium.launch({ channel: 'chrome' });

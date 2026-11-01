@@ -9,7 +9,7 @@ import { AGENDA, WEB3FORMS, WHATSAPP } from '../content/contacto';
 const idioma = idiomaDe(Astro.currentLocale);
 const { contactoPagina: t, metas } = textos(idioma);
 // Lo que necesita el script del navegador, ya en el idioma de la página (así no carga los tres guiones)
-const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.enviarMail, errorEnvio: t.errorEnvio, exito: t.exito, agenda: t.agenda, lineas: t.lineas, idioma: NOMBRE_IDIOMA[idioma].largo, esEspanol: idioma === 'es' };
+const paraElNavegador = { falta: t.falta, faltan: t.faltan, enviando: t.enviando, enviarMail: t.enviarMail, errorEnvio: t.errorEnvio, exito: t.exito, agenda: t.agenda, lineas: t.lineas, idioma: NOMBRE_IDIOMA[idioma].largo, esEspanol: idioma === 'es' };
 
 ---
 <Base titulo={metas.contacto.titulo} descripcion={metas.contacto.descripcion}>
@@ -31,7 +31,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
     <form class="formulario" data-formulario data-whatsapp={WHATSAPP} data-clave={WEB3FORMS} novalidate>
       <!-- Trampa para bots: un humano no la ve ni la completa -->
       <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true" />
-      <fieldset class="bloque">
+      <fieldset class="bloque" data-grupo-tipo aria-describedby="falta-tipo">
         <legend class="pregunta">{t.tipos.pregunta}</legend>
         <div class="opciones">
           {t.tipos.opciones.map((o) => (
@@ -41,6 +41,7 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
             </label>
           ))}
         </div>
+        <p id="falta-tipo" class="falta-campo" data-falta-campo="tipo" hidden>{t.faltan.tipo}</p>
       </fieldset>
 
       <!-- Solo si busca un sistema a medida: qué quiere resolver (viene completo si eligió ejemplos en /precios) -->
@@ -52,7 +53,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
       <div class="bloque grid gap-8 md:grid-cols-2">
         <div>
           <label class="pregunta" for="nombre">{t.nombre.etiqueta}</label>
-          <input id="nombre" name="nombre" type="text" autocomplete="name" class="campo" placeholder={t.nombre.placeholder} required />
+          <input id="nombre" name="nombre" type="text" autocomplete="name" class="campo" placeholder={t.nombre.placeholder} aria-describedby="falta-nombre" required />
+          <p id="falta-nombre" class="falta-campo" data-falta-campo="nombre" hidden>{t.faltan.nombre}</p>
         </div>
         <div>
           <label class="pregunta" for="marca">{t.marca.etiqueta}</label>
@@ -60,7 +62,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
         </div>
         <div class="md:col-span-2">
           <label class="pregunta" for="contacto">{t.contacto.etiqueta}</label>
-          <input id="contacto" name="contacto" type="text" autocomplete="email" class="campo" placeholder={t.contacto.placeholder} required />
+          <input id="contacto" name="contacto" type="text" autocomplete="email" class="campo" placeholder={t.contacto.placeholder} aria-describedby="falta-contacto" required />
+          <p id="falta-contacto" class="falta-campo" data-falta-campo="contacto" hidden>{t.faltan.contacto}</p>
         </div>
         <div class="md:col-span-2">
           <label class="pregunta" for="web">{t.web.etiqueta}</label>
@@ -168,6 +171,9 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
 
   /* Rojo más oscuro que el de la marca: el aviso tiene que leerse sobre el papel (contraste AA) */
   .falta { margin-bottom: 1rem; color: #c8102e; }
+  .falta-campo { margin-top: 0.5rem; font-size: 0.9375rem; color: #c8102e; }
+  .falta-campo[hidden] { display: none; }
+  .campo[aria-invalid='true'] { border-bottom-color: #c8102e; }
   .cta { cursor: pointer; border: 0; }
   .cta-claro { background: transparent; color: var(--color-tinta); border: 1px solid var(--color-tinta); }
   .cta:disabled { opacity: 0.5; cursor: wait; }
@@ -175,13 +181,15 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
   .exito[hidden], [data-directo][hidden] { display: none; }
   /* El aviso de error y el "¡Listo!" entran subiendo apenas, al aparecer */
   @media (prefers-reduced-motion: no-preference) {
-    .falta:not([hidden]), .exito:not([hidden]) { animation: entra-aviso 250ms ease-out both; }
+    .falta:not([hidden]), .falta-campo:not([hidden]), .exito:not([hidden]) { animation: entra-aviso 250ms ease-out both; }
   }
   @keyframes entra-aviso { from { opacity: 0; transform: translateY(12px); } }
   .exito { scroll-margin-top: 6rem; }
 </style>
 
 <script>
+  import { scrollA } from '../motion/index';
+
   // Los textos vienen del HTML, en el idioma de la página
   const t = JSON.parse(document.getElementById('textos-contacto')?.textContent ?? '{}');
   const rellenar = (plantilla: string, valores: Record<string, string>) => plantilla.replace(/\{(\w+)\}/g, (_: string, k: string) => valores[k] ?? '');
@@ -197,6 +205,20 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
       if (soloSistema) soloSistema.hidden = elegido('tipo')?.value !== 'sistema';
     };
     form.addEventListener('change', actualizar);
+
+    // Los avisos de lo que falta: al lado de cada campo. Se van apenas se completa.
+    const avisar = (campo: string, falta_: boolean) => {
+      const aviso = form.querySelector<HTMLElement>(`[data-falta-campo="${campo}"]`);
+      if (aviso) aviso.hidden = !falta_;
+      if (campo !== 'tipo') (form.elements.namedItem(campo) as HTMLInputElement | null)?.setAttribute('aria-invalid', String(falta_));
+    };
+    const limpiar = () => {
+      if (elegido('tipo')) avisar('tipo', false);
+      for (const campo of ['nombre', 'contacto']) if (valor(campo)) avisar(campo, false);
+      if (falta && elegido('tipo') && valor('nombre') && valor('contacto')) falta.hidden = true;
+    };
+    form.addEventListener('input', limpiar);
+    form.addEventListener('change', limpiar);
 
     // Llega precompletado según de dónde viene: ?plan=landing (las carpetas) o ?tipo=sistema&ideas=a|b (el a medida)
     const params = new URLSearchParams(location.search);
@@ -225,8 +247,14 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
       const contacto = valor('contacto');
       if (!tipo || !nombre || !contacto) {
         if (falta) { falta.textContent = t.falta; falta.hidden = false; }
+        avisar('tipo', !tipo);
+        avisar('nombre', !nombre);
+        avisar('contacto', !contacto);
         const primero = !tipo ? form.querySelector<HTMLInputElement>('input[name="tipo"]') : (form.elements.namedItem(!nombre ? 'nombre' : 'contacto') as HTMLInputElement);
-        primero?.focus();
+        // La página lleva a lo primero que falta y deja ese aviso a la vista, con aire arriba para el menú
+        primero?.focus({ preventScroll: true });
+        const lugar = !tipo ? form.querySelector<HTMLElement>('[data-grupo-tipo]') : primero?.parentElement;
+        if (lugar) scrollA(lugar);
         return;
       }
       if (falta) falta.hidden = true;
