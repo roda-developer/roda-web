@@ -82,3 +82,17 @@ Falta:
 - Decidí yo: tipografía de títulos Big Shoulders Display (opción A), la frase "Diseñamos y programamos webs a medida.", Emme como trabajo de cerca, el texto de Obra, y dejar los créditos rosa de /nosotros.
 - Te falta decidir: qué incluye Obra y si lleva precio; las imágenes del hero (hoy la foto de ustedes en la O y MUDA en la Linterna); si los afiches siguen diciendo "Estreno 2026 · En todas las pantallas"; qué hacemos con el afiche con tu marca (quedó sin usar, idea: pasarlo a /contacto); si querés bocetos o una dirección descartada en "de cerca".
 - Ojo: public/nosotros/fondo.mp4 es un video personal y hoy se puede abrir desde la web publicada (rodadevelop.com/nosotros/fondo.mp4) aunque nada lo enlace. Ya no lo usa ninguna página: conviene sacarlo de public/.
+
+## Auditoría 2026-10-27 (aplicada, sin commitear)
+
+- Cursor: el píxel se esconde quieto (0,9 s) y al scrollear (parecía un punto después de "?"); sobre los retratos de Nosotros se va.
+- Títulos sin punto final (3 idiomas). Un solo cierre: "¿Hacemos la tuya?" en home, Nosotros y Precios.
+- Hero: R○DA de borde a borde con la frase y el botón en una franja abajo; la animación de la O es la misma. El logo chico del menú aparece cuando el grande se va.
+- Home: fuera "Todos los días pasa gente", la multitud y "Por qué Roda"; entra "Escribí tu marca" (sections/TuMarca.astro: los píxeles se van mientras escribís y aparece una portada con tu nombre; el botón lleva ?marca= al formulario). Pie corto.
+- Final: los trabajos se ven nítidos al pasar por el centro y en píxeles en los bordes.
+- Nosotros: la O descubre la foto debajo de los retratos en píxeles (sin puntitos rosas); en celu la foto ya no tapa NOSOTROS; sin testimonios ni "sin plantillas" repetido.
+- Precios: lista de galería (franjas con paso de tono, nombre y precio grandes, Obra en tinta); sin carpetas, lengüetas, stickers ni testimonios. A medida sin borde punteado. Claves de carpetas borradas.
+- Contacto: "Qué pasa después" sin la caja rosa. Menú: "ES" en vez de la bandera (Bandera.astro borrado).
+- Testimonios: sin webs repetidas pegadas. Sin sombras en reposo en afiches. Caso vertical con menos hueco.
+- Verificado: check 0 errores, 42 tests, build ok, 390 y 1440 sin errores ni scroll horizontal, movimiento reducido con todo visible, detector de impeccable 0.
+- Pendiente: bajar la cantidad de tamaños de letra (hoy ~20 por página); confirmar la frase del cierre; qué incluye Obra.

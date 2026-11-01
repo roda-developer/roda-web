@@ -58,6 +58,7 @@ export const nav: typeof ES.nav = {
 
 export const proyectosPagina: typeof ES.proyectosPagina = {
   titulo: 'Projetos selecionados',
+  palabra: 'Projetos',
   bajada: 'Cada um feito sob medida para a sua marca. Estes são alguns dos que já fizemos.',
   pregunta: 'O que você faz?',
   ayuda: 'Escolha seu ramo e mostramos primeiro o que está mais perto de você.',
@@ -162,7 +163,7 @@ export const planes: typeof ES.planes = {
   verTodo: 'Ver o que cada plano inclui',
   adicionales: {
     rotulo: 'Adicionais',
-    titulo: 'Adicione o que precisar.',
+    titulo: 'Adicione o que precisar',
     lista: [
       { nombre: 'Painel próprio', detalle: 'Você sobe seus projetos, produtos e novidades sem depender de ninguém', nota: 'Para Landing e Multipágina. Na Loja já vem incluído.', precio: 150 },
       { nombre: 'Agendamentos', detalle: 'Reservam sozinhos, a qualquer hora', precio: 100 },
@@ -177,21 +178,12 @@ export const planes: typeof ES.planes = {
   },
   aMedida: {
     rotulo: 'Sob medida',
-    titulo: 'O seu não cabe em nenhuma pasta?',
-    texto: 'Fazemos sistemas sob medida: o que hoje você resolve à mão, numa planilha ou por mensagem, transformado numa ferramenta para o seu negócio. Também sites com mais de 10 páginas. Pensamos juntos e mandamos um orçamento.',
-    ejemplosTitulo: 'Por exemplo (toque nos que parecem com o seu)',
-    ejemplos: [
-      'Agendamentos com sinal e lembretes',
-      'Estoque e vendas da sua loja',
-      'Orçamentos que se montam sozinhos',
-      'Pedidos de atacado',
-      'Reservas de quadras, salas ou equipamentos',
-      'Gestão de alunos, sócios ou pacientes',
-      'Um portal para seus clientes acompanharem o pedido',
-      'Um painel com os números do seu negócio',
-    ],
+    titulo: 'O seu não cabe em nenhum plano?',
+    texto: 'Sistemas para o seu negócio, como agendamentos com sinal, o estoque da sua loja ou um portal para acompanhar pedidos. Também sites com mais de 10 páginas.',
+    /** La línea corta de la home (Cómo trabajamos) */
+    corto: 'Sistemas para o seu negócio e sites com mais de 10 páginas. Pensamos juntos e mandamos um orçamento.',
+    precio: 'Sob consulta',
     cta: 'Conte o que você precisa',
-    aliada: 'Também precisa de branding ou gestão de redes sociais? Trabalhamos com uma parceira que cuida disso e faz o orçamento à parte.',
   },
   dominio: {
     pregunta: 'E o domínio e a hospedagem?',
@@ -206,15 +198,13 @@ export const planes: typeof ES.planes = {
 
 export const preciosPagina: typeof ES.preciosPagina = {
   rotulo: 'Preços',
-  titulo: ['Quanto custa', 'o seu site.'],
-  bajada: 'Preços à vista, sem letras miúdas. Veja o que cada um inclui.',
+  titulo: ['Quanto custa', 'o seu site'],
+  bajada: 'Criamos todos do zero. O que muda de um para outro é o tamanho.',
   rotulos: {
     planes: ['01', 'Os planos'],
     extras: ['02', 'Adicionais'],
     preguntas: ['03', 'Perguntas'],
   },
-  queTrae: 'O que vem no plano {plan}',
-  defineElPlan: 'O que define o plano',
   precio: 'Preço: {moneda} {precio}',
   fichas: {
     landing: { ideal: 'Ideal se você está começando ou lançando algo pontual.', clave: ['1 página'], mantenimiento: 20 },
@@ -249,18 +239,6 @@ export const preciosPagina: typeof ES.preciosPagina = {
     cotizacion: 'US$ 1 = R$ {valor} · {fecha}',
   },
   pedir: 'Quero este',
-  carpetas: {
-    landing: [{ id: 'inicio', nombre: 'Início' }],
-    multiseccion: [
-      { id: 'inicio', nombre: 'Início' },
-      { id: 'servicios', nombre: 'Serviços' },
-      { id: 'mas', nombre: '+3', etiqueta: 'Mais três páginas' },
-    ],
-    tienda: [
-      { id: 'catalogo', nombre: 'Catálogo' },
-      { id: 'carrito', nombre: 'Carrinho', carrito: true },
-    ],
-  },
   preguntas: [
     { p: 'Tenho que pagar algo por mês?', r: ['Em geral, não. Você paga o seu site uma vez só. A hospedagem, na maioria dos casos, é grátis, e o domínio (suamarca.com) se renova uma vez por ano, no seu nome.', 'A exceção são as lojas com banco de dados e pagamentos online: usam uma hospedagem paga, no seu nome, que você paga direto ao provedor (normalmente entre US$ 5 e US$ 20 por mês, conforme o tráfego). Avisamos antes de começar.', 'Se você quiser que a gente continue atualizando o seu site, existe uma manutenção mensal totalmente opcional: Landing US$ 20, Multipágina US$ 25 e Loja US$ 35, com até 4 ajustes por mês. Sem fidelidade: cancela quando quiser.'] },
     { p: 'Como é o pagamento?', r: ['Metade no início e a outra metade quando entregamos o site. Em dólares ou o equivalente em reais.'] },
@@ -278,7 +256,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     { p: 'Posso atualizar o site sozinho?', r: ['Pode. Na Loja o painel já vem incluído: você cadastra produtos, preços e estoque quando quiser. Na Landing e na Multipágina, é só adicionar o Painel próprio para subir seus projetos e novidades sem depender de ninguém. E se preferir que a gente faça, tem a manutenção opcional.'] },
   ],
   final: {
-    titulo: 'Bora começar?',
+    titulo: 'Vamos fazer o seu?',
     texto: 'Conte sobre a sua marca e a gente diz qual combina com você.',
     cta: 'Vamos falar',
   },
@@ -286,7 +264,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
 
 export const contactoPagina: typeof ES.contactoPagina = {
   rotulo: 'Contato',
-  titulo: ['Conte', 'o que você precisa.'],
+  titulo: ['Conte', 'o que você precisa'],
   bajada: 'Leva dois minutos. Com isso, chegamos na conversa já sabendo o que você precisa.',
   tipos: {
     pregunta: 'O que você procura?',
@@ -356,7 +334,6 @@ export const nosotros: typeof ES.nosotros = {
       { nombre: 'Giuli', rol: 'Design, desenvolvimento e inteligência artificial', texto: 'Me formei como técnica em desenvolvimento web na UNLaM e agora estou estudando inteligência artificial.', alt: 'Retrato da Giuli feito de quadradinhos, sorrindo' },
       { nombre: 'Facu', rol: 'Design e desenvolvimento', texto: 'Estou terminando o mesmo curso.', alt: 'Retrato do Facu feito de quadradinhos, sorrindo' },
     ],
-    aviso: 'Nenhum site nosso é feito com templates.',
   },
   filmamos: ['Vamos fazer', 'o seu?'],
   cta: 'Vamos falar',
@@ -364,7 +341,7 @@ export const nosotros: typeof ES.nosotros = {
 
 export const privacidad: typeof ES.privacidad = {
   rotulo: 'Privacidade',
-  titulo: 'Seus dados, bem cuidados.',
+  titulo: 'Seus dados, bem cuidados',
   parrafos: [
     'Quando você preenche o formulário de contato, recebemos os dados que escreveu: seu nome, seu WhatsApp ou e-mail, sua marca, seu site e sua mensagem. Se você agenda uma conversa, o Cal.com nos passa seu nome, seu e-mail e o horário escolhido.',
     '**Usamos só para responder você** e, se trabalharmos juntos, para fazer o seu site. Não vendemos, não compartilhamos com ninguém para publicidade e não colocamos você em nenhuma lista de e-mails.',
@@ -375,7 +352,7 @@ export const privacidad: typeof ES.privacidad = {
 
 export const error404: typeof ES.error404 = {
   rotulo: 'Página não encontrada',
-  titulo: ['Esta página', 'não existe ', 'ou mudou de lugar.'],
+  titulo: ['Esta página', 'não existe ', 'ou mudou de lugar'],
   cta: 'Voltar ao início',
 };
 
@@ -384,44 +361,38 @@ export const inicio: typeof ES.inicio = {
     marca: 'Roda',
     lector: 'Roda, estúdio de design e desenvolvimento web',
     linea: 'Criamos e programamos sites sob medida.',
+    ficha: 'Estúdio de design e desenvolvimento web',
+    firma: 'Giuli e Facu · Buenos Aires',
     hablemos: 'Vamos falar',
     verTrabajos: 'Ver trabalhos',
   },
   estudio: {
     titulo: 'Estúdio',
     texto: 'Somos Giuli e Facu. Criamos e programamos cada site do zero, e quando você escreve, somos nós que respondemos.',
-    cta: 'Ver trabalhos',
+    cta: 'Quem somos',
     foto: 'Giuliana e Facundo, abraçados e sorrindo, com uma árvore atrás',
     video: 'Uma pessoa feita de pixels trabalha na mesa, monta um site e termina escrevendo Roda',
   },
   trabajos: { titulo: 'Trabalhos', verTodos: 'Ver todos os trabalhos' },
-  gente: {
-    titulo: 'Todos os dias passa gente pelo seu site.',
-    bajada: 'A maioria segue em frente. Quase sempre pelos mesmos motivos:',
-    motivos: [
-      'Parece com todos: é um modelo que milhares de marcas usam.',
-      'Não dá para entender o que você faz nem por que escolher você.',
-      'Demora para carregar, e ninguém espera.',
-      'No celular, aparece quebrado.',
-      'Não tem um botão claro para falar com você.',
+  tuMarca: {
+    titulo: 'Escreva sua marca',
+    etiqueta: 'É assim que o site dela começa quando a gente faz',
+    placeholder: 'O nome da sua marca',
+    vacio: 'Sua marca',
+    menu: 'Início · Trabalhos · Contato',
+    nota: 'Um esboço de página inicial feito com o seu nome. O de verdade a gente desenha com você.',
+    datos: [
+      { nombre: 'Você fala com Giuli e Facu', texto: 'Da primeira mensagem à entrega, sem intermediários.' },
+      { nombre: 'Ajustes sem limite', texto: 'Dentro do combinado, até ficar do jeito que você quer.' },
+      { nombre: 'Metade e metade', texto: 'Metade no começo e o resto na entrega.' },
+      { nombre: 'Tudo no seu nome', texto: 'O domínio, a hospedagem e o site são seus.' },
     ],
-    remate: 'Quando o site funciona, alguém para.',
-  },
-  porQue: {
-    titulo: 'Por que a Roda',
-    razones: [
-      { nombre: 'Design próprio', texto: 'Criamos cada site do zero para a sua marca. Sem templates.' },
-      { nombre: 'Você fala com a gente', texto: 'Da primeira mensagem à entrega, quem atende são Giuli e Facu, sem intermediários.' },
-      { nombre: 'Ajustes até você gostar', texto: 'Alterações sem limite dentro do combinado, até ficar do jeito que você quer.' },
-      { nombre: 'Preços à vista', texto: 'Você sabe quanto custa antes de começar. Sem letras miúdas.' },
-      { nombre: 'Tudo no seu nome', texto: 'O domínio, a hospedagem e o site ficam no seu nome.' },
-    ],
+    cta: 'Quero o meu',
   },
   niveles: {
     titulo: 'Como trabalhamos',
     proceso: 'Escutamos, mostramos como vai ficar antes de fazer, fazemos e publicamos. Alterações sem limite dentro do combinado.',
-    obra: { nombre: 'Obra', precio: 'Sob consulta', texto: 'Direção de arte e site para marcas que querem algo único. Conversamos e enviamos uma proposta.' },
     verDetalle: 'Ver o que cada um inclui',
   },
-  final: { titulo: 'A próxima é sua?', cta: 'Vamos falar' },
+  final: { titulo: 'Vamos fazer o seu?', cta: 'Vamos falar' },
 };

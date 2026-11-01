@@ -1,7 +1,7 @@
 ---
 /**
- * La home: la O (que se abre a Estudio), la galería de trabajos, por qué no funcionan la mayoría de las webs,
- * por qué Roda, lo que dicen los clientes, cómo trabajamos y el final.
+ * La home: la O (que se abre a Estudio), la galería de trabajos, lo que dicen los clientes, cómo trabajamos,
+ * escribí tu marca (para el que todavía duda) y el final.
  * hero: 'o' (la principal) o 'linterna' (la segunda opción, se ve en /prueba-linterna para comparar).
  */
 import Base from '../layouts/Base.astro';
@@ -11,8 +11,7 @@ import Portal from '../sections/Portal.astro';
 import Linterna from '../sections/Linterna.astro';
 import Estudio from '../sections/Estudio.astro';
 import Galeria from '../sections/Galeria.astro';
-import Gente from '../sections/Gente.astro';
-import PorQue from '../sections/PorQue.astro';
+import TuMarca from '../sections/TuMarca.astro';
 import Criticas from '../components/Criticas.astro';
 import { testimoniosEn } from '../content/proyectos';
 import { idiomaDe } from '../i18n';
@@ -33,13 +32,12 @@ const testimonios = testimoniosEn(idiomaDe(Astro.currentLocale));
   <main id="contenido" class="relative z-10">
     {hero === 'linterna' ? <><Linterna /><Estudio /></> : <Portal />}
     <Galeria />
-    <Gente />
-    <PorQue />
     {testimonios.length > 0 && <div class="testimonios"><Criticas testimonios={testimonios} /></div>}
     <Niveles />
+    <TuMarca />
     <Final />
   </main>
-  <Pie />
+  <Pie corto />
   <Motion />
 </Base>
 

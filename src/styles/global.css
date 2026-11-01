@@ -131,6 +131,16 @@ html.scrolleando .tira, html.scrolleando .cartelera, html.scrolleando .etiquetas
   .cta:hover:active { transform: scale(0.97); }
 }
 
+/* El botón principal con flecha (hero y cierres): el círculo de la flecha adentro; al pasar, la flecha gira hacia adelante */
+.cta-flecha { gap: 1.125rem; padding: 0 0.375rem 0 1.625rem; white-space: nowrap; }
+.cta-circulo { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--color-papel); color: var(--color-tinta); transition: transform 260ms var(--ease-ui); }
+.cta-circulo svg { transition: transform 260ms var(--ease-ui); }
+@media (hover: hover) and (pointer: fine) {
+  .cta-flecha:hover .cta-circulo { transform: scale(1.08); }
+  .cta-flecha:hover .cta-circulo svg { transform: rotate(45deg); }
+}
+.cta-flecha:focus-visible .cta-circulo svg { transform: rotate(45deg); }
+
 /* Mobile: pregunta, vista, control, remate. Desktop: la vista a la derecha, todo en un cuadro. */
 .deslizador {
   display: grid;
@@ -255,12 +265,14 @@ html.con-cursor :is(input:not([type="radio"]):not([type="checkbox"]), textarea, 
   mix-blend-mode: difference; opacity: 0; transition: opacity 200ms ease;
 }
 .cursor-roda.visible { opacity: 1; }
-.cursor-roda.escribiendo { opacity: 0; }
+.cursor-roda.escribiendo, .cursor-roda.escondido { opacity: 0; }
 .cursor-pixel, .cursor-anillo { position: absolute; display: block; transition: transform 220ms var(--ease-ui), opacity 160ms ease; }
 .cursor-pixel { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: #fff; }
 /* La O del logo: el anillo con el mismo grosor relativo que la O de R○DA */
 .cursor-anillo { width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 8px solid #fff; border-radius: 50%; opacity: 0; transform: scale(0.5); }
 .cursor-roda.sobre .cursor-pixel { opacity: 0; transform: scale(0.4); }
+/* Quieto o scrolleando, el píxel se va: si no, queda pegado al texto y parece un punto */
+.cursor-roda.parado .cursor-pixel, html.scrolleando .cursor-roda .cursor-pixel { opacity: 0; transition-duration: 220ms, 400ms; }
 .cursor-roda.sobre .cursor-anillo { opacity: 1; transform: scale(1); }
 .cursor-roda.apretado .cursor-pixel { transform: scale(0.7); }
 .cursor-roda.sobre.apretado .cursor-anillo { transform: scale(0.82); }

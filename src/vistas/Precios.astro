@@ -4,23 +4,17 @@ import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Volver from '../components/Volver.astro';
-import Criticas from '../components/Criticas.astro';
-import { proyectosEn, testimoniosEn } from '../content/proyectos';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
-const { planes, preciosPagina: t, metas, inicio } = textos(idioma);
-const { obra } = inicio.niveles;
+const { planes, preciosPagina: t, metas } = textos(idioma);
 const contacto = ruta(idioma, 'contacto');
 
 const { moneda, adicionales, aMedida } = planes;
-const testimonios = testimoniosEn(idioma);
-// El sticker del precio lleva el color del afiche de ese plan en la cartelera de la home
-const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-rosa)', tienda: 'var(--color-tc-amarillo)' } as const;
 ---
 <Base titulo={metas.precios.titulo} descripcion={metas.precios.descripcion}>
   <Nav enHome={false} actual="precios" />
   <main class="relative z-10">
-    <!-- Encabezado corto: quien entra a Precios quiere ver números, las carpetas tienen que asomar en la primera pantalla -->
+    <!-- Encabezado corto: quien entra a Precios quiere ver números, la lista tiene que asomar en la primera pantalla -->
     <header class="px-5 pt-28 md:px-12 md:pt-32">
       <p class="mono flex items-baseline gap-4">
         <Volver />
@@ -31,7 +25,6 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       <p class="mt-5 max-w-[34ch] text-lg leading-snug text-tinta/70 md:text-xl" data-revelar="4">{t.bajada}</p>
     </header>
 
-    <!-- Los planes como carpetas de archivo: las lengüetas son lo que trae tu web; lo que define el plan va siempre a la vista -->
     <section class="mt-12 px-5 md:mt-14 md:px-12" aria-labelledby="precios-planes">
       <h2 id="precios-planes" class="sr-only">{t.rotulos.planes[1]}</h2>
       {t.moneda.tipo && (
@@ -43,77 +36,43 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       </div>
       )}
 
-      <!-- Obra va primero: dirección de arte + web, a consulta. Es la que define el estudio -->
-      <article id="obra" class="obra mt-10" data-revelar>
-        <h3 class="obra-nombre font-titulo">{obra.nombre}</h3>
-        <p class="obra-precio">{obra.precio}</p>
-        <p class="obra-texto">{obra.texto}</p>
-        <a href={contacto} class="cta obra-cta">{inicio.final.cta}<span class="sr-only"> ({obra.nombre})</span></a>
-      </article>
-
-      <ul class="carpetas mt-12">
+      <!-- Los planes como la lista de precios de una galería: una franja a lo ancho por plan, el nombre y el precio grandes.
+           De la más barata a la más cara: A medida cierra la lista, en tinta (sistemas y webs grandes, a consulta) -->
+      <ul class="lista mt-10">
         {planes.lista.map((p) => {
-          const pestanas = t.carpetas[p.id as keyof typeof t.carpetas];
           const ficha = t.fichas[p.id as keyof typeof t.fichas];
           return (
-            <li id={p.id} class="carpeta vt-plan" style={`--acento:${acento[p.id as keyof typeof acento]}; --vt: plan-${p.id}`}>
-              <!-- Las lengüetas son etiquetas, no botones: solo dicen el tamaño de la web de un vistazo -->
-              <ul class="lenguetas mono" aria-label={rellenar(t.queTrae, { plan: p.nombre })}>
-                {pestanas.map((x, j) => (
-                  <li
-                    class:list={['lengueta', { activa: j === 0, 'lengueta-carrito': 'carrito' in x }]}
-                    aria-label={'etiqueta' in x ? x.etiqueta : 'carrito' in x ? x.nombre : undefined}
-                  >
-                    {'carrito' in x ? (
-                      <>
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1.5 1.5 0 0 0 1.5 1.2h8.2a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.2" /><circle cx="9.5" cy="20" r="1.2" /><circle cx="17" cy="20" r="1.2" /></svg>
-                        <span class="contador" aria-hidden="true">1</span>
-                      </>
-                    ) : <>{j === 0 && <span class="punto-activo" aria-hidden="true"></span>}{x.nombre}</>}
-                  </li>
-                ))}
-              </ul>
-
-              <div class="cuerpo">
-                <p class="sticker" data-usd={p.precio}><span class="sr-only">{rellenar(t.precio, { moneda, precio: p.precio })}</span><span class="mono sticker-moneda" aria-hidden="true">{moneda}</span><b class="sticker-num" aria-hidden="true">{p.precio}</b></p>
-                <h3 class="carpeta-nombre">{p.nombre}</h3>
-                <p class="hoy mono" data-hoy={p.precio} hidden></p>
+            <li id={p.id} class="fila vt-plan" style={`--vt: plan-${p.id}`} data-revelar>
+              <h3 class="fila-nombre font-titulo">{p.nombre}</h3>
+              <div class="fila-info">
                 <p class="ideal">{ficha.ideal}</p>
-                <ul class="claves mono" aria-label={t.defineElPlan}>
-                  {ficha.clave.map((c) => <li>{c.split(/(US\$ \d+)/).map((parte) => (/^US\$ \d+$/.test(parte) ? <span data-usd-texto={parte.slice(4)}>{parte}</span> : parte))}</li>)}
-                </ul>
+                <p class="claves">{ficha.clave.map((c, k) => <>{k > 0 && <span aria-hidden="true"> · </span>}{c.split(/(US\$ \d+)/).map((parte) => (/^US\$ \d+$/.test(parte) ? <span data-usd-texto={parte.slice(4)}>{parte}</span> : parte))}</>)}</p>
                 {'detalle' in ficha && <p class="detalle-plan">{ficha.detalle}</p>}
-
-                <div class="pie-carpeta">
-                  <a href={`${contacto}?plan=${p.id}`} class="cta pedir">
-                    {t.pedir}<span class="sr-only"> ({p.nombre})</span>
-                  </a>
+                <div class="fila-accion">
+                  <a href={`${contacto}?plan=${p.id}`} class="cta">{t.pedir}<span class="sr-only"> ({p.nombre})</span></a>
                   <p class="mantenimiento">{t.mantenimiento.linea.split('US$ {precio}').map((parte, k) => (k === 0 ? parte : <><span data-usd-texto={ficha.mantenimiento}>US$ {ficha.mantenimiento}</span>{parte}</>))}</p>
                 </div>
+              </div>
+              <div class="fila-precio">
+                <p data-precio-usd={p.precio}><span class="sr-only">{rellenar(t.precio, { moneda, precio: p.precio })}</span><span class="precio-moneda" aria-hidden="true">{moneda}</span><span class="precio-num" aria-hidden="true">{p.precio}</span></p>
+                <p class="hoy" data-hoy={p.precio} hidden></p>
               </div>
             </li>
           );
         })}
+        <li id="a-medida" class="fila medida" data-revelar>
+          <h3 class="fila-nombre font-titulo">{aMedida.rotulo}</h3>
+          <div class="fila-info">
+            <p class="ideal">{aMedida.titulo}</p>
+            <p class="claves">{aMedida.texto}</p>
+            <div class="fila-accion">
+              <a href={`${contacto}?tipo=sistema`} class="cta medida-cta">{aMedida.cta}</a>
+            </div>
+          </div>
+          <p class="fila-precio medida-precio">{aMedida.precio}</p>
+        </li>
       </ul>
 
-      <!-- A medida: para lo que no entra en ninguna carpeta. Los ejemplos se eligen y viajan al formulario de contacto -->
-      <div id="a-medida" class="a-medida mt-6" data-revelar>
-        <div class="a-medida-cabeza">
-          <p class="mono text-gris">{aMedida.rotulo}</p>
-          <h3 class="a-medida-titulo">{aMedida.titulo}</h3>
-          <p class="max-w-[52ch] text-tinta/70 md:text-lg">{aMedida.texto}</p>
-          <p class="mt-4 max-w-[52ch] text-tinta md:text-lg">{aMedida.aliada}</p>
-        </div>
-        <div>
-          <p class="mono text-gris" id="a-medida-ejemplos">{aMedida.ejemplosTitulo}</p>
-          <ul class="ejemplos mt-4" aria-labelledby="a-medida-ejemplos">
-            {aMedida.ejemplos.map((e) => (
-              <li><button type="button" class="ejemplo" aria-pressed="false" data-ejemplo={e}>{e}</button></li>
-            ))}
-          </ul>
-          <a href={`${contacto}?tipo=sistema`} data-base={`${contacto}?tipo=sistema`} class="cta mt-8" data-a-medida-cta>{aMedida.cta}</a>
-        </div>
-      </div>
     </section>
 
     <!-- Todas incluyen: lo que trae cualquiera de las webs, en un paso de tono del papel -->
@@ -146,13 +105,6 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       </ul>
     </section>
 
-    <!-- Lo que dice la crítica: después de ver toda la oferta y antes de las dudas (por qué confiar) -->
-    {testimonios.length > 0 && (
-      <div class="mt-24 px-5 md:mt-32 md:px-12">
-        <Criticas testimonios={testimonios} />
-      </div>
-    )}
-
     <!-- Preguntas frecuentes: se abren de a una. En compu, el título a la izquierda y la lista a la derecha (si no, media pantalla queda vacía) -->
     <section class="mt-24 grid px-5 md:mt-32 md:px-12 lg:grid-cols-[1fr_2fr] lg:gap-16" aria-labelledby="precios-preguntas">
       <h2 id="precios-preguntas" class="font-titulo text-[clamp(2.4rem,6vw,4rem)] leading-[0.9] [text-wrap:balance] lg:sticky lg:top-28 lg:self-start" data-revelar>{t.rotulos.preguntas[1]}</h2>
@@ -172,7 +124,7 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
 
     <!-- El cierre: una pregunta y el botón -->
     <section class="mt-24 px-5 pb-16 md:mt-32 md:px-12" aria-labelledby="precios-final">
-      <div class="border-t border-tinta pt-10">
+      <div>
         <h2 id="precios-final" class="font-titulo text-[clamp(3rem,13vw,9rem)] leading-[0.9] tracking-[-0.01em]" data-revelar>{t.final.titulo}</h2>
         <p class="mt-6 max-w-[34ch] text-xl text-tinta/70 md:text-2xl" data-revelar="4">{t.final.texto}</p>
         <a href={contacto} class="cta mt-10" data-revelar="6">{t.final.cta}</a>
@@ -184,137 +136,36 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
 </Base>
 
 <style>
-  /* ── Las carpetas ─────────────────────────────────────────── */
-  .carpetas {
-    --carton: color-mix(in oklab, var(--color-papel) 80%, #d8cfbd);
-    --carton-atras: color-mix(in oklab, var(--color-papel) 62%, #cfc4ae);
-    --linea: color-mix(in oklab, var(--color-tinta) 14%, transparent);
-    display: grid;
-    gap: 3.5rem;
+  /* ── La lista: una franja por nivel, separadas por un paso de tono (sin líneas ni sombras) ── */
+  .lista { display: grid; margin-inline: -1.25rem; }
+  @media (min-width: 768px) { .lista { margin-inline: -3rem; } }
+  .fila {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem 1.5rem; align-items: baseline;
+    padding: 2.25rem 1.25rem; scroll-margin-top: 6rem;
   }
+  .fila:nth-child(odd) { background: color-mix(in oklab, var(--color-papel) 88%, #cfc8ba); }
+  @media (min-width: 768px) { .fila { padding-inline: 3rem; } }
+  .fila-nombre { font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 0.86; }
+  .fila-info { grid-column: 1 / -1; display: grid; gap: 0.75rem; max-width: 44rem; }
+  .fila-precio { grid-row: 1; grid-column: 2; text-align: right; font-family: var(--font-titulo); font-weight: 800; font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 0.86; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .precio-moneda { margin-right: 0.15em; font-size: 0.36em; vertical-align: 0.95em; }
+  .fila-precio .hoy { font-family: var(--font-texto); font-weight: 400; }
   @media (min-width: 1024px) {
-    .carpetas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; align-items: stretch; }
+    .fila { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) auto; column-gap: clamp(2rem, 4vw, 4rem); align-items: start; padding-block: 2.75rem; }
+    .fila-info { grid-column: 2; }
+    .fila-precio { grid-column: 3; }
   }
-  .carpeta { display: flex; flex-direction: column; scroll-margin-top: 7rem; }
+  .ideal { font-size: clamp(1.125rem, 1.5vw, 1.3rem); line-height: 1.4; font-weight: 600; }
+  .claves { font-size: 1.0625rem; line-height: 1.45; }
+  .detalle-plan { font-size: 0.9375rem; line-height: 1.45; color: color-mix(in oklab, var(--color-tinta) 75%, var(--color-papel)); }
+  .fila-accion { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 0.75rem; }
+  .mantenimiento { font-size: 0.9375rem; line-height: 1.35; }
 
-  /* La carpeta entera (lengüetas + cuerpo) es una sola silueta: sin bordes propios, un mismo papel
-     y una sombra que sigue el contorno de todo junto. */
-  .carpeta { filter: drop-shadow(0 0 0.6px rgb(0 0 0 / 0.35)) drop-shadow(0 22px 22px rgb(0 0 0 / 0.1)); }
-
-  /* Las lengüetas: etiquetas, no botones. La de adelante es del mismo papel que la carpeta y se funde con ella;
-     las de atrás quedan un tono más oscuras. Al pasar por la carpeta, las de atrás se levantan apenas. */
-  .lenguetas { display: flex; gap: 0.3rem; align-items: flex-end; position: relative; }
-  .lengueta {
-    position: relative;
-    z-index: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    min-height: 2.6rem;
-    padding: 0 0.95rem;
-    margin-bottom: -1px;
-    background: var(--carton-atras);
-    border-radius: 0.7rem 0.7rem 0 0;
-    font-size: 0.875rem;
-    color: color-mix(in oklab, var(--color-tinta) 72%, transparent);
-    transform: translateY(0.35rem);
-    transition: transform 200ms var(--ease-ui);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .carpeta:hover .lengueta:not(.activa) { transform: translateY(0.1rem); }
-  }
-  .lengueta.activa { z-index: 2; background: var(--carton); color: var(--color-tinta); transform: none; }
-  /* Las curvas donde la lengüeta de adelante se une con la carpeta, como una carpeta de verdad */
-  .lengueta.activa::before,
-  .lengueta.activa::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: 0.7rem;
-    height: 0.7rem;
-    pointer-events: none;
-  }
-  .lengueta.activa::before { left: -0.7rem; background: radial-gradient(circle at 0 0, transparent 0.7rem, var(--carton) calc(0.7rem + 0.5px)); }
-  .lengueta.activa::after { right: -0.7rem; background: radial-gradient(circle at 100% 0, transparent 0.7rem, var(--carton) calc(0.7rem + 0.5px)); }
-  .lengueta:first-child::before { display: none; }
-  .lengueta:last-child::after { display: none; }
-  .punto-activo { width: 0.45rem; height: 0.45rem; border-radius: 999px; background: var(--acento); }
-  .lengueta-carrito { margin-left: auto; padding: 0 0.8rem; }
-  .contador {
-    display: inline-grid;
-    place-items: center;
-    min-width: 1.15rem;
-    height: 1.15rem;
-    padding: 0 0.25rem;
-    border-radius: 999px;
-    background: var(--color-tinta);
-    color: var(--color-papel);
-    font-size: 0.65rem;
-    letter-spacing: 0;
-  }
-  /* Al pasar por la tienda, el carrito "recibe" el producto: el contador salta */
-  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
-    .carpeta:hover .contador { animation: salta 0.25s var(--ease-ui); }
-  }
-  @keyframes salta { 40% { transform: scale(1.3); } }
-
-  .cuerpo {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    padding: 1.75rem 1.5rem 1.5rem;
-    background: var(--carton);
-    border-radius: 0.9rem;
-  }
-  /* Las lengüetas de las puntas salen derecho del borde: esas esquinas son siempre rectas,
-     así la lengüeta no se despega cuando está atrás o cuando se levanta con el hover */
-  .cuerpo { border-top-left-radius: 0; }
-  .carpeta:has(.lengueta-carrito) .cuerpo { border-top-right-radius: 0; }
-  /* El precio, en un sticker redondo pegado a la carpeta */
-  .sticker {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: grid;
-    place-content: center;
-    width: 4.9rem;
-    height: 4.9rem;
-    border-radius: 999px;
-    background: var(--acento);
-    color: var(--color-tinta);
-    text-align: center;
-    line-height: 1;
-    transform: rotate(-9deg);
-    box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.45);
-  }
-  .sticker span { font-size: 0.8125rem; letter-spacing: 0.02em; }
-  .sticker b { font-weight: 500; font-size: 1.75rem; letter-spacing: -0.04em; }
-  .sticker b.largo { font-size: 1.4rem; }
-  .carpeta-nombre { font-family: var(--font-titulo); font-weight: 800; text-transform: uppercase; font-size: clamp(2.4rem, 8vw, 3.2rem); line-height: 0.95; padding-right: 5.25rem; }
-
-  /* ── Obra: el nivel de autor, en tinta y a lo ancho, antes de las carpetas ── */
-  .obra { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.75rem, 4vw, 3rem); background: var(--color-tinta); color: var(--color-papel); scroll-margin-top: 7rem; }
-  @media (min-width: 1024px) { .obra { grid-template-columns: auto auto 1fr auto; align-items: end; column-gap: clamp(1.5rem, 3vw, 3rem); } }
-  .obra-nombre { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.85; }
-  .obra-precio { font-size: clamp(1.4rem, 2.2vw, 1.8rem); font-weight: 600; color: var(--color-tc-rosa); }
-  .obra-texto { max-width: 40ch; font-size: 1.0625rem; line-height: 1.45; color: color-mix(in oklab, var(--color-papel) 86%, var(--color-tinta)); }
-  .obra-cta { background: var(--color-papel); color: var(--color-tinta); }
-
-  /* Lo que define el plan, siempre a la vista */
-  .ideal { margin-top: 1rem; padding-right: 4rem; font-size: 1.05rem; line-height: 1.35; color: color-mix(in oklab, var(--color-tinta) 75%, transparent); }
-  .claves { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-  .claves li { padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--color-papel); font-size: 0.875rem; }
-  .detalle-plan { margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.4; color: color-mix(in oklab, var(--color-tinta) 68%, transparent); }
-
-  .pie-carpeta { display: grid; gap: 0.75rem; margin-top: auto; padding-top: 1.5rem; }
-  .pedir { justify-self: start; }
-  .mantenimiento { font-size: 0.9375rem; line-height: 1.35; color: var(--color-tinta); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .lengueta { transition: none; }
-  }
+  /* ── A medida: en tinta, con el precio en rosa ── */
+  .fila.medida { background: var(--color-tinta); color: var(--color-papel); }
+  .medida .claves, .medida .detalle-plan { color: color-mix(in oklab, var(--color-papel) 86%, var(--color-tinta)); }
+  .medida-precio { color: var(--color-tc-rosa); font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1; }
+  .medida-cta { background: var(--color-papel); color: var(--color-tinta); }
 
   /* ── Todas incluyen: un paso de tono del papel (el rosa queda para Más es más y Nosotros) ── */
   .creditos { background: color-mix(in oklab, var(--color-papel) 82%, #cfc8ba); color: var(--color-tinta); padding: 4.5rem 1.25rem; }
@@ -340,41 +191,6 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   .renglon-detalle { max-width: 46ch; line-height: 1.4; color: color-mix(in oklab, var(--color-tinta) 78%, var(--color-papel)); }
   .renglon-nota { max-width: 52ch; font-size: 0.9375rem; line-height: 1.45; color: var(--color-gris); }
 
-  /* ── A medida: una carpeta más, abierta y a lo ancho, con borde punteado (todavía no tiene forma: la armamos juntos) ── */
-  .a-medida {
-    display: grid;
-    gap: 2rem;
-    padding: 1.75rem 1.5rem;
-    border: 1.5px dashed color-mix(in oklab, var(--color-tinta) 30%, transparent);
-    border-radius: 0.9rem;
-    scroll-margin-top: 7rem;
-  }
-  @media (min-width: 1024px) { .a-medida { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 3rem; padding: 2.25rem 2.5rem; } }
-  .a-medida-cabeza { display: grid; gap: 0.75rem; align-content: start; }
-  .a-medida-titulo { font-family: var(--font-titulo); font-weight: 800; text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 0.95; }
-  .ejemplos { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .ejemplo {
-    min-height: 2.75rem;
-    padding: 0.4rem 1rem;
-    border: 1px solid color-mix(in oklab, var(--color-tinta) 22%, transparent);
-    border-radius: 999px;
-    text-align: left;
-    transition: transform 160ms var(--ease-ui), background-color 200ms ease, color 200ms ease, border-color 200ms ease;
-  }
-  .ejemplo:active { transform: scale(0.97); }
-  @media (hover: hover) and (pointer: fine) { .ejemplo:hover { border-color: var(--color-tinta); } }
-  .ejemplo[aria-pressed='true'] { background: var(--color-tinta); color: var(--color-papel); border-color: var(--color-tinta); }
-  .ejemplo[aria-pressed='true']::before {
-    content: '';
-    display: inline-block;
-    width: 0.85em;
-    height: 0.85em;
-    margin-right: 0.4em;
-    vertical-align: -0.05em;
-    background: currentColor;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5 6.2 11.5 13 4.5' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-  }
-
   /* El interruptor de pesos: un switch con perilla */
   .interruptor { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; font-size: 0.9375rem; cursor: pointer; }
   .interruptor:disabled { opacity: 0.4; cursor: wait; }
@@ -395,19 +211,9 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
   @media (prefers-reduced-motion: reduce) { .signo { transition: none; } }
 </style>
 <script>
-  // ── A medida: los ejemplos se eligen y viajan al formulario de contacto ──
-  const ctaMedida = document.querySelector<HTMLAnchorElement>('[data-a-medida-cta]');
-  const baseMedida = ctaMedida?.dataset.base ?? '';
-  const ejemplos = [...document.querySelectorAll<HTMLButtonElement>('[data-ejemplo]')];
-  ejemplos.forEach((b) => b.addEventListener('click', () => {
-    b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
-    const elegidos = ejemplos.filter((x) => x.getAttribute('aria-pressed') === 'true').map((x) => x.dataset.ejemplo ?? '');
-    if (ctaMedida) ctaMedida.href = baseMedida + (elegidos.length ? '&ideas=' + encodeURIComponent(elegidos.join('|')) : '');
-  }));
-
   // ── Cuánto sale hoy en moneda local ─────────────────────────────────────────────
   // El precio real es en dólares y no cambia. Con el interruptor, la moneda local reemplaza a los dólares en toda la página
-  // (en los stickers abreviada: $ 462K) y el precio fijo en dólares queda chico debajo de cada plan y adicional.
+  // y el precio fijo en dólares queda chico debajo de cada plan y adicional.
   // Español: pesos con DolarApi (dólar oficial a la venta; para otro, cambiar "oficial" por "blue" o "bolsa").
   // Portugués: reales con Frankfurter v2 (cotizaciones de bancos centrales). Inglés: no hay interruptor.
   // Los textos y el tipo de moneda vienen del HTML (data-*), así el navegador no carga los guiones.
@@ -428,8 +234,6 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
     // Redondeado para arriba: los pesos a los mil ($ 462.000), los reales a los diez (R$ 1.500)
     const redondeo = tipo === 'ars' ? 1000 : 10;
     const local = (usd: number) => Math.ceil((usd * valor) / redondeo) * redondeo;
-    // En el sticker no entra $ 462.000: desde 10.000 va en miles (462K)
-    const corto = (n: number) => (n >= 10000 ? `${Math.round(n / 1000)}K` : numero.format(n));
     // Guarda el texto original (en dólares) la primera vez, para poder volver
     const cambiar = (el: HTMLElement, texto: string | null) => {
       if (el.dataset.original === undefined) el.dataset.original = el.textContent ?? '';
@@ -440,10 +244,10 @@ const acento = { landing: 'var(--color-tc-rojo)', multiseccion: 'var(--color-tc-
       const activo = si && valor > 0;
       interruptor?.setAttribute('aria-checked', String(activo));
       if (aviso) aviso.hidden = !activo;
-      document.querySelectorAll<HTMLElement>('.sticker[data-usd]').forEach((s) => {
-        const n = local(Number(s.dataset.usd));
-        const num = s.querySelector<HTMLElement>('.sticker-num'), mon = s.querySelector<HTMLElement>('.sticker-moneda');
-        if (num) { cambiar(num, activo ? corto(n) : null); num.classList.toggle('largo', activo && corto(n).length > 4); }
+      document.querySelectorAll<HTMLElement>('[data-precio-usd]').forEach((s) => {
+        const n = local(Number(s.dataset.precioUsd));
+        const num = s.querySelector<HTMLElement>('.precio-num'), mon = s.querySelector<HTMLElement>('.precio-moneda');
+        if (num) cambiar(num, activo ? numero.format(n) : null);
         if (mon) cambiar(mon, activo ? sigla : null);
       });
       document.querySelectorAll<HTMLElement>('[data-usd-num]').forEach((el) => cambiar(el, activo ? numero.format(local(Number(el.dataset.usdNum))) : null));

@@ -63,6 +63,8 @@ export const nav = {
 
 export const proyectosPagina = {
   titulo: 'Proyectos seleccionados',
+  /** La palabra gigante del encabezado de /proyectos */
+  palabra: 'Proyectos',
   bajada: 'Cada una, hecha a medida para su marca. Estas son algunas de las que ya hicimos.',
   pregunta: '¿Qué hacés?',
   ayuda: 'Elegí tu rubro y te mostramos primero lo más cercano a vos.',
@@ -164,7 +166,7 @@ export const cierre = {
 
 export const planes = {
   moneda: 'US$',
-  /** incluye: la línea corta de la home, alineada con las carpetas de /precios (que tienen el detalle completo) */
+  /** incluye: la línea corta de la home, alineada con la lista de /precios (que tienen el detalle completo) */
   lista: [
     { id: 'landing', nombre: 'Landing', precio: 300, incluye: 'Una sola página. Ideal si estás arrancando o lanzás algo puntual.' },
     { id: 'multiseccion', nombre: 'Multisección', precio: 400, incluye: 'Hasta 5 páginas. Ideal si tenés varios servicios o trabajos para mostrar.' },
@@ -174,7 +176,7 @@ export const planes = {
   verTodo: 'Ver qué incluye cada plan',
   adicionales: {
     rotulo: 'Adicionales',
-    titulo: 'Sumale lo que necesites.',
+    titulo: 'Sumale lo que necesites',
     lista: [
       { nombre: 'Panel propio', detalle: 'Subís tus proyectos, productos y novedades sin depender de nadie', nota: 'Para Landing y Multisección. En Tienda ya viene incluido.', precio: 150 },
       { nombre: 'Turnos y reservas', detalle: 'Te reservan solos, a cualquier hora', precio: 100 },
@@ -187,25 +189,15 @@ export const planes = {
       },
     ],
   },
-  /** A medida: va debajo de las carpetas. Los ejemplos ayudan a quien no sabe cómo se llama lo que necesita. PENDIENTE (Giuli/Facu): revisar que sean cosas que hacen. */
+  /** A medida: el primero de la lista de /precios, en tinta. Los ejemplos van en el texto (sin opciones para elegir). */
   aMedida: {
     rotulo: 'A medida',
-    titulo: '¿Lo tuyo no entra en ninguna carpeta?',
-    texto: 'Hacemos sistemas a medida: lo que hoy resolvés a mano, en una planilla o por mensajes, convertido en una herramienta para tu negocio. También webs de más de 10 páginas. Lo pensamos juntos y te pasamos un presupuesto.',
-    ejemplosTitulo: 'Por ejemplo (tocá los que se parecen a lo tuyo)',
-    ejemplos: [
-      'Turnos con seña y recordatorios',
-      'Stock y ventas de tu local',
-      'Presupuestos que se arman solos',
-      'Pedidos para mayoristas',
-      'Reservas de canchas, salas o equipos',
-      'Gestión de alumnos, socios o pacientes',
-      'Un portal para que tus clientes sigan su pedido',
-      'Un panel con los números de tu negocio',
-    ],
+    titulo: '¿Lo tuyo no entra en ningún plan?',
+    texto: 'Sistemas para tu negocio, como turnos con seña, el stock de tu local o un portal para seguir pedidos. También webs de más de 10 páginas.',
+    /** La línea corta de la home (Cómo trabajamos) */
+    corto: 'Sistemas para tu negocio y webs de más de 10 páginas. Lo pensamos juntos y te pasamos un presupuesto.',
+    precio: 'A consulta',
     cta: 'Contanos qué necesitás',
-    /** Branding y redes no los hacemos nosotros: los cotiza aparte una aliada (sin nombre ni precio) */
-    aliada: '¿Necesitás también branding o manejo de redes? Trabajamos con una aliada que se ocupa de eso y te lo cotiza aparte.',
   },
   dominio: {
     pregunta: '¿Y el dominio y el hosting?',
@@ -219,22 +211,20 @@ export const planes = {
 };
 
 /**
- * La página /precios: cada plan es una carpeta de archivo. Las lengüetas son lo que trae tu web
- * (la landing tiene una sola; la multisección, varias; la tienda, un carrito) y adentro va solo lo que incluye el servicio.
+ * La página /precios: los planes como la lista de precios de una galería, una franja por plan con lo que
+ * define cada uno (para quién es, lo que trae y el precio) siempre a la vista.
  */
 export const preciosPagina = {
   rotulo: 'Precios',
-  titulo: ['Cuánto sale', 'tu web.'],
-  bajada: 'Precios a la vista, sin letra chica. Mirá qué trae cada una.',
+  titulo: ['Cuánto sale', 'tu web'],
+  bajada: 'Todas las diseñamos desde cero. Lo que cambia entre una y otra es el tamaño.',
   rotulos: {
     planes: ['01', 'Los planes'],
     extras: ['02', 'Sumale'],
     preguntas: ['03', 'Preguntas'],
   },
-  queTrae: 'Qué trae {plan}',
-  defineElPlan: 'Lo que define el plan',
   precio: 'Precio: {moneda} {precio}',
-  /** Lo que define cada plan va siempre a la vista, fuera de las lengüetas */
+  /** Lo que define cada plan: va siempre a la vista en su franja */
   fichas: {
     landing: { ideal: 'Ideal si estás arrancando o lanzás algo puntual.', clave: ['1 página'], mantenimiento: 20 },
     multiseccion: { ideal: 'Ideal si tenés varios servicios o trabajos para mostrar.', clave: ['Hasta 5 páginas', 'Página extra US$ 30'], mantenimiento: 25 },
@@ -275,19 +265,6 @@ export const preciosPagina = {
     cotizacion: 'Dólar oficial $ {valor} · {fecha}',
   },
   pedir: 'Quiero esta',
-  /** Las lengüetas de cada carpeta: solo dicen el tamaño de la web (una página, varias, una tienda) */
-  carpetas: {
-    landing: [{ id: 'inicio', nombre: 'Inicio' }],
-    multiseccion: [
-      { id: 'inicio', nombre: 'Inicio' },
-      { id: 'servicios', nombre: 'Servicios' },
-      { id: 'mas', nombre: '+3', etiqueta: 'Tres páginas más' },
-    ],
-    tienda: [
-      { id: 'catalogo', nombre: 'Catálogo' },
-      { id: 'carrito', nombre: 'Carrito', carrito: true },
-    ],
-  },
   preguntas: [
     { p: '¿Tengo que pagar algo por mes?', r: ['En general, no. Pagás tu web una sola vez. El hosting, en la mayoría de los casos, es gratis, y el dominio (tumarca.com) se renueva una vez por año, a tu nombre.', 'La excepción son las tiendas con base de datos y pagos online: usan un hosting pago, a tu nombre, que le pagás directo al proveedor (normalmente entre US$ 5 y US$ 20 por mes, según el tráfico). Te lo avisamos antes de arrancar.', 'Si querés que sigamos actualizando tu web, hay un mantenimiento mensual totalmente opcional: Landing US$ 20, Multisección US$ 25 y Tienda US$ 35, con hasta 4 cambios por mes. Sin permanencia: lo das de baja cuando quieras.'] },
     { p: '¿Cómo se paga?', r: ['La mitad al arrancar y la otra mitad cuando te entregamos la web. En dólares o su equivalente en pesos.'] },
@@ -305,7 +282,7 @@ export const preciosPagina = {
     { p: '¿Puedo actualizar la web yo?', r: ['Sí. En la Tienda el panel ya viene incluido: cargás tus productos, precios y stock cuando quieras. En Landing y Multisección, sumás el Panel propio y subís tus proyectos y novedades sin depender de nadie. Y si preferís que lo hagamos nosotros, está el mantenimiento opcional.'] },
   ],
   final: {
-    titulo: '¿Arrancamos?',
+    titulo: '¿Hacemos la tuya?',
     texto: 'Contanos de tu marca y te decimos cuál te conviene.',
     cta: 'Hablemos',
   },
@@ -317,7 +294,7 @@ export const preciosPagina = {
  */
 export const contactoPagina = {
   rotulo: 'Contacto',
-  titulo: ['Contanos', 'qué buscás.'],
+  titulo: ['Contanos', 'qué buscás'],
   bajada: 'Son dos minutos. Con esto llegamos a la charla sabiendo qué necesitás.',
   tipos: {
     pregunta: '¿Qué estás buscando?',
@@ -392,7 +369,6 @@ export const nosotros = {
       { nombre: 'Giuli', rol: 'Diseño, desarrollo e inteligencia artificial', texto: 'Me recibí de técnica en desarrollo web en la UNLaM y ahora estoy estudiando inteligencia artificial.', alt: 'Retrato de Giuli hecho de cuadraditos, sonriendo' },
       { nombre: 'Facu', rol: 'Diseño y desarrollo', texto: 'Estoy terminando la misma tecnicatura.', alt: 'Retrato de Facu hecho de cuadraditos, sonriendo' },
     ],
-    aviso: 'Ninguna web la hicimos con plantillas.',
   },
   filmamos: ['¿Hacemos', 'la tuya?'],
   cta: 'Hablemos',
@@ -401,7 +377,7 @@ export const nosotros = {
 /** La página de privacidad. **así** va en negrita y {mail} es el link al mail. */
 export const privacidad = {
   rotulo: 'Privacidad',
-  titulo: 'Tus datos, cuidados.',
+  titulo: 'Tus datos, cuidados',
   parrafos: [
     'Cuando completás el formulario de contacto, nos llegan los datos que escribiste: tu nombre, tu WhatsApp o mail, tu marca, tu web y tu mensaje. Si agendás una llamada, Cal.com nos pasa tu nombre, tu mail y el horario elegido.',
     '**Los usamos solo para responderte** y, si trabajamos juntos, para hacer tu web. No los vendemos, no los compartimos con nadie para publicidad y no te sumamos a ninguna lista de correo.',
@@ -413,14 +389,14 @@ export const privacidad = {
 /** La 404 */
 export const error404 = {
   rotulo: 'Página no encontrada',
-  titulo: ['Esta página', 'no existe ', 'o se mudó.'],
+  titulo: ['Esta página', 'no existe ', 'o se mudó'],
   cta: 'Volver al inicio',
 };
 
 /**
  * La home nueva (rediseño 2026-10-25): la obra primero, texto llano y sin vocabulario de cine.
- * Va en este orden: la O (y la sección Estudio), la galería de trabajos, la gente que pasa,
- * más es más, cómo trabajamos y el final.
+ * Va en este orden: la O (y la sección Estudio), la galería de trabajos, lo que dicen los clientes,
+ * cómo trabajamos, escribí tu marca y el final.
  */
 export const inicio = {
   hero: {
@@ -428,49 +404,41 @@ export const inicio = {
     /** Lo que lee un lector de pantalla en el título (las letras grandes son el logo) */
     lector: 'Roda, estudio de diseño y desarrollo web',
     linea: 'Diseñamos y programamos webs a medida.',
+    /** La ficha del hero: qué somos y quiénes (al lado va la hora de Buenos Aires) */
+    ficha: 'Estudio de diseño y desarrollo web',
+    firma: 'Giuli y Facu · Buenos Aires',
     hablemos: 'Hablemos',
     verTrabajos: 'Ver trabajos',
   },
   estudio: {
     titulo: 'Estudio',
     texto: 'Somos Giuli y Facu. Diseñamos y programamos cada web desde cero, y si nos escribís, te contestamos nosotros.',
-    cta: 'Ver trabajos',
+    cta: 'Quiénes somos',
     foto: 'Giuliana y Facundo, abrazados y sonriendo, con un árbol detrás',
     /** Para lectores de pantalla: lo que pasa en el video del banner */
     video: 'Una persona hecha de píxeles trabaja en su escritorio: arma una web y termina diciendo Roda',
   },
   trabajos: { titulo: 'Trabajos', verTodos: 'Ver todos los trabajos' },
-  /** La gente que pasa: por qué no funcionan las webs de la mayoría de los negocios. Sin números inventados. */
-  gente: {
-    titulo: 'Todos los días pasa gente por tu web.',
-    bajada: 'La mayoría sigue de largo. Casi siempre por lo mismo:',
-    // Cuando sumemos branding y redes, van acá motivos como "La marca no tiene una imagen propia"
-    motivos: [
-      'Se parece a todas: es una plantilla que usan miles de marcas.',
-      'No se entiende qué hacés ni por qué elegirte.',
-      'Tarda en cargar, y nadie espera.',
-      'En el celu se ve rota.',
-      'No hay un botón claro para escribirte.',
+  /** Escribí tu marca: el que duda escribe el nombre de su marca y ve una portada con su nombre. Los datos son cosas que ya cumplimos. */
+  tuMarca: {
+    titulo: 'Escribí tu marca',
+    etiqueta: 'Así arranca su web cuando la hacemos nosotros',
+    placeholder: 'El nombre de tu marca',
+    vacio: 'Tu marca',
+    menu: 'Inicio · Trabajos · Contacto',
+    nota: 'Un boceto de portada hecho con tu nombre. La de verdad la diseñamos con vos.',
+    datos: [
+      { nombre: 'Hablás con Giuli y Facu', texto: 'Del primer mensaje a la entrega, sin intermediarios.' },
+      { nombre: 'Cambios sin límite', texto: 'Sobre lo acordado, hasta que quede como la querés.' },
+      { nombre: 'Mitad y mitad', texto: 'La mitad al arrancar y la otra cuando te la entregamos.' },
+      { nombre: 'Todo a tu nombre', texto: 'El dominio, el hosting y la web son tuyos.' },
     ],
-    remate: 'Cuando la web funciona, alguien se frena.',
-  },
-  /** Por qué Roda: solo cosas que ya cumplimos (están en /precios). Sin promesas ni números inventados. */
-  porQue: {
-    titulo: 'Por qué Roda',
-    razones: [
-      { nombre: 'Diseño propio', texto: 'Cada web la diseñamos desde cero para tu marca. No usamos plantillas.' },
-      { nombre: 'Hablás con nosotros', texto: 'Del primer mensaje a la entrega te atendemos Giuli y Facu, sin intermediarios.' },
-      { nombre: 'Cambios hasta que te guste', texto: 'Ajustamos sin límite sobre lo que acordamos, hasta que quede como la querés.' },
-      { nombre: 'Precios a la vista', texto: 'Sabés cuánto sale antes de arrancar. Sin letra chica.' },
-      { nombre: 'Todo a tu nombre', texto: 'El dominio, el hosting y la web quedan a tu nombre.' },
-    ],
+    cta: 'Quiero la mía',
   },
   niveles: {
     titulo: 'Cómo trabajamos',
     proceso: 'Te escuchamos, te mostramos cómo va a quedar antes de hacerla, la hacemos y la publicamos. Cambios sin límite sobre lo acordado.',
-    // PENDIENTE (Giuli/Facu): qué incluye Obra y si lleva precio
-    obra: { nombre: 'Obra', precio: 'A consulta', texto: 'Dirección de arte y web, para marcas que quieren algo único. Lo charlamos y te pasamos una propuesta.' },
     verDetalle: 'Ver qué incluye cada una',
   },
-  final: { titulo: '¿La próxima es tuya?', cta: 'Hablemos' },
+  final: { titulo: '¿Hacemos la tuya?', cta: 'Hablemos' },
 };

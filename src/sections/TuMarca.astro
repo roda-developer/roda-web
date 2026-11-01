@@ -1,0 +1,167 @@
+---
+/**
+ * Escribí tu marca: para el que todavía duda. Escribe el nombre de su marca y, a medida que escribe, los píxeles
+ * que tapan la portada se van y aparece su nombre armado como el inicio de una web. Al lado, cuatro cosas que ya
+ * cumplimos y una frase textual de un cliente. El botón lleva la marca escrita al formulario de contacto.
+ * Sin movimiento: los píxeles se van de una. Sin JS: la portada se ve con "Tu marca" y el botón va a /contacto.
+ */
+import { testimoniosEn } from '../content/proyectos';
+import { idiomaDe, ruta, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const { inicio } = textos(idioma);
+const t = inicio.tuMarca;
+const contacto = ruta(idioma, 'contacto');
+const cita = testimoniosEn(idioma)[0];
+---
+<section class="tu-marca" aria-labelledby="tu-marca-titulo" data-tu-marca data-contacto={contacto}>
+  <div class="lado">
+    <h2 id="tu-marca-titulo" class="titulo font-titulo" data-revelar>{t.titulo}</h2>
+    <div class="campo-caja" data-revelar="2">
+      <label for="tu-marca-campo">{t.etiqueta}</label>
+      <input id="tu-marca-campo" type="text" maxlength="24" autocomplete="organization" placeholder={t.placeholder} class="campo font-titulo" data-campo />
+    </div>
+    <dl class="datos">
+      {t.datos.map((d, i) => (
+        <div data-revelar={String(4 + i)}>
+          <dt>{d.nombre}</dt>
+          <dd>{d.texto}</dd>
+        </div>
+      ))}
+    </dl>
+    <div class="accion" data-revelar="8">
+      <a href={contacto} class="cta" data-ir>{t.cta}</a>
+      {cita && <p class="cita">“{cita.destacado}” <span>{cita.nombre}, {cita.marca}</span></p>}
+    </div>
+  </div>
+
+  <figure class="portada-caja" data-revelar="3">
+    <div class="portada" aria-hidden="true">
+      <p class="portada-marca"><span class="pixel"></span><span data-nombre-chico>{t.vacio}</span></p>
+      <p class="portada-menu">{t.menu}</p>
+      <p class="portada-nombre font-titulo" data-nombre>{t.vacio}</p>
+      <canvas class="velo" data-velo></canvas>
+    </div>
+    <figcaption>{t.nota}</figcaption>
+  </figure>
+</section>
+
+<style>
+  .tu-marca {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    display: grid; gap: 3.5rem; margin-top: clamp(6rem, 16svh, 11rem);
+    padding: clamp(6rem, 14svh, 9rem) 1.25rem; background: var(--color-tinta); color: var(--color-papel);
+  }
+  @media (min-width: 768px) { .tu-marca { padding-inline: clamp(2rem, 5vw, 5rem); } }
+  @media (min-width: 1024px) { .tu-marca { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); column-gap: clamp(3rem, 6vw, 6rem); align-items: center; } }
+  .lado { display: grid; gap: clamp(2.5rem, 6svh, 3.5rem); align-content: start; }
+  /* En celu la portada va justo abajo del campo: así se ve cómo se revela mientras escribís */
+  @media (max-width: 1023px) {
+    .lado { display: contents; }
+    .portada-caja { order: 1; }
+    .datos { order: 2; }
+    .accion { order: 3; }
+  }
+  .titulo { font-size: clamp(3.4rem, 9vw, 7rem); line-height: 0.88; }
+  .campo-caja { display: grid; gap: 0.75rem; max-width: 32rem; }
+  .campo-caja label { font-size: 1.0625rem; }
+  .campo {
+    width: 100%; padding: 0 0 0.6rem; border: 0; border-bottom: 2px solid var(--color-papel); border-radius: 0;
+    background: transparent; color: var(--color-papel); font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1.1;
+    transition: border-color 200ms var(--ease-ui);
+  }
+  .campo::placeholder { color: #8f8b84; }
+  .campo:focus { outline: none; border-bottom-color: var(--color-tc-rosa); }
+  .datos { display: grid; gap: 1.75rem; max-width: 38rem; }
+  @media (min-width: 640px) { .datos { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3rem; } }
+  .datos dt { font-size: 1.125rem; font-weight: 600; }
+  .datos dd { margin-top: 0.35rem; font-size: 1rem; line-height: 1.45; color: #c9c5bd; }
+  .accion { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2rem; }
+  .accion .cta { background: var(--color-papel); color: var(--color-tinta); }
+  .cita { max-width: 22rem; font-size: 0.9375rem; line-height: 1.45; color: #c9c5bd; }
+  .cita span { white-space: nowrap; }
+
+  .portada-caja { display: grid; gap: 0.9rem; }
+  .portada {
+    position: relative; container-type: inline-size; aspect-ratio: 16 / 17; overflow: hidden;
+    background: var(--color-papel); color: var(--color-tinta);
+  }
+  .portada-marca, .portada-menu { position: absolute; top: 5cqi; margin: 0; font-size: max(0.75rem, 2.2cqi); }
+  .portada-marca { left: 5cqi; display: flex; align-items: center; gap: 0.5em; }
+  .portada-menu { right: 5cqi; }
+  .pixel { width: 0.7em; height: 0.7em; background: var(--color-tc-rosa); }
+  /* El nombre ocupa el ancho: el script ajusta el tamaño según cuántas letras tiene */
+  .portada-nombre {
+    position: absolute; left: 4.5cqi; right: 4.5cqi; bottom: 4cqi; margin: 0;
+    font-size: calc(var(--k, 28) * 1cqi); line-height: 0.82; overflow-wrap: anywhere;
+  }
+  .velo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  figcaption { font-size: 0.9375rem; color: #c9c5bd; }
+</style>
+
+<script>
+  import { movimientoPermitido } from '../motion/index';
+
+  const seccion = document.querySelector<HTMLElement>('[data-tu-marca]');
+  if (seccion) {
+    const campo = seccion.querySelector<HTMLInputElement>('[data-campo]')!;
+    const nombre = seccion.querySelector<HTMLElement>('[data-nombre]')!;
+    const nombreChico = seccion.querySelector<HTMLElement>('[data-nombre-chico]')!;
+    const ir = seccion.querySelector<HTMLAnchorElement>('[data-ir]')!;
+    const lienzo = seccion.querySelector<HTMLCanvasElement>('[data-velo]')!;
+    const ctx = lienzo.getContext('2d')!;
+    const vacio = nombre.textContent ?? '';
+    const contacto = seccion.dataset.contacto ?? '/contacto/';
+    const mover = movimientoPermitido();
+
+    // El velo: una grilla de 16 × 17 cuadrados, cada uno con su umbral (siempre el mismo, para que se vayan en el mismo orden)
+    const COLS = 16, FILAS = 17;
+    const celdas = Array.from({ length: COLS * FILAS }, (_, i) => {
+      let h = ((i % COLS) * 374761393 + Math.floor(i / COLS) * 668265263) | 0;
+      h = Math.imul(h ^ (h >>> 13), 1274126177);
+      const azar = ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+      return { umbral: azar, color: azar < 0.05 ? '#ff6fd8' : azar < 0.55 ? '#121212' : '#2a2928', alfa: 1 };
+    });
+    let avance = 0, cuadro = 0;
+
+    const dibujar = () => {
+      const w = lienzo.clientWidth, h = lienzo.clientHeight, dpr = Math.min(devicePixelRatio, 2);
+      if (lienzo.width !== Math.round(w * dpr)) { lienzo.width = Math.round(w * dpr); lienzo.height = Math.round(h * dpr); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      const lw = w / COLS, lh = h / FILAS;
+      let falta = false;
+      celdas.forEach((c, i) => {
+        const meta = c.umbral >= avance ? 1 : 0;
+        // Cada cuadrado se apaga de a poco (sin movimiento, de una)
+        c.alfa = mover ? c.alfa + (meta - c.alfa) * 0.18 : meta;
+        if (Math.abs(meta - c.alfa) < 0.01) c.alfa = meta; else falta = true;
+        if (c.alfa <= 0) return;
+        ctx.globalAlpha = c.alfa;
+        ctx.fillStyle = c.color;
+        ctx.fillRect(Math.floor((i % COLS) * lw), Math.floor(Math.floor(i / COLS) * lh), Math.ceil(lw), Math.ceil(lh));
+      });
+      ctx.globalAlpha = 1;
+      cuadro = falta ? requestAnimationFrame(dibujar) : 0;
+    };
+    const pedir = () => { if (!cuadro) cuadro = requestAnimationFrame(dibujar); };
+
+    const actualizar = () => {
+      const marca = campo.value.trim();
+      const texto = marca || vacio;
+      nombre.textContent = texto;
+      nombreChico.textContent = texto;
+      // Con 6 letras ya se ve entera; el tamaño hace que el nombre llene el ancho (hasta un tope de alto)
+      avance = Math.min(1, marca.length / 6);
+      nombre.style.setProperty('--k', String(Math.min(34, 190 / Math.max(texto.length, 3))));
+      ir.href = marca ? `${contacto}?marca=${encodeURIComponent(marca)}` : contacto;
+      pedir();
+    };
+
+    campo.addEventListener('input', actualizar);
+    new ResizeObserver(pedir).observe(lienzo);
+    actualizar();
+  }
+</script>

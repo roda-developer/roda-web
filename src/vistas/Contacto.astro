@@ -118,8 +118,8 @@ const paraElNavegador = { falta: t.falta, enviando: t.enviando, enviarMail: t.en
   .formulario { display: grid; gap: 3rem; max-width: 56rem; }
   .contacto-cuerpo { display: grid; gap: 3.5rem; }
   @media (min-width: 1024px) { .contacto-cuerpo { grid-template-columns: minmax(0, 1fr) 24rem; gap: 5rem; align-items: start; } .despues { position: sticky; top: 7rem; } }
-  /* Qué pasa después: un bloque de color, con los tres pasos grandes */
-  .despues { background: var(--color-tc-rosa); color: var(--color-tinta); border-radius: 6px; padding: clamp(1.5rem, 3vw, 2.25rem); }
+  /* Qué pasa después: sobre el papel, sin caja; los tres pasos grandes (es una secuencia real, por eso van numerados) */
+  .despues { padding-top: 0.25rem; }
   .despues h2 { font-size: clamp(2.2rem, 4vw, 3rem); line-height: 0.9; text-transform: uppercase; }
   .despues ol { counter-reset: paso; }
   .despues li { counter-increment: paso; display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; font-size: 1.125rem; }

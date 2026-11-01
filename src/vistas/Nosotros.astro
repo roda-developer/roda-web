@@ -4,24 +4,22 @@ import Base from '../layouts/Base.astro';
 import Motion from '../components/Motion.astro';
 import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
-import Criticas from '../components/Criticas.astro';
-import { proyectosEn, testimoniosEn } from '../content/proyectos';
+import { proyectosEn } from '../content/proyectos';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 import juntos from '../assets/nosotros/juntos.jpg';
 import giuliPix from '../assets/nosotros/giuli-pix.png';
 import facuPix from '../assets/nosotros/facu-pix.png';
-// Los retratos en píxeles (scripts/pixelar-retratos.mjs), en el orden de t.equipo.personas
-const retratos = [giuliPix, facuPix];
-// Los puntitos rosas de cada retrato: celdas de la grilla de 100 × 100 elegidas al azar (siempre las mismas en cada build)
-const azar = (a: number, b: number) => { let h = (a * 374761393 + b * 668265263) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
-const puntos = (semilla: number) => Array.from({ length: 70 }, (_, k) => ({ x: Math.floor(azar(k, semilla) * 100), y: Math.floor(azar(semilla, k + 7) * 100) }));
+import giuli from '../assets/nosotros/giuli.jpg';
+import facu from '../assets/nosotros/facu.jpg';
+// Los retratos en píxeles (scripts/pixelar-retratos.mjs) y, debajo, el mismo recorte de la foto: la O lo descubre.
+// En el orden de t.equipo.personas
+const retratos = [{ pix: giuliPix, foto: giuli }, { pix: facuPix, foto: facu }];
 const idioma = idiomaDe(Astro.currentLocale);
 const { nosotros: t, metas, ui } = textos(idioma);
 const link = ruta(idioma, 'contacto');
 
-// Lo que ya hicimos: las webs de /proyectos y los testimonios reales de sus clientes
+// Lo que ya hicimos: las webs de /proyectos
 const proyectos = proyectosEn(idioma);
-const testimonios = testimoniosEn(idioma);
 
 ---
 <Base titulo={metas.nosotros.titulo} descripcion={metas.nosotros.descripcion}>
@@ -49,23 +47,16 @@ const testimonios = testimoniosEn(idioma);
       </div>
     </section>
 
-    {testimonios.length > 0 && (
-      <div class="mt-24 px-5 md:mt-32 md:px-12">
-        <Criticas testimonios={testimonios} />
-      </div>
-    )}
-
-    <!-- Quiénes somos: Giuli y Facu en píxeles, el mismo lenguaje del video de Estudio y del cierre de la home -->
+    <!-- Quiénes somos: Giuli y Facu en píxeles; la O (al pasar el mouse o tocar) descubre la foto -->
     <section class="equipo mt-24 px-5 md:mt-32 md:px-12" aria-labelledby="equipo-titulo">
       <h2 id="equipo-titulo" class="equipo-titulo font-titulo" data-revelar>{t.equipo.titulo}</h2>
       <ul class="retratos">
         {t.equipo.personas.map((p, i) => (
           <li class="retrato" data-revelar={String(i * 3)}>
-            <div class="retrato-caja" data-retrato>
-              <Image src={retratos[i]} alt={p.alt} widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" format="png" loading="lazy" class="retrato-foto" />
-              <div class="puntos" aria-hidden="true">
-                {puntos(i + 3).map((q) => <span style={`left: ${q.x}%; top: ${q.y}%`} />)}
-              </div>
+            <div class="retrato-caja" data-retrato data-sin-cursor>
+              <Image src={retratos[i].pix} alt={p.alt} widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" format="png" loading="lazy" class="retrato-foto" />
+              <Image src={retratos[i].foto} alt="" widths={[480, 900]} sizes="(min-width: 768px) 44vw, 90vw" quality={82} loading="lazy" class="retrato-nitida" aria-hidden="true" />
+              <span class="retrato-o" aria-hidden="true"></span>
             </div>
             <p class="retrato-nombre font-titulo">{p.nombre}</p>
             <p class="retrato-rol">{p.rol}</p>
@@ -73,7 +64,6 @@ const testimonios = testimoniosEn(idioma);
           </li>
         ))}
       </ul>
-      <p class="equipo-aviso">{t.equipo.aviso}</p>
     </section>
 
     <!-- El cierre: la pregunta y el botón -->
@@ -101,7 +91,8 @@ const testimonios = testimoniosEn(idioma);
     line-height: 0.8;
     text-align: center;
   }
-  .cuerpo { display: grid; gap: 2.5rem; margin-top: -6vw; }
+  /* En celu la foto va abajo de la palabra (si se le cruza, parece un error); en compu se le cruza */
+  .cuerpo { display: grid; gap: 2.5rem; margin-top: 1.5rem; }
   .foto { position: relative; z-index: 1; width: 78%; margin: 0; }
   .foto :global(img) { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 35%; }
   @media (min-width: 768px) {
@@ -121,36 +112,46 @@ const testimonios = testimoniosEn(idioma);
     .equipo { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 2fr); column-gap: clamp(2rem, 4vw, 4rem); align-items: start; }
     .equipo-titulo { position: sticky; top: 7rem; max-width: 6ch; }
     .retratos { margin-top: 0; }
-    .equipo-aviso { grid-column: 2; }
   }
-  .retrato-caja { position: relative; border-radius: 6px; overflow: hidden; }
+  .retrato-caja { position: relative; overflow: hidden; touch-action: manipulation; }
   @media (max-width: 767px) { .retrato-caja { max-width: 26rem; } }
   .retrato :global(.retrato-foto) { display: block; width: 100%; height: auto; aspect-ratio: 1; }
-  /* Los puntitos rosas: cada uno ocupa una celda de la grilla del retrato; al pasar el mouse saltan a otra */
-  .puntos { position: absolute; inset: 0; pointer-events: none; }
-  .puntos span { position: absolute; width: 1%; height: 1%; transform: translate(calc(var(--dx, 0) * 100%), calc(var(--dy, 0) * 100%)); }
-  .puntos span::after { content: ''; position: absolute; inset: 10%; background: var(--color-tc-rosa); }
-  @media (prefers-reduced-motion: no-preference) {
-    .puntos span { transition: transform 520ms cubic-bezier(0.77, 0, 0.175, 1); transition-delay: var(--demora, 0ms); }
+  /* La foto, debajo de los píxeles: la O la descubre donde está el mouse (o donde tocaste). --x, --y y --rad los pone el script, en px */
+  .retrato :global(.retrato-nitida) {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    clip-path: circle(0px at var(--x, 0px) var(--y, 0px)); transition: clip-path 300ms var(--ease-ui);
   }
+  .retrato-caja.abierto :global(.retrato-nitida) { clip-path: circle(var(--rad, 0px) at var(--x, 0px) var(--y, 0px)); }
+  /* El anillo de la O del logo, en papel, alrededor del hueco */
+  .retrato-o {
+    --b: calc(var(--rad, 0px) * 0.5);
+    position: absolute; left: 0; top: 0; width: calc(2 * (var(--rad, 0px) + var(--b))); aspect-ratio: 1;
+    border: var(--b) solid var(--color-papel); border-radius: 50%; pointer-events: none; opacity: 0;
+    transform: translate(calc(var(--x, 0px) - var(--rad, 0px) - var(--b)), calc(var(--y, 0px) - var(--rad, 0px) - var(--b))) scale(0.7);
+    transition: transform 300ms var(--ease-ui), opacity 200ms ease-out;
+  }
+  .retrato-caja.abierto .retrato-o { opacity: 1; transform: translate(calc(var(--x, 0px) - var(--rad, 0px) - var(--b)), calc(var(--y, 0px) - var(--rad, 0px) - var(--b))); }
   .retrato-nombre { margin-top: 1.25rem; font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 0.9; text-transform: uppercase; }
   .retrato-rol { margin-top: 0.4rem; font-weight: 600; font-size: 1.0625rem; }
   .retrato-texto { margin-top: 0.5rem; max-width: 40ch; font-size: 1.125rem; line-height: 1.45; }
-  .equipo-aviso { margin-top: 2.5rem; font-size: 1.125rem; color: var(--color-gris); }
 </style>
 
 <script>
-  // Al pasar el mouse (o tocar) un retrato, sus puntitos rosas saltan a otras celdas, cada uno a su tiempo
-  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // La O que descubre la foto: con mouse sigue al puntero mientras estás encima; tocando, se abre donde tocaste y se cierra al volver a tocar
   document.querySelectorAll<HTMLElement>('[data-retrato]').forEach((caja) => {
-    if (quieto) return;
-    const puntos = [...caja.querySelectorAll<HTMLElement>('.puntos span')];
-    const mezclar = () => puntos.forEach((p) => {
-      p.style.setProperty('--dx', String(Math.round((Math.random() - 0.5) * 24)));
-      p.style.setProperty('--dy', String(Math.round((Math.random() - 0.5) * 24)));
-      p.style.setProperty('--demora', `${Math.round(Math.random() * 160)}ms`);
+    const ubicar = (e: PointerEvent | MouseEvent) => {
+      const b = caja.getBoundingClientRect();
+      caja.style.setProperty('--x', `${e.clientX - b.left}px`);
+      caja.style.setProperty('--y', `${e.clientY - b.top}px`);
+      caja.style.setProperty('--rad', `${b.width * 0.2}px`);
+    };
+    caja.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; ubicar(e); caja.classList.add('abierto'); });
+    caja.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') ubicar(e); });
+    caja.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') caja.classList.remove('abierto'); });
+    caja.addEventListener('pointerup', (e) => {
+      if (e.pointerType === 'mouse') return;
+      if (!caja.classList.contains('abierto')) ubicar(e);
+      caja.classList.toggle('abierto');
     });
-    caja.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') mezclar(); });
-    caja.addEventListener('click', mezclar);
   });
 </script>

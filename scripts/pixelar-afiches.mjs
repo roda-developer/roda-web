@@ -1,6 +1,7 @@
 // Las fotos del cierre de la home: cada trabajo pasado a píxeles, con el mismo lenguaje del video de Estudio
 // (cuadraditos sobre papel: cuanto más oscuro, más grande; los colores fuertes pasan a la paleta de Roda).
 // Uso: node scripts/pixelar-afiches.mjs  →  escribe src/assets/pixeles/<slug>.png
+//      node scripts/pixelar-afiches.mjs --mockups  →  los mockups (src/assets/mockups) en src/assets/pixeles-mockups/<slug>.png
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -9,7 +10,11 @@ const COLS = 60, FILAS = 80, CELDA = 15;
 const PAPEL = '#f3f2ee', TINTA = '#121212';
 const PALETA = [['#ff2e4d', [255, 46, 77]], ['#2b4bff', [43, 75, 255]], ['#ffd400', [255, 212, 0]], ['#ff6fd8', [255, 111, 216]], ['#00c46a', [0, 196, 106]]];
 const raiz = path.resolve('src/assets/proyectos');
-const salida = path.resolve('src/assets/pixeles');
+// Cuánto se baja el recorte 3:4 sobre la captura de celu (0 = arriba, 100 = abajo), para las webs que no tienen afiche.
+// El mismo número lo usa la home (Galeria.astro) para que la foto nítida coincida con sus píxeles.
+const RECORTES = JSON.parse(fs.readFileSync(path.resolve('src/content/recortes.json'), 'utf8'));
+const MOCKUPS = process.argv.includes('--mockups');
+const salida = path.resolve(MOCKUPS ? 'src/assets/pixeles-mockups' : 'src/assets/pixeles');
 fs.mkdirSync(salida, { recursive: true });
 
 const hash = (a, b) => { let h = (a * 374761393 + b * 668265263) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
@@ -18,12 +23,20 @@ const masCercano = (r, g, b) => PALETA.reduce((mejor, [hex, [pr, pg, pb]]) => {
   return d < mejor.d ? { hex, d } : mejor;
 }, { hex: TINTA, d: Infinity }).hex;
 
-for (const slug of fs.readdirSync(raiz)) {
+const lista = MOCKUPS ? fs.readdirSync(path.resolve('src/assets/mockups')).filter((f) => f.endsWith('.jpg')).map((f) => f.slice(0, -4)) : fs.readdirSync(raiz);
+for (const slug of lista) {
   const carpeta = path.join(raiz, slug);
   // El afiche; si no hay, la captura de celu (que ya es vertical), arriba de todo
-  const fuente = ['afiche.jpg', 'mobile.jpg'].map((f) => path.join(carpeta, f)).find((f) => fs.existsSync(f));
+  const fuente = MOCKUPS ? path.resolve('src/assets/mockups', slug + '.jpg') : ['afiche.jpg', 'mobile.jpg'].map((f) => path.join(carpeta, f)).find((f) => fs.existsSync(f));
   if (!fuente) continue;
-  const { data } = await sharp(fuente).resize(COLS, FILAS, { fit: 'cover', position: fuente.endsWith('mobile.jpg') ? 'top' : 'centre' }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  let imagen = sharp(fuente);
+  const bajar = fuente.endsWith('mobile.jpg') ? RECORTES[slug] ?? 0 : 0;
+  if (bajar) {
+    const { width, height } = await imagen.metadata();
+    const alto = Math.round((width * FILAS) / COLS);
+    imagen = sharp(fuente).extract({ left: 0, top: Math.round(((height - alto) * bajar) / 100), width, height: alto });
+  }
+  const { data } = await imagen.resize(COLS, FILAS, { fit: 'cover', position: fuente.endsWith('mobile.jpg') ? 'top' : 'centre' }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   // Cada foto tiene su propio rango de luces: se estira entre sus tonos 6 % y 94 %, así una foto oscura pareja no queda toda igual
   const luces = [];
   for (let i = 0; i < data.length; i += 3) luces.push((0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255);

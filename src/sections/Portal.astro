@@ -1,9 +1,11 @@
 ---
 /**
- * La primera pantalla: R○DA gigante y, en la O chica, píxeles sueltos. Al abrirse, el scroll los junta: una compu que arma una web
+ * La primera pantalla: R○DA gigante apoyada en el borde de abajo y, arriba, una línea de datos (frase, ficha y botón).
+ * En la O, píxeles sueltos quietos (el primer cuadro del video). Al abrirse, el scroll los junta: una compu que arma una web
  * y termina diciendo R○DA. Al scrollear la O crece, las letras se van y el video se acomoda como banner a lo ancho
  * de la sección Estudio (media pantalla, nunca entera).
- * Sin movimiento (o sin JS): el nombre arriba y la sección Estudio abajo, quietos, con el video en pausa (su portada).
+ * Al entrar: R, D y A suben desde abajo, el aro de la O se dibuja y después llegan los datos (más corto en visitas repetidas).
+ * Sin movimiento (o sin JS): los datos, el nombre y la sección Estudio abajo, quietos, con el video en pausa (su portada).
  */
 import { idiomaDe, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
@@ -12,12 +14,27 @@ const { inicio } = textos(idioma);
 <section class="portal" data-portal aria-labelledby="portal-titulo">
   <div class="escena">
     <div class="cabeza">
+      <div class="datos" data-datos>
+        <p class="frase entra" style="--d: 600ms">{inicio.hero.linea}</p>
+        <p class="ficha entra" style="--d: 700ms" data-ficha><b>{inicio.hero.ficha}</b><br />{inicio.hero.firma}<span data-hora></span></p>
+        <a href={ruta(idioma, 'contacto')} class="cta cta-flecha entra" style="--d: 800ms" data-hero-cta>
+          {inicio.final.cta}
+          <span class="cta-circulo" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
+          </span>
+        </a>
+      </div>
       <h1 id="portal-titulo" class="palabra font-titulo">
         <span class="sr-only">{inicio.hero.lector}</span>
-        <span aria-hidden="true">R</span><span class="anillo" aria-hidden="true"></span><span aria-hidden="true">DA</span>
+        <span class="pieza pieza-letra" style="--i: 0" aria-hidden="true">R</span>
+        <span class="pieza" aria-hidden="true"><span class="anillo">
+          <svg class="aro" viewBox="0 0 100 100"><circle cx="50" cy="50" r="41.2" pathLength="1" stroke-dasharray="1.02 1.02" /></svg>
+          <svg class="baja" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" data-baja><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+        </span></span>
+        <span class="corte" aria-hidden="true"></span>
+        <span class="pieza pieza-letra pieza-d" style="--i: 2" aria-hidden="true" data-letra-d>D</span>
+        <span class="pieza pieza-letra" style="--i: 3" aria-hidden="true">A<span class="base" data-base></span></span>
       </h1>
-      <p class="linea">{inicio.hero.linea}</p>
-      <a href={ruta(idioma, 'contacto')} class="cta hero-cta" data-hero-cta>{inicio.final.cta}</a>
     </div>
     <div class="marco">
       <video class="marco-video" src="/videos/roda-escritorio.mp4?v=7" poster="/videos/roda-escritorio.jpg?v=7" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio></video>
@@ -25,22 +42,52 @@ const { inicio } = textos(idioma);
     <div class="estudio" id="estudio">
       <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
       <p>{inicio.estudio.texto}</p>
-      <a href={ruta(idioma, 'proyectos')} class="cta">{inicio.estudio.cta}</a>
+      <a href={ruta(idioma, 'nosotros')} class="cta">{inicio.estudio.cta}</a>
     </div>
   </div>
 </section>
 
 <style>
-  /* Quieto (sin movimiento o sin JS): el nombre, y abajo la sección Estudio con su banner */
+  /* Quieto (sin movimiento o sin JS): los datos, el nombre, y abajo la sección Estudio con su banner */
   .portal { --margen: 1.25rem; padding: 6rem var(--margen) 0; }
   @media (min-width: 768px) { .portal { --margen: clamp(1.5rem, 3.5vw, 3rem); } }
   .escena { position: relative; }
-  .cabeza { display: grid; justify-items: center; gap: 1.5rem; padding-block: 8svh 12svh; text-align: center; }
-  .palabra { display: flex; align-items: baseline; justify-content: center; font-size: min(23vw, 40svh); line-height: 0.8; letter-spacing: 0; }
-  @media (min-width: 768px) { .palabra { font-size: min(19vw, 44svh); } }
-  /* La O es el anillo del logo: un círculo dibujado, con el hueco del tamaño de la imagen */
-  .anillo { display: inline-block; width: 0.74em; height: 0.74em; border: 0.13em solid currentColor; border-radius: 50%; margin-inline: 0.03em; }
-  .linea { max-width: 30ch; font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.35; }
+  .cabeza { display: grid; gap: 2.5rem; padding-block: 4svh 8svh; }
+
+  /* La línea de datos: frase, ficha y botón */
+  .datos { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1.5rem 2.5rem; }
+  .frase { max-width: 24ch; font-size: clamp(1.25rem, 1.7vw, 1.625rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; }
+  .ficha { font-size: 0.9375rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
+  .ficha b { font-weight: 600; }
+  @media (max-width: 767px) {
+    .datos { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 1.1rem; }
+    .frase { max-width: 13ch; font-size: 1.9375rem; line-height: 1.04; letter-spacing: -0.025em; }
+    .ficha { order: 3; font-size: 0.875rem; color: var(--color-gris); }
+    .ficha b, .ficha br { display: none; }
+  }
+  /* Celus bajos: la frase un poco más chica y sin la línea de la firma, así no pisa la palabra */
+  @media (max-width: 767px) and (max-height: 720px) {
+    .frase { font-size: 1.625rem; }
+    .ficha { display: none; }
+  }
+
+  /* La palabra: de borde a borde; en celu en dos renglones (R○ arriba, DA corrida a la derecha) */
+  /* En 800, como el logo: el resto de los títulos de la web van más finos */
+  .palabra { display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; font-size: min(39vw, 66svh); line-height: 0.8; letter-spacing: 0; white-space: nowrap; }
+  .pieza { display: inline-block; }
+  .base { display: inline-block; width: 0; height: 0; }
+  .corte { display: none; }
+  @media (max-width: 767px) {
+    .palabra { flex-wrap: wrap; row-gap: 0.05em; font-size: min(72vw, 33svh); }
+    .corte { display: block; flex-basis: 100%; height: 0; }
+    .pieza-d { margin-left: auto; margin-right: 0.04em; }
+  }
+  /* La O es el anillo del logo: el borde (transparente) marca el hueco del tamaño de la imagen; el aro se dibuja encima */
+  .anillo { position: relative; display: inline-block; width: 0.74em; height: 0.74em; border: 0.13em solid transparent; border-radius: 50%; margin-inline: 0.03em; }
+  .aro { position: absolute; inset: -0.13em; width: calc(100% + 0.26em); height: calc(100% + 0.26em); transform: rotate(-90deg); overflow: visible; }
+  .aro circle { fill: none; stroke: currentColor; stroke-width: 17.6; }
+  .baja { display: none; }
+
   /* El video es un banner a lo ancho (7:3), sobre papel (el video tiene fondo blanco) */
   .marco { position: relative; margin-inline: calc(var(--margen) * -1); aspect-ratio: 7 / 3; overflow: hidden; background: var(--color-papel); }
   @media (min-width: 768px) { .marco { margin-inline: 0; } }
@@ -56,10 +103,25 @@ const { inicio } = textos(idioma);
   @media (prefers-reduced-motion: no-preference) {
     :global(.js) .portal { height: 240svh; padding: 0; }
     :global(.js) .escena { position: sticky; top: 0; height: 100svh; overflow: hidden; }
-    :global(.js) .cabeza { position: absolute; inset: 0; z-index: 2; place-content: center; padding: 0 var(--margen); }
-    :global(.js) .palabra { will-change: transform; }
+    :global(.js) .cabeza { position: absolute; inset: 0; z-index: 2; padding: 0; }
+    /* La palabra apoyada justo en el borde de abajo y los datos arriba de ella (los ubica el script) */
+    :global(.js) .palabra { position: absolute; left: 2vw; right: 2vw; bottom: 0; will-change: transform; }
+    :global(.js) .datos { position: absolute; left: 0; right: 0; top: 40svh; padding-inline: var(--margen); }
+    @media (min-width: 768px) {
+      /* La ficha arranca justo donde arranca el trazo de la D */
+      :global(.js) .ficha { position: absolute; bottom: 0; }
+    }
+    @media (max-width: 767px) {
+      :global(.js) .palabra { left: 3vw; right: 3vw; }
+      :global(.js) .datos { top: calc(5.5rem + env(safe-area-inset-top, 0px)); }
+    }
+    /* La flecha del centro de la O invita a bajar; se va apenas empezás */
+    :global(.js) .baja { display: block; position: absolute; left: 50%; top: 50%; margin: -8px 0 0 -8px; color: var(--color-tinta); animation: bajar 1.8s var(--ease-ui) infinite; }
+    @keyframes bajar { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(4px); } }
+    :global(.js [data-logo-nav]) { opacity: 0; }
     /* El banner a lo ancho: en celu de borde a borde, en compu con margen; el texto abajo */
     :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 13svh; height: 42svh; will-change: transform, clip-path; }
+    :global(.js) .marco-video { will-change: transform; }
     /* El bloque no toma toques (mientras no se ve taparía el botón del hero); sus partes sí, cuando aparecen */
     :global(.js) .estudio { position: absolute; z-index: 3; left: var(--margen); right: var(--margen); top: calc(13svh + 42svh + 1.5rem); padding: 0; pointer-events: none; }
     :global(.js) .estudio > * { pointer-events: auto; }
@@ -69,6 +131,20 @@ const { inicio } = textos(idioma);
     }
     /* Hasta que el script mide la O, la imagen y Estudio no se ven (así no aparecen de golpe en su lugar final) */
     :global(.js) .portal:not(.listo) .marco, :global(.js) .portal:not(.listo) .estudio { visibility: hidden; }
+
+    /* La aparición: antes de .aparecio todo espera; con .corta (visita repetida) dura menos */
+    :global(.js) .portal { --t-letra: 1100ms; --paso: 80ms; --t-aro: 1200ms; --retardo: 1; }
+    :global(.js) .portal.corta { --t-letra: 650ms; --paso: 45ms; --t-aro: 650ms; --retardo: 0.4; }
+    :global(.js) .portal:not(.aparecio) .pieza-letra { transform: translateY(105%); }
+    :global(.js) .portal:not(.aparecio) .aro circle { stroke-dashoffset: 1.02; }
+    :global(.js) .portal:not(.aparecio) .marco, :global(.js) .portal:not(.aparecio) .baja { opacity: 0; }
+    :global(.js) .portal:not(.aparecio) .entra { opacity: 0; transform: translateY(14px); }
+    :global(.js) .portal.aparecio .pieza-letra { transition: transform var(--t-letra) var(--ease-cine) calc(100ms + var(--i) * var(--paso)); }
+    :global(.js) .portal.aparecio .aro circle { transition: stroke-dashoffset var(--t-aro) var(--ease-cine) calc(160ms * var(--retardo)); }
+    :global(.js) .portal.aparecio .marco { transition: opacity 700ms var(--ease-ui) calc(700ms * var(--retardo)); }
+    :global(.js) .portal.aparecio .baja { transition: opacity 500ms var(--ease-ui) calc(1300ms * var(--retardo)); }
+    :global(.js) .portal.aparecio .entra { transition: opacity 600ms var(--ease-ui), transform 700ms var(--ease-cine); transition-delay: calc(var(--d) * var(--retardo)); }
+    :global(.js) .portal.sin-entrada * { transition: none !important; }
   }
 </style>
 
@@ -76,13 +152,28 @@ const { inicio } = textos(idioma);
   import { ScrollTrigger, movimientoPermitido } from '../motion/index';
 
   const portal = document.querySelector<HTMLElement>('[data-portal]');
+
+  // La hora de Buenos Aires al lado de la firma (sin JS, la firma queda sola)
+  const hora = portal?.querySelector<HTMLElement>('[data-hora]');
+  if (hora) {
+    const formato = new Intl.DateTimeFormat(document.documentElement.lang || 'es-AR', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Argentina/Buenos_Aires' });
+    const tic = () => { hora.textContent = `, ${formato.format(new Date())}`; };
+    tic();
+    setInterval(tic, 15000);
+  }
+
   if (portal && movimientoPermitido()) {
     const escena = portal.querySelector<HTMLElement>('.escena')!;
     const palabra = portal.querySelector<HTMLElement>('.palabra')!;
     const anillo = portal.querySelector<HTMLElement>('.anillo')!;
-    const linea = portal.querySelector<HTMLElement>('.linea')!;
-    const heroCta = portal.querySelector<HTMLElement>('[data-hero-cta]');
+    const datos = portal.querySelector<HTMLElement>('[data-datos]')!;
+    const ficha = portal.querySelector<HTMLElement>('[data-ficha]')!;
+    const base = portal.querySelector<HTMLElement>('[data-base]')!;
+    const letraD = portal.querySelector<HTMLElement>('[data-letra-d]')!;
+    const baja = portal.querySelector<SVGElement>('[data-baja]');
+    const logoNav = document.querySelector<HTMLElement>('[data-logo-nav]');
     const marco = portal.querySelector<HTMLElement>('.marco')!;
+    const video = portal.querySelector<HTMLVideoElement>('[data-video-estudio]');
     const partesEstudio = [...portal.querySelectorAll<HTMLElement>('.estudio > *')];
 
     // Posición dentro de la escena con offset (no lo cambian los transform, así se puede medir en cualquier momento)
@@ -91,9 +182,25 @@ const { inicio } = textos(idioma);
       while (n && n !== escena) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent as HTMLElement | null; }
       return { x, y };
     };
+
+    // La palabra con su línea de base justo en el borde de abajo; los datos a una distancia fija arriba de las letras
+    const acomodar = () => {
+      const alto = escena.clientHeight;
+      palabra.style.bottom = '0px';
+      palabra.style.bottom = `${posicion(base).y - alto}px`;
+      ficha.style.left = '';
+      if (innerWidth < 768) { datos.style.top = ''; return; }
+      const techo = posicion(palabra).y + (palabra.querySelector<HTMLElement>('.pieza-letra')?.offsetTop ?? 0);
+      datos.style.top = `${Math.max(88, techo - Math.max(20, alto * 0.035) - datos.offsetHeight)}px`;
+      // El trazo de la D empieza 0,043 em después de su caja (medido sobre la letra en pantalla)
+      const tinta = parseFloat(getComputedStyle(palabra).fontSize) * 0.0427 - 0.5;
+      ficha.style.left = `${posicion(letraD).x + tinta - posicion(datos).x}px`;
+    };
+
     // Dónde arranca la imagen: achicada y recortada en círculo justo en el hueco de la O
     let m = { x: 0, y: 0, s: 1, mx: 0, my: 0, radio: 0 };
     const medir = () => {
+      acomodar();
       const a = posicion(anillo);
       const borde = parseFloat(getComputedStyle(anillo).borderTopWidth);
       const hueco = anillo.offsetWidth - borde * 2 - 1;
@@ -113,20 +220,22 @@ const { inicio } = textos(idioma);
     const entraSale = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
     const acelera = (t: number) => t * t;
     const frena = (t: number) => 1 - (1 - t) ** 3;
+    let progreso = 0;
     const pintar = (p: number) => {
-      linea.style.opacity = String(1 - tramo(p, 0.06, 0.08));
-      // El botón se va con la frase: apenas empezás a bajar ya no hace falta (y no se puede tabular cuando no se ve)
-      if (heroCta) {
-        const c = 1 - tramo(p, 0.03, 0.07);
-        heroCta.style.opacity = String(c);
-        heroCta.style.visibility = c <= 0 ? 'hidden' : '';
-      }
+      progreso = p;
+      // Arriba de todo no se toca nada: así manda la aparición. Apenas bajás, los datos y la flecha se van
+      const arriba = p <= 0.001;
+      const c = 1 - tramo(p, 0.03, 0.07);
+      datos.style.opacity = arriba ? '' : String(c);
+      datos.style.visibility = c <= 0 ? 'hidden' : '';
+      if (baja) baja.style.opacity = arriba ? '' : String(1 - tramo(p, 0, 0.03));
       // Las letras crecen desde el centro de la O (hasta 9 veces) y se apagan
       const b = acelera(tramo(p, 0.1, 0.4));
       const k = 1 + 8 * b;
       palabra.style.transform = `scale(${k})`;
       palabra.style.opacity = String(1 - b);
       palabra.style.visibility = b >= 1 ? 'hidden' : '';
+      if (logoNav) logoNav.style.opacity = String(tramo(p, 0.08, 0.12));
       // Primero la foto crece igual que el anillo, así nunca se sale del hueco de la O.
       // Cuando llega a su tamaño (o el anillo ya se fue), se acomoda como banner.
       const pTope = tope();
@@ -144,18 +253,38 @@ const { inicio } = textos(idioma);
       marco.style.clipPath = `inset(${m.my * r}px ${m.mx * r}px ${m.my * r}px ${m.mx * r}px round ${m.radio * r}px)`;
       const inicioEstudio = Math.max(0.56, pTope + 0.16);
       partesEstudio.forEach((el, i) => {
-        const c = frena(tramo(p, inicioEstudio + i * 0.04, 0.14));
-        el.style.opacity = String(c);
-        el.style.transform = `translateY(${24 * (1 - c)}px)`;
+        const e = frena(tramo(p, inicioEstudio + i * 0.04, 0.14));
+        el.style.opacity = String(e);
+        el.style.transform = `translateY(${24 * (1 - e)}px)`;
         // Mientras no se ve, no se puede tocar ni tabular
-        el.style.visibility = c <= 0 ? 'hidden' : '';
+        el.style.visibility = e <= 0 ? 'hidden' : '';
       });
     };
+
+    // Con la O cerrada, los píxeles de adentro se corren apenas hacia el lado contrario del mouse (una ventana con fondo)
+    // y vuelven solos. Apenas empezás a bajar, quedan quietos en su lugar.
+    let px = 0, py = 0, tx = 0, ty = 0, cuadroMouse = 0, ultimo = 0;
+    const flotar = () => {
+      if (progreso > 0.01 || performance.now() - ultimo > 1800) { tx = 0; ty = 0; }
+      px += (tx - px) * 0.07; py += (ty - py) * 0.07;
+      const quieto = Math.abs(px) < 0.01 && Math.abs(py) < 0.01 && !tx && !ty;
+      if (video) video.style.transform = quieto ? '' : `translate3d(${px.toFixed(2)}%, ${py.toFixed(2)}%, 0) scale(1.1)`;
+      cuadroMouse = quieto ? 0 : requestAnimationFrame(flotar);
+    };
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      addEventListener('pointermove', (e) => {
+        if (progreso > 0.01) return;
+        const r = anillo.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / innerWidth, dy = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+        tx = Math.max(-1, Math.min(1, dx * 2)) * -4; ty = Math.max(-1, Math.min(1, dy * 2)) * -4;
+        ultimo = performance.now();
+        if (!cuadroMouse) cuadroMouse = requestAnimationFrame(flotar);
+      }, { passive: true });
+    }
 
     // El video y el scroll: con la O cerrada, adentro solo hay píxeles sueltos (el primer cuadro, quieto).
     // Mientras la O se abre, el scroll junta los píxeles (los primeros 40 cuadros del video avanzan con vos).
     // Cuando ya es banner, el video sigue solo. Corre solo mientras la escena está en pantalla.
-    const video = portal.querySelector<HTMLVideoElement>('[data-video-estudio]');
     const ARMADO = 40 / 24; // segundos del video en que los píxeles se juntan
     let visible = false, libre = false, tiempo = 0, cuadro = 0;
     const decidir = () => {
@@ -186,6 +315,20 @@ const { inicio } = textos(idioma);
     });
     pintar(disparador.progress);
     portal.classList.add('listo');
+    // Con la letra real ya cargada, se vuelve a medir (cambia el ancho de la palabra)
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+    // La aparición completa la primera vez; después, más corta. Si la página abre ya scrolleada, no hay aparición
+    let visto = false;
+    try { visto = localStorage.getItem('roda-hero-visto') === '1'; localStorage.setItem('roda-hero-visto', '1'); } catch { /* sin almacenamiento: siempre la completa */ }
+    if (disparador.progress > 0.001) {
+      portal.classList.add('sin-entrada', 'aparecio');
+      requestAnimationFrame(() => portal.classList.remove('sin-entrada'));
+    } else {
+      portal.classList.toggle('corta', visto);
+      const empezar = () => requestAnimationFrame(() => requestAnimationFrame(() => portal.classList.add('aparecio')));
+      (document.fonts ? Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1200))]) : Promise.resolve()).then(empezar);
+    }
 
     if (video) {
       video.poster = '/videos/roda-polvo.jpg?v=7';

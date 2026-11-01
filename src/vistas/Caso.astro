@@ -162,8 +162,8 @@ const ficha: [string, string | number | undefined][] = [
   .afiche-caso { position: relative; display: block; container-type: inline-size; overflow: hidden; aspect-ratio: 2 / 3; max-width: min(100%, 34rem); background: var(--color-tinta); }
   .afiche-caso.afiche-quad { aspect-ratio: 16 / 10; max-width: 100%; }
   @media (min-width: 1024px) {
-    .apertura-caso.vertical { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); align-items: end; }
-    .apertura-caso.vertical > figure { margin-top: 0; padding-left: 0; padding-top: 10rem; }
+    .apertura-caso.vertical { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 36rem); align-items: end; column-gap: clamp(2rem, 4vw, 4rem); }
+    .apertura-caso.vertical > figure { margin-top: 0; padding-left: 0; padding-top: 6rem; }
     .apertura-caso.vertical .afiche-caso { max-width: none; }
   }
   /* La portada del siguiente entra con un barrido de izquierda a derecha cuando aparece */

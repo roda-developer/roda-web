@@ -58,6 +58,7 @@ export const nav: typeof ES.nav = {
 
 export const proyectosPagina: typeof ES.proyectosPagina = {
   titulo: 'Selected work',
+  palabra: 'Work',
   bajada: 'Each one made to measure for its brand. Here are some of the ones we’ve made.',
   pregunta: 'What do you do?',
   ayuda: 'Pick your industry and we’ll show you the closest work first.',
@@ -162,7 +163,7 @@ export const planes: typeof ES.planes = {
   verTodo: 'See what each plan includes',
   adicionales: {
     rotulo: 'Add-ons',
-    titulo: 'Add whatever you need.',
+    titulo: 'Add whatever you need',
     lista: [
       { nombre: 'Your own dashboard', detalle: 'Upload your projects, products and news without depending on anyone', nota: 'For Landing and Multi-page. The Store already includes it.', precio: 150 },
       { nombre: 'Bookings', detalle: 'People book on their own, at any time', precio: 100 },
@@ -177,21 +178,12 @@ export const planes: typeof ES.planes = {
   },
   aMedida: {
     rotulo: 'Custom',
-    titulo: 'Doesn’t fit in any folder?',
-    texto: 'We build custom systems: what you handle today by hand, in a spreadsheet or over messages, turned into a tool for your business. Also websites with more than 10 pages. We think it through together and send you a quote.',
-    ejemplosTitulo: 'For example (tap the ones that sound like yours)',
-    ejemplos: [
-      'Bookings with deposits and reminders',
-      'Stock and sales for your shop',
-      'Quotes that build themselves',
-      'Wholesale orders',
-      'Booking courts, rooms or equipment',
-      'Managing students, members or patients',
-      'A portal for clients to track their order',
-      'A dashboard with your business numbers',
-    ],
+    titulo: 'Doesn’t fit any plan?',
+    texto: 'Systems for your business, like bookings with deposits, stock for your shop or a portal to track orders. Also websites with more than 10 pages.',
+    /** La línea corta de la home (Cómo trabajamos) */
+    corto: 'Systems for your business and websites with more than 10 pages. We think it through together and send you a quote.',
+    precio: 'On request',
     cta: 'Tell us what you need',
-    aliada: 'Need branding or social media management too? We work with a partner who handles that and quotes it separately.',
   },
   dominio: {
     pregunta: 'What about the domain and hosting?',
@@ -206,15 +198,13 @@ export const planes: typeof ES.planes = {
 
 export const preciosPagina: typeof ES.preciosPagina = {
   rotulo: 'Pricing',
-  titulo: ['What your', 'website costs.'],
-  bajada: 'Prices up front, no fine print. See what each one includes.',
+  titulo: ['What your', 'website costs'],
+  bajada: 'We design every one from scratch. What changes between them is the size.',
   rotulos: {
     planes: ['01', 'The plans'],
     extras: ['02', 'Add-ons'],
     preguntas: ['03', 'Questions'],
   },
-  queTrae: 'What {plan} includes',
-  defineElPlan: 'What defines the plan',
   precio: 'Price: {moneda} {precio}',
   fichas: {
     landing: { ideal: 'Ideal if you’re starting out or launching something specific.', clave: ['1 page'], mantenimiento: 20 },
@@ -249,18 +239,6 @@ export const preciosPagina: typeof ES.preciosPagina = {
     cotizacion: '',
   },
   pedir: 'I want this one',
-  carpetas: {
-    landing: [{ id: 'inicio', nombre: 'Home' }],
-    multiseccion: [
-      { id: 'inicio', nombre: 'Home' },
-      { id: 'servicios', nombre: 'Services' },
-      { id: 'mas', nombre: '+3', etiqueta: 'Three more pages' },
-    ],
-    tienda: [
-      { id: 'catalogo', nombre: 'Catalog' },
-      { id: 'carrito', nombre: 'Cart', carrito: true },
-    ],
-  },
   preguntas: [
     { p: 'Do I have to pay anything monthly?', r: ['Usually not. You pay for your website once. Hosting is free in most cases, and the domain (yourbrand.com) renews once a year, in your name.', 'The exception is stores with a database and online payments: they use paid hosting, in your name, that you pay the provider directly (usually between US$ 5 and US$ 20 a month, depending on traffic). We let you know before we start.', 'If you’d like us to keep updating your website, there’s a fully optional monthly maintenance: Landing US$ 20, Multi-page US$ 25 and Store US$ 35, with up to 4 changes a month. No commitment: cancel whenever you want.'] },
     { p: 'How do I pay?', r: ['Half when we start and the other half when we deliver your website. In US dollars, by international transfer or the method we agree on.'] },
@@ -278,7 +256,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
     { p: 'Can I update the website myself?', r: ['Yes. The Store already includes a dashboard: you manage products, prices and stock whenever you want. For Landing and Multi-page, add Your own dashboard and upload your projects and news without depending on anyone. And if you’d rather we do it, there’s the optional maintenance.'] },
   ],
   final: {
-    titulo: 'Shall we start?',
+    titulo: 'Shall we make yours?',
     texto: 'Tell us about your brand and we’ll tell you which one suits you.',
     cta: 'Let’s talk',
   },
@@ -286,7 +264,7 @@ export const preciosPagina: typeof ES.preciosPagina = {
 
 export const contactoPagina: typeof ES.contactoPagina = {
   rotulo: 'Contact',
-  titulo: ['Tell us', 'what you need.'],
+  titulo: ['Tell us', 'what you need'],
   bajada: 'It takes two minutes. With this, we come to the call already knowing what you need.',
   tipos: {
     pregunta: 'What are you looking for?',
@@ -356,7 +334,6 @@ export const nosotros: typeof ES.nosotros = {
       { nombre: 'Giuli', rol: 'Design, development and artificial intelligence', texto: 'I graduated in web development at UNLaM and now I’m studying artificial intelligence.', alt: 'Portrait of Giuli made of small squares, smiling' },
       { nombre: 'Facu', rol: 'Design and development', texto: 'I’m finishing the same degree.', alt: 'Portrait of Facu made of small squares, smiling' },
     ],
-    aviso: 'We never use templates.',
   },
   filmamos: ['Shall we make', 'yours?'],
   cta: 'Let’s talk',
@@ -364,7 +341,7 @@ export const nosotros: typeof ES.nosotros = {
 
 export const privacidad: typeof ES.privacidad = {
   rotulo: 'Privacy',
-  titulo: 'Your data, looked after.',
+  titulo: 'Your data, looked after',
   parrafos: [
     'When you fill in the contact form, we receive the details you wrote: your name, your WhatsApp or email, your brand, your website and your message. If you book a call, Cal.com sends us your name, your email and the time you chose.',
     '**We only use them to reply to you** and, if we work together, to build your website. We don’t sell them, we don’t share them with anyone for advertising and we don’t add you to any mailing list.',
@@ -375,7 +352,7 @@ export const privacidad: typeof ES.privacidad = {
 
 export const error404: typeof ES.error404 = {
   rotulo: 'Page not found',
-  titulo: ['This page', 'doesn’t exist ', 'or it moved.'],
+  titulo: ['This page', 'doesn’t exist ', 'or it moved'],
   cta: 'Back to home',
 };
 
@@ -384,44 +361,38 @@ export const inicio: typeof ES.inicio = {
     marca: 'Roda',
     lector: 'Roda, web design and development studio',
     linea: 'We design and build custom websites.',
+    ficha: 'Web design and development studio',
+    firma: 'Giuli & Facu · Buenos Aires',
     hablemos: 'Let’s talk',
     verTrabajos: 'See our work',
   },
   estudio: {
     titulo: 'Studio',
     texto: 'We’re Giuli and Facu. We design and code every website from scratch, and when you write to us, we’re the ones who answer.',
-    cta: 'See our work',
+    cta: 'About us',
     foto: 'Giuliana and Facundo, hugging and smiling, with a tree behind them',
     video: 'A person made of pixels works at a desk, builds a website and ends up spelling Roda',
   },
   trabajos: { titulo: 'Work', verTodos: 'See all projects' },
-  gente: {
-    titulo: 'Every day, people pass through your website.',
-    bajada: 'Most of them keep going. Almost always for the same reasons:',
-    motivos: [
-      'It looks like all the others: a template thousands of brands use.',
-      'It’s not clear what you do or why someone should choose you.',
-      'It takes too long to load, and nobody waits.',
-      'It looks broken on a phone.',
-      'There’s no clear button to get in touch.',
+  tuMarca: {
+    titulo: 'Type your brand',
+    etiqueta: 'This is how its website starts when we make it',
+    placeholder: 'Your brand’s name',
+    vacio: 'Your brand',
+    menu: 'Home · Work · Contact',
+    nota: 'A sketch of a homepage made with your name. The real one we design with you.',
+    datos: [
+      { nombre: 'You talk to Giuli and Facu', texto: 'From the first message to launch, no middlemen.' },
+      { nombre: 'Unlimited changes', texto: 'Within what we agreed, until it looks the way you want.' },
+      { nombre: 'Half and half', texto: 'Half when we start and the rest when we deliver.' },
+      { nombre: 'Everything in your name', texto: 'The domain, the hosting and the website are yours.' },
     ],
-    remate: 'When the website works, someone stops.',
-  },
-  porQue: {
-    titulo: 'Why Roda',
-    razones: [
-      { nombre: 'Our own design', texto: 'We design every website from scratch for your brand. No templates.' },
-      { nombre: 'You talk to us', texto: 'From the first message to launch, it’s Giuli and Facu on the other side. No middlemen.' },
-      { nombre: 'Changes until you love it', texto: 'Unlimited adjustments within what we agreed, until it looks the way you want.' },
-      { nombre: 'Prices up front', texto: 'You know what it costs before we start. No fine print.' },
-      { nombre: 'Everything in your name', texto: 'The domain, the hosting and the website stay in your name.' },
-    ],
+    cta: 'I want mine',
   },
   niveles: {
     titulo: 'How we work',
     proceso: 'We listen, show you how it will look before we build it, build it and publish it. Unlimited changes within what we agreed.',
-    obra: { nombre: 'Signature', precio: 'On request', texto: 'Art direction and website for brands that want something one of a kind. We talk it through and send you a proposal.' },
     verDetalle: 'See what each one includes',
   },
-  final: { titulo: 'Is the next one yours?', cta: 'Let’s talk' },
+  final: { titulo: 'Shall we make yours?', cta: 'Let’s talk' },
 };

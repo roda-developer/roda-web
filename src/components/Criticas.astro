@@ -17,11 +17,17 @@ interface Props {
 const { laCritica, ui } = textos(Astro.currentLocale);
 const { testimonios, titulo = laCritica.completo } = Astro.props;
 const n = testimonios.length;
-// La columna del medio son las webs de quienes hablan; las de los costados, otras webs nuestras (corridas para no repetirse al lado)
-const otras = (corrimiento: number) => Array.from({ length: n }, (_, i) => ORDEN_GALERIA[(i + corrimiento) % ORDEN_GALERIA.length]);
-const columnas = [otras(3), testimonios.map((t) => t.slug), otras(6)];
-// Cada columna va tres veces seguidas: así el rollo puede dar la vuelta sin que se note
-const tira = (lista: string[]) => [...lista, ...lista, ...lista];
+// La columna del medio son las webs de quienes hablan; las de los costados, otras webs nuestras que no hablan,
+// intercaladas para que ninguna se repita al lado ni arriba de otra
+const hablan = new Set(testimonios.map((t) => t.slug));
+const resto = ORDEN_GALERIA.filter((s) => !hablan.has(s));
+const pool = resto.length >= 2 ? resto : ORDEN_GALERIA;
+const otras = (c: number) => Array.from({ length: 3 * n }, (_, k) => pool[(2 * k + c) % pool.length]);
+// La del medio va tres veces seguidas: así el rollo puede dar la vuelta sin que se note.
+// Con un solo testimonio no gira, y arriba y abajo van otras webs en vez de la misma repetida.
+const medio = testimonios.map((t) => t.slug);
+const tiraMedio = n === 1 ? [pool[6 % pool.length], medio[0], pool[0]] : [...medio, ...medio, ...medio];
+const columnas = [otras(0), tiraMedio, otras(1)];
 ---
 <section class="criticas" aria-labelledby="criticas-titulo" aria-roledescription="carrusel" data-rollo data-total={n}>
   <h2 id="criticas-titulo" class="criticas-titulo" data-revelar>{titulo}</h2>
@@ -29,7 +35,7 @@ const tira = (lista: string[]) => [...lista, ...lista, ...lista];
     <div class="rollo" aria-hidden="true">
       {columnas.map((lista, c) => (
         <div class="columna" data-columna={c} style={`--n: ${n}`}>
-          {tira(lista).map((slug, i) => (
+          {lista.map((slug, i) => (
             <div class:list={['cuadro', { activo: c === 1 && i === n }]} data-cuadro={i}>
               <Image src={capturas(slug).portada} alt="" widths={[320, 480]} sizes="10.5rem" quality={78} loading="eager" decoding="async" />
             </div>

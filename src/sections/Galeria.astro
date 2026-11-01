@@ -1,19 +1,25 @@
 ---
 /**
- * Trabajos en la home: una fila de webs al estilo coverflow, pero al revés (idea de "Coverflow Carousel", 21st.dev).
- * La del centro de frente; las de los costados abren su borde de afuera hacia vos. Pasa sola, se arrastra,
- * responde a las flechas y el nombre de abajo acompaña. Es una sección corta: el detalle está en /proyectos.
- * Al tocar la del centro, su captura viaja a la portada del caso (View Transitions).
+ * Trabajos en la home: los afiches de /proyectos en una fila al estilo coverflow, pero al revés (idea de "Coverflow Carousel", 21st.dev).
+ * La del centro de frente y nítida; las de los costados abren su borde de afuera hacia vos y quedan en píxeles
+ * (el mismo lenguaje del video de Estudio). Pasa sola, se arrastra, responde a las flechas y el nombre de abajo acompaña.
+ * Al tocar la del centro, su afiche viaja al afiche del caso (View Transitions).
  */
 import { Image } from 'astro:assets';
 import { capturas } from '../content/capturas';
+import RECORTES from '../content/recortes.json';
+// Cada trabajo en píxeles (scripts/pixelar-afiches.mjs) y, encima, la foto de la que salen: el afiche o, si no tiene, la captura de celu
+const pixeles = import.meta.glob<{ default: ImageMetadata }>('../assets/pixeles/*.png', { eager: true });
+const pixelDe = (slug: string) => pixeles[`../assets/pixeles/${slug}.png`]?.default;
+// Sin afiche, la captura de celu se recorta desde arriba, o un poco más abajo si recortes.json lo dice (el mismo corte que sus píxeles)
+const nitidaDe = (slug: string) => { const c = capturas(slug); return c.afiche !== c.portada ? { src: c.afiche, arriba: false, bajar: 0 } : { src: c.mobile ?? c.portada, arriba: true, bajar: (RECORTES as Record<string, number>)[slug] ?? 0 }; };
 import { ORDEN_GALERIA, proyectosEn } from '../content/proyectos';
 import { nombreVt } from '../components/afiches/mapa';
 import { idiomaDe, rellenar, ruta, textos } from '../i18n';
 const idioma = idiomaDe(Astro.currentLocale);
 const { inicio, proyectosPagina } = textos(idioma);
 // Primero las que mejor se ven; las que no están en la lista (por ejemplo, cargadas desde el admin) van al final
-const lista = [...proyectosEn(idioma)].sort((a, b) => {
+const lista = [...proyectosEn(idioma)].filter((p) => pixelDe(p.slug)).sort((a, b) => {
   const pa = ORDEN_GALERIA.indexOf(a.slug), pb = ORDEN_GALERIA.indexOf(b.slug);
   return (pa < 0 ? 99 : pa) - (pb < 0 ? 99 : pb);
 });
@@ -25,7 +31,8 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
       {lista.map((p) => (
         <li class="tarjeta" data-slug={p.slug} data-nombre={p.titulo} data-genero={p.genero} data-vt={nombreVt(p.slug)}>
           <a href={ruta(idioma, 'proyectos', p.slug)} tabindex="-1" draggable="false">
-            <Image src={capturas(p.slug).portada} alt={rellenar(proyectosPagina.portadaDe, { titulo: p.titulo })} widths={[640, 1000, 1400]} sizes="(min-width: 1024px) 34vw, 78vw" quality={86} loading="lazy" draggable="false" />
+            <Image src={pixelDe(p.slug)!} alt="" widths={[480, 900]} sizes="(min-width: 1024px) 20rem, 62vw" quality={90} format="png" loading="lazy" draggable="false" class="px" />
+            <Image src={nitidaDe(p.slug).src} alt={rellenar(proyectosPagina.portadaDe, { titulo: p.titulo })} widths={[480, 900, 1200]} sizes="(min-width: 1024px) 20rem, 62vw" quality={84} loading="lazy" draggable="false" class:list={['nitida', { arriba: nitidaDe(p.slug).arriba }]} style={nitidaDe(p.slug).bajar ? `object-position: 50% ${nitidaDe(p.slug).bajar}%` : undefined} />
           </a>
         </li>
       ))}
@@ -37,20 +44,21 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
 
 <style>
   .galeria { padding-top: clamp(3rem, 9svh, 6rem); }
-  /* El título, gigante y centrado, queda detrás: las webs pasan por delante de su mitad de abajo */
-  .titulo { position: relative; z-index: 0; text-align: center; font-size: min(30vw, 19rem); line-height: 0.8; padding-inline: 1rem; }
-  @media (min-width: 768px) { .titulo { font-size: min(16vw, 15rem); } }
+  /* El título entero y centrado, arriba de la fila (nada lo tapa) */
+  .titulo { text-align: center; font-size: clamp(4.5rem, 18vw, 12rem); line-height: 0.8; padding-inline: 1rem; }
   .todos { display: flex; justify-content: center; margin-top: 0.5rem; }
   .ver-todos { display: inline-flex; min-height: 2.75rem; align-items: center; font-size: 1.125rem; text-decoration: underline; text-underline-offset: 4px; }
-  .escenario { position: relative; z-index: 1; height: clamp(22rem, 46vw, 36rem); margin-top: -0.52em; font-size: min(30vw, 19rem); overflow: hidden; perspective: 1200px; cursor: grab; touch-action: pan-y; user-select: none; outline: none; }
-  .escenario:focus-visible { box-shadow: inset 0 0 0 2px var(--color-tinta); }
+  /* Las tarjetas son verticales (3:4, como sus píxeles); el escenario deja lugar abajo para el nombre */
+  .escenario { --ancho: clamp(13rem, 21vw, 19rem); position: relative; height: calc(var(--ancho) * 4 / 3 + 8rem); margin-top: clamp(1.5rem, 4svh, 2.5rem); overflow: hidden; perspective: 1200px; cursor: grab; touch-action: pan-y; user-select: none; outline: none; }
+  @media (max-width: 767px) { .escenario { --ancho: 62vw; } }
+  .escenario:focus-visible { outline: 2px solid var(--color-tinta); outline-offset: -2px; }
   .rack { position: absolute; inset: 0; transform-style: preserve-3d; }
-  .tarjeta { --ancho: clamp(15rem, 34vw, 32rem); position: absolute; left: 50%; top: 42%; width: var(--ancho); aspect-ratio: 16 / 10; margin: calc(var(--ancho) * -0.3125) 0 0 calc(var(--ancho) * -0.5); will-change: transform, opacity; }
-  @media (max-width: 767px) { .tarjeta { --ancho: 76vw; } .escenario { height: calc(47.5vw + 9rem); } }
-  @media (min-width: 768px) { .escenario { font-size: min(16vw, 15rem); } }
-  .tarjeta a { display: block; width: 100%; height: 100%; background: #fff; box-shadow: 0 18px 40px -20px rgb(18 17 16 / 0.45); }
-  .tarjeta :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; pointer-events: none; }
-  .pie { font-size: 1rem; position: absolute; left: 0; right: 0; bottom: 1.5rem; display: grid; gap: 0.2rem; justify-items: center; text-align: center; }
+  .tarjeta { position: absolute; left: 50%; top: 1rem; width: var(--ancho); aspect-ratio: 3 / 4; margin-left: calc(var(--ancho) * -0.5); will-change: transform, opacity; }
+  .tarjeta a { position: relative; display: block; width: 100%; height: 100%; background: var(--color-papel); }
+  .tarjeta :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .tarjeta :global(.nitida) { opacity: 0; }
+  .tarjeta :global(.nitida.arriba) { object-position: top; }
+  .pie { font-size: 1rem; position: absolute; left: 0; right: 0; bottom: 1.25rem; display: grid; gap: 0.2rem; justify-items: center; text-align: center; }
   .pie b { font-size: clamp(1.9rem, 3.4vw, 2.8rem); line-height: 1; }
   .pie span { font-size: 1rem; color: var(--color-gris); }
 </style>
@@ -62,6 +70,7 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
   const escenario = seccion?.querySelector<HTMLElement>('.escenario');
   if (seccion && escenario) {
     const tarjetas = [...seccion.querySelectorAll<HTMLElement>('.tarjeta')];
+    const nitidas = tarjetas.map((t) => t.querySelector<HTMLElement>('.nitida')!);
     const nombre = seccion.querySelector<HTMLElement>("[data-pie-nombre]")!;
     const genero = seccion.querySelector<HTMLElement>("[data-pie-genero]")!;
     const n = tarjetas.length;
@@ -70,7 +79,7 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
     // La distancia más corta en una ronda: la fila no tiene punta, después de la última vuelve la primera
     const ronda = (d: number) => ((((d + n / 2) % n) + n) % n) - n / 2;
     const pintar = () => {
-      const paso = tarjetas[0].offsetWidth * 0.66;
+      const paso = tarjetas[0].offsetWidth * 0.8;
       tarjetas.forEach((t, i) => {
         const d = ronda(i - centro);
         const g = Math.max(-1, Math.min(1, d));
@@ -79,6 +88,8 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
         t.style.zIndex = String(100 - Math.round(Math.abs(d) * 10));
         t.style.opacity = String(Math.max(0, 1 - Math.max(0, Math.abs(d) - 2) * 0.9));
         t.querySelector('a')!.tabIndex = Math.abs(d) < 0.5 ? 0 : -1;
+        // La del centro, nítida; al irse a los costados vuelve a sus píxeles
+        nitidas[i].style.opacity = String(Math.max(0, 1 - Math.abs(d) * 1.4));
       });
       const k = ((Math.round(centro) % n) + n) % n;
       if (k !== ultimoNombre) { ultimoNombre = k; nombre.textContent = tarjetas[k].dataset.nombre ?? ''; genero.textContent = tarjetas[k].dataset.genero ?? ''; }
@@ -111,7 +122,7 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
       if (!arrastrando) return;
       const dx = e.clientX - ultimoX, ahora = performance.now();
       vel = dx / Math.max(1, ahora - t0); t0 = ahora; ultimoX = e.clientX; movido += Math.abs(dx);
-      destino -= dx / (tarjetas[0].offsetWidth * 0.66);
+      destino -= dx / (tarjetas[0].offsetWidth * 0.8);
     });
     const soltar = (e: PointerEvent) => {
       if (!arrastrando) return;
@@ -121,7 +132,7 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
         if (tarjeta) {
           const i = tarjetas.indexOf(tarjeta);
           if (Math.abs(ronda(i - centro)) < 0.5) {
-            const img = tarjeta.querySelector('img');
+            const img = tarjeta.querySelector<HTMLElement>('.nitida');
             if (img) img.style.viewTransitionName = tarjeta.dataset.vt ?? '';
             location.href = tarjeta.querySelector('a')!.href;
             return;
@@ -139,7 +150,7 @@ const lista = [...proyectosEn(idioma)].sort((a, b) => {
 
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) animar(); }).observe(escenario);
     addEventListener('resize', () => animar());
-    addEventListener('pageshow', () => tarjetas.forEach((t) => { const img = t.querySelector('img'); if (img) img.style.viewTransitionName = ''; }));
+    addEventListener('pageshow', () => tarjetas.forEach((t) => { const img = t.querySelector<HTMLElement>('.nitida'); if (img) img.style.viewTransitionName = ''; }));
     pintar();
     void auto;
   }

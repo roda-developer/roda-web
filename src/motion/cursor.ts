@@ -21,7 +21,9 @@ export const iniciarCursor = () => {
   document.body.appendChild(cursor);
   document.documentElement.classList.add('con-cursor');
 
-  let x = -100, y = -100, cx = -100, cy = -100, cuadro = 0, visto = false;
+  let x = -100, y = -100, cx = -100, cy = -100, cuadro = 0, visto = false, espera = 0;
+  // Si el mouse no se mueve, el píxel se esconde (al lado de un texto parecía un punto)
+  const moverse = () => { clearTimeout(espera); cursor.classList.remove('parado'); espera = window.setTimeout(() => cursor.classList.add('parado'), 900); };
   const pintar = () => {
     // Inercia: cada cuadro recorre una parte del camino que falta (sin movimiento, llega de una)
     cx += (x - cx) * (quieto ? 1 : 0.28);
@@ -33,10 +35,13 @@ export const iniciarCursor = () => {
   addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse') return;
     x = e.clientX; y = e.clientY;
+    moverse();
     if (!visto) { visto = true; cx = x; cy = y; cursor.classList.add('visible'); }
     const el = e.target as Element | null;
     const sobreTexto = !!el?.closest?.(TEXTO);
     cursor.classList.toggle('escribiendo', sobreTexto);
+    // Donde la propia imagen dibuja la O (los retratos de Nosotros), el cursor se va para no duplicarla
+    cursor.classList.toggle('escondido', !!el?.closest?.('[data-sin-cursor]'));
     cursor.classList.toggle('sobre', !sobreTexto && !!el?.closest?.(INTERACTIVO));
     if (!cuadro) cuadro = requestAnimationFrame(pintar);
   }, { passive: true });
