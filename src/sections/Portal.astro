@@ -106,6 +106,8 @@ const { inicio } = textos(idioma);
   /* Con movimiento: la escena queda fija mientras la O se abre */
   @media (prefers-reduced-motion: no-preference) {
     :global(.js) .portal { height: 240svh; padding: 0; }
+    /* Con el dedo el recorrido es más largo: la O crece con más calma */
+    @media (pointer: coarse) { :global(.js) .portal { height: 320svh; } }
     :global(.js) .escena { position: sticky; top: 0; height: 100svh; overflow: hidden; }
     :global(.js) .cabeza { position: absolute; inset: 0; z-index: 2; padding: 0; }
     /* La palabra apoyada justo en el borde de abajo y los datos arriba de ella (los ubica el script) */
@@ -314,14 +316,33 @@ const { inicio } = textos(idioma);
       if (!libre && !cuadro) cuadro = requestAnimationFrame(buscar);
     };
 
+    // Con el dedo, el scroll llega crudo (Lenis solo suaviza el mouse): un deslizamiento rápido hacía saltar la O de golpe.
+    // Ahí la animación persigue al scroll con suavidad, y se puede interrumpir en cualquier momento
+    const conDedo = matchMedia('(pointer: coarse)').matches;
+    const SUAVE = 150; // ms: cuanto más, más lento alcanza al dedo
+    let objetivo = 0, actual = 0, ultimoCuadro = 0, persiguiendo = 0;
+    const perseguir = (ahora: number) => {
+      const dt = Math.min(50, ahora - ultimoCuadro); ultimoCuadro = ahora;
+      actual += (objetivo - actual) * (1 - Math.exp(-dt / SUAVE));
+      if (Math.abs(objetivo - actual) < 0.0004) actual = objetivo;
+      pintar(actual); seguir(actual);
+      persiguiendo = actual === objetivo ? 0 : requestAnimationFrame(perseguir);
+    };
+    const avanzar = (p: number) => {
+      if (!conDedo) { pintar(p); seguir(p); return; }
+      objetivo = p;
+      if (!persiguiendo) { ultimoCuadro = performance.now(); persiguiendo = requestAnimationFrame(perseguir); }
+    };
+
     medir();
     const disparador = ScrollTrigger.create({
       trigger: portal,
       start: 'top top',
       end: 'bottom bottom',
-      onUpdate: (self) => { pintar(self.progress); seguir(self.progress); },
-      onRefresh: (self) => { medir(); pintar(self.progress); },
+      onUpdate: (self) => avanzar(self.progress),
+      onRefresh: (self) => { medir(); objetivo = actual = self.progress; pintar(self.progress); },
     });
+    objetivo = actual = disparador.progress;
     pintar(disparador.progress);
     portal.classList.add('listo');
     // Con la letra real ya cargada, se vuelve a medir (cambia el ancho de la palabra)
