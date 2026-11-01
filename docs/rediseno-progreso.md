@@ -104,3 +104,10 @@ Falta:
 - Hero: cuando la ficha y el botón no entran en una línea (depende del ancho y del idioma), el botón pasa abajo de la frase. Lo mide el script.
 - Testimonios: sin imágenes repetidas a la vista (son 9 lugares y 8 webs: los costados usan otra pantalla de la web). Sin la cita repetida en "Escribí tu marca".
 - "Escribí tu marca" reemplazada por "Probá una" (sections/Probar.astro): webs reales en iframe, en orden Eber, Craft, Emme. Los cuatro datos pasaron a Cómo trabajamos. Los textos de la sección son provisorios: faltan opciones para Giuli.
+
+## Mockups (2026-11-01)
+
+- Los 8 en `src/assets/mockups/<slug>.jpg`: escena con pantalla en blanco + captura real de la web publicada. Son la portada en /proyectos, Trabajos y el caso. Los afiches quedan solo como respaldo para los proyectos sin mockup (los cargados desde el admin).
+- Píxeles: `node scripts/pixelar-afiches.mjs --mockups` → `src/assets/pixeles-mockups/`. En Trabajos aparecen solo mientras la fila se mueve.
+- Las escenas son generadas (Canva). Se usan sin recortar: las cajas tienen su proporción, 1136 x 1408.
+- Pendiente: alguna imagen en /precios.

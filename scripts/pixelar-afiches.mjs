@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
-const COLS = 60, FILAS = 80, CELDA = 15;
+const COLS = 60, CELDA = 15;
 const PAPEL = '#f3f2ee', TINTA = '#121212';
 const PALETA = [['#ff2e4d', [255, 46, 77]], ['#2b4bff', [43, 75, 255]], ['#ffd400', [255, 212, 0]], ['#ff6fd8', [255, 111, 216]], ['#00c46a', [0, 196, 106]]];
 const raiz = path.resolve('src/assets/proyectos');
@@ -14,6 +14,8 @@ const raiz = path.resolve('src/assets/proyectos');
 // El mismo número lo usa la home (Galeria.astro) para que la foto nítida coincida con sus píxeles.
 const RECORTES = JSON.parse(fs.readFileSync(path.resolve('src/content/recortes.json'), 'utf8'));
 const MOCKUPS = process.argv.includes('--mockups');
+// Los afiches van en 3:4; los mockups, en la proporción de sus fotos (1136 x 1408)
+const FILAS = MOCKUPS ? 74 : 80;
 const salida = path.resolve(MOCKUPS ? 'src/assets/pixeles-mockups' : 'src/assets/pixeles');
 fs.mkdirSync(salida, { recursive: true });
 

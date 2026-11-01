@@ -20,7 +20,10 @@ const fotos = capturas(p.slug);
 const siguiente = proyectoSiguiente(p.slug, idioma);
 const fotosSiguiente = capturas(siguiente.slug);
 const rubro = rubros[p.rubro];
-const { Afiche, quad } = aficheDe(p.slug);
+const { Afiche, quad: aficheApaisado } = aficheDe(p.slug);
+const { mockup } = capturas(p.slug);
+// El mockup es vertical: va al costado del título
+const quad = mockup ? false : aficheApaisado;
 const ficha: [string, string | number | undefined][] = [
   [t.ficha.genero, p.genero],
   [t.ficha.rubro, rubro],
@@ -53,7 +56,11 @@ const ficha: [string, string | number | undefined][] = [
     <!-- El caso abre con su afiche (el mismo de /proyectos). Sin data-revelar: tiene que estar visible cuando llega
          el afiche desde /proyectos o la foto desde Trabajos en la home (View Transitions) -->
     <figure class="mt-14 px-5 md:mt-20 md:px-12">
-      <span class:list={['afiche-caso vt-afiche', { 'afiche-quad': quad }]} style={`--vt: ${nombreVt(p.slug)}`}><Afiche slug={p.slug} /></span>
+      <span class:list={['afiche-caso vt-afiche', { 'afiche-quad': quad, 'con-mockup': mockup }]} style={`--vt: ${nombreVt(p.slug)}`}>
+        {mockup
+          ? <Image src={mockup} alt={`${p.titulo}: ${p.logline}`} widths={[480, 800, 1136]} sizes="(min-width: 1024px) 36rem, 100vw" quality={86} loading="eager" class="foto-mockup" />
+          : <Afiche slug={p.slug} />}
+      </span>
     </figure>
     </div>
 
@@ -161,8 +168,10 @@ const ficha: [string, string | number | undefined][] = [
   /* El afiche del caso: vertical o apaisado, como en /proyectos */
   .afiche-caso { position: relative; display: block; container-type: inline-size; overflow: hidden; aspect-ratio: 2 / 3; max-width: min(100%, 34rem); background: var(--color-tinta); }
   .afiche-caso.afiche-quad { aspect-ratio: 16 / 10; max-width: 100%; }
+  .afiche-caso.con-mockup { aspect-ratio: 1136 / 1408; }
+  .afiche-caso :global(.foto-mockup) { display: block; width: 100%; height: 100%; object-fit: cover; }
   @media (min-width: 1024px) {
-    .apertura-caso.vertical { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 36rem); align-items: end; column-gap: clamp(2rem, 4vw, 4rem); }
+    .apertura-caso.vertical { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 36rem); align-items: start; column-gap: clamp(2rem, 4vw, 4rem); }
     .apertura-caso.vertical > figure { margin-top: 0; padding-left: 0; padding-top: 6rem; }
     .apertura-caso.vertical .afiche-caso { max-width: none; }
   }
