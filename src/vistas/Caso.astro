@@ -6,6 +6,8 @@ import Nav from '../sections/Nav.astro';
 import Pie from '../components/Pie.astro';
 import Volver from '../components/Volver.astro';
 import Criticas from '../components/Criticas.astro';
+import DetalleCaso from '../sections/DetalleCaso.astro';
+import { detalleDe } from '../content/detalle';
 import { proyectosEn, proyectoSiguiente, testimoniosDe } from '../content/proyectos';
 import { capturas } from '../content/capturas';
 import { aficheDe, nombreVt } from '../components/afiches/mapa';
@@ -20,6 +22,7 @@ const fotos = capturas(p.slug);
 const siguiente = proyectoSiguiente(p.slug, idioma);
 const fotosSiguiente = capturas(siguiente.slug);
 const rubro = rubros[p.rubro];
+const detalle = detalleDe(p.slug);
 const { Afiche, quad: aficheApaisado } = aficheDe(p.slug);
 const { mockup } = capturas(p.slug);
 // El mockup es vertical: va al costado del título
@@ -64,6 +67,7 @@ const ficha: [string, string | number | undefined][] = [
     </figure>
     </div>
 
+    {detalle ? <DetalleCaso p={p} detalle={detalle} /> : (<>
     <article class="caso trio grid gap-16 px-5 py-24 md:px-12 md:py-32">
       <section class="bloque">
         <h2 class="text-xl font-medium tracking-[-0.02em] md:text-2xl">{t.secciones.cliente}</h2>
@@ -122,6 +126,8 @@ const ficha: [string, string | number | undefined][] = [
       </div>
     )}
 
+    </>)}
+
     <!-- El siguiente: la portada entra con un barrido al aparecer y, al tocarla, viaja al afiche del próximo caso -->
     <a href={ruta(idioma, 'proyectos', siguiente.slug)} class="siguiente group block px-5 pb-24 md:px-12" data-siguiente data-vt={nombreVt(siguiente.slug)}>
       <p class="border-t border-tinta/15 pt-3 text-lg text-tinta/75">{t.siguiente}</p>
@@ -129,7 +135,7 @@ const ficha: [string, string | number | undefined][] = [
         <p class="font-titulo text-[clamp(3rem,13vw,10rem)] leading-[0.85] tracking-[-0.01em] siguiente-titulo">
           {siguiente.titulo}
         </p>
-        <Image src={fotosSiguiente.portada} alt="" widths={[480, 800]} sizes="(min-width: 768px) 40vw, 100vw" loading="lazy" class="siguiente-foto block w-full" />
+        <Image src={fotosSiguiente.mockup ?? fotosSiguiente.portada} alt="" widths={[480, 800, 1136]} sizes="(min-width: 768px) 40vw, 100vw" loading="lazy" class="siguiente-foto block w-full" />
       </div>
     </a>
 

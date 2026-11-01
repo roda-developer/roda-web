@@ -29,7 +29,6 @@ const { inicio } = textos(idioma);
         <span class="pieza pieza-letra" style="--i: 0" aria-hidden="true">R</span>
         <span class="pieza" aria-hidden="true"><span class="anillo">
           <svg class="aro" viewBox="0 0 100 100"><circle cx="50" cy="50" r="41.2" pathLength="1" stroke-dasharray="1.02 1.02" /></svg>
-          <svg class="baja" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" data-baja><path d="M12 5v14M6 13l6 6 6-6" /></svg>
         </span></span>
         <span class="corte" aria-hidden="true"></span>
         <span class="pieza pieza-letra pieza-d" style="--i: 2" aria-hidden="true" data-letra-d>D</span>
@@ -89,7 +88,6 @@ const { inicio } = textos(idioma);
   .anillo { position: relative; display: inline-block; width: 0.74em; height: 0.74em; border: 0.13em solid transparent; border-radius: 50%; margin-inline: 0.03em; }
   .aro { position: absolute; inset: -0.13em; width: calc(100% + 0.26em); height: calc(100% + 0.26em); transform: rotate(-90deg); overflow: visible; }
   .aro circle { fill: none; stroke: currentColor; stroke-width: 17.6; }
-  .baja { display: none; }
 
   /* El video es un banner a lo ancho (7:3), sobre papel (el video tiene fondo blanco) */
   .marco { position: relative; margin-inline: calc(var(--margen) * -1); aspect-ratio: 7 / 3; overflow: hidden; background: var(--color-papel); }
@@ -118,9 +116,6 @@ const { inicio } = textos(idioma);
       :global(.js) .palabra { left: 3vw; right: 3vw; }
       :global(.js) .datos { top: calc(5.5rem + env(safe-area-inset-top, 0px)); }
     }
-    /* La flecha del centro de la O invita a bajar; se va apenas empezás */
-    :global(.js) .baja { display: block; position: absolute; left: 50%; top: 50%; margin: -8px 0 0 -8px; color: var(--color-tinta); animation: bajar 1.8s var(--ease-ui) infinite; }
-    @keyframes bajar { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(4px); } }
     :global(.js [data-logo-nav]) { opacity: 0; }
     /* El banner a lo ancho: en celu de borde a borde, en compu con margen; el texto abajo */
     :global(.js) .marco { position: absolute; z-index: 1; margin: 0; aspect-ratio: auto; left: 0; right: 0; top: 13svh; height: 42svh; will-change: transform, clip-path; }
@@ -140,12 +135,11 @@ const { inicio } = textos(idioma);
     :global(.js) .portal.corta { --t-letra: 650ms; --paso: 45ms; --t-aro: 650ms; --retardo: 0.4; }
     :global(.js) .portal:not(.aparecio) .pieza-letra { transform: translateY(105%); }
     :global(.js) .portal:not(.aparecio) .aro circle { stroke-dashoffset: 1.02; }
-    :global(.js) .portal:not(.aparecio) .marco, :global(.js) .portal:not(.aparecio) .baja { opacity: 0; }
+    :global(.js) .portal:not(.aparecio) .marco { opacity: 0; }
     :global(.js) .portal:not(.aparecio) .entra { opacity: 0; transform: translateY(14px); }
     :global(.js) .portal.aparecio .pieza-letra { transition: transform var(--t-letra) var(--ease-cine) calc(100ms + var(--i) * var(--paso)); }
     :global(.js) .portal.aparecio .aro circle { transition: stroke-dashoffset var(--t-aro) var(--ease-cine) calc(160ms * var(--retardo)); }
     :global(.js) .portal.aparecio .marco { transition: opacity 700ms var(--ease-ui) calc(700ms * var(--retardo)); }
-    :global(.js) .portal.aparecio .baja { transition: opacity 500ms var(--ease-ui) calc(1300ms * var(--retardo)); }
     :global(.js) .portal.aparecio .entra { transition: opacity 600ms var(--ease-ui), transform 700ms var(--ease-cine); transition-delay: calc(var(--d) * var(--retardo)); }
     :global(.js) .portal.sin-entrada * { transition: none !important; }
   }
@@ -173,7 +167,6 @@ const { inicio } = textos(idioma);
     const ficha = portal.querySelector<HTMLElement>('[data-ficha]')!;
     const base = portal.querySelector<HTMLElement>('[data-base]')!;
     const letraD = portal.querySelector<HTMLElement>('[data-letra-d]')!;
-    const baja = portal.querySelector<SVGElement>('[data-baja]');
     const logoNav = document.querySelector<HTMLElement>('[data-logo-nav]');
     const marco = portal.querySelector<HTMLElement>('.marco')!;
     const video = portal.querySelector<HTMLVideoElement>('[data-video-estudio]');
@@ -237,7 +230,6 @@ const { inicio } = textos(idioma);
       const c = 1 - tramo(p, 0.03, 0.07);
       datos.style.opacity = arriba ? '' : String(c);
       datos.style.visibility = c <= 0 ? 'hidden' : '';
-      if (baja) baja.style.opacity = arriba ? '' : String(1 - tramo(p, 0, 0.03));
       // Las letras crecen desde el centro de la O (hasta 9 veces) y se apagan
       const b = acelera(tramo(p, 0.1, 0.4));
       const k = 1 + 8 * b;

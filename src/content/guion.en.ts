@@ -75,7 +75,7 @@ export const proyectosPagina: typeof ES.proyectosPagina = {
   celularDe: '{titulo} on mobile',
   mostrandoPrimero: 'Showing {rubro} projects first',
   ficha: { rubro: 'Industry', anio: 'Year', rol: 'What we did', genero: 'What it is' },
-  secciones: { cliente: 'The client', desafio: 'The challenge', solucion: 'What we did', destacados: 'Details', resultado: 'Result' },
+  secciones: { cliente: 'The client', desafio: 'What they needed', solucion: 'What we did', destacados: 'Details', deCerca: 'Up close', resultado: 'Result' },
 
 };
 
@@ -376,8 +376,8 @@ export const inicio: typeof ES.inicio = {
   },
   trabajos: { titulo: 'Work', verTodos: 'See all projects' },
   probar: {
-    titulo: 'Try one',
-    bajada: 'These are our websites, working. Scroll and tap whatever you like inside the screen.',
+    titulo: 'No two alike',
+    bajada: 'These are our websites, working. Scroll and tap inside the screen.',
     elegir: 'Choose a website',
     pantalla: 'Working website',
     abrir: 'Open the full website',

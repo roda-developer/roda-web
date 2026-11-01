@@ -1,7 +1,8 @@
 ---
 /**
  * Probá una: tres webs nuestras funcionando de verdad adentro de una pantalla. Corren en su tamaño de celu (390 x 844)
- * y se achican enteras para entrar. Cada una se pide recién cuando hace falta y queda cargada.
+ * y se achican enteras para entrar. La primera se pide al llegar a la sección y las otras, de a una, cuando la anterior
+ * terminó: así, al tocarlas, ya están listas (con ahorro de datos, se piden recién al tocarlas).
  * Al cambiar de web, la pantalla se tapa de píxeles (los del video de la O) y se destapa con la otra.
  * Sin movimiento: cambia de una. Sin JS: quedan los links a las tres webs.
  * Si se suma una web acá, también va en frame-src (public/_headers).
@@ -97,7 +98,7 @@ const webs = WEBS_PROBAR.flatMap((slug) => proyectos.filter((p) => p.slug === sl
     };
     new ResizeObserver(escalar).observe(caja);
 
-    // Cada web se pide recién cuando hace falta y queda cargada. Hay webs lentas o con videos pesados: los píxeles esperan como mucho 5 s
+    // Cada web se pide una vez y queda cargada. Hay webs lentas o con videos pesados: los píxeles esperan como mucho 1,5 s
     const pedir = (boton: HTMLButtonElement) => {
       const slug = boton.dataset.marca!;
       const hecho = marcos.get(slug);
@@ -109,7 +110,7 @@ const webs = WEBS_PROBAR.flatMap((slug) => proyectos.filter((p) => p.slug === sl
       marco.style.transform = `scale(${caja.clientWidth / 390})`;
       const listo = new Promise<void>((ok) => {
         marco.addEventListener('load', () => ok(), { once: true });
-        setTimeout(ok, 5000);
+        setTimeout(ok, 1500);
       });
       caja.insertBefore(marco, pix);
       const nuevo = { marco, listo };
@@ -133,7 +134,7 @@ const webs = WEBS_PROBAR.flatMap((slug) => proyectos.filter((p) => p.slug === sl
           celdas.push({ x, y, t, color: t > 0.93 ? '#ff6fd8' : t > 0.88 ? '#2b4bff' : '#121212' });
         }
       }
-      const dura = 240;
+      const dura = 170;
       let inicio: number | null = null;
       let sale: number | null = null;
       let cubierto = false;
@@ -173,9 +174,16 @@ const webs = WEBS_PROBAR.flatMap((slug) => proyectos.filter((p) => p.slug === sl
     // Adentro de la pantalla manda el cursor de cada web: el de Roda se va (vuelve con el primer movimiento afuera)
     caja.addEventListener('pointerenter', () => document.querySelector('.cursor-roda')?.classList.add('escondido'));
 
+    // Con la primera ya cargada, se piden las otras de a una, para que al tocarlas no haya que esperar
+    const ahorraDatos = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    const adelantar = async () => {
+      if (ahorraDatos) return;
+      for (const b of botones) await pedir(b).listo;
+    };
+
     // La primera web se pide cuando la sección está por entrar en pantalla
     new IntersectionObserver((e, o) => {
-      if (e[0].isIntersecting && botones[0]) { o.disconnect(); cambiar(botones[0]); }
+      if (e[0].isIntersecting && botones[0]) { o.disconnect(); cambiar(botones[0]); void adelantar(); }
     }, { rootMargin: '300px 0px' }).observe(caja);
   }
 </script>

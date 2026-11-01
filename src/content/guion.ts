@@ -81,7 +81,7 @@ export const proyectosPagina = {
   celularDe: '{titulo} en el celular',
   mostrandoPrimero: 'Mostrando primero proyectos de {rubro}',
   ficha: { rubro: 'Rubro', anio: 'Año', rol: 'Qué hicimos', genero: 'Qué es' },
-  secciones: { cliente: 'El cliente', desafio: 'El desafío', solucion: 'Lo que hicimos', destacados: 'Detalles', resultado: 'Resultado' },
+  secciones: { cliente: 'El cliente', desafio: 'Qué necesitaba', solucion: 'Qué hicimos', destacados: 'Detalles', deCerca: 'De cerca', resultado: 'Resultado' },
   /** Los créditos al pie de cada afiche de proyecto */
 
 };
@@ -422,8 +422,8 @@ export const inicio = {
   trabajos: { titulo: 'Trabajos', verTodos: 'Ver todos los trabajos' },
   /** Escribí tu marca: el que duda escribe el nombre de su marca y ve una portada con su nombre. Los datos son cosas que ya cumplimos. */
   probar: {
-    titulo: 'Probá una',
-    bajada: 'Son nuestras webs, funcionando. Scrolleá y tocá lo que quieras adentro de la pantalla.',
+    titulo: 'Ninguna igual a otra',
+    bajada: 'Son nuestras webs, funcionando. Scrolleá y tocá adentro de la pantalla.',
     elegir: 'Elegí una web',
     pantalla: 'Web funcionando',
     abrir: 'Abrir la web entera',

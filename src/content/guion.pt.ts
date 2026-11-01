@@ -75,7 +75,7 @@ export const proyectosPagina: typeof ES.proyectosPagina = {
   celularDe: '{titulo} no celular',
   mostrandoPrimero: 'Mostrando primeiro projetos de {rubro}',
   ficha: { rubro: 'Ramo', anio: 'Ano', rol: 'O que fizemos', genero: 'O que é' },
-  secciones: { cliente: 'O cliente', desafio: 'O desafio', solucion: 'O que fizemos', destacados: 'Detalhes', resultado: 'Resultado' },
+  secciones: { cliente: 'O cliente', desafio: 'O que precisava', solucion: 'O que fizemos', destacados: 'Detalhes', deCerca: 'De perto', resultado: 'Resultado' },
 
 };
 
@@ -376,8 +376,8 @@ export const inicio: typeof ES.inicio = {
   },
   trabajos: { titulo: 'Trabalhos', verTodos: 'Ver todos os trabalhos' },
   probar: {
-    titulo: 'Experimente um',
-    bajada: 'São os nossos sites, funcionando. Role e toque no que quiser dentro da tela.',
+    titulo: 'Nenhum igual ao outro',
+    bajada: 'São os nossos sites, funcionando. Role e toque dentro da tela.',
     elegir: 'Escolha um site',
     pantalla: 'Site funcionando',
     abrir: 'Abrir o site inteiro',
