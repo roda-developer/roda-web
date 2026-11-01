@@ -36,10 +36,7 @@ const { inicio } = textos(idioma);
       </h1>
     </div>
     <div class="marco">
-      <video class="marco-video" poster="/videos/roda-escritorio.jpg?v=7" muted loop playsinline preload="metadata" aria-label={inicio.estudio.video} data-video-estudio>
-        <source src="/videos/roda-escritorio-celu.mp4?v=1" type="video/mp4" media="(max-width: 767px)" />
-        <source src="/videos/roda-escritorio.mp4?v=7" type="video/mp4" />
-      </video>
+      <video class="marco-video" poster="/videos/roda-escritorio.jpg?v=7" muted loop playsinline preload="none" aria-label={inicio.estudio.video} data-video-estudio data-celu="/videos/roda-escritorio-celu.mp4?v=1" data-compu="/videos/roda-escritorio.mp4?v=7"></video>
     </div>
     <div class="estudio" id="estudio">
       <h2 class="font-titulo">{inicio.estudio.titulo}</h2>
@@ -154,6 +151,7 @@ const { inicio } = textos(idioma);
 
 <script>
   import { ScrollTrigger, movimientoPermitido } from '../motion/index';
+  import { videoEnMemoria } from '../motion/video';
 
   const portal = document.querySelector<HTMLElement>('[data-portal]');
 
@@ -297,15 +295,17 @@ const { inicio } = textos(idioma);
     // Mientras la O se abre, el scroll junta los píxeles (los primeros 40 cuadros del video avanzan con vos).
     // Cuando ya es banner, el video sigue solo. Corre solo mientras la escena está en pantalla.
     const ARMADO = 40 / 24; // segundos del video en que los píxeles se juntan
-    let visible = false, libre = false, tiempo = 0, cuadro = 0;
+    let visible = false, libre = false, tiempo = 0, cuadro = 0, videoListo = false;
     const decidir = () => {
-      if (!video) return;
+      if (!video || !videoListo) return;
       if (visible && libre) video.play().catch(() => {});
       else video.pause();
     };
     const buscar = () => {
       cuadro = 0;
-      if (video && !libre && Math.abs(video.currentTime - tiempo) > 0.02) video.currentTime = tiempo;
+      // Hasta que baje, se ve el primer cuadro quieto. Y un salto por vez: si no, se apilan y el video se traba
+      if (!video || !videoListo || libre || video.seeking) return;
+      if (Math.abs(video.currentTime - tiempo) > 0.02) video.currentTime = tiempo;
     };
     const seguir = (p: number) => {
       const fin = tope() + 0.2;
@@ -364,6 +364,18 @@ const { inicio } = textos(idioma);
       video.poster = '/videos/roda-polvo.jpg?v=7';
       seguir(disparador.progress);
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; decidir(); }).observe(portal);
+      // Al terminar un salto, si el scroll siguió, va al cuadro que corresponde ahora
+      video.addEventListener('seeked', () => { if (!cuadro) cuadro = requestAnimationFrame(buscar); });
+      // Se baja entero apenas la página terminó de cargar, para que esté listo cuando abran la O
+      const url = matchMedia('(max-width: 767px)').matches ? video.dataset.celu! : video.dataset.compu!;
+      const bajar = () => videoEnMemoria(video, url).then(() => {
+        videoListo = true;
+        video.pause();
+        decidir();
+        if (!cuadro) cuadro = requestAnimationFrame(buscar);
+      });
+      if (document.readyState === 'complete') bajar();
+      else addEventListener('load', () => bajar(), { once: true });
     }
   }
 </script>

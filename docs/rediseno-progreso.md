@@ -120,3 +120,7 @@ Falta:
 - Video del hero: versión de celu (780 px, 2,2 MB).
 - Pendiente: menos tamaños de letra, guía de marca, imagen en /precios.
 
+## Videos y Cloudflare (2026-11-01)
+
+Workers Assets responde 200 con el archivo entero aunque se pida un rango. Por eso el hero se trababa al saltar de cuadro y Safari puede no arrancar los videos. motion/video.ts los baja completos a memoria (blob, permitido en media-src de public/_headers). En el hero se pide un salto por vez.
+

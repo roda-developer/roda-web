@@ -50,7 +50,7 @@ const frase = p.testimonios?.[0];
       <div class="lamina" data-revelar>
         {pz.tipo === 'foto'
           ? <Image src={pz.src} alt={rellenar(t.pantallaDe, { titulo: p.titulo, n: 3 + i })} widths={[640, 1000, 1400]} sizes="(min-width: 768px) 38vw, 100vw" quality={88} loading="lazy" class="pantalla" />
-          : <video src={pz.src} poster={pz.poster} muted loop playsinline preload="none" width="1120" height="700" aria-hidden="true" class="pantalla" data-cerca-video></video>}
+          : <video data-src={pz.src} poster={pz.poster} muted loop playsinline preload="none" width="1120" height="700" aria-hidden="true" class="pantalla" data-cerca-video></video>}
       </div>
     ))}
   </div>
@@ -150,13 +150,18 @@ const frase = p.testimonios?.[0];
 
 <script>
   import { movimientoPermitido } from '../motion/index';
+  import { videoEnMemoria } from '../motion/video';
 
   // El video corre solo mientras se ve. Sin movimiento, queda su primer cuadro
   document.querySelectorAll<HTMLVideoElement>('[data-cerca-video]').forEach((video) => {
     if (!movimientoPermitido()) return;
+    let pedido: Promise<void> | null = null, visible = false;
     new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) void video.play().catch(() => {});
-      else video.pause();
-    }, { threshold: 0.2 }).observe(video);
+      visible = e.isIntersecting;
+      if (!visible) { video.pause(); return; }
+      // Se baja recién cuando está por verse, y una sola vez
+      pedido ??= videoEnMemoria(video, video.dataset.src!);
+      void pedido.then(() => { if (visible) void video.play().catch(() => {}); });
+    }, { threshold: 0.05, rootMargin: '300px 0px' }).observe(video);
   });
 </script>

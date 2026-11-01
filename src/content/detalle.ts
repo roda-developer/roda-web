@@ -13,6 +13,7 @@ const foto = (slug: string, nombre: string) => {
   return f;
 };
 
+// Los videos se bajan enteros antes de reproducirse: ver motion/video.ts
 export type Pieza =
   | { tipo: 'foto'; src: ImageMetadata }
   | { tipo: 'video'; src: string; poster: string };
