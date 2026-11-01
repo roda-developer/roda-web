@@ -1,7 +1,7 @@
 ---
 /**
  * La home: la O (que se abre a Estudio), la galería de trabajos, lo que dicen los clientes, cómo trabajamos,
- * escribí tu marca (para el que todavía duda) y el final.
+ * probá una (tres webs reales funcionando, para el que todavía duda) y el final.
  * hero: 'o' (la principal) o 'linterna' (la segunda opción, se ve en /prueba-linterna para comparar).
  */
 import Base from '../layouts/Base.astro';
@@ -11,7 +11,7 @@ import Portal from '../sections/Portal.astro';
 import Linterna from '../sections/Linterna.astro';
 import Estudio from '../sections/Estudio.astro';
 import Galeria from '../sections/Galeria.astro';
-import TuMarca from '../sections/TuMarca.astro';
+import Probar from '../sections/Probar.astro';
 import Criticas from '../components/Criticas.astro';
 import { testimoniosEn } from '../content/proyectos';
 import { idiomaDe } from '../i18n';
@@ -34,7 +34,7 @@ const testimonios = testimoniosEn(idiomaDe(Astro.currentLocale));
     <Galeria />
     {testimonios.length > 0 && <div class="testimonios"><Criticas testimonios={testimonios} /></div>}
     <Niveles />
-    <TuMarca />
+    <Probar />
     <Final />
   </main>
   <Pie corto />

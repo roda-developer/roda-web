@@ -32,6 +32,14 @@ const lista = planes.lista;
       <a href={`${ruta(idioma, 'contacto')}?tipo=sistema`} class="cta">{inicio.final.cta}</a>
     </article>
   </div>
+  <dl class="datos">
+    {niveles.datos.map((d, i) => (
+      <div data-revelar={String(2 + i)}>
+        <dt>{d.nombre}</dt>
+        <dd>{d.texto}</dd>
+      </div>
+    ))}
+  </dl>
 </section>
 
 <style>
@@ -55,5 +63,11 @@ const lista = planes.lista;
   .medida .precio { color: var(--color-tc-rosa); }
   .medida .texto { color: color-mix(in oklab, var(--color-papel) 86%, var(--color-tinta)); }
   .medida .cta { background: var(--color-papel); color: var(--color-tinta); margin-top: 0.5rem; }
+  /* Lo que vale para todas: abajo de los planes, sin cajas */
+  .datos { display: grid; gap: 1.5rem; margin-top: clamp(2.5rem, 6svh, 4rem); }
+  @media (min-width: 640px) { .datos { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
+  @media (min-width: 1100px) { .datos { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(1.5rem, 3vw, 3rem); } }
+  .datos dt { font-size: 1.0625rem; font-weight: 600; }
+  .datos dd { margin: 0.25rem 0 0; max-width: 32ch; line-height: 1.45; color: color-mix(in oklab, var(--color-tinta) 82%, var(--color-papel)); }
   .enlace { display: inline-flex; min-height: 2.75rem; align-items: center; text-decoration: underline; text-underline-offset: 4px; }
 </style>

@@ -103,4 +103,4 @@ Falta:
 - Formulario: cada dato que falta avisa al lado del campo y la página lleva hasta ahí; el aviso se va al completarlo. Faltan datos: `faltan` en los tres guiones.
 - Hero: cuando la ficha y el botón no entran en una línea (depende del ancho y del idioma), el botón pasa abajo de la frase. Lo mide el script.
 - Testimonios: sin imágenes repetidas a la vista (son 9 lugares y 8 webs: los costados usan otra pantalla de la web). Sin la cita repetida en "Escribí tu marca".
-- Pendiente de decisión: reemplazar "Escribí tu marca" por "Probá una" (webs reales en iframe, prototipo aparte; al pasarlo hay que sumar frame-src en `public/_headers`).
+- "Escribí tu marca" reemplazada por "Probá una" (sections/Probar.astro): webs reales en iframe, en orden Eber, Craft, Emme. Los cuatro datos pasaron a Cómo trabajamos. Los textos de la sección son provisorios: faltan opciones para Giuli.

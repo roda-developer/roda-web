@@ -1,0 +1,181 @@
+---
+/**
+ * Probá una: tres webs nuestras funcionando de verdad adentro de una pantalla. Corren en su tamaño de celu (390 x 844)
+ * y se achican enteras para entrar. Cada una se pide recién cuando hace falta y queda cargada.
+ * Al cambiar de web, la pantalla se tapa de píxeles (los del video de la O) y se destapa con la otra.
+ * Sin movimiento: cambia de una. Sin JS: quedan los links a las tres webs.
+ * Si se suma una web acá, también va en frame-src (public/_headers).
+ */
+import { proyectosEn, WEBS_PROBAR } from '../content/proyectos';
+import { idiomaDe, textos } from '../i18n';
+const idioma = idiomaDe(Astro.currentLocale);
+const t = textos(idioma).inicio.probar;
+const proyectos = proyectosEn(idioma);
+const webs = WEBS_PROBAR.flatMap((slug) => proyectos.filter((p) => p.slug === slug));
+---
+<section class="probar" aria-labelledby="probar-titulo" data-probar>
+  <div class="izq">
+    <h2 id="probar-titulo" class="titulo font-titulo" data-revelar>{t.titulo}</h2>
+    <p class="bajada" data-revelar="2">{t.bajada}</p>
+    <div class="marcas" role="group" aria-label={t.elegir}>
+      {webs.map((w, i) => (
+        <button class="marca font-titulo" type="button" data-marca={w.slug} data-url={w.url} data-nombre={w.titulo} aria-pressed={i === 0 ? 'true' : 'false'}>{w.titulo}</button>
+      ))}
+    </div>
+  </div>
+  <div class="caja" data-caja data-sin-cursor data-etiqueta={t.pantalla}>
+    <canvas class="pix" data-pix aria-hidden="true"></canvas>
+  </div>
+  <div class="fichas" aria-live="polite">
+    {webs.map((w, i) => (
+      <p class:list={['ficha', { activa: i === 0 }]} data-ficha={w.slug}>
+        <b>{w.titulo}</b>
+        <span>{w.genero} · {w.anio}</span>
+        <a href={w.url} target="_blank" rel="noopener">{t.abrir}</a>
+      </p>
+    ))}
+  </div>
+</section>
+
+<style>
+  .probar { display: grid; gap: 1.5rem; padding: clamp(6rem, 16svh, 11rem) 1.25rem 0; }
+  .izq { display: flex; flex-direction: column; gap: 1rem; }
+  .titulo { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; }
+  .bajada { max-width: 34ch; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); line-height: 1.45; }
+  .marcas { display: flex; flex-wrap: wrap; gap: 0.25rem 1.4rem; }
+  .marca { min-height: 2.75rem; padding: 0.5rem 0; font-size: 1.75rem; line-height: 1; text-align: left; color: var(--color-gris); cursor: pointer; transition: color 180ms var(--ease-ui), transform 180ms var(--ease-ui); }
+  .marca[aria-pressed='true'] { color: var(--color-tinta); }
+  .marca:active { transform: scale(0.98); }
+  @media (hover: hover) and (pointer: fine) { .marca:hover { color: var(--color-tinta); } }
+
+  /* La pantalla: un marco simple, sin dibujar un teléfono. La web de adentro la achica el script */
+  .caja { --alto: min(680px, calc(100svh - 56px)); position: relative; justify-self: center; box-sizing: content-box; width: min(calc(var(--alto) * 390 / 844), 76vw); aspect-ratio: 390 / 844; border: 6px solid var(--color-tinta); border-radius: 28px; overflow: hidden; background: var(--color-tinta); }
+  .caja :global(iframe) { position: absolute; top: 0; left: 0; width: 390px; height: 844px; border: 0; transform-origin: 0 0; background: var(--color-tinta); visibility: hidden; }
+  .caja :global(iframe.vista) { visibility: visible; }
+  .pix { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  .ficha { display: grid; gap: 0.1rem; font-size: 0.9375rem; line-height: 1.45; }
+  .ficha b { font-size: 1.0625rem; font-weight: 600; }
+  .ficha a { margin-top: 0.5rem; text-decoration: underline; text-underline-offset: 4px; }
+  .fichas { display: grid; gap: 1.5rem; }
+
+  /* Sin JS no hay web para probar: quedan los links. Adentro de la pantalla (data-sin-cursor) manda el cursor de cada web */
+  .probar:not(.listo) .caja, .probar:not(.listo) .marcas { display: none; }
+  .probar.listo .ficha:not(.activa) { display: none; }
+
+  @media (min-width: 768px) {
+    .probar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: clamp(1.5rem, 3.5vw, 3rem); padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+    .marcas { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; gap: 0.1rem; margin-top: auto; }
+    .marca { font-size: clamp(2.4rem, 5vw, 4.25rem); }
+    .fichas { align-self: end; }
+  }
+  @media (prefers-reduced-motion: reduce) { .marca { transition: none; } }
+</style>
+
+<script>
+  import { ScrollTrigger } from '../motion/index';
+
+  const raiz = document.querySelector<HTMLElement>('[data-probar]');
+  if (raiz) {
+    const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const caja = raiz.querySelector<HTMLElement>('[data-caja]')!;
+    const pix = raiz.querySelector<HTMLCanvasElement>('[data-pix]')!;
+    const ctx = pix.getContext('2d')!;
+    const botones = [...raiz.querySelectorAll<HTMLButtonElement>('[data-marca]')];
+    const fichas = [...raiz.querySelectorAll<HTMLElement>('[data-ficha]')];
+    const marcos = new Map<string, { marco: HTMLIFrameElement; listo: Promise<void> }>();
+    let turno = 0;
+    let actual = botones[0]?.dataset.marca ?? '';
+
+    raiz.classList.add('listo');
+    ScrollTrigger.refresh();
+
+    // La web corre en 390 px de ancho y se achica entera para entrar en la pantalla
+    const escalar = () => {
+      const escala = caja.clientWidth / 390;
+      marcos.forEach(({ marco }) => { marco.style.transform = `scale(${escala})`; });
+    };
+    new ResizeObserver(escalar).observe(caja);
+
+    // Cada web se pide recién cuando hace falta y queda cargada. Hay webs lentas o con videos pesados: los píxeles esperan como mucho 5 s
+    const pedir = (boton: HTMLButtonElement) => {
+      const slug = boton.dataset.marca!;
+      const hecho = marcos.get(slug);
+      if (hecho) return hecho;
+      const marco = document.createElement('iframe');
+      marco.title = `${caja.dataset.etiqueta}: ${boton.dataset.nombre}`;
+      marco.src = boton.dataset.url!;
+      marco.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
+      marco.style.transform = `scale(${caja.clientWidth / 390})`;
+      const listo = new Promise<void>((ok) => {
+        marco.addEventListener('load', () => ok(), { once: true });
+        setTimeout(ok, 5000);
+      });
+      caja.insertBefore(marco, pix);
+      const nuevo = { marco, listo };
+      marcos.set(slug, nuevo);
+      return nuevo;
+    };
+
+    const mostrar = (marco: HTMLIFrameElement) => marcos.forEach((m) => m.marco.classList.toggle('vista', m.marco === marco));
+
+    // Tapa la pantalla de píxeles, cambia la web, y destapa cuando la nueva está lista. Otro toque cancela el anterior
+    const pixeles = (yo: number, marco: HTMLIFrameElement, listo: Promise<void>) => {
+      const rect = caja.getBoundingClientRect();
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      pix.width = rect.width * dpr;
+      pix.height = rect.height * dpr;
+      const lado = 16 * dpr;
+      const celdas: { x: number; y: number; t: number; color: string }[] = [];
+      for (let y = 0; y * lado < pix.height; y++) {
+        for (let x = 0; x * lado < pix.width; x++) {
+          const t = Math.random();
+          celdas.push({ x, y, t, color: t > 0.93 ? '#ff6fd8' : t > 0.88 ? '#2b4bff' : '#121212' });
+        }
+      }
+      const dura = 240;
+      let inicio: number | null = null;
+      let sale: number | null = null;
+      let cubierto = false;
+      const cuadro = (ahora: number) => {
+        if (yo !== turno) return;
+        inicio ??= ahora;
+        const entra = Math.min(1, (ahora - inicio) / dura);
+        if (entra === 1 && !cubierto) {
+          cubierto = true;
+          mostrar(marco);
+          listo.then(() => { sale = performance.now(); });
+        }
+        const fuera = sale === null ? 0 : Math.min(1, (ahora - sale) / dura);
+        ctx.clearRect(0, 0, pix.width, pix.height);
+        for (const k of celdas) {
+          if (k.t <= entra && k.t > fuera) { ctx.fillStyle = k.color; ctx.fillRect(k.x * lado, k.y * lado, lado, lado); }
+        }
+        if (fuera < 1) requestAnimationFrame(cuadro);
+        else ctx.clearRect(0, 0, pix.width, pix.height);
+      };
+      requestAnimationFrame(cuadro);
+    };
+
+    const cambiar = (boton: HTMLButtonElement) => {
+      const yo = ++turno;
+      actual = boton.dataset.marca!;
+      botones.forEach((b) => b.setAttribute('aria-pressed', String(b === boton)));
+      fichas.forEach((f) => f.classList.toggle('activa', f.dataset.ficha === actual));
+      const { marco, listo } = pedir(boton);
+      if (quieto) mostrar(marco);
+      else pixeles(yo, marco, listo);
+    };
+
+    botones.forEach((b) => b.addEventListener('click', () => { if (b.dataset.marca !== actual) cambiar(b); }));
+
+
+    // Adentro de la pantalla manda el cursor de cada web: el de Roda se va (vuelve con el primer movimiento afuera)
+    caja.addEventListener('pointerenter', () => document.querySelector('.cursor-roda')?.classList.add('escondido'));
+
+    // La primera web se pide cuando la sección está por entrar en pantalla
+    new IntersectionObserver((e, o) => {
+      if (e[0].isIntersecting && botones[0]) { o.disconnect(); cambiar(botones[0]); }
+    }, { rootMargin: '300px 0px' }).observe(caja);
+  }
+</script>

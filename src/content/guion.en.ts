@@ -375,22 +375,20 @@ export const inicio: typeof ES.inicio = {
     video: 'A person made of pixels works at a desk, builds a website and ends up spelling Roda',
   },
   trabajos: { titulo: 'Work', verTodos: 'See all projects' },
-  tuMarca: {
-    titulo: 'Type your brand',
-    etiqueta: 'This is how its website starts when we make it',
-    placeholder: 'Your brand’s name',
-    vacio: 'Your brand',
-    menu: 'Home · Work · Contact',
-    nota: 'A sketch of a homepage made with your name. The real one we design with you.',
+  probar: {
+    titulo: 'Try one',
+    bajada: 'These are our websites, working. Scroll and tap whatever you like inside the screen.',
+    elegir: 'Choose a website',
+    pantalla: 'Working website',
+    abrir: 'Open the full website',
+  },
+  niveles: {
     datos: [
       { nombre: 'You talk to Giuli and Facu', texto: 'From the first message to launch, no middlemen.' },
       { nombre: 'Unlimited changes', texto: 'Within what we agreed, until it looks the way you want.' },
       { nombre: 'Half and half', texto: 'Half when we start and the rest when we deliver.' },
       { nombre: 'Everything in your name', texto: 'The domain, the hosting and the website are yours.' },
     ],
-    cta: 'I want mine',
-  },
-  niveles: {
     titulo: 'How we work',
     proceso: 'We listen, show you how it will look before we build it, build it and publish it. Unlimited changes within what we agreed.',
     verDetalle: 'See what each one includes',

@@ -375,22 +375,20 @@ export const inicio: typeof ES.inicio = {
     video: 'Uma pessoa feita de pixels trabalha na mesa, monta um site e termina escrevendo Roda',
   },
   trabajos: { titulo: 'Trabalhos', verTodos: 'Ver todos os trabalhos' },
-  tuMarca: {
-    titulo: 'Escreva sua marca',
-    etiqueta: 'É assim que o site dela começa quando a gente faz',
-    placeholder: 'O nome da sua marca',
-    vacio: 'Sua marca',
-    menu: 'Início · Trabalhos · Contato',
-    nota: 'Um esboço de página inicial feito com o seu nome. O de verdade a gente desenha com você.',
+  probar: {
+    titulo: 'Experimente um',
+    bajada: 'São os nossos sites, funcionando. Role e toque no que quiser dentro da tela.',
+    elegir: 'Escolha um site',
+    pantalla: 'Site funcionando',
+    abrir: 'Abrir o site inteiro',
+  },
+  niveles: {
     datos: [
       { nombre: 'Você fala com Giuli e Facu', texto: 'Da primeira mensagem à entrega, sem intermediários.' },
       { nombre: 'Ajustes sem limite', texto: 'Dentro do combinado, até ficar do jeito que você quer.' },
       { nombre: 'Metade e metade', texto: 'Metade no começo e o resto na entrega.' },
       { nombre: 'Tudo no seu nome', texto: 'O domínio, a hospedagem e o site são seus.' },
     ],
-    cta: 'Quero o meu',
-  },
-  niveles: {
     titulo: 'Como trabalhamos',
     proceso: 'Escutamos, mostramos como vai ficar antes de fazer, fazemos e publicamos. Alterações sem limite dentro do combinado.',
     verDetalle: 'Ver o que cada um inclui',

@@ -421,22 +421,20 @@ export const inicio = {
   },
   trabajos: { titulo: 'Trabajos', verTodos: 'Ver todos los trabajos' },
   /** Escribí tu marca: el que duda escribe el nombre de su marca y ve una portada con su nombre. Los datos son cosas que ya cumplimos. */
-  tuMarca: {
-    titulo: 'Escribí tu marca',
-    etiqueta: 'Así arranca su web cuando la hacemos nosotros',
-    placeholder: 'El nombre de tu marca',
-    vacio: 'Tu marca',
-    menu: 'Inicio · Trabajos · Contacto',
-    nota: 'Un boceto de portada hecho con tu nombre. La de verdad la diseñamos con vos.',
+  probar: {
+    titulo: 'Probá una',
+    bajada: 'Son nuestras webs, funcionando. Scrolleá y tocá lo que quieras adentro de la pantalla.',
+    elegir: 'Elegí una web',
+    pantalla: 'Web funcionando',
+    abrir: 'Abrir la web entera',
+  },
+  niveles: {
     datos: [
       { nombre: 'Hablás con Giuli y Facu', texto: 'Del primer mensaje a la entrega, sin intermediarios.' },
       { nombre: 'Cambios sin límite', texto: 'Sobre lo acordado, hasta que quede como la querés.' },
       { nombre: 'Mitad y mitad', texto: 'La mitad al arrancar y la otra cuando te la entregamos.' },
       { nombre: 'Todo a tu nombre', texto: 'El dominio, el hosting y la web son tuyos.' },
     ],
-    cta: 'Quiero la mía',
-  },
-  niveles: {
     titulo: 'Cómo trabajamos',
     proceso: 'Te escuchamos, te mostramos cómo va a quedar antes de hacerla, la hacemos y la publicamos. Cambios sin límite sobre lo acordado.',
     verDetalle: 'Ver qué incluye cada una',

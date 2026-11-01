@@ -268,6 +268,9 @@ export const enOrden = (proyectos: Proyecto[]) =>
   [...proyectos].sort((a, b) => ORDEN_TRABAJOS.indexOf(a.slug) - ORDEN_TRABAJOS.indexOf(b.slug));
 
 /** El orden de la galería de la home: primero las que mejor se ven en una captura */
+/** Las webs de "Probá una" en la home, en este orden. Si se suma una, también va en frame-src (public/_headers) */
+export const WEBS_PROBAR = ['eber', 'craft', 'emme'];
+
 export const ORDEN_GALERIA = ['craft', 'eber', 'emme', 'muda', 'tmd', 'newave', 'unik', 'fidalgo'];
 
 /** Un testimonio con el proyecto del que habla: su web reemplaza a la foto de la persona */
